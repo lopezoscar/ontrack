@@ -92,8 +92,18 @@
 			<version>${org.springframework.version}</version>
 		</dependency>
 
-
-
+		<!-- Model -->
+		<dependency>
+			<groupId>com.sappe.ontrack.model</groupId>
+			<artifactId>OnTrack-Model</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.sappe.ontrack.dao</groupId>
+			<artifactId>OnTrack-DAO</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 
 
 
