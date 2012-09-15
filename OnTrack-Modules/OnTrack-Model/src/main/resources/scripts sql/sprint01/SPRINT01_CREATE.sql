@@ -58,4 +58,13 @@ CREATE  TABLE `ontrack`.`issue_status` (
 
 
 
+CREATE  TABLE `ontrack`.`user_role` (
+
+  `id_person` BIGINT NOT NULL ,
+
+  `id_role` INT NOT NULL ,
+
+  PRIMARY KEY (`id_person`, `id_role`) );
+
+
 
