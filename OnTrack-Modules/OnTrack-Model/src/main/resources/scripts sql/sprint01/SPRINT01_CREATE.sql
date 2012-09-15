@@ -33,6 +33,19 @@ CREATE TABLE `roles` (
   
   PRIMARY KEY (`id_role`)
 ) 
-ENGINE=InnoDB DEFAULT CHARSET=utf8$$
+
+
+-- Tablas para issues
+
+CREATE  TABLE `ontrack`.`issue_type` (
+
+  `id_issue_type` BIGINT NOT NULL AUTO_INCREMENT ,
+
+  `id_project` BIGINT NULL ,
+
+  `description` VARCHAR(255) NULL ,
+
+  PRIMARY KEY (`id_issue_type`) );
+
 
 
