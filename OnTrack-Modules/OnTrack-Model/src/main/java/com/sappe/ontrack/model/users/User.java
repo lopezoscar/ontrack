@@ -3,10 +3,14 @@ package com.sappe.ontrack.model.users;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="users")
 public class User extends Person {
 	
 	@Column(name="user_name")
