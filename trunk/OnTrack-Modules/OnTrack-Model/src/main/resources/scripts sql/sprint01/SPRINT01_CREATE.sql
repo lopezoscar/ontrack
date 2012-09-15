@@ -3,7 +3,7 @@ CREATE DATABASE ontrack;
 
 CREATE  TABLE `ontrack`.`persons` (
 
-  `id_person` INT NOT NULL AUTO_INCREMENT ,
+  `id_person` BIGINT NOT NULL AUTO_INCREMENT ,
 
   `first_name` VARCHAR(255) NULL ,
 
@@ -16,7 +16,7 @@ CREATE  TABLE `ontrack`.`persons` (
   
 CREATE  TABLE `ontrack`.`users` (
 
-  `id_person` INT NOT NULL AUTO_INCREMENT ,
+  `id_person` BIGINT NOT NULL AUTO_INCREMENT ,
 
   `user_name` VARCHAR(255) NULL ,
 
@@ -46,6 +46,16 @@ CREATE  TABLE `ontrack`.`issue_type` (
   `description` VARCHAR(255) NULL ,
 
   PRIMARY KEY (`id_issue_type`) );
+  
+
+CREATE  TABLE `ontrack`.`issue_status` (
+
+  `id_issue_status` BIGINT NOT NULL AUTO_INCREMENT ,
+
+  `description` TEXT NULL ,
+
+  PRIMARY KEY (`id_issue_status`) );
+
 
 
 
