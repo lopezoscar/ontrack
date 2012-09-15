@@ -8,8 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="issue")
@@ -20,27 +23,38 @@ public class Issue {
 	@Column(name="id_issue")
 	private Long id;
 	
-	@Column(name="description")
-	private String description;
+	@OneToOne
+	@JoinColumn(name="current_status")
+	private IssueStatus currentStatus;
 	
-	@JoinColumn(name="issue_status")
-	private IssueStatus currentState;
-	
+	@OneToOne
 	@JoinColumn(name="issue_type")
 	private IssueType issueType;
 	
-	@JoinColumn(name="id_issue")
+	@ManyToOne
+	@JoinColumn(name="parent_issue")
 	private Issue parent;
 	
-	@OneToMany
-	@JoinColumn(name="id_issue")
+	@OneToMany(mappedBy="parent")
+	@JoinColumn(name="child")
 	private List<Issue> childs;
 	
 	@JoinColumn(name="id_project")
 	private Project project;
 	
+	@OneToMany
+	@JoinColumn(name="id_comn")
+	private List<IssueEntry> entries;
 	
+	@Transient
+	public boolean isLeaf() {
+		return (childs == null || childs.size() == 0);
+	}
 	
+	@Transient
+	public boolean isRoot(){
+		return (parent == null);
+	}
 	
 
 	@Override
@@ -76,20 +90,12 @@ public class Issue {
 		this.id = id;
 	}
 
-	public String getDescription() {
-		return description;
+	public IssueStatus getCurrentStatus() {
+		return currentStatus;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public IssueStatus getCurrentState() {
-		return currentState;
-	}
-
-	public void setCurrentState(IssueStatus currentState) {
-		this.currentState = currentState;
+	public void setCurrentStatus(IssueStatus currentStatus) {
+		this.currentStatus = currentStatus;
 	}
 
 	public IssueType getIssueType() {
@@ -123,6 +129,20 @@ public class Issue {
 	public void setProject(Project project) {
 		this.project = project;
 	}
+
+	public List<IssueEntry> getEntries() {
+		return entries;
+	}
+
+	public void setEntries(List<IssueEntry> entries) {
+		this.entries = entries;
+	}
+
+
+
+	
+	
+	
 	
 	
 }
