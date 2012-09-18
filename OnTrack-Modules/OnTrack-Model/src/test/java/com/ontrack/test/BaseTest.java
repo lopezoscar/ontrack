@@ -49,6 +49,12 @@ public class BaseTest {
 		return em;
 	}
 	
+	public void persiste(Object o){
+		em.getTransaction().begin();
+		em.persist(o);
+		em.getTransaction().commit();
+	}
+	
 	
 	public void killEntityManager(){
 		if (em != null) {
