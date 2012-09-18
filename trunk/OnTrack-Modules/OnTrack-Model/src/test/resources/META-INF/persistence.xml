@@ -8,6 +8,8 @@
 	 ========================================================================-->
     <persistence-unit name="ontrack" transaction-type="RESOURCE_LOCAL">
     	<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<class>com.sappe.ontrack.model.Issue</class>
+		<class>com.sappe.ontrack.model.issues.IssueStatus</class>
+		<class>com.sappe.ontrack.model.issues.IssueProperty</class>
+		<class>com.sappe.ontrack.model.issues.IssuePropertyType</class>
     </persistence-unit>
 </persistence>
