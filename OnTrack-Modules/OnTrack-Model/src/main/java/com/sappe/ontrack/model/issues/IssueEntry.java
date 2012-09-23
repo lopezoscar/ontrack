@@ -1,7 +1,9 @@
 package com.sappe.ontrack.model.issues;
 
+import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,8 +18,13 @@ import com.sappe.ontrack.model.users.User;
 
 @Entity
 @Table(name="issue_entry")
-public class IssueEntry {
+public class IssueEntry implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3690492788180803305L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id_issue_entry")
@@ -30,9 +37,9 @@ public class IssueEntry {
 	@JoinColumn(name="owner")
 	private User owner;
 	
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="issue_entry")
-	private List<DocumentFile> files;
+	private List<EntryDocumentFile> files;
 	
 	
 
@@ -60,13 +67,14 @@ public class IssueEntry {
 		this.owner = owner;
 	}
 
-	public List<DocumentFile> getFiles() {
+	public List<EntryDocumentFile> getFiles() {
 		return files;
 	}
 
-	public void setFiles(List<DocumentFile> files) {
+	public void setFiles(List<EntryDocumentFile> files) {
 		this.files = files;
 	}
+
 	
 	
 
