@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -32,6 +33,7 @@ public class Workflow {
 				inverseJoinColumns={@JoinColumn(name="id_issue_type")})
 	private List<IssueStatus> issueStatus;
 	
+	@OneToOne
 	@JoinColumn(name="id_project")
 	private Project project;
 	

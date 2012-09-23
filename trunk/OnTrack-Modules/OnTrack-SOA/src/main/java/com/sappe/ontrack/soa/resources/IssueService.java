@@ -6,12 +6,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import com.sappe.ontrack.dao.springbeans.interfaces.IssueManager;
 
+@Component
 @Path("issueservice")
 public class IssueService {
 	
+	@Qualifier("issuebean")
 	@Autowired
 	IssueManager issueManager;
 	

@@ -16,6 +16,7 @@
 		<class>com.sappe.ontrack.model.issues.Project</class>
 		<class>com.sappe.ontrack.model.issues.IssueType</class>
 		<class>com.sappe.ontrack.model.issues.EntryDocumentFile</class>
+		<class>com.sappe.ontrack.model.issues.Workflow</class>
 		<class>com.sappe.ontrack.model.users.Person</class>
 		<class>com.sappe.ontrack.model.users.User</class>
 		<class>com.sappe.ontrack.model.users.Role</class>

@@ -311,6 +311,24 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
+CREATE  TABLE `ontrack`.`workflow` (
+
+  `id_workflow` BIGINT NOT NULL AUTO_INCREMENT ,
+
+  `id_issue_type` BIGINT NULL ,
+
+  `id_project` BIGINT NULL ,
+
+  PRIMARY KEY (`id_workflow`) );
+
+
+CREATE  TABLE `ontrack`.`issue_status_by_workflow` (
+
+  `id_workflow` BIGINT NOT NULL ,
+
+  `id_issue_type` BIGINT NOT NULL ,
+
+  PRIMARY KEY (`id_workflow`, `id_issue_type`) );
 
 
 
