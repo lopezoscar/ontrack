@@ -12,6 +12,9 @@
 		<class>com.sappe.ontrack.model.issues.IssueProperty</class>
 		<class>com.sappe.ontrack.model.issues.IssuePropertyType</class>
 		<class>com.sappe.ontrack.model.issues.IssueEntry</class>
+		<class>com.sappe.ontrack.model.issues.Issue</class>
+		<class>com.sappe.ontrack.model.issues.Project</class>
+		<class>com.sappe.ontrack.model.issues.IssueType</class>
 		<class>com.sappe.ontrack.model.issues.EntryDocumentFile</class>
 		<class>com.sappe.ontrack.model.users.Person</class>
 		<class>com.sappe.ontrack.model.users.User</class>
