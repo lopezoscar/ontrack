@@ -66,7 +66,7 @@ CREATE  TABLE `ontrack`.`user_role` (
 
   PRIMARY KEY (`id_person`, `id_role`) );
 
-
+/*
 CREATE  TABLE `ontrack`.`document_file` (
 
   `id_document_file` BIGINT NOT NULL AUTO_INCREMENT ,
@@ -80,7 +80,7 @@ CREATE  TABLE `ontrack`.`document_file` (
   `file_type` VARCHAR(255) NULL ,
 
   PRIMARY KEY (`id_document_file`) );
-  
+*/  
   
 CREATE  TABLE `ontrack`.`issue_entry` (
 
@@ -130,6 +130,7 @@ CREATE  TABLE `ontrack`.`issue_type` (
   `description` TEXT NULL ,
 
   PRIMARY KEY (`id_issue_type`) );
+  
 
 CREATE  TABLE `ontrack`.`project` (
 
@@ -138,4 +139,51 @@ CREATE  TABLE `ontrack`.`project` (
   `name` VARCHAR(255) NULL ,
 
   PRIMARY KEY (`id_project`) );
+  
+  -- Se actualiza modelo issue entry y document file
+ /* 
+  CREATE  TABLE `ontrack`.`issue_entry` (
+
+  `id_issue_entry` BIGINT NOT NULL AUTO_INCREMENT ,
+
+  `comment` TEXT NULL ,
+
+  `owner` BIGINT NULL ,
+
+  `issue_entry` BIGINT NULL ,
+
+  PRIMARY KEY (`id_issue_entry`) );
+  
+  */
+
+  CREATE  TABLE `ontrack`.`issue_entry` (
+
+  `id_issue_entry` BIGINT NOT NULL AUTO_INCREMENT ,
+
+  `comment` TEXT NULL ,
+
+  `owner` BIGINT NULL ,
+
+  PRIMARY KEY (`id_issue_entry`) );
+  
+  
+  CREATE  TABLE `ontrack`.`entry_document_file` (
+
+  `id_document_file` BIGINT NOT NULL AUTO_INCREMENT ,
+
+  `file_name` VARCHAR(255) NULL ,
+
+  `file_content` BLOB NULL ,
+
+  `file_length` BIGINT NULL ,
+
+  `file_type` VARCHAR(255) NULL ,
+
+  `issue_entry` BIGINT NULL ,
+
+  PRIMARY KEY (`id_document_file`) );
+
+
+
+
 
