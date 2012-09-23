@@ -183,6 +183,28 @@ CREATE  TABLE `ontrack`.`project` (
 
   PRIMARY KEY (`id_document_file`) );
 
+CREATE  TABLE `ontrack`.`issue` (
+
+  `id_issue` BIGINT NOT NULL AUTO_INCREMENT ,
+
+  `current_status` BIGINT NULL ,
+
+  `issue_type` BIGINT NULL ,
+
+  `parent_issue` BIGINT NULL ,
+
+  `id_project` BIGINT NULL ,
+
+  PRIMARY KEY (`id_issue`) );
+
+CREATE  TABLE `ontrack`.`project` (
+
+  `id_project` INT NOT NULL ,
+
+  `name` VARCHAR(255) NULL ,
+
+  PRIMARY KEY (`id_project`) );
+
 
 
 
