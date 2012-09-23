@@ -2,6 +2,7 @@ package com.sappe.ontrack.model.issues;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,11 +24,11 @@ public class Project {
 	@Column(name="name")
 	private String name;
 	
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="id_issue")
 	private List<Issue> issues;
 	
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="id_issue_type")
 	private List<IssueType> issueTypes;
 	

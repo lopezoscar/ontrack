@@ -38,7 +38,7 @@ public class IssueEntry implements Serializable{
 	private User owner;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="issue_entry")
+	@JoinColumn(name="id_issue_entry")
 	private List<EntryDocumentFile> files;
 	
 	

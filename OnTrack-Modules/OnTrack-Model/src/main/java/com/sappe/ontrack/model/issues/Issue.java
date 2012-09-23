@@ -39,11 +39,12 @@ public class Issue {
 	@JoinColumn(name="child")
 	private List<Issue> childs;
 	
+	@ManyToOne
 	@JoinColumn(name="id_project")
 	private Project project;
 	
 	@OneToMany
-	@JoinColumn(name="id_comn")
+	@JoinColumn(name="id_issue_entry")
 	private List<IssueEntry> entries;
 	
 	@Transient
