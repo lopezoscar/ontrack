@@ -22,7 +22,7 @@ public class IssueService {
 	IssueManager issueManager;
 	
 	@GET
-	@Path("getIssueById/{pk}")
+	@Path("getissuebyid/{pk}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Issue getIssueById(@PathParam("pk") Long primaryKey){
 		Issue issue = issueManager.read(primaryKey);
