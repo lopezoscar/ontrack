@@ -13,6 +13,7 @@
 
 
 	<context:component-scan base-package="com.sappe.ontrack.soa.resources" />
+ 
 <!-- 	<context:component-scan base-package="com.sappe.ontrack.dao.springbeans.impl" /> -->
 	<tx:annotation-driven/>
 	<bean
