@@ -42,7 +42,7 @@ public class UserBean implements UserManager{
 		return null;
 	}
 
-	public void deleteO(User entity) throws IllegalStateException,
+	public void delete(User entity) throws IllegalStateException,
 			IllegalArgumentException, TransactionRequiredException,
 			PersistenceException {
 		// TODO Auto-generated method stub

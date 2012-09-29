@@ -10,26 +10,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.sappe.ontrack.dao.springbeans.interfaces.IssueManager;
-import com.sappe.ontrack.model.issues.Issue;
+import com.sappe.ontrack.dao.springbeans.interfaces.RoleManager;
+import com.sappe.ontrack.model.users.Role;
 
 @Component
-@Path("issuesrv")
-public class IssueService {
+@Path("rolesrv")
+public class RoleService {
 	
-	@Qualifier("issuebean")
+	@Qualifier("rolebean")
 	@Autowired
-	IssueManager issueManager;
+	RoleManager roleManager;
 	
 	@GET
-	@Path("getissuebyid/{pk}")
+	@Path("getrolebyid/{pk}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Issue getIssueById(@PathParam("pk") Long primaryKey){
-		Issue issue = issueManager.read(primaryKey);
-		return issue;
+	public Role getRoleById(@PathParam("pk") Integer primaryKey) {
+		Role role = roleManager.read(primaryKey);
+		return role; 
 	}
-	
-	
-
-		
 }
