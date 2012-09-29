@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,7 +36,7 @@ public class Issue {
 	@JoinColumn(name="parent_issue")
 	private Issue parent;
 	
-	@OneToMany(mappedBy="parent")
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="parent")
 	@JoinColumn(name="child")
 	private List<Issue> childs;
 	
@@ -43,7 +44,7 @@ public class Issue {
 	@JoinColumn(name="id_project")
 	private Project project;
 	
-	@OneToMany
+	@OneToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_issue_entry")
 	private List<IssueEntry> entries;
 	
