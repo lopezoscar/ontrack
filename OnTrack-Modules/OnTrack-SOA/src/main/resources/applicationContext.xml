@@ -19,7 +19,10 @@
 		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor">
 		<property name="requiredParameterValue" value="true" />
 	</bean>
+	
+	
 	<bean id="issuebean" class="com.sappe.ontrack.dao.springbeans.impl.IssueBean" />
+	<bean id="userbean" class="com.sappe.ontrack.dao.springbeans.impl.UserBean"/>
 	
 	
 	<bean id="entityManagerFactory"

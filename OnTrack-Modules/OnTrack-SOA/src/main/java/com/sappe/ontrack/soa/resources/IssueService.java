@@ -28,6 +28,8 @@ public class IssueService {
 		Issue issue = issueManager.read(primaryKey);
 		return issue;
 	}
+	
+	
 
 		
 }
