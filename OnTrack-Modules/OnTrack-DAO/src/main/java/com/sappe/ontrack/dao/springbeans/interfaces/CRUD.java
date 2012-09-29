@@ -17,7 +17,7 @@ public interface CRUD<T> {
 	T update(T entity) throws IllegalStateException,
 	IllegalArgumentException, TransactionRequiredException;
 
-	void deleteO(T entity) throws IllegalStateException,
+	void delete(T entity) throws IllegalStateException,
 	IllegalArgumentException, TransactionRequiredException,
 	PersistenceException;
 

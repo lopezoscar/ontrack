@@ -23,6 +23,7 @@
 	
 	<bean id="issuebean" class="com.sappe.ontrack.dao.springbeans.impl.IssueBean" />
 	<bean id="userbean" class="com.sappe.ontrack.dao.springbeans.impl.UserBean"/>
+	<bean id="rolebean" class="com.sappe.ontrack.dao.springbeans.impl.RoleBean"/>
 	
 	
 	<bean id="entityManagerFactory"

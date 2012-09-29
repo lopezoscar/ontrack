@@ -45,5 +45,7 @@ public class UserService {
 		List<User> users = userManager.getAllUser();
 		return users;
 	}
+	
+	
 
 }

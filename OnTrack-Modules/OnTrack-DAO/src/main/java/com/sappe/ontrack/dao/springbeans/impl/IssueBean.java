@@ -42,7 +42,7 @@ public class IssueBean implements IssueManager{
 	}
 
 	@Transactional
-	public void deleteO(Issue entity) throws IllegalStateException,
+	public void delete(Issue entity) throws IllegalStateException,
 			IllegalArgumentException, TransactionRequiredException,
 			PersistenceException {
 		em.remove(entity);
