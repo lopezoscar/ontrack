@@ -13,21 +13,25 @@ import javax.persistence.TransactionRequiredException;
 
 import org.hibernate.Hibernate;
 import org.hibernate.proxy.HibernateProxy;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sappe.ontrack.dao.springbeans.interfaces.UserManager;
 import com.sappe.ontrack.model.users.Role;
 import com.sappe.ontrack.model.users.User;
 
+@Component
 public class UserBean implements UserManager{
 	
 	@PersistenceContext
 	private EntityManager em;
 	
+	@Transactional
 	public User create(User entity) throws EntityExistsException,
 			IllegalStateException, IllegalArgumentException,
 			TransactionRequiredException {
-		// TODO Auto-generated method stub
-		return null;
+		em.persist(entity);
+		return entity; 
 	}
 
 	public User read(Serializable primaryKey) throws IllegalStateException,
@@ -36,6 +40,7 @@ public class UserBean implements UserManager{
 		return user;
 	}
 
+	@Transactional
 	public User update(User entity) throws IllegalStateException,
 			IllegalArgumentException, TransactionRequiredException {
 		// TODO Auto-generated method stub
