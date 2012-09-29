@@ -1,11 +1,13 @@
 package com.sappe.ontrack.dao.springbeans.impl;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import javax.persistence.TransactionRequiredException;
 
 import org.springframework.stereotype.Component;
@@ -50,6 +52,14 @@ public class IssueStatusBean implements IssueStatusManager {
 			PersistenceException {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public List<IssueStatus> getAllIssueStatus() {
+		
+
+		Query q = em.createNamedQuery("selectAllIssueStatus");
+		List<IssueStatus> issuesStatus = q.getResultList();
+		return issuesStatus;
 	}
 
 }
