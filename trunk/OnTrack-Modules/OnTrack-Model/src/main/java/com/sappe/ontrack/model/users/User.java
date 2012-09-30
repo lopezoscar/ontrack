@@ -1,5 +1,6 @@
 package com.sappe.ontrack.model.users;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -22,8 +23,13 @@ import javax.persistence.Table;
 		)
 
 
-public class User extends Person {
+public class User extends Person implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4073644744794579371L;
+
 	@Column(name="user_name")
 	private String userName;
 	
