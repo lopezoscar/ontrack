@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+	
+<h:head>
+
+</h:head>
+	
+<body>
+
+	<f:loadBundle basename="com.sappe.ontrack.messages" var="msg"/>
+		<h:form>
+			<rich:toolbar height="26px">
+				<rich:dropDownMenu mode="ajax">
+					<f:facet name="label">
+						<h:panelGroup>
+							<h:outputText value="Proyectos" />
+						</h:panelGroup>
+					</f:facet>
+					<rich:menuItem label="#{msg.myprojects}" action="myprojects.xhtml"/>
+					
+				</rich:dropDownMenu>
+	
+			</rich:toolbar>
+	
+		</h:form>
+	
+
+		<ui:insert name="body" />
+</body>
+
+</html>
