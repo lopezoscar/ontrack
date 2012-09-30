@@ -14,5 +14,8 @@
   	<module>OnTrack-Model</module>
   	<module>OnTrack-DAO</module>
   	<module>OnTrack-SOA</module>
+
+  	<module>OnTrack-Web</module>
+  	<module>OnTrack-SDK</module>
   </modules>
 </project>
