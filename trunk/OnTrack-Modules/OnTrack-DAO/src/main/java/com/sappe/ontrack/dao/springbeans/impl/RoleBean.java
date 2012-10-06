@@ -1,6 +1,7 @@
 package com.sappe.ontrack.dao.springbeans.impl;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
@@ -43,8 +44,12 @@ public class RoleBean implements RoleManager {
 	public void delete(Role entity) throws IllegalStateException,
 			IllegalArgumentException, TransactionRequiredException,
 			PersistenceException {
-	em.remove(entity);
+		em.remove(entity);
 		
+	}
+	
+	public List<Role> getAllRoles(){
+		return em.createNamedQuery("getAllRoles").getResultList();
 	}
 
 }

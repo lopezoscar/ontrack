@@ -7,26 +7,22 @@ import java.util.List;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
-import com.sappe.ontrack.model.users.User;
-import com.sappe.ontrack.sdk.interfaces.UserService;
+import com.sappe.ontrack.model.users.Role;
+import com.sappe.ontrack.sdk.interfaces.RoleService;
 
-public class UserServiceImpl implements UserService,Serializable{
-	
-	
+public class RoleServiceImpl implements RoleService,Serializable{
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1712777648566900615L;
+	private static final long serialVersionUID = -3203538376654185962L;
 
-	public void login() {
-		
-	}
-	
-	public List<User> getAllUsers(){
-		List<User> users = new ArrayList<User>();
-		String response = HTTPManager.get("/usersrv/getallusers");
-		users.addAll(fromJSON(new TypeReference<List<User>>(){},response));
-		return users;
+	public List<Role> getAllRoles() {
+		List<Role> roles = new ArrayList<Role>();
+		String url = "/rolesrv/getallroles";
+		String response = HTTPManager.get(url);
+		roles.addAll(fromJSON(new TypeReference<List<Role>>() {},response));
+		return roles;
 	}
 	
 	private static <T> T fromJSON(final TypeReference<T> type,final String jsonPacket) {
@@ -39,8 +35,5 @@ public class UserServiceImpl implements UserService,Serializable{
 		   }
 		   return data;
 	}
-	
-	
-	
 
 }

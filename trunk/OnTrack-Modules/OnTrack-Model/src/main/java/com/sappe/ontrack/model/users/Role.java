@@ -1,15 +1,25 @@
 package com.sappe.ontrack.model.users;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="roles")
-public class Role {
+@NamedQueries({@NamedQuery(name="getAllRoles",query="SELECT r FROM Role r")})
+public class Role implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8112611518582880472L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
