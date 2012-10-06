@@ -25,6 +25,7 @@ public class LoginController implements Serializable{
 
 	public void login(){
 		userService.login();
+		
 	}
 	
 	public String viewLoginUser(){
