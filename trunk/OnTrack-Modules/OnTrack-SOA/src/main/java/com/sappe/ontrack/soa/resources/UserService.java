@@ -39,7 +39,7 @@ public class UserService {
 	}
 	
 	@Path("getallusers")
-	@POST
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<User> getAllUsers(){
 		List<User> users = userManager.getAllUser();

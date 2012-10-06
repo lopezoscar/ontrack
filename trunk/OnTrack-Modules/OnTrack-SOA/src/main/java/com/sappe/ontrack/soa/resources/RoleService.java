@@ -1,5 +1,7 @@
 package com.sappe.ontrack.soa.resources;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -18,6 +20,8 @@ import com.sappe.ontrack.model.users.Role;
 
 @Component
 @Path("rolesrv")
+
+//rolesrv/getrolebyid/1
 public class RoleService {
 	
 	@Qualifier("rolebean")
@@ -54,6 +58,13 @@ public class RoleService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void deleteRole(Role roleJson) {
 		roleManager.delete(roleJson);
+	}
+	
+	@GET
+	@Path("getallroles")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Role> getAllRoles(){
+		return roleManager.getAllRoles();
 	}
 
 }
