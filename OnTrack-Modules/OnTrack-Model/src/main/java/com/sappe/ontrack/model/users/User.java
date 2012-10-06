@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -38,7 +39,7 @@ public class User extends Person implements Serializable{
 	
 
 
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="user_role", 
 		joinColumns={@JoinColumn(name="id_person")}, 
 		inverseJoinColumns={@JoinColumn(name="id_role")})		
@@ -73,5 +74,15 @@ public class User extends Person implements Serializable{
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
+	
+	public String completeName(){
+		return getLastName()+" "+getFirstName();
+	}
 
+	@Override
+	public String toString() {
+		return completeName();
+	}
+	
+	
 }

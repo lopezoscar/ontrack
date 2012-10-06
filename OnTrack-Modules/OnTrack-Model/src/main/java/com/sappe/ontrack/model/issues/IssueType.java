@@ -1,5 +1,7 @@
 package com.sappe.ontrack.model.issues;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,8 +14,13 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="issue_type")
-public class IssueType {
+public class IssueType implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1786636149706236690L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id_issue_type")

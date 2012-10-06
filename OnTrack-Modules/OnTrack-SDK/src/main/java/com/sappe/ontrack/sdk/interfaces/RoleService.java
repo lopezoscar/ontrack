@@ -1,10 +1,10 @@
-package com.sappe.ontrack.dao.springbeans.interfaces;
+package com.sappe.ontrack.sdk.interfaces;
 
 import java.util.List;
 
 import com.sappe.ontrack.model.users.Role;
 
-public interface RoleManager extends CRUD<Role>{
+public interface RoleService {
 	
 	List<Role> getAllRoles();
 
