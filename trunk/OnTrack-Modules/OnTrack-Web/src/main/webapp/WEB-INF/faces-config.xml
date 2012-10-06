@@ -11,7 +11,7 @@
 <!-- 			<base-name>com.sappe.ontrack.messages</base-name> -->
 <!-- 			<var>msg</var> -->
 <!-- 		</resource-bundle> -->
-		<message-bundle>com.sappe.ontrack.messages</message-bundle>
+<!-- 		<message-bundle>com.sappe.ontrack.messages</message-bundle> -->
 		<!-- <view-handler>com.sun.facelets.FaceletViewHandler</view-handler> -->
 	</application>
 
