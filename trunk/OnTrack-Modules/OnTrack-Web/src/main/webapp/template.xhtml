@@ -9,30 +9,40 @@
 	xmlns:rich="http://richfaces.org/rich">
 	
 <h:head>
-
+	<f:loadBundle basename="com.sappe.ontrack.messages.message" var="msg"/>
+	<!--  <link href="#{resources['css:default.css']}" rel="stylesheet" type="text/css" />-->
+	<link href="css/default.css" rel="stylesheet" type="text/css"/>
 </h:head>
 	
 <body>
 
-	<f:loadBundle basename="com.sappe.ontrack.messages" var="msg"/>
+
 		<h:form>
 			<rich:toolbar height="26px">
 				<rich:dropDownMenu mode="ajax">
-					<f:facet name="label">
+				<f:facet name="label">
 						<h:panelGroup>
-							<h:outputText value="Proyectos" />
+							<h:outputText value="#{msg.projects}" />
 						</h:panelGroup>
 					</f:facet>
-					<rich:menuItem label="#{msg.myprojects}" action="myprojects.xhtml"/>
-					
+					<rich:menuItem label="#{msg.myprojects}" action="myprojects.xhtml"/>			
+					<rich:menuItem label="#{msg.newproject}" action="newproject.xhtml"/>
 				</rich:dropDownMenu>
-	
+				
+				
+				<rich:toolbarGroup location="right">
+		            <h:inputText styleClass="barsearch" />
+		            <h:commandButton styleClass="barsearchbutton" onclick="return false;" value="Search" />
+		        </rich:toolbarGroup>
 			</rich:toolbar>
 	
 		</h:form>
+		
+		
 	
 
 		<ui:insert name="body" />
+
 </body>
 
 </html>
