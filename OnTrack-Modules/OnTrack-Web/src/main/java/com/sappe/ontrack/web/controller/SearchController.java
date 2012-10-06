@@ -12,7 +12,7 @@ public class SearchController implements Serializable{
 	private String keyword;
 	
 	public void search(){
-		
+		System.out.println(keyword);
 	}
 
 	public String getKeyword() {
