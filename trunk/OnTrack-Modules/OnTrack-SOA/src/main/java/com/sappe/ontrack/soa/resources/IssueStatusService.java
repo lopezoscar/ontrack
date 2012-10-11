@@ -2,6 +2,7 @@ package com.sappe.ontrack.soa.resources;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import com.sappe.ontrack.dao.springbeans.interfaces.IssueStatusManager;
 import com.sappe.ontrack.model.issues.IssueStatus;
+import com.sappe.ontrack.model.users.Role;
 
 @Component
 @Path("issuestatussrv")
@@ -39,4 +41,23 @@ public class IssueStatusService {
 		List<IssueStatus> issuesStatus = issueStatusManager.getAllIssueStatus();
 		return issuesStatus;
 	}
+	
+	@POST
+	@Path("updateissuestatus")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void updateIssueStatus(IssueStatus issueStatusJson) {
+		issueStatusManager.update(issueStatusJson);
+	}
+	
+	@POST
+	@Path("deleteissuestatus")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void deleteIssueStatus(IssueStatus issueStatusJson) {
+		issueStatusManager.delete(issueStatusJson);
+	}
+	
+	
+	
+	
 }
