@@ -11,9 +11,11 @@ import javax.persistence.Query;
 import javax.persistence.TransactionRequiredException;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sappe.ontrack.dao.springbeans.interfaces.IssueStatusManager;
 import com.sappe.ontrack.model.issues.IssueStatus;
+import com.sappe.ontrack.model.users.Role;
 
 @Component
 public class IssueStatusBean implements IssueStatusManager {
@@ -24,8 +26,10 @@ public class IssueStatusBean implements IssueStatusManager {
 	public IssueStatus create(IssueStatus entity) throws EntityExistsException,
 			IllegalStateException, IllegalArgumentException,
 			TransactionRequiredException {
+		
+		em.persist(entity);
 		// TODO Auto-generated method stub
-		return null;
+		return entity;
 	}
 
 	public IssueStatus read(Serializable primaryKey)
@@ -33,24 +37,20 @@ public class IssueStatusBean implements IssueStatusManager {
 				
 		return em.find(IssueStatus.class, primaryKey);		
 	}
-
+	
+	@Transactional
 	public IssueStatus update(IssueStatus entity) throws IllegalStateException,
 			IllegalArgumentException, TransactionRequiredException {
-		// TODO Auto-generated method stub
-		return null;
+		return em.merge(entity);
 	}
 
-	public void deleteO(IssueStatus entity) throws IllegalStateException,
-			IllegalArgumentException, TransactionRequiredException,
-			PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
+	
+	
 	public void delete(IssueStatus entity) throws IllegalStateException,
 			IllegalArgumentException, TransactionRequiredException,
 			PersistenceException {
-		// TODO Auto-generated method stub
+		em.remove(entity);
 		
 	}
 
@@ -61,5 +61,8 @@ public class IssueStatusBean implements IssueStatusManager {
 		List<IssueStatus> issuesStatus = q.getResultList();
 		return issuesStatus;
 	}
-
+	
+	
+	
 }
+
