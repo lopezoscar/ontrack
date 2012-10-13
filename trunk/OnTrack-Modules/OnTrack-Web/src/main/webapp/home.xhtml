@@ -9,10 +9,17 @@
 		<h:body>
 			<ui:composition template="/template.xhtml">
 				<ui:define name="body">
+					<h:panelGrid columns="2" cellspacing="0">
+					
 					
 						<ui:include src="/myprojects-include.xhtml"/>
+						<ui:include src="issuelist.xhtml"></ui:include>
 						
-					
+						<rich:panel header="#{msg.stats}">
+							<ui:include src="chart.xhtml"></ui:include>
+						</rich:panel>
+						
+					</h:panelGrid>
 					
 				</ui:define>
 			</ui:composition>	

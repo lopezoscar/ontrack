@@ -6,7 +6,7 @@
 	xmlns:rich="http://richfaces.org/rich">
 	
 	<h:form>
-		<h:panelGrid columns="3" >
+		
 		<rich:panel header="#{msg.title}">
 			<rich:dataTable id="projecttable" value="#{projectctrl.retrieveAllProjects()}" var="item" rows="20">
 				<rich:column>
@@ -23,19 +23,7 @@
 				</rich:column>
 			</rich:dataTable>
 			<rich:dataScroller for="projecttable" maxPages="5" />
-		</rich:panel>
-		
-		<ui:include src="issuelist.xhtml"></ui:include>
-		
-		
-		<rich:panel header="#{msg.stats}">
-			<ui:include src="chart.xhtml"></ui:include>
-		</rich:panel>
-									
-		</h:panelGrid>
-		
-		
-		<ui:include src="issueview.xhtml"></ui:include>
+		</rich:panel>	
 		
 	</h:form>
 	
