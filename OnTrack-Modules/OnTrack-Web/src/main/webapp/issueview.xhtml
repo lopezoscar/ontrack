@@ -6,12 +6,23 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich">
 
+<f:view>
+	<ui:composition template="/template.xhtml">
+				<ui:define name="body">	
 	
 	
-
 	<h:form>
+	
+		
+		
 		<rich:panel>
-			<h:panelGrid columns="2">
+			
+			
+			
+			<h:panelGrid columns="3">
+			
+				<ui:include src="/myprojects-include.xhtml"></ui:include>
+				
 				<rich:panel header="#{msg.description}">
 					 <rich:editor id="editor" toolbar="full" value="#{projectctrl.currentIssue.description}" style="margin-bottom: 1em;  ">
 			            <a4j:ajax event="change" render="panel" status="panelUpdateStatus" />
@@ -19,33 +30,44 @@
 			                <a4j:attachQueue requestDelay="1000" />
 			            </a4j:ajax>
 			        </rich:editor>
+			        <rich:panel header="#{msg.issueproperties}">
+			
+					</rich:panel>
+					<rich:panel>
+					  <rich:tabPanel switchType="client">
+					  		<rich:tab header="#{msg.attachment}">
+					  			<h:outputText value="Attachments" />
+					  		</rich:tab>
+					  		<rich:tab header="#{msg.history}">
+					  			<h:outputText value="History"/>
+					  		</rich:tab>
+					  </rich:tabPanel>
+					 </rich:panel>
 				</rich:panel>
+				
 				<rich:panel header="#{msg.generalinfo}">
-					
+					<h:panelGrid columns="2">
+						<h:outputText value="#{msg.status}"/>
+						<h:inputText value="#{project.currentIssue.currentStatus.description}" readonly="true"/>
+						<h:outputText value="#{msg.reporter}"/>
+						<h:inputText value="#{project.currentIssue.reporter}" readonly="true"/>
+						<h:outputText value="#{msg.currentowner}"/>
+						<h:inputText value="#{project.currentIssue.owner}" readonly="true"/>
+					</h:panelGrid>
 				</rich:panel>
 				
 			</h:panelGrid>
 			
 			
-			<rich:panel header="#{msg.issueproperties}">
 			
-			</rich:panel>
 		
 		</rich:panel>
 		   
-        <rich:panel id="panel">
-            <f:facet name="header">
-                Output from Editor
-                <a4j:status name="panelUpdateStatus">
-                    <f:facet name="start">
-                        (Updating)
-                    </f:facet>
-                </a4j:status>
-            </f:facet>
-            <h:outputText escape="false" value="#{projectctrl.currentIssue.description}" />
-        </rich:panel>
+      
 	
 	
 	</h:form>
-
+</ui:define>
+</ui:composition>
+</f:view>
 </ui:composition>

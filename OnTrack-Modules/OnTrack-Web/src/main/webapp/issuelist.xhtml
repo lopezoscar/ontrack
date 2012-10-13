@@ -39,17 +39,11 @@
 			
 			
 			<rich:dataScroller for="issuestable" maxPages="5" />
-		</rich:panel>
+		</rich:panel>	
 		
-		
-			    
-	
-	
-		
-		
-	<rich:contextMenu id="issuetablemenu" target="issuestable" mode="ajax">
-        <rich:menuItem label="View" render="popupContent" mode="ajax" />
-    </rich:contextMenu>
-    
+		<rich:contextMenu id="issuetablemenu" target="issuestable" mode="ajax">
+	    	<rich:menuItem label="View" render="popupContent" mode="ajax" action="issueview.xhtml" />
+	    </rich:contextMenu>
+		   
     </h:form>
 </ui:composition>
