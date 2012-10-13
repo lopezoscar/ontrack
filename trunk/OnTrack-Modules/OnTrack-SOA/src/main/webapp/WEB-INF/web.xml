@@ -17,7 +17,7 @@
 	</listener>
 
 
-	<!--  JAX-RS Implementation servlet -->
+	<!-- JAX-RS Implementation servlet -->
 	<servlet>
 		<servlet-name>JAXRSServlet</servlet-name>
 		<servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
@@ -31,27 +31,29 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-<!-- 
-	<servlet>
-		<servlet-name>Jersey Web Application</servlet-name>
-		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+	<!-- <servlet> <servlet-name>Jersey Web Application</servlet-name> <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class> 
+		<init-param> <param-name>com.sun.jersey.config.property.packages</param-name> 
+		<param-value>com.sappe.ontrack.soa</param-value> </init-param> <init-param> 
+		<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name> <param-value>true</param-value> 
+		</init-param> <load-on-startup>1</load-on-startup> </servlet> -->
+
+	<filter>
+		<filter-name>oemiv</filter-name>
+		<filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
 		<init-param>
-			<param-name>com.sun.jersey.config.property.packages</param-name>
-			<param-value>com.sappe.ontrack.soa</param-value>
+			<param-name>entityManagerFactoryBeanName</param-name>
+			<param-value>entityManagerFactory</param-value>
 		</init-param>
-		<init-param>
-			<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
-			<param-value>true</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
- -->
+	</filter>
+
+	<filter-mapping>
+		<filter-name>oemiv</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
 	<servlet-mapping>
 		<servlet-name>JAXRSServlet</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 
-	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
-	</welcome-file-list>
 </web-app>
