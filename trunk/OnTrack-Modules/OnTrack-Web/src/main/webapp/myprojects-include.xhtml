@@ -6,8 +6,9 @@
 	xmlns:rich="http://richfaces.org/rich">
 	
 	<h:form>
+		<h:panelGrid columns="3" >
 		<rich:panel header="#{msg.title}">
-			<rich:dataTable value="#{projectctrl.projects}" var="item">
+			<rich:dataTable id="projecttable" value="#{projectctrl.retrieveAllProjects()}" var="item" rows="20">
 				<rich:column>
 					<f:facet name="header">
 						<h:outputText value="#{msg.projectid}" />
@@ -21,18 +22,31 @@
 					<h:outputText value="#{item.name}"/>
 				</rich:column>
 			</rich:dataTable>
-			
-			    
-						            <rich:select>
+			<rich:dataScroller for="projecttable" maxPages="5" />
+		</rich:panel>
+		
+		<ui:include src="issuelist.xhtml"></ui:include>
+		
+		
+		<rich:panel header="#{msg.stats}">
+			<ui:include src="chart.xhtml"></ui:include>
+		</rich:panel>
+									
+		</h:panelGrid>
+		
+		
+		<ui:include src="issueview.xhtml"></ui:include>
+		
+	</h:form>
+	
+	
+	
+	<rich:select rendered="false">
                 <f:selectItem itemValue="0" itemLabel="Option 1" />
                 <f:selectItem itemValue="1" itemLabel="Option 2" />
                 <f:selectItem itemValue="2" itemLabel="Option 3" />
                 <f:selectItem itemValue="3" itemLabel="Option 4" />
                 <f:selectItem itemValue="4" itemLabel="Option 5" />
             </rich:select>
-	
-									
-		</rich:panel>
-	</h:form>
 	
 </ui:composition>

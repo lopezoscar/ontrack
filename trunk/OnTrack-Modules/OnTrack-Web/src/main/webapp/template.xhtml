@@ -12,9 +12,13 @@
 	<f:loadBundle basename="com.sappe.ontrack.messages.message" var="msg"/>
 	<!--  <link href="#{resources['css:default.css']}" rel="stylesheet" type="text/css" />-->
 	<link href="css/default.css" rel="stylesheet" type="text/css"/>
+	
+	<script type="text/javascript">
+    	window.CKEDITOR_BASEPATH = '#{request.contextPath}/org.richfaces.resources/javax.faces.resource/org.richfaces.ckeditor/';
+	</script>
 </h:head>
 	
-<body>
+<h:body>
 
 
 		<h:form>
@@ -28,7 +32,35 @@
 					<rich:menuItem label="#{msg.myprojects}" action="myprojects.xhtml"/>			
 					<rich:menuItem label="#{msg.newproject}" action="newproject.xhtml"/>
 				</rich:dropDownMenu>
+				<rich:dropDownMenu mode="ajax">
+					<f:facet name="label">
+						<h:panelGroup>
+							<h:outputText value="#{msg.issues}" />
+						</h:panelGroup>
+					</f:facet>
+					<rich:menuItem label="#{msg.createissue}" action="newissue.xhtml"/>			
+					<rich:menuItem label="#{msg.myissues}" action="myissues.xhtml"/>
+					<rich:menuItem label="#{msg.searchissues}" action="searcgissue.xhtml"/>
+				</rich:dropDownMenu>
 				
+				<rich:toolbarGroup location="right">
+					<rich:dropDownMenu mode="ajax">
+						<f:facet name="label">
+							<h:panelGroup>
+								<h:outputText value="#{msg.profile}" />
+							</h:panelGroup>
+						</f:facet>
+						<rich:menuItem label="#{msg.configuration}" action="userconfiguration.xhtml"/>			
+					</rich:dropDownMenu>	
+					<rich:dropDownMenu mode="ajax">
+						<f:facet name="label">
+							<h:panelGroup>
+								<h:outputText value="#{msg.exit}" />
+							</h:panelGroup>
+						</f:facet>
+						<rich:menuItem label="#{msg.exit}" action="home.xhtml"/>			
+					</rich:dropDownMenu>
+				</rich:toolbarGroup>
 				
 				<rich:toolbarGroup location="right">
 		            <h:inputText styleClass="barsearch" />
@@ -43,6 +75,6 @@
 
 		<ui:insert name="body" />
 
-</body>
+</h:body>
 
 </html>
