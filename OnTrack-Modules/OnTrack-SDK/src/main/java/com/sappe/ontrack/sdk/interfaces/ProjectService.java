@@ -6,6 +6,6 @@ import com.sappe.ontrack.model.issues.Project;
 
 public interface ProjectService {
 	
-	List<Project> getAllProjects();
+	public List<Project> getAllProjects();
 
 }
