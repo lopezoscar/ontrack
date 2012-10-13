@@ -10,7 +10,7 @@ import com.sappe.ontrack.model.users.User;
 
 public class RoleTest extends BaseTest{
 
-	//@Test
+	@Test
 	public void createRolesTest(){
 		
 		Role roleTest = new Role();

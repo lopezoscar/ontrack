@@ -1,5 +1,6 @@
 package com.sappe.ontrack.model.issues;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -17,12 +18,18 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name="issue")
-public class Issue {
+public class Issue implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id_issue")
 	private Long id;
+	
+	@Transient
+	private String title;
+	
+	@Transient
+	private String description;
 	
 	@OneToOne
 	@JoinColumn(name="current_status")
@@ -37,7 +44,7 @@ public class Issue {
 	private Issue parent;
 	
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="parent")
-	@JoinColumn(name="child")
+	@JoinColumn(name="id_issue")
 	private List<Issue> childs;
 	
 	@ManyToOne
@@ -140,7 +147,23 @@ public class Issue {
 		this.entries = entries;
 	}
 
+	public String getTitle() {
+		return title;
+	}
 
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	
 
 	
 	
