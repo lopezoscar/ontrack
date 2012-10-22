@@ -5,8 +5,21 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich">
 	
+<script type="text/javascript">
+
+		var x;
+		x=$(document);
+		x.ready(inicio);
+	
+		function inicio(){
+			var x=$("#paneljq");
+			x.draggable();
+		   
+		}
+</script>
+	
 	<h:form>
-		
+		<div id="paneljq">
 		<rich:panel header="#{msg.title}">
 			<rich:dataTable id="projecttable" value="#{projectctrl.retrieveAllProjects()}" var="item" rows="20">
 				<rich:column>
@@ -21,11 +34,20 @@
 					</f:facet>
 					<h:outputText value="#{item.name}"/>
 				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="#{msg.actions}" />
+					</f:facet>
+					<h:commandButton action="#{projectctrl.updateCurrentProject(item)}" value="#{msg.selectissues}"/>
+				</rich:column>
 			</rich:dataTable>
-			<rich:dataScroller for="projecttable" maxPages="5" />
+			
+			
+			<rich:dataScroller for="projecttable" maxPages="5" renderIfSinglePage="false"/>
 		</rich:panel>	
-		
+		</div>
 	</h:form>
+	
 	
 	
 	

@@ -27,36 +27,43 @@ public class ProjectBean implements ProjectManager{
 	@PersistenceContext
 	private EntityManager em;
 
+	@Transactional
 	public Project create(Project entity) throws EntityExistsException,
 	IllegalStateException, IllegalArgumentException,
 	TransactionRequiredException {
 		// TODO Auto-generated method stub
-		return null;
+		 em.persist(entity);
+		return entity; 
 	}
 
+	@Transactional
 	public Project read(Serializable primaryKey) throws IllegalStateException,
 	IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		return em.find(Project.class, primaryKey);
 	}
 
+	@Transactional
 	public Project update(Project entity) throws IllegalStateException,
 	IllegalArgumentException, TransactionRequiredException {
 		// TODO Auto-generated method stub
-		return null;
+		em.merge(entity);
+		return entity;
 	}
 
+	@Transactional
 	public void delete(Project entity) throws IllegalStateException,
 	IllegalArgumentException, TransactionRequiredException,
 	PersistenceException {
 		// TODO Auto-generated method stub
+		em.remove(entity);
 
 	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<Project> getAllProjects() {
-//		List<Project> projects = em.createNamedQuery("getAllProjects").getResultList();
+		List<Project> projects = em.createNamedQuery("getAllProjects").getResultList();
 //		for (Project project : projects) {
 //			List<Issue> issues = project.getIssues();
 //			for (Issue issue : issues) {
@@ -68,7 +75,7 @@ public class ProjectBean implements ProjectManager{
 //			types = initializeAndUnproxy(types);
 //			project.setIssueTypes(types);
 //		}
-		List<Project> projects = new ArrayList<Project>();
+//		List<Project> projects = new ArrayList<Project>();
 		return projects;
 	}
 

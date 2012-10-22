@@ -5,45 +5,61 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich">
 
+<style type="text/css">
+	.title{
+			font-size: 16px;
+			color:#1400FF;
+		  } 
+	
+</style>
+
+<script type="text/javascript">
+
+		var x;
+		x=$(document);
+		x.ready(inicio);
+	
+		function inicio(){
+			var x=$("#issuepaneljq");
+			x.draggable();
+		   
+		}
+</script>
 
 <h:form>
-		<rich:panel  header="#{msg.issues}">		
-			<rich:dataTable id="issuestable" value="#{projectctrl.retrieveIssuesByProject()}" var="item" rows="10">
-				<rich:column sortBy="#{item.id}">
-					<f:facet name="header">
-						<h:outputText value="#{msg.issuecode}" />
-					</f:facet>
-					<h:outputText value="#{item.id}"/>		
-				</rich:column>
-				<rich:column sortBy="#{item.issueType.description}">
-					<f:facet name="header">
-						<h:outputText value="#{msg.issuetype}" />
-					</f:facet>
-					<h:outputText value="#{item.issueType.description}"/>		
-				</rich:column>
+
+		<div id="issuepaneljq">
+		<rich:panel id="issuepanelid" header="#{msg.issues}">
+			
+			<rich:dataTable id="issuestable" value="#{projectctrl.retrieveIssuesByProject()}"  var="item" rows="10">
 				<rich:column>
 					<f:facet name="header">
-						<h:outputText value="#{msg.issuetitle}" />
+						<h:outputText value="#{projectctrl.currentProject.name}" />
 					</f:facet>
-					<h:outputText value="#{item.title}"/>		
-				</rich:column>
-				<rich:column>
-					<f:facet name="header">
-						<h:outputText value="#{msg.issuestatus}" />
-					</f:facet>
-					<h:outputText value="#{item.currentStatus.description}"/>		
+					<h:panelGrid columns="1">
+						<h:outputText value="#{item.id} - #{item.issueType.description} - #{item.title} " styleClass="title"/>
+						<h:outputText value="#{item.description}" />
+						<h:outputText value="#{item.currentStatus.description} - #{item.owner.completeName()}"/>
+					</h:panelGrid>
 				</rich:column>
 				
 				<rich:componentControl event="onRowClick" for="issuetablemenu" operation="show" />
 			</rich:dataTable>
 			
 			
-			<rich:dataScroller for="issuestable" maxPages="5" />
+			<rich:dataScroller for="issuestable" maxPages="5" renderIfSinglePage="false"/>
 		</rich:panel>	
+		</div>
+		 
 		
-		<rich:contextMenu id="issuetablemenu" target="issuestable" mode="ajax">
-	    	<rich:menuItem label="View" render="popupContent" mode="ajax" action="issueview.xhtml" />
+		<rich:contextMenu id="issuetablemenu" target="issuestable" mode="ajax" showEvent="click">
+	    	<rich:menuItem label="View" render="popupContent" mode="ajax" action="issueview.xhtml">
+	    		<f:setPropertyActionListener target="#{projectctrl.currentIssue}" value="#{projectctrl.currentIssue}"></f:setPropertyActionListener>
+	    	
+	    	</rich:menuItem>
 	    </rich:contextMenu>
+	    
+	   
 		   
     </h:form>
 </ui:composition>
