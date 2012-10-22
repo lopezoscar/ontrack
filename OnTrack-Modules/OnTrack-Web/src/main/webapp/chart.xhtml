@@ -10,6 +10,19 @@
  <h:head>
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    
+<script type="text/javascript">
+		var x;
+		x=$(document);
+		x.ready(inicio);
+	
+		function inicio(){
+			var x=$("#statsjq");
+			x.draggable();	
+			
+		}
+</script>
+    
     <script type="text/javascript">
 
       // Load the Visualization API and the piechart package.
@@ -45,10 +58,17 @@
         chart.draw(data, options);
       }
     </script>
+    
+   
+    
   </h:head>
 
   <h:body>
     <!--Div that will hold the pie chart-->
-    <div id="chart_div"></div>
+    <div id="statsjq">
+	    <rich:panel header="Estadísticas">
+	    	<div id="chart_div"></div>
+	    </rich:panel>
+    </div>
   </h:body>
  </html>

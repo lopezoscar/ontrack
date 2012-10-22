@@ -53,5 +53,13 @@ public class IssueBean implements IssueManager{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Issue> getIssuesByProjectId(Long id) {
+//		List<Issue> issues = em.createQuery("select i from Issue i where i.project.id = :projectid").setParameter("projectid", id).getResultList();
+		List<Issue> issues = em.createNamedQuery("getIssuesByProjectId").setParameter("projectid", id).getResultList();
+		return issues;
+		
+	}
 	
 }

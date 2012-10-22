@@ -17,8 +17,8 @@ import javax.persistence.Table;
 		}
 			
 		)
-public class IssueStatus {
 	
+public class IssueStatus {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id_issue_status")

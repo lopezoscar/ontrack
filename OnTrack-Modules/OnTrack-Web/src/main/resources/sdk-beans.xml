@@ -22,6 +22,7 @@
 	<bean id="usersrv" class="com.sappe.ontrack.sdk.impl.UserServiceImpl"/>
 	<bean id="rolesrv" class="com.sappe.ontrack.sdk.impl.RoleServiceImpl"/>
 	<bean id="projectsrv" class="com.sappe.ontrack.sdk.impl.ProjectServiceImpl"/>
+	<bean id="issuesrv" class="com.sappe.ontrack.sdk.impl.IssueServiceImpl" />
 
 
 

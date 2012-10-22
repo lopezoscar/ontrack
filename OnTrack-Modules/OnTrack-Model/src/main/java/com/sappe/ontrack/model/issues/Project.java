@@ -1,6 +1,7 @@
 package com.sappe.ontrack.model.issues;
 
-import java.util.List;
+import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,14 +16,21 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 @Entity
 @Table(name="project")
 @NamedQueries(
 		{
-			@NamedQuery(name="getAllProjects",query="SELECT p FROM Project as p  left join fetch p.issues ")
+			@NamedQuery(name="getAllProjects",query="SELECT NEW  com.sappe.ontrack.model.issues.Project (p.id,p.name) from Project as p ")
 		}
 )
-public class Project {
+public class Project implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3497077388248243138L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -34,12 +42,28 @@ public class Project {
 
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	@JoinColumn(name="id_issue",nullable=true)
-	private List<Issue> issues;
+	private Set<Issue> issues;
 
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="id_project")
-	private List<IssueType> issueTypes;
+	private Set<IssueType> issueTypes;
+	
+	public Project(){}
 
+	public Project(Long id, String name, Set<Issue> issues,
+			Set<IssueType> issueTypes) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.issues = issues;
+		this.issueTypes = issueTypes;
+	}
+
+	public Project(Long id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
 
 	@Override
 	public int hashCode() {
@@ -82,22 +106,22 @@ public class Project {
 		this.name = name;
 	}
 
-	public List<Issue> getIssues() {
+	@JsonIgnore
+	public Set<Issue> getIssues() {
 		return issues;
 	}
 
-	public void setIssues(List<Issue> issues) {
+	public void setIssues(Set<Issue> issues) {
 		this.issues = issues;
 	}
 
-	public List<IssueType> getIssueTypes() {
+	@JsonIgnore
+	public Set<IssueType> getIssueTypes() {
 		return issueTypes;
 	}
 
-	public void setIssueTypes(List<IssueType> issueTypes) {
+	public void setIssueTypes(Set<IssueType> issueTypes) {
 		this.issueTypes = issueTypes;
 	}
-
-
 
 }

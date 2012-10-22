@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 @Entity
 @Table(name="issue_type")
 public class IssueType implements Serializable{
@@ -73,6 +75,7 @@ public class IssueType implements Serializable{
 		this.id = id;
 	}
 
+	@JsonIgnore
 	public Project getProject() {
 		return project;
 	}

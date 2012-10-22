@@ -5,6 +5,24 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich">
+	
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css"></script>
+	<script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+	
+	<script type="text/javascript">
+
+		var x;
+		x=$(document);
+		x.ready(inicio);
+	
+		function inicio(){
+		   var x=$("#descriptionjq");
+		   x.draggable();
+		   var y =$("#gralinfojq");
+		   y.draggable();
+		}
+</script>
 
 <f:view>
 	<ui:composition template="/template.xhtml">
@@ -15,7 +33,7 @@
 	
 		
 		
-		<rich:panel>
+		<rich:panel rendered="#{projectctrl.renderedIssuePanel()}">
 			
 			
 			
@@ -23,6 +41,7 @@
 			
 				<ui:include src="/myprojects-include.xhtml"></ui:include>
 				
+				<div id="descriptionjq">
 				<rich:panel header="#{msg.description}">
 					 <rich:editor id="editor" toolbar="full" value="#{projectctrl.currentIssue.description}" style="margin-bottom: 1em;  ">
 			            <a4j:ajax event="change" render="panel" status="panelUpdateStatus" />
@@ -44,7 +63,9 @@
 					  </rich:tabPanel>
 					 </rich:panel>
 				</rich:panel>
+				</div>
 				
+				<div id="gralinfojq">
 				<rich:panel header="#{msg.generalinfo}">
 					<h:panelGrid columns="2">
 						<h:outputText value="#{msg.status}"/>
@@ -55,12 +76,29 @@
 						<h:inputText value="#{project.currentIssue.owner}" readonly="true"/>
 					</h:panelGrid>
 				</rich:panel>
+				</div>
 				
 			</h:panelGrid>
 			
 			
 			
 		
+		</rich:panel>
+		
+		<rich:panel header="#{msg.comments}">
+			<h:panelGrid columns="2">
+				<rich:panel>
+					<rich:dataTable value="#{projectctrl.getEntriesComments()}" var="item" rows="20">
+						<h:outputText value="#{item.comment}"/>
+					</rich:dataTable>
+						
+				</rich:panel>
+				<h:inputTextarea value="#{projectctrl.currentEntry.comment}" />
+				<a4j:commandButton action="#{projectctrl.addEntry()}" value="#{msg.save}">
+					
+				</a4j:commandButton>			
+			
+			</h:panelGrid>
 		</rich:panel>
 		   
       

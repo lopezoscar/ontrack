@@ -1,8 +1,9 @@
 package com.sappe.ontrack.model.issues;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,25 +12,48 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
+import com.sappe.ontrack.model.users.User;
+
 @Entity
 @Table(name="issue")
+@NamedQueries(
+		{
+			@NamedQuery(name="getIssuesByProjectId",query="SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.currentStatus,i.issueType) FROM Issue as i where i.project.id = :projectid" )
+		}
+)
 public class Issue implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6314916409129029867L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id_issue")
 	private Long id;
 	
-	@Transient
+	@Column(name="title")
 	private String title;
 	
-	@Transient
+	@Column(name="description")
 	private String description;
+	
+	@Column(name="reporter")
+	private String reporter;
+	
+	@ManyToOne
+	@JoinColumn(name="owner")
+	private User owner;
 	
 	@OneToOne
 	@JoinColumn(name="current_status")
@@ -43,23 +67,75 @@ public class Issue implements Serializable{
 	@JoinColumn(name="parent_issue")
 	private Issue parent;
 	
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="parent")
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="parent",cascade=CascadeType.ALL)
 	@JoinColumn(name="id_issue")
-	private List<Issue> childs;
+	private Set<Issue> childs;
 	
 	@ManyToOne
 	@JoinColumn(name="id_project")
 	private Project project;
 	
-	@OneToMany(fetch=FetchType.LAZY)
+	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	@JoinColumn(name="id_issue_entry")
-	private List<IssueEntry> entries;
+	private Set<IssueEntry> entries;
 	
+	
+
+
+	public Issue(Long id, String title, String description, String reporter,
+			User owner, IssueStatus currentStatus, IssueType issueType,
+			Issue parent, Set<Issue> childs, Project project,
+			Set<IssueEntry> entries) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.reporter = reporter;
+		this.owner = owner;
+		this.currentStatus = currentStatus;
+		this.issueType = issueType;
+		this.parent = parent;
+		this.childs = childs;
+		this.project = project;
+		this.entries = entries;
+	}
+	
+	
+
+
+	public Issue(Long id, String title, String description,
+			IssueStatus currentStatus, IssueType issueType) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.currentStatus = currentStatus;
+		this.issueType = issueType;
+	}
+
+
+
+
+	public Issue(Long id, String title, String description) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.description = description;
+	}
+
+
+
+
+	public Issue(){}
+
+
+	@JsonIgnore
 	@Transient
 	public boolean isLeaf() {
 		return (childs == null || childs.size() == 0);
 	}
 	
+	@JsonIgnore
 	@Transient
 	public boolean isRoot(){
 		return (parent == null);
@@ -91,76 +167,114 @@ public class Issue implements Serializable{
 		return true;
 	}
 
+
 	public Long getId() {
 		return id;
 	}
+
 
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public IssueStatus getCurrentStatus() {
-		return currentStatus;
-	}
-
-	public void setCurrentStatus(IssueStatus currentStatus) {
-		this.currentStatus = currentStatus;
-	}
-
-	public IssueType getIssueType() {
-		return issueType;
-	}
-
-	public void setIssueType(IssueType issueType) {
-		this.issueType = issueType;
-	}
-
-	public Issue getParent() {
-		return parent;
-	}
-
-	public void setParent(Issue parent) {
-		this.parent = parent;
-	}
-
-	public List<Issue> getChilds() {
-		return childs;
-	}
-
-	public void setChilds(List<Issue> childs) {
-		this.childs = childs;
-	}
-
-	public Project getProject() {
-		return project;
-	}
-
-	public void setProject(Project project) {
-		this.project = project;
-	}
-
-	public List<IssueEntry> getEntries() {
-		return entries;
-	}
-
-	public void setEntries(List<IssueEntry> entries) {
-		this.entries = entries;
-	}
 
 	public String getTitle() {
 		return title;
 	}
 
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
 
 	public String getDescription() {
 		return description;
 	}
 
+
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+
+	public String getReporter() {
+		return reporter;
+	}
+
+
+	public void setReporter(String reporter) {
+		this.reporter = reporter;
+	}
+
+
+	public User getOwner() {
+		return owner;
+	}
+
+
+	public void setOwner(User owner) {
+		this.owner = owner;
+	}
+
+
+	public IssueStatus getCurrentStatus() {
+		return currentStatus;
+	}
+
+
+	public void setCurrentStatus(IssueStatus currentStatus) {
+		this.currentStatus = currentStatus;
+	}
+
+
+	public IssueType getIssueType() {
+		return issueType;
+	}
+
+
+	public void setIssueType(IssueType issueType) {
+		this.issueType = issueType;
+	}
+
+
+	public Issue getParent() {
+		return parent;
+	}
+
+
+	public void setParent(Issue parent) {
+		this.parent = parent;
+	}
+
+
+	public Set<Issue> getChilds() {
+		return childs;
+	}
+
+
+	public void setChilds(Set<Issue> childs) {
+		this.childs = childs;
+	}
+
+
+	public Project getProject() {
+		return project;
+	}
+
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+
+	public Set<IssueEntry> getEntries() {
+		return entries;
+	}
+
+
+	public void setEntries(Set<IssueEntry> entries) {
+		this.entries = entries;
 	}
 
 	
