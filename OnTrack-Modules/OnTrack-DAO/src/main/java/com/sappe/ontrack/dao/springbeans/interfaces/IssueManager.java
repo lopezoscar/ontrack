@@ -7,4 +7,6 @@ import com.sappe.ontrack.model.issues.Issue;
 public interface IssueManager extends CRUD<Issue>{
 	
 	List<Issue> getAllElements();
+	
+	List<Issue> getIssuesByProjectId(Long id);
 }
