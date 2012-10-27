@@ -26,6 +26,16 @@ public class IssueStatusService {
 	@Autowired
 	IssueStatusManager issueStatusManager;
 	
+	
+	@POST
+	@Path("createissuestatus")
+	@Produces(MediaType.APPLICATION_JSON)
+	public IssueStatus createIssueStatus(IssueStatus issueStatus){
+		IssueStatus is = issueStatusManager.create(issueStatus);	
+		return is;
+		
+	}
+	
 	@GET
 	@Path("getissuestatusbyid/{pk}")
 	@Produces(MediaType.APPLICATION_JSON)

@@ -22,7 +22,7 @@ public class IssueStatusBean implements IssueStatusManager {
 
 	@PersistenceContext(unitName = "ontrack")
 	private EntityManager em;
-	
+	@Transactional
 	public IssueStatus create(IssueStatus entity) throws EntityExistsException,
 			IllegalStateException, IllegalArgumentException,
 			TransactionRequiredException {
