@@ -43,14 +43,13 @@ public class UserBean implements UserManager{
 	@Transactional
 	public User update(User entity) throws IllegalStateException,
 			IllegalArgumentException, TransactionRequiredException {
-		// TODO Auto-generated method stub
-		return null;
+		return em.merge(entity);
 	}
 
 	public void delete(User entity) throws IllegalStateException,
 			IllegalArgumentException, TransactionRequiredException,
 			PersistenceException {
-		// TODO Auto-generated method stub
+		em.remove(entity);
 		
 	}
 
