@@ -2,16 +2,25 @@ package com.sappe.ontrack.web.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.convert.Converter;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.ActionListener;
 
+import com.sappe.ontrack.model.issues.IssueProperty;
+import com.sappe.ontrack.model.issues.IssuePropertyType;
+import com.sappe.ontrack.model.issues.IssueStatus;
 import com.sappe.ontrack.model.issues.IssueType;
 import com.sappe.ontrack.model.users.Role;
 import com.sappe.ontrack.model.users.User;
+import com.sappe.ontrack.sdk.interfaces.IssuePropertyService;
+import com.sappe.ontrack.sdk.interfaces.IssueStatusService;
 import com.sappe.ontrack.sdk.interfaces.RoleService;
 import com.sappe.ontrack.sdk.interfaces.UserService;
 import com.sappe.ontrack.web.converters.GenericListConverter;
@@ -32,6 +41,13 @@ public class NewProjectController implements Serializable{
 	@ManagedProperty(value="#{rolesrv}")
 	private RoleService roleService;
 	
+	@ManagedProperty(value="#{issuepropertysrv}")
+	private IssuePropertyService issuePropertyService;
+	
+	@ManagedProperty(value="#{issuestatussrv}")
+	private IssueStatusService issueStatusService;
+	
+	
 	private List<User> allUsers = new ArrayList<User>();
 	private List<User> selectedUser = new ArrayList<User>();
 	
@@ -45,6 +61,22 @@ public class NewProjectController implements Serializable{
 	
 	private User currentUser;
 	
+	private IssueProperty currentIssueProperty = new IssueProperty();
+	
+	
+	private IssuePropertyType currentIssuePropertyType = new IssuePropertyType();
+	
+	private Map<IssueType,List<IssueProperty>> propertiesForIssueType = new HashMap<IssueType,List<IssueProperty>>();
+	
+	private List<IssueProperty> propertyTypes = new ArrayList<IssueProperty>();
+	
+	private List<IssueStatus> targetIssueStatus = new ArrayList<IssueStatus>();
+	
+	
+	public void addStatusToTarget(IssueStatus is){
+		targetIssueStatus.add(is);
+	}
+	
 	public List<User> retrieveAllUsers(){
 		allUsers = userService.getAllUsers();
 		return allUsers;
@@ -55,14 +87,42 @@ public class NewProjectController implements Serializable{
 		return allRoles;
 	}
 	
+	public void updateCurrentIssueType(IssueType issueType){
+		currentIssueType = issueType;
+	}
+	
 	public void saveIssueType(){
 		if(!createdIssuesTypes.contains(currentIssueType)){
-			createdIssuesTypes.add(currentIssueType);			
+			createdIssuesTypes.add(currentIssueType);	
+			currentIssueType = new IssueType();
 		}
+	}
+	
+	public List<IssuePropertyType> getAllTypes(){
+		List<IssuePropertyType> types = new ArrayList<IssuePropertyType>();
+		types.addAll(issuePropertyService.getAllIssuePropertyTypes());
+		return types;
+	}
+	
+	public void saveProperty(){
+//		propertiesForIssueType.put(currentIssueType, propertyTypes);
+		currentIssueProperty.setType(currentIssuePropertyType);
+		propertyTypes.add(currentIssueProperty);
+		currentIssueProperty = new IssueProperty();
+		currentIssuePropertyType = new IssuePropertyType();
+		
+	}
+	
+	public List<IssueStatus> getAllIssueStatus(){
+		return issueStatusService.getAllIssueStatus();
 	}
 	
 	public Converter converter(){
 		return new GenericListConverter(allUsers, "name");
+	}
+	
+	public Converter propertyConverter(){
+		return new GenericListConverter(getAllTypes(), "id");
 	}
 	
 	
@@ -161,10 +221,65 @@ public class NewProjectController implements Serializable{
 	public void setSelectedRoles(List<Role> selectedRoles) {
 		this.selectedRoles = selectedRoles;
 	}
-	
-	
 
-	
+	public IssueProperty getCurrentIssueProperty() {
+		return currentIssueProperty;
+	}
+
+	public void setCurrentIssueProperty(IssueProperty currentIssueProperty) {
+		this.currentIssueProperty = currentIssueProperty;
+	}
+
+	public Map<IssueType, List<IssueProperty>> getPropertiesForIssueType() {
+		return propertiesForIssueType;
+	}
+
+	public void setPropertiesForIssueType(
+			Map<IssueType, List<IssueProperty>> propertiesForIssueType) {
+		this.propertiesForIssueType = propertiesForIssueType;
+	}
+
+	public IssuePropertyService getIssuePropertyService() {
+		return issuePropertyService;
+	}
+
+	public void setIssuePropertyService(IssuePropertyService issuePropertyService) {
+		this.issuePropertyService = issuePropertyService;
+	}
+
+	public IssuePropertyType getCurrentIssuePropertyType() {
+		return currentIssuePropertyType;
+	}
+
+	public void setCurrentIssuePropertyType(
+			IssuePropertyType currentIssuePropertyType) {
+		this.currentIssuePropertyType = currentIssuePropertyType;
+	}
+
+	public List<IssueProperty> getPropertyTypes() {
+		return propertyTypes;
+	}
+
+	public void setPropertyTypes(List<IssueProperty> propertyTypes) {
+		this.propertyTypes = propertyTypes;
+	}
+
+	public IssueStatusService getIssueStatusService() {
+		return issueStatusService;
+	}
+
+	public void setIssueStatusService(IssueStatusService issueStatusService) {
+		this.issueStatusService = issueStatusService;
+	}
+
+	public List<IssueStatus> getTargetIssueStatus() {
+		return targetIssueStatus;
+	}
+
+	public void setTargetIssueStatus(List<IssueStatus> targetIssueStatus) {
+		this.targetIssueStatus = targetIssueStatus;
+	}
+
 	
 
 }
