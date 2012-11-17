@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sappe.ontrack.dao.springbeans.interfaces.IssueManager;
 import com.sappe.ontrack.model.issues.Issue;
+import com.sappe.ontrack.model.issues.IssueStatus;
+import com.sappe.ontrack.model.issues.IssueType;
 
 @Component
 public class IssueBean implements IssueManager{
@@ -61,5 +63,31 @@ public class IssueBean implements IssueManager{
 		return issues;
 		
 	}
+
+	public List<Issue> getIssuesByOwnerId(Long id) {
+		List<Issue> issues = em.createNamedQuery("getIssuesByOwnerId").setParameter("ownerid", id).getResultList();
+		return issues;
+	}
+	
+	public List<Issue> getIssuesByReporter(String reporter) {
+		List<Issue> issues = em.createNamedQuery("getIssuesByReporter").setParameter("reporter", reporter).getResultList();
+		return issues;
+	}
+	
+	public List<Issue> getIssuesByStatus(IssueStatus status) {
+		List<Issue> issues = em.createNamedQuery("getIssuesByStatus").setParameter("status", status).getResultList();
+		return issues;
+	}
+	
+	public List<Issue> getIssuesByType(IssueType type) {
+		List<Issue> issues = em.createNamedQuery("getIssuesByIssueType").setParameter("type", type).getResultList();
+		return issues;
+	}
+
+	public List<Issue> getIssuesByCode(String code) {
+		List<Issue> issues = em.createNamedQuery("getIssueByCode").setParameter("code", code).getResultList();
+		return issues;
+	}
+	
 	
 }
