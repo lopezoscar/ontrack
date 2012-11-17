@@ -13,7 +13,7 @@ public class IssuePropertyTest extends BaseTest{
 		type.setName("text");
 		
 		IssueProperty property = new IssueProperty();
-		property.setJsType(type);
+		property.setType(type);
 		property.setDescription("Texto");
 		
 //		persiste(type);
