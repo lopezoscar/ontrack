@@ -1,16 +1,31 @@
 package com.sappe.ontrack.model.issues;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="issue_property_type")
-public class IssuePropertyType {
+@NamedQueries(
+		{
+			@NamedQuery(name="allIssuePropertyTypes",query="select ipt from IssuePropertyType ipt")
+			
+		}
+)
+public class IssuePropertyType implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7952543669760278819L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id_property")
@@ -46,6 +61,13 @@ public class IssuePropertyType {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+	
+	
+
+	@Override
+	public String toString() {
+		return name;
 	}
 
 	public Long getId() {

@@ -1,5 +1,7 @@
 package com.sappe.ontrack.model.issues;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,8 +14,13 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="issue_property")
-public class IssueProperty {
+public class IssueProperty implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6666486014096028205L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id_issue_property")
@@ -24,7 +31,7 @@ public class IssueProperty {
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="type")
-	private IssuePropertyType jsType;
+	private IssuePropertyType type;
 	
 	
 	
@@ -71,12 +78,12 @@ public class IssueProperty {
 		this.description = description;
 	}
 
-	public IssuePropertyType getJsType() {
-		return jsType;
+	public IssuePropertyType getType() {
+		return type;
 	}
 
-	public void setJsType(IssuePropertyType jsType) {
-		this.jsType = jsType;
+	public void setType(IssuePropertyType type) {
+		this.type = type;
 	}
 	
 	
