@@ -5,5 +5,61 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich">
 	
-	
+	<f:view>
+		<h:body>
+			<ui:composition template="/template.xhtml">
+				<ui:define name="body">
+				
+				
+					<h:form>
+						<rich:panel>
+							<h:panelGrid columns="2">
+								<rich:dataTable value="#{searchctrl.filters}" var="item">
+									<f:facet name="header">
+										<h:outputText value="#{msg.searchfilter}"/>
+									</f:facet>
+									<rich:column>
+										<h:commandLink action="#{searchctrl.saveSelectedFilter(item)}" value="#{item.filterName}" >
+<!-- 											<f:ajax event="click" render="reporterpanel" execute="@form"/> -->
+										</h:commandLink>
+									</rich:column>
+								</rich:dataTable>
+							</h:panelGrid>
+						</rich:panel>
+						
+						<rich:panel id="reporterpanel" rendered="#{searchctrl.selectedFilter.isReporterFilter()}">
+							<h:panelGrid columns="2">
+								<h:outputText value="#{msg.reporter}"/>
+								<h:inputText value="#{searchctrl.selectedFilter.reporter}"/>
+							</h:panelGrid>
+						</rich:panel>
+						
+						<rich:panel id="ownerpanel" rendered="#{searchctrl.selectedFilter.isOwnerFilter()}">
+							<h:panelGrid columns="2">
+								<h:outputText value="#{msg.owner}"/>
+								<h:inputText value="#{searchctrl.selectedFilter.owner}" rendered="#{searchctrl.selectedFilter !=null}"/>
+							</h:panelGrid>
+						</rich:panel>
+						
+						<rich:panel id="issuecoderpanel" rendered="#{searchctrl.selectedFilter.isIssueCodeFilter()}">
+							<h:panelGrid columns="2">
+								<h:outputText value="#{msg.issuecode}"/>
+								<h:inputText value="#{searchctrl.selectedFilter.issueCode}" rendered="#{searchctrl.selectedFilter !=null}"/>
+							</h:panelGrid>
+						</rich:panel>
+						
+						<h:commandButton action="#{searchctrl.search()}" value="#{msg.search}" rendered="#{searchctrl.selectedFilter != null}"/>
+					</h:form>
+					
+					
+					
+					
+					
+					
+					
+					
+				</ui:define>
+			</ui:composition>
+		</h:body>
+	</f:view>
 </ui:composition>

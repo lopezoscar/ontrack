@@ -24,22 +24,34 @@
 		}
 </script>
 
-<f:view>
-	<ui:composition template="/template.xhtml">
-				<ui:define name="body">	
+
 	
 	
-	<h:form>
+	
+	<h:form id="issueviewformid">
 	
 		
 		
-		<rich:panel rendered="#{projectctrl.renderedIssuePanel()}">
+		<rich:panel id="issuepanelid" rendered="#{projectctrl.renderedIssuePanel()}">
+			<f:facet name="header">
+				<h:outputText value="#{msg.issueviewtitle}"/>
+			</f:facet>
 			
 			
+			<h:panelGrid columns="1">
 			
-			<h:panelGrid columns="3">
-			
-				<ui:include src="/myprojects-include.xhtml"></ui:include>
+				<div id="gralinfojq">
+				<rich:panel header="#{msg.generalinfo}" rendered="#{projectctrl.renderedIssuePanel()}">
+					<h:panelGrid columns="2">
+						<h:outputText value="#{msg.status}"/>
+						<h:inputText value="#{projectctrl.currentIssue.currentStatus.description}" readonly="true"/>
+						<h:outputText value="#{msg.reporter}"/>
+						<h:inputText value="#{projectctrl.currentIssue.reporter}" readonly="true"/>
+						<h:outputText value="#{msg.currentowner}"/>
+						<h:inputText value="#{projectctrl.currentIssue.owner}" readonly="true"/>
+					</h:panelGrid>
+				</rich:panel>
+				</div>
 				
 				<div id="descriptionjq">
 				<rich:panel header="#{msg.description}">
@@ -65,47 +77,39 @@
 				</rich:panel>
 				</div>
 				
-				<div id="gralinfojq">
-				<rich:panel header="#{msg.generalinfo}">
-					<h:panelGrid columns="2">
-						<h:outputText value="#{msg.status}"/>
-						<h:inputText value="#{project.currentIssue.currentStatus.description}" readonly="true"/>
-						<h:outputText value="#{msg.reporter}"/>
-						<h:inputText value="#{project.currentIssue.reporter}" readonly="true"/>
-						<h:outputText value="#{msg.currentowner}"/>
-						<h:inputText value="#{project.currentIssue.owner}" readonly="true"/>
-					</h:panelGrid>
-				</rich:panel>
-				</div>
+				
 				
 			</h:panelGrid>
 			
-			
-			
-		
-		</rich:panel>
-		
-		<rich:panel header="#{msg.comments}">
-			<h:panelGrid columns="2">
-				<rich:panel>
-					<rich:dataTable value="#{projectctrl.getEntriesComments()}" var="item" rows="20">
-						<h:outputText value="#{item.comment}"/>
-					</rich:dataTable>
+			<h:form>
+			<rich:panel header="#{msg.comments}" rendered="#{projectctrl.renderedIssuePanel()}">
+				<a4j:region id="commentregion">
+				<h:panelGrid columns="1">
+					<rich:panel>
+						<rich:dataTable value="#{projectctrl.getEntriesComments()}" var="item" rows="20">
+							<h:outputText value="#{item.comment}"/>
+						</rich:dataTable>
+							
+					</rich:panel>
+					<h:inputTextarea value="#{projectctrl.currentEntry.comment}">
+						<f:ajax event="blur" ></f:ajax>
+					</h:inputTextarea>
+					<a4j:commandButton  action="#{projectctrl.addEntry()}" value="#{msg.save}" execute="@form">
 						
-				</rich:panel>
-				<h:inputTextarea value="#{projectctrl.currentEntry.comment}" />
-				<a4j:commandButton action="#{projectctrl.addEntry()}" value="#{msg.save}">
-					
-				</a4j:commandButton>			
+					</a4j:commandButton>			
+				
+				</h:panelGrid>
+				</a4j:region>
+			</rich:panel>
+		</h:form>
 			
-			</h:panelGrid>
+		
 		</rich:panel>
-		   
+		
+		
       
 	
 	
 	</h:form>
-</ui:define>
-</ui:composition>
-</f:view>
+
 </ui:composition>

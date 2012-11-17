@@ -42,8 +42,16 @@
 						<h:outputText value="#{item.currentStatus.description} - #{item.owner.completeName()}"/>
 					</h:panelGrid>
 				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="Ver Issue" />
+					</f:facet>
+					<a4j:commandLink  action="#{projectctrl.saveSelectedIssue(item)}" render="issueviewformid" >
+						<h:graphicImage value="/img/edit64.png" alt="Entrar"/>
+					</a4j:commandLink>					
+				</rich:column>
 				
-				<rich:componentControl event="onRowClick" for="issuetablemenu" operation="show" />
+				
 			</rich:dataTable>
 			
 			
@@ -52,14 +60,12 @@
 		</div>
 		 
 		
-		<rich:contextMenu id="issuetablemenu" target="issuestable" mode="ajax" showEvent="click">
-	    	<rich:menuItem label="View" render="popupContent" mode="ajax" action="issueview.xhtml">
-	    		<f:setPropertyActionListener target="#{projectctrl.currentIssue}" value="#{projectctrl.currentIssue}"></f:setPropertyActionListener>
-	    	
-	    	</rich:menuItem>
-	    </rich:contextMenu>
+		
 	    
 	   
 		   
     </h:form>
+    
+    <ui:include src="/issueview.xhtml"></ui:include>
+	
 </ui:composition>
