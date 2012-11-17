@@ -31,10 +31,13 @@ public class IssueTypeBean implements IssueTypeManager{
 			throws IllegalStateException, IllegalArgumentException {
 		return em.find(IssueType.class, primaryKey);
 	}
+	
+	@Transactional
 	public IssueType update(IssueType entity) throws IllegalStateException,
 			IllegalArgumentException, TransactionRequiredException {
 		return em.merge(entity);
 	}
+	
 	public void delete(IssueType entity) throws IllegalStateException,
 			IllegalArgumentException, TransactionRequiredException,
 			PersistenceException {
