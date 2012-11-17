@@ -1,5 +1,7 @@
 package com.sappe.ontrack.model.issues;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +20,12 @@ import javax.persistence.Table;
 			
 		)
 	
-public class IssueStatus {
+public class IssueStatus implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5020016430273085302L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id_issue_status")

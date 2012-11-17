@@ -27,7 +27,14 @@ import com.sappe.ontrack.model.users.User;
 @Table(name="issue")
 @NamedQueries(
 		{
-			@NamedQuery(name="getIssuesByProjectId",query="SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.currentStatus,i.issueType) FROM Issue as i where i.project.id = :projectid" )
+			@NamedQuery(name="getIssuesByProjectId",query="SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.reporter,i.owner,i.currentStatus,i.issueType) FROM Issue as i where i.project.id = :projectid" ),
+			@NamedQuery(name="getIssuesByOwnerId",query="SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.reporter,i.owner,i.currentStatus,i.issueType) FROM Issue as i where i.owner.id = :ownerid" ),
+			@NamedQuery(name="getIssueByReporter",query = "SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.reporter,i.owner,i.currentStatus,i.issueType) FROM Issue as i where i.reporter = :reporter"),
+			@NamedQuery(name="getIssueByStatus",query = "SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.reporter,i.owner,i.currentStatus,i.issueType) FROM Issue as i where i.currentStatus = :status"),
+			@NamedQuery(name="getIssueByType",query = "SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.reporter,i.owner,i.currentStatus,i.issueType) FROM Issue as i where i.issueType = :type"),
+			@NamedQuery(name="getIssueByCode",query = "SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.reporter,i.owner,i.currentStatus,i.issueType) FROM Issue as i where i.code = :code")
+			
+			
 		}
 )
 public class Issue implements Serializable{
@@ -41,6 +48,9 @@ public class Issue implements Serializable{
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id_issue")
 	private Long id;
+	
+	@Column(name="code")
+	private String code;
 	
 	@Column(name="title")
 	private String title;
@@ -82,12 +92,13 @@ public class Issue implements Serializable{
 	
 
 
-	public Issue(Long id, String title, String description, String reporter,
+	public Issue(Long id,String code, String title, String description, String reporter,
 			User owner, IssueStatus currentStatus, IssueType issueType,
 			Issue parent, Set<Issue> childs, Project project,
 			Set<IssueEntry> entries) {
 		super();
 		this.id = id;
+		this.code = code;
 		this.title = title;
 		this.description = description;
 		this.reporter = reporter;
@@ -103,10 +114,11 @@ public class Issue implements Serializable{
 	
 
 
-	public Issue(Long id, String title, String description,
+	public Issue(Long id,String code, String title, String description,
 			IssueStatus currentStatus, IssueType issueType) {
 		super();
 		this.id = id;
+		this.code = code;
 		this.title = title;
 		this.description = description;
 		this.currentStatus = currentStatus;
@@ -116,11 +128,27 @@ public class Issue implements Serializable{
 
 
 
-	public Issue(Long id, String title, String description) {
+	public Issue(Long id,String code, String title, String description) {
+		super();
+		this.id = id;
+		this.code = code;
+		this.title = title;
+		this.description = description;
+	}
+
+	
+
+
+	public Issue(Long id, String title, String description, String reporter,
+			User owner, IssueStatus currentStatus, IssueType issueType) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.description = description;
+		this.reporter = reporter;
+		this.owner = owner;
+		this.currentStatus = currentStatus;
+		this.issueType = issueType;
 	}
 
 
