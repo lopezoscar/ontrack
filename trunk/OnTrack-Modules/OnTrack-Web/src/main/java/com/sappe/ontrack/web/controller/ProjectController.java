@@ -7,6 +7,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import com.sappe.ontrack.model.issues.Issue;
 import com.sappe.ontrack.model.issues.IssueEntry;
@@ -19,43 +20,43 @@ import com.sappe.ontrack.sdk.interfaces.ProjectService;
 @ManagedBean(name="projectctrl")
 @ViewScoped
 public class ProjectController implements Serializable{
-	
+
 	@ManagedProperty(value="#{projectsrv}")
 	private ProjectService projectService;
-	
+
 	@ManagedProperty(value="#{issuesrv}")
 	private IssueService issueService;
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 9096287486562988851L;
-	
+
 	List<Project> projects = new ArrayList<Project>();
-	
+
 	private Issue currentIssue = new Issue();
-	
+
 	private Project currentProject = new Project();
-	
+
 	private IssueEntry currentEntry = new IssueEntry();
 
 	public void search(){
 		System.out.println(projects.size());
 	}
-	
+
 	public void retrieveProjectsByUser(){
-		
+
 	}
-	
+
 	public List<Project> retrieveAllProjects(){
-//		return createProject();
+		//		return createProject();
 		return projectService.getAllProjects();
 	}
-	
+
 	public List<Issue> retrieveIssuesByProject(){
 		return projectService.getIssuesByProject(currentProject);
 	}
-	
+
 	public List<Project> createProject(){
 		List<Project> projects = new ArrayList<Project>();
 		for(long i = 0; i<100; i++){
@@ -66,7 +67,7 @@ public class ProjectController implements Serializable{
 		}
 		return projects;
 	}
-	
+
 	public List<Issue> createIssues(){
 		List<Issue> issues = new ArrayList<Issue>();
 		for(long i  = 0; i<100; i++){
@@ -80,13 +81,13 @@ public class ProjectController implements Serializable{
 			issue.setIssueType(it);
 			it.setDescription("Descripción");
 			issue.setTitle("Error al guardar proyectos");
-			
+
 			issues.add(issue);
-			
+
 		}
 		return issues;
 	}
-	
+
 	public List<IssueEntry> getEntriesComments(){
 		List<IssueEntry> entries = new ArrayList<IssueEntry>();
 		if(currentIssue != null && currentIssue.getEntries() !=null && !currentIssue.getEntries().isEmpty()){
@@ -95,7 +96,7 @@ public class ProjectController implements Serializable{
 		}
 		return entries;
 	}
-	
+
 	public void addEntry(){
 		if(currentIssue.getId() !=null && currentIssue.getEntries() == null){
 			List<IssueEntry> entries = new ArrayList<IssueEntry>();
@@ -104,7 +105,7 @@ public class ProjectController implements Serializable{
 			issueService.mergeIssue(currentIssue);
 		}
 	}
-	
+
 	public boolean renderedIssuePanel(){
 		if(currentIssue.getId() !=null){
 			return true;
@@ -112,6 +113,27 @@ public class ProjectController implements Serializable{
 		return false;
 	}
 	
+	public void saveSelectedIssue(Issue issue){
+		currentIssue = issue;
+//		return "issueview.xhtml";
+	}
+
+	public String navigateToIssue(){
+//		Object o = getRequestParameter("selectedIssue");
+//		Object os = getRequestParameter("selectedProject");
+//		
+//		projectService.getIssuesByProject(project);
+//		Issue value = (Issue)requestMap.get("currentIssue");    
+		return "issueview.xhtml";
+	}
+	
+	 public static String getRequestParameter(String name) {
+	        return (String)FacesContext.getCurrentInstance()
+	        .getExternalContext()
+	        .getRequestParameterMap()
+	        .get(name);    
+	    }
+
 	public void updateCurrentProject(Project project){
 		this.currentProject = project;
 	}
@@ -164,9 +186,9 @@ public class ProjectController implements Serializable{
 		this.issueService = issueService;
 	}
 
-	
-	
-	
-	
+
+
+
+
 
 }
