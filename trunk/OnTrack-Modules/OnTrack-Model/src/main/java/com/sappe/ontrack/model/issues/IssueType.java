@@ -10,12 +10,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.NamedQueries;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Entity
 @Table(name="issue_type")
+@NamedQueries(
+		{
+			@NamedQuery(name="selectAllIssueType", query = "select ist from IssueType ist")
+		}
+		)
+
 public class IssueType implements Serializable{
 	
 	/**
