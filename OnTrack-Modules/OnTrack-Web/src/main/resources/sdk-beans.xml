@@ -23,6 +23,8 @@
 	<bean id="rolesrv" class="com.sappe.ontrack.sdk.impl.RoleServiceImpl"/>
 	<bean id="projectsrv" class="com.sappe.ontrack.sdk.impl.ProjectServiceImpl"/>
 	<bean id="issuesrv" class="com.sappe.ontrack.sdk.impl.IssueServiceImpl" />
+	<bean id="issuepropertysrv" class="com.sappe.ontrack.sdk.impl.IssuePropertyServiceImpl" />
+	<bean id="issuestatussrv" class="com.sappe.ontrack.sdk.impl.IssueStatusServiceImpl" />
 
 
 
