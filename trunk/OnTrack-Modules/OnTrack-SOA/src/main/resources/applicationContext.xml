@@ -29,6 +29,7 @@
 	<bean id='projectbean' class="com.sappe.ontrack.dao.springbeans.impl.ProjectBean"/>
 	<bean id="issuepropertybean" class="com.sappe.ontrack.dao.springbeans.impl.IssuePropertyBean"/>
 	<bean id="issuetypebean" class="com.sappe.ontrack.dao.springbeans.impl.IssueTypeBean"/>	
+	<bean id="issuepropertytypebean" class="com.sappe.ontrack.dao.springbeans.impl.IssuePropertyTypeBean"/>
 	
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
