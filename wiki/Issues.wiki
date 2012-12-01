@@ -1,7 +1,7 @@
 ==Issues==
 
 * Contiene las siguientes User Stories
-    # Creacion de un tipo de Issue
+    # Creacion de un tipo de Issue [http://domain/page label]
     # Asignación de un tipo de Issue al proyecto
     # Asignacion de estados a un tipo de Issue
     # Reportar un Issue
