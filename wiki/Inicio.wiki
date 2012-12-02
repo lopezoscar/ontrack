@@ -1,4 +1,22 @@
-=ONTRACK SAPPE=
+=ONTRACK SAPPE= 
+---
+_site under construction_
+
+===Epic User Story===
+
+*Descripción
+
+'Como usuario encargado de la gestión de un proyecto requiero una aplicación que permita gestionar incidencias y realizar el seguimiento de las mismas'
+
+* Criterios de Aceptación
+  # Se debe proveer una interface para generar un nuevo proyecto
+  # A un nuevo proyecto podré configurarle los tipos de Issues que administrará con sus características y respectivo flujo de estados
+  # Debo poder definir los usuarios que participarán del proyecto
+  # Se debe proveer de una opción para reportar un Issue para un proyecto y asignarselo a un usuario del mismo
+  # Debo poder realizar comentarios adicionales al Issue, también darme la posibilidad de adjuntar archivos
+  # Cualquier usuario del proyecto podrá realizar modificaciones del issue, tanto como cambiar su estado del flujo definido como editar alguno de sus campos con excepción del título
+  # Debo poder realizar una traza de los cambios del Issue
+  # Debo tener búsquedas rápidas de Issues
 
 *la presente página contiene la documentación del proyecto onTrack agrupada por componentes
 
@@ -10,5 +28,3 @@
     * Buscar Issue
     * Buscar Issues por Filtro
     * Buscador de Issues
-
-Completar
