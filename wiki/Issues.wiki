@@ -2,8 +2,9 @@
 
 ==Contenido==
 ----
+
 Contiene las siguientes User Stories
-    * [WikiSyntax#Creación de un tipo de Issue] 
+    * Creación de un tipo de Issue
     * Asignación de un tipo de Issue al proyecto
     * Asignacion de estados a un tipo de Issue
     * Reportar un Issue
@@ -14,20 +15,32 @@ Contiene las siguientes User Stories
 
 
 ----
+
 == User Stories ==
 
 
-=== Creación de un tipo de Issue ===
+=== _Creación de un tipo de Issue_ ===
 
 *Descripción*
+
 'Como usuario administrador de un proyecto deseo poder generar un tipo Issue asociado al mismo'
 
 *Criterios de aceptación*
   # Mediante una interface podré escribir un nombre que identifique a mi issue
-  # Si el nombre que deseo para mi tipo de Issue existe en una persona, podré utilizarlo en mi proyecto
+  # Si el nombre que deseo para mi tipo de Issue existe previamente, podré utilizarlo en mi proyecto
   # El nombre del tipo de Issue creado estará disponible para ser incorporado a los demás proyectos
-  # Si el nombre se encuentra repetido el sistema me lo indicará, debiendo así utilizar el existente
+  # Si el nombre se encuentra repetido el sistema me lo indicará, no es necesario generarlo ya que existe dicho nombre
+  # El issue contará con una serie de campos por defecto propios de todos los issues, 'Título' - 'Descripción' - 'Adjuntos' - 'Historial' - 'Reportó' - 'Dueño'
+  # Puedo generar nuevos campos dinamicamente de tipo texto para mis issues
+  # Puedo generar el nombre del campo que deseo en mi Issue o en caso de existir elegirlo de una lista general de campos creados previamente.
+  # Si el campo existe previamente en la lista general de campos no podré utilizar dicho nombre, solo podré incorporar el de la lista.
 
 *Especificación por Ejemplos.*
-   # Voy a la configuración de mi proyecto y selecciono asignar un tipo de Issue, escribo el issue Bug, el sistema verifica que no existe ese nombre en todos los tipos de Issue creados, lo incorpora a la lista de existentes
-   # Voy a la configuración de mi proyecto y selecciono asignar un tipo de Issue, Verifico que el tipo de Issue de nombre 'Requerimiento' se encuentra en la lista, lo incorporo a mi proyecto
+   # Voy a la configuración de mi proyecto y selecciono asignar un tipo de Issue, escribo el issue Bug, el sistema verifica que no existe ese nombre en todos los tipos de Issue creados, lo incorpora a la lista de existentes mi proyecto y a la lista de los tipos de Issues general.
+  # Edito mi Tipo de Issue incorporado, incorporo de la lista los campos 'información adicional' y creo un nuevo campo que no se encuentra en la lista 'Pre-Condición'
+
+=== _Asignación de un tipo de Issue al proyecto_ ===
+
+
+
+   # Voy a la configuración de mi proyecto y selecciono asignar un tipo de Issue, Verifico que el tipo de Issue de nombre 'Requerimiento' se encuentra en la lista.
