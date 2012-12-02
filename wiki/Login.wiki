@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Información del componente Login
 
 = Introduction =
 
