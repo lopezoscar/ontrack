@@ -1,3 +1,4 @@
+#summary Información del componente Proyecto
 =Proyecto=
 
 ==Contenido==
