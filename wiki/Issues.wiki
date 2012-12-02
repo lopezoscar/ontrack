@@ -5,7 +5,6 @@
 
 Contiene las siguientes User Stories
     * Creación de un tipo de Issue
-    * Asignación de un tipo de Issue al proyecto
     * Asignacion de estados a un tipo de Issue
     * Reportar un Issue
     * Modificar estado de un Issue
