@@ -1,13 +1,13 @@
 ==Issues==
 
-* Contiene las siguientes User Stories
-    # Creacion de un tipo de Issue [http://domain/page label]
-    # Asignación de un tipo de Issue al proyecto
-    # Asignacion de estados a un tipo de Issue
-    # Reportar un Issue
-    # Modificar estado de un Issue
-    # Buscar Issue
-    # Buscar Issues por Filtro
-    # Buscador de Issues
+Contiene las siguientes User Stories
+    * Creacion de un tipo de Issue [http://domain/page label]
+    * Asignación de un tipo de Issue al proyecto
+    * Asignacion de estados a un tipo de Issue
+    * Reportar un Issue
+    * Modificar estado de un Issue
+    * Buscar Issue
+    * Buscar Issues por Filtro
+    * Buscador de Issues
 
-completar
+Completar
