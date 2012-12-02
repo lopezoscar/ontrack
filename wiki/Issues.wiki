@@ -1,3 +1,4 @@
+#Summary Información del componente Issues
 =Issues=
 
 ==Contenido==
