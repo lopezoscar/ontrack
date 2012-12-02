@@ -1,1 +1,33 @@
-=====SITE UNDER CONSTRUCTION=====
+#summary Información del componente Login
+=Login=
+
+==Contenido==
+----
+
+Contiene las siguientes User Stories
+    * Registración y Login Nativo
+    * Login por google
+----
+
+== User Stories ==
+
+
+=== _Registración y Login Nativo_ ===
+
+*Descripción*
+'Como nuevo usuario deseo poder registrarme como nuevo usuario de la aplicación y así poder loguearme a la aplicación
+
+*Criterios de aceptación*
+   # Se deberá completar un formulario con Nombre y Apellido, nombre usuario, contraseña y correo electrónico
+   # con el usuario y password provistos podré acceder a la aplicación
+   # al finalizar la aplicación podré desloguearme mediante la opción de logout
+
+
+=== _Login de Google_ ===
+
+*Descripción*
+'Como usuario administrador deseo poder acceder desde mi cuenta de gmail a la aplicación, utilizando mail y contraseña
+
+*Criterios de aceptación*
+   # El nombre usuario será provisto por google
+   # Un usuario de google tendrá los mismos privilegios y funcionalidad disponible que un usuario qeu ingresa desde el login nativo
