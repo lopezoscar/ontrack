@@ -1,4 +1,4 @@
-#ummary Información del componente Issue
+#summary Información del componente Issue
 =Issues=
 
 ==Contenido==
