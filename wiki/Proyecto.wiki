@@ -1,13 +1,55 @@
-#summary One-sentence summary of this page.
+=Proyecto=
 
-= Introduction =
+==Contenido==
+----
 
-Add your content here.
+Contiene las siguientes User Stories
+    * Creación de un nuevo proyecto
+    * Asignación de un tipo de Issue al proyecto
+    * Asignar usuarios a un proyecto
+    * Modificar un proyecto
+----
+
+== User Stories ==
 
 
-= Details =
+=== _Creación de un nuevo proyecto_ ===
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+*Descripción*
+
+'Como usuario administrador de un proyecto deseo poder crearlo en la herramienta y realizar la parametrización del mismo'
+
+*Criterios de aceptación*
+  # Mediante una interface podré escribir el nombre del proyecto en caracteres alfanuméricos
+  # Si el nombre que deseo para mi proyecto existe previamente, se me indicará que debo seleccionar otro nombre
+
+
+=== _Asignación de un tipo de Issue al proyecto_ ===
+*Descripción*
+
+'Como usuario administrador de un proyecto deseo poder asignar un tipo de Issue determinado a mi proyecto'
+
+*Criterios de aceptación
+  # podré asignar los tipos de issue que requiera [https://code.google.com/p/ontrack/wiki/Issues?ts=1354473488&updated=Issues#Creación_de_un_tipo_de_Issue ver aqui]
+  # No será posible asignar un tipo de Issue ya asignado previamente
+
+
+=== _Asignar usuarios a un proyecto_ ===
+
+*Descripción*
+'Como usuario administrador de un proyecto deseo poder asignar usuarios que tendrán visibilidad del mismo
+
+*Criterios de aceptación*
+   # Existirá el rol de usuario dueño del proyecto, será quien lo cree
+   # El usuario dueño del proyecto deberá poseer una interface para invitar a los usuarios
+   # Un usuario puede estar en mas de un proyecto y con distintos roles
+
+*Especificación por Ejemplos.*
+   # El usuario @Juan.Perez crea un proyecto nuevo 'A', invita a @Luis.Lopez y a @Jorge.Fernandez, 
+     *Juan Perez - Dueño 'A'
+     *Luis.Lopez - Invitado 'A'
+     *Jorge.Fernandez - Invitado 'A'
+  # El usuario @Jorge.Fernandez crea un proyecto nuevo 'B', invita a @Juan.Perez y a @Luis.Lopez
+     *Juan Perez - Dueño 'A' / Invitado 'B'
+     *Luis.Lopez - Invitado 'A' / Invitado 'B'
+     *Jorge.Fernandez - Invitado 'A' / Dueño 'B'
