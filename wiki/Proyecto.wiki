@@ -46,10 +46,10 @@ Contiene las siguientes User Stories
 
 *Especificación por Ejemplos.*
    # El usuario @Juan.Perez crea un proyecto nuevo 'A', invita a @Luis.Lopez y a @Jorge.Fernandez, 
-     *Juan Perez - Dueño 'A'
-     *Luis.Lopez - Invitado 'A'
-     *Jorge.Fernandez - Invitado 'A'
+     * Juan Perez - Dueño 'A'
+     * Luis.Lopez - Invitado 'A'
+     * Jorge.Fernandez - Invitado 'A'
   # El usuario @Jorge.Fernandez crea un proyecto nuevo 'B', invita a @Juan.Perez y a @Luis.Lopez
-     *Juan Perez - Dueño 'A' / Invitado 'B'
-     *Luis.Lopez - Invitado 'A' / Invitado 'B'
-     *Jorge.Fernandez - Invitado 'A' / Dueño 'B'
+     * Juan Perez - Dueño 'A' / Invitado 'B'
+     * Luis.Lopez - Invitado 'A' / Invitado 'B'
+     * Jorge.Fernandez - Invitado 'A' / Dueño 'B'
