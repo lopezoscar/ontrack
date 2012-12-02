@@ -1,3 +1,14 @@
 =ONTRACK SAPPE=
 
 *la presente página contiene la documentación del proyecto onTrack agrupada por componentes
+
+    * [https://code.google.com/p/ontrack/wiki/Issues Issues]
+    * Asignación de un tipo de Issue al proyecto
+    * Asignacion de estados a un tipo de Issue
+    * Reportar un Issue
+    * Modificar estado de un Issue
+    * Buscar Issue
+    * Buscar Issues por Filtro
+    * Buscador de Issues
+
+Completar
