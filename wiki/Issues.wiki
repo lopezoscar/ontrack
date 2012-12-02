@@ -3,7 +3,7 @@
 ==Contenido==
 ----
 Contiene las siguientes User Stories
-    * Creacion de un tipo de Issue [http://domain/page label]
+    * [WikiSyntax#Creación de un tipo de Issue] 
     * Asignación de un tipo de Issue al proyecto
     * Asignacion de estados a un tipo de Issue
     * Reportar un Issue
@@ -20,16 +20,14 @@ Contiene las siguientes User Stories
 === Creación de un tipo de Issue ===
 
 *Descripción*
-'Como usuario administrador de un proyecto deseo poder generar un tipo Issue asociado al mismo
+'Como usuario administrador de un proyecto deseo poder generar un tipo Issue asociado al mismo'
 
-*Criterios de aceptación
-# Mediante una interface podré escribir un nombre que identifique a mi issue
-# Si el nombre que deseo para mi tipo de Issue existe en una persona, podré utilizarlo en mi proyecto
-# El nombre del tipo de Issue creado estará disponible para ser incorporado a los demás proyectos
-# Si el nombre se encuentra repetido el sistema me lo indicará, debiendo así utilizar el existente
+*Criterios de aceptación*
+  # Mediante una interface podré escribir un nombre que identifique a mi issue
+  # Si el nombre que deseo para mi tipo de Issue existe en una persona, podré utilizarlo en mi proyecto
+  # El nombre del tipo de Issue creado estará disponible para ser incorporado a los demás proyectos
+  # Si el nombre se encuentra repetido el sistema me lo indicará, debiendo así utilizar el existente
 
-*Especificación por Ejemplos.
-
-# Voy a la configuración de mi proyecto y selecciono asignar un tipo de Issue, escribo el issue Bug, el sistema verifica que no existe ese nombre en todos los tipos de Issue creados, lo incorpora a la lista de existentes
-
-# Voy a la configuración de mi proyecto y selecciono asignar un tipo de Issue, Verifico que el tipo de Issue de nombre 'Requerimiento' se encuentra en la lista, lo incorporo a mi proyecto
+*Especificación por Ejemplos.*
+   # Voy a la configuración de mi proyecto y selecciono asignar un tipo de Issue, escribo el issue Bug, el sistema verifica que no existe ese nombre en todos los tipos de Issue creados, lo incorpora a la lista de existentes
+   # Voy a la configuración de mi proyecto y selecciono asignar un tipo de Issue, Verifico que el tipo de Issue de nombre 'Requerimiento' se encuentra en la lista, lo incorporo a mi proyecto
