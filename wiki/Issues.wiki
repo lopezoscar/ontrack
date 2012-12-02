@@ -41,6 +41,14 @@ Contiene las siguientes User Stories
 
 === _Asignación de un tipo de Issue al proyecto_ ===
 
+*Descripción*
 
+'Descripcion de la US'
 
+*Criterios de aceptación*
+   # Criterio 1
+   # Criterio 2
+   # Criterio 3
+
+*Especificación por Ejemplos.*
    # Voy a la configuración de mi proyecto y selecciono asignar un tipo de Issue, Verifico que el tipo de Issue de nombre 'Requerimiento' se encuentra en la lista.
