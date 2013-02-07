@@ -31,14 +31,13 @@
 		<div id="issuepaneljq">
 		<rich:panel id="issuepanelid" header="#{msg.issues}">
 			
-			<rich:dataTable id="issuestable" value="#{projectctrl.retrieveIssuesByProject()}"  var="item" rows="10">
+			<rich:dataTable id="issuestable" value="#{projectctrl.retrieveIssuesByProject()}"  var="item" rows="5">
 				<rich:column>
 					<f:facet name="header">
 						<h:outputText value="#{projectctrl.currentProject.name}" />
 					</f:facet>
 					<h:panelGrid columns="1">
 						<h:outputText value="#{item.id} - #{item.issueType.description} - #{item.title} " styleClass="title"/>
-						<h:outputText value="#{item.description}" />
 						<h:outputText value="#{item.currentStatus.description} - #{item.owner.completeName()}"/>
 					</h:panelGrid>
 				</rich:column>

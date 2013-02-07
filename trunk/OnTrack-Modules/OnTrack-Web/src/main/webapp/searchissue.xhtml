@@ -27,6 +27,20 @@
 							</h:panelGrid>
 						</rich:panel>
 						
+						<rich:panel id="issuetypepanel" rendered="#{searchctrl.selectedFilter.isTypeFilter()}">
+							<h:panelGrid columns="2">
+								<h:outputText value="#{msg.projectname}"/>
+								<h:inputText value="#{searchctrl.selectedFilter.project}" />
+								<h:outputText value="#{msg.issuetype}" />
+								<rich:select defaultLabel="#{msg.selectatype}" value="#{searchctrl.selectedFilter.type}" rendered="#{searchctrl.selectedFilter.project != null}">
+									<f:selectItems value="#{searchctrl.retrieveAllTypesByProject(searchctrl.selectedFilter.project)}"/>
+								</rich:select>						
+								
+								
+							
+							</h:panelGrid>
+						
+						</rich:panel>
 						<rich:panel id="reporterpanel" rendered="#{searchctrl.selectedFilter.isReporterFilter()}">
 							<h:panelGrid columns="2">
 								<h:outputText value="#{msg.reporter}"/>

@@ -63,5 +63,12 @@ public class IssueTypeService {
 	public void deleteIssueType (IssueType issueTypeJson) {
 		issueTypeManager.delete(issueTypeJson);
 	}
+	
+	@GET
+	@Path("getissuetypesbyprojectid/{projectid}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<IssueType> getIssueTypeByProject(@PathParam("projectid")long project){
+		return issueTypeManager.getIssueTypesByProjectId(project);
+	}
 
 }

@@ -10,8 +10,10 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import com.sappe.ontrack.model.issues.Issue;
+import com.sappe.ontrack.model.issues.IssueType;
 import com.sappe.ontrack.model.users.User;
 import com.sappe.ontrack.sdk.interfaces.IssueService;
+import com.sappe.ontrack.sdk.interfaces.IssueTypeService;
 import com.sappe.ontrack.web.search.filters.CurrentStatusFilter;
 import com.sappe.ontrack.web.search.filters.IssueCodeFilter;
 import com.sappe.ontrack.web.search.filters.OwnerFilter;
@@ -29,6 +31,9 @@ public class SearchController implements Serializable{
 	
 	@ManagedProperty(value="#{issuesrv}")
 	private IssueService isrv;
+	
+	@ManagedProperty(value="#{issuetypesrv}")
+	private IssueTypeService issueTypeSrv;
 	
 	private String keyword;
 	
@@ -80,6 +85,13 @@ public class SearchController implements Serializable{
 		issues.addAll(selectedFilter.search(isrv));
 	}
 	
+	public List<IssueType> retrieveAllTypesByProject (String project){
+		Long projectId = Long.valueOf(project);
+		List<IssueType> issueTypes = issueTypeSrv.getIssueTypesByProject(projectId);
+		return issueTypes;
+		
+	}
+	
 
 	public String getKeyword() {
 		return keyword;
@@ -123,6 +135,14 @@ public class SearchController implements Serializable{
 
 	public void setFilters(List<ISearchFilter> filters) {
 		this.filters = filters;
+	}
+
+	public IssueTypeService getIssueTypeSrv() {
+		return issueTypeSrv;
+	}
+
+	public void setIssueTypeSrv(IssueTypeService issueTypeSrv) {
+		this.issueTypeSrv = issueTypeSrv;
 	}
 	
 	

@@ -22,5 +22,7 @@ public interface IssueService {
 	List<Issue> getIssuesByType(IssueType issueType);
 	
 	List<Issue> getIssuesByCode(String code);
+	
+	void saveIssue(Issue issue);
 
 }

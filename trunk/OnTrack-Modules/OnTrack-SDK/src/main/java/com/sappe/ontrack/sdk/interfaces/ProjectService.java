@@ -8,9 +8,11 @@ import com.sappe.ontrack.model.issues.Project;
 public interface ProjectService {
 	
 	
-	public List<Project> getAllProjects();
+	List<Project> getAllProjects();
 	
-	public List<Issue> getIssuesByProject(Project project);
+	List<Issue> getIssuesByProject(Project project);
+	
+	void saveProject(Project project);
 	
 
 }

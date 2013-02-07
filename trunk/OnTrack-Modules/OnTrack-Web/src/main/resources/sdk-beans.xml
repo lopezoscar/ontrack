@@ -25,7 +25,7 @@
 	<bean id="issuesrv" class="com.sappe.ontrack.sdk.impl.IssueServiceImpl" />
 	<bean id="issuepropertysrv" class="com.sappe.ontrack.sdk.impl.IssuePropertyServiceImpl" />
 	<bean id="issuestatussrv" class="com.sappe.ontrack.sdk.impl.IssueStatusServiceImpl" />
-
+	<bean id="issuetypesrv" class="com.sappe.ontrack.sdk.impl.IssueTypeServiceImpl"/>
 
 
 </beans>

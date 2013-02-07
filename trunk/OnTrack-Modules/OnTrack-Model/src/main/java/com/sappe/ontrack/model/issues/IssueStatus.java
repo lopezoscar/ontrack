@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Table(name="issue_status")
 @NamedQueries(
 		{ 
-			@NamedQuery(name="selectAllIssueStatus", query = "select iss from IssueStatus iss")
+			@NamedQuery(name="selectAllIssueStatus", query = "select iss from IssueStatus iss"),
 		}
 			
 		)
@@ -76,6 +76,12 @@ public class IssueStatus implements Serializable{
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	@Override
+	public String toString() {
+		return description;
+	}
+	
 	
 	
 
