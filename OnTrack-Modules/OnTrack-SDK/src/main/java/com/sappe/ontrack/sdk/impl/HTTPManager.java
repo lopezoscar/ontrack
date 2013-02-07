@@ -97,8 +97,8 @@ public class HTTPManager implements Serializable{
 			endpoint = new URL(resourceURL);
 			connection = (HttpURLConnection) endpoint.openConnection();
 			connection.setRequestMethod("POST");
-			connection.setRequestProperty("Accept", "application/xml");
-			connection.setRequestProperty("Content-Type", "application/xml;charset=UTF-8");
+			connection.setRequestProperty("Accept", "application/json");
+			connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
 			connection.setRequestProperty("Content-Length", ""+ content.getBytes().length);
 			connection.setRequestProperty("Cache-Control", "no-cache");
 			connection.setUseCaches (false);

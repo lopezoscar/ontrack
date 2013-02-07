@@ -2,11 +2,15 @@ package com.sappe.ontrack.soa.resources;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -43,6 +47,17 @@ public class ProjectService {
 		List<Issue> issues = issueManager.getIssuesByProjectId(id);
 		return issues;
 		
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/saveproject")
+	public Response saveProject(Project project){
+		Project savedProject = projectManager.create(project);
+		if(savedProject != null){
+			return Response.ok().build();
+		}
+		return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 	}
 	
 

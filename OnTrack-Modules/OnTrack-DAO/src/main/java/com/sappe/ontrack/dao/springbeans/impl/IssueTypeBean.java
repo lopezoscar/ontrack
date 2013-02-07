@@ -49,4 +49,8 @@ public class IssueTypeBean implements IssueTypeManager{
 		List<IssueType> issueTypes = q.getResultList();
 		return issueTypes;
 	}
+	public List<IssueType> getIssueTypesByProjectId(long projectId) {
+		List<IssueType> types = em.createNamedQuery("selectIssueTypesByProject").setParameter("projectId", projectId).getResultList();
+		return types;
+	}
 }

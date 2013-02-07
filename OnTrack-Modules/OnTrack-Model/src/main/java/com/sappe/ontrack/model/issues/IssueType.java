@@ -20,7 +20,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @Table(name="issue_type")
 @NamedQueries(
 		{
-			@NamedQuery(name="selectAllIssueType", query = "select ist from IssueType ist")
+			@NamedQuery(name="selectAllIssueType", query = "select ist from IssueType ist"),
+			@NamedQuery(name="selectIssueTypesByProject",query = "select it from IssueType it where it.project.id = :projectId")
 		}
 		)
 
@@ -109,6 +110,13 @@ public class IssueType implements Serializable{
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return description;
 	}
 	
 	

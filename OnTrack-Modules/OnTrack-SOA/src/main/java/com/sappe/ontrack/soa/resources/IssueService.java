@@ -11,6 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -45,6 +46,17 @@ public class IssueService {
 		Issue issue = issueManager.read(issueId);
 		Set<IssueEntry> entries =  issue.getEntries();
 		return entries;
+	}
+	
+	@POST
+	@Path("saveissue")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response createIssue(Issue issue){
+		Issue result = issueManager.create(issue);
+		if(result.getId() != null){
+			return Response.ok().build();
+		}
+		return Response.status(Status.NOT_FOUND).build();
 	}
 	
 	@POST

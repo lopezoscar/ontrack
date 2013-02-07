@@ -10,21 +10,20 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.convert.Converter;
-import javax.faces.event.ActionEvent;
-import javax.faces.event.ActionListener;
 
 import com.sappe.ontrack.model.issues.IssueProperty;
 import com.sappe.ontrack.model.issues.IssuePropertyType;
 import com.sappe.ontrack.model.issues.IssueStatus;
 import com.sappe.ontrack.model.issues.IssueType;
+import com.sappe.ontrack.model.issues.Project;
 import com.sappe.ontrack.model.users.Role;
 import com.sappe.ontrack.model.users.User;
 import com.sappe.ontrack.sdk.interfaces.IssuePropertyService;
 import com.sappe.ontrack.sdk.interfaces.IssueStatusService;
+import com.sappe.ontrack.sdk.interfaces.ProjectService;
 import com.sappe.ontrack.sdk.interfaces.RoleService;
 import com.sappe.ontrack.sdk.interfaces.UserService;
 import com.sappe.ontrack.web.converters.GenericListConverter;
-import com.sappe.ontrack.web.view.model.NewProjectDTO;
 
 @ManagedBean(name="newprojectctrl")
 @ViewScoped
@@ -47,6 +46,9 @@ public class NewProjectController implements Serializable{
 	@ManagedProperty(value="#{issuestatussrv}")
 	private IssueStatusService issueStatusService;
 	
+	@ManagedProperty(value="#{projectsrv}")
+	private ProjectService projectSrv;
+	
 	
 	private List<User> allUsers = new ArrayList<User>();
 	private List<User> selectedUser = new ArrayList<User>();
@@ -57,7 +59,7 @@ public class NewProjectController implements Serializable{
 	private List<Role> allRoles = new ArrayList<Role>();
 	private List<Role> selectedRoles = new ArrayList<Role>();
 	
-	private NewProjectDTO project = new NewProjectDTO();
+	private Project project = new Project();
 	
 	private User currentUser;
 	
@@ -127,7 +129,7 @@ public class NewProjectController implements Serializable{
 	
 	
 	public void createProject(){
-		System.out.println(project);
+		projectSrv.saveProject(project);
 	}
 
 
@@ -161,12 +163,12 @@ public class NewProjectController implements Serializable{
 	}
 
 
-	public NewProjectDTO getProject() {
+	public Project getProject() {
 		return project;
 	}
 
 
-	public void setProject(NewProjectDTO project) {
+	public void setProject(Project project) {
 		this.project = project;
 	}
 
@@ -279,6 +281,16 @@ public class NewProjectController implements Serializable{
 	public void setTargetIssueStatus(List<IssueStatus> targetIssueStatus) {
 		this.targetIssueStatus = targetIssueStatus;
 	}
+
+	public ProjectService getProjectSrv() {
+		return projectSrv;
+	}
+
+	public void setProjectSrv(ProjectService projectSrv) {
+		this.projectSrv = projectSrv;
+	}
+	
+	
 
 	
 

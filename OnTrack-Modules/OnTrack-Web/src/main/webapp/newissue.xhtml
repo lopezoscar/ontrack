@@ -6,4 +6,163 @@
 	xmlns:rich="http://richfaces.org/rich">
 	
 	
+	<f:view>
+		<h:body>
+			<ui:composition template="/template.xhtml">
+				<ui:define name="body">
+				<rich:panel header="#{msg.createissue}">
+					
+					<h:form>
+					
+					<rich:panel header="#{msg.projects}">
+						<rich:dataTable id="projecttable" value="#{projectctrl.retrieveAllProjects()}" var="item" rows="20">
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="#{msg.projectid}" />
+								</f:facet>
+								<h:outputText value="#{item.id}"/>
+							</rich:column>
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="#{msg.projectname}" />
+								</f:facet>
+								<h:outputText value="#{item.name}"/>
+							</rich:column>
+							<rich:column>
+								<f:facet name="header">
+									<h:outputText value="#{msg.actions}" />
+								</f:facet>
+								<h:commandButton action="#{projectctrl.updateCurrentProjectForNewIssue(item)}"  value="#{msg.selectproject}" />
+									
+			
+							</rich:column>
+						</rich:dataTable>
+						
+						
+						<rich:dataScroller for="projecttable" maxPages="5" renderIfSinglePage="false"/>
+					</rich:panel>	
+				
+					
+		<a4j:outputPanel id="createissuepanel" header="#{msg.newissue}" rendered="#{projectctrl.currentProject != null}">
+					
+	
+		
+		
+		<rich:panel id="issuepanelid" >
+			<f:facet name="header">
+				<h:outputText value="#{msg.issueviewtitle}"/>
+			</f:facet>
+			
+			
+			<h:panelGrid columns="1">
+				
+				<h:outputText value="#{msg.title}"/>
+				<h:inputText value="#{projectctrl.currentIssue.title}"/>
+				
+				<div id="gralinfojq">
+				<rich:panel header="#{msg.generalinfo}" rendered="#{projectctrl.renderedIssuePanelForNewIssue()}">
+					<h:panelGrid columns="2">
+						<h:outputText value="#{msg.issuetype}"/>
+						<rich:select value="#{projectctrl.currentIssue.issueType}" valueChangeListener="#{projectctrl.valueChanged}" converter="#{projectctrl.genericListConverter()}">
+							<f:selectItems value="#{projectctrl.retrieveIssueTypesByProject()}"/>
+							<f:ajax event="change" execute="@form" render="statuspanel"/>
+						</rich:select>
+					
+						<h:outputText value="#{msg.status}"/>
+						<a4j:outputPanel id="statuspanel">	
+							<rich:select id="statuscmb" value="#{projectctrl.currentIssue.currentStatus}"  converter="#{projectctrl.statusListConverter()}">
+								<f:selectItems value="#{projectctrl.retrieveStatusByProject()}"/>
+							</rich:select>
+						</a4j:outputPanel>
+						
+						<h:outputText value="#{msg.reporter}"/>
+						<h:inputText value="#{projectctrl.currentIssue.reporter}"/>
+						
+						
+						
+					</h:panelGrid>
+				</rich:panel>
+				</div>
+				
+				<div id="descriptionjq">
+				<rich:panel header="#{msg.description}">
+					 <rich:editor id="editor" toolbar="full" value="#{projectctrl.currentIssue.description}" style="margin-bottom: 1em;  ">
+			            <a4j:ajax event="change" render="panel" status="panelUpdateStatus" />
+			            <a4j:ajax event="dirty" render="panel" status="panelUpdateStatus">
+			                <a4j:attachQueue requestDelay="1000" />
+			            </a4j:ajax>
+			        </rich:editor>
+			        <rich:panel header="#{msg.issueproperties}">
+			
+					</rich:panel>
+					<rich:panel>
+					  <rich:tabPanel switchType="client">
+					  		<rich:tab header="#{msg.attachment}">
+					  			<h:outputText value="Attachments" />
+					  		</rich:tab>
+					  		<rich:tab header="#{msg.history}">
+					  			<h:outputText value="History"/>
+					  		</rich:tab>
+					  </rich:tabPanel>
+					 </rich:panel>
+				</rich:panel>
+				</div>
+				
+				
+				
+			</h:panelGrid>
+			
+			
+			<rich:panel header="#{msg.comments}" rendered="#{projectctrl.renderedIssuePanelForNewIssue()}">
+				<a4j:region id="commentregion">
+				<h:panelGrid columns="1">
+					<rich:panel>
+						<rich:dataTable value="#{projectctrl.getEntriesComments()}" var="item" rows="20">
+							<h:outputText value="#{item.comment}"/>
+						</rich:dataTable>
+							
+					</rich:panel>
+					<h:inputTextarea value="#{projectctrl.currentEntry.comment}">
+						<f:ajax event="blur" ></f:ajax>
+					</h:inputTextarea>
+					<a4j:commandButton  action="#{projectctrl.addEntry()}" value="#{msg.save}" execute="@form">
+						
+					</a4j:commandButton>			
+				
+				</h:panelGrid>
+				</a4j:region>
+			</rich:panel>
+	
+	
+			
+		
+		</rich:panel>
+		
+		
+      
+	
+	
+
+				</a4j:outputPanel>
+
+					
+					
+					<h:commandButton action="#{projectctrl.createIssue()}" value="#{msg.save}"/>					
+					</h:form>
+					
+					
+					
+				</rich:panel>					
+
+				
+				
+				
+				
+				
+				
+			</ui:define>
+	
+			</ui:composition>
+		</h:body>
+	</f:view>
 </ui:composition>

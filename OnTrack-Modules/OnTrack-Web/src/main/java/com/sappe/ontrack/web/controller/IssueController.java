@@ -1,7 +1,6 @@
 package com.sappe.ontrack.web.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -24,7 +23,7 @@ public class IssueController implements Serializable{
 
 	private Issue currentIssue = new Issue();
 	
-	private Project currentProject = new Project();
+	private Project currentProject;
 	
 	@ManagedProperty(value="#{projectctrl}")
 	private ProjectController projectCtrl;
@@ -47,6 +46,20 @@ public class IssueController implements Serializable{
 		User owner = new User();
 		owner.setId(1l);
 		return issueService.getIssuesByOwner(owner);
+		
+	}
+	
+	public void createIssue(){
+		
+	}
+	
+	public void updateCurrentProject(Project project){
+		currentProject = project;
+		currentIssue.setProject(currentProject);
+		projectCtrl.setCurrentIssue(currentIssue);
+	}
+	
+	public void getStatusByProject(){
 		
 	}
 

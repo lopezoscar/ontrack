@@ -17,6 +17,8 @@ public class TypeFilter extends BaseFilter implements ISearchFilter{
 	public static final String FILTER_NAME = "Búsqueda por tipo";
 	
 	private IssueType type;
+	
+	private String project;
 
 	@Override
 	public List<Issue> search(IssueService is) {
@@ -38,6 +40,14 @@ public class TypeFilter extends BaseFilter implements ISearchFilter{
 	
 	public boolean isTypeFilter(){
 		return true;
+	}
+
+	public String getProject() {
+		return project;
+	}
+
+	public void setProject(String project) {
+		this.project = project;
 	}
 	
 

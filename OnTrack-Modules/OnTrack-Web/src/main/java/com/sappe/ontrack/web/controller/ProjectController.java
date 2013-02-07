@@ -8,14 +8,20 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+import javax.faces.event.ValueChangeEvent;
 
 import com.sappe.ontrack.model.issues.Issue;
 import com.sappe.ontrack.model.issues.IssueEntry;
 import com.sappe.ontrack.model.issues.IssueStatus;
 import com.sappe.ontrack.model.issues.IssueType;
 import com.sappe.ontrack.model.issues.Project;
+import com.sappe.ontrack.model.users.User;
 import com.sappe.ontrack.sdk.interfaces.IssueService;
+import com.sappe.ontrack.sdk.interfaces.IssueStatusService;
+import com.sappe.ontrack.sdk.interfaces.IssueTypeService;
 import com.sappe.ontrack.sdk.interfaces.ProjectService;
+import com.sappe.ontrack.web.converters.GenericListConverter;
 
 @ManagedBean(name="projectctrl")
 @ViewScoped
@@ -27,6 +33,14 @@ public class ProjectController implements Serializable{
 	@ManagedProperty(value="#{issuesrv}")
 	private IssueService issueService;
 
+	@ManagedProperty(value="#{issuetypesrv}")
+	private IssueTypeService issueTypeService;
+
+	@ManagedProperty(value="#{issuestatussrv}")
+	private IssueStatusService issueStatusService;
+
+
+	List<User> users = new ArrayList<User>();
 	/**
 	 * 
 	 */
@@ -39,6 +53,10 @@ public class ProjectController implements Serializable{
 	private Project currentProject = new Project();
 
 	private IssueEntry currentEntry = new IssueEntry();
+
+	private List<IssueType> typesByProject = new ArrayList<IssueType>();
+
+	private List<IssueStatus> statusByType = new ArrayList<IssueStatus>();
 
 	public void search(){
 		System.out.println(projects.size());
@@ -66,6 +84,26 @@ public class ProjectController implements Serializable{
 			projects.add(project);
 		}
 		return projects;
+	}
+
+	public String createIssue(){
+		issueService.saveIssue(currentIssue);
+		return "home";
+	}
+
+	public List<User> usersHC(){
+		users = new ArrayList<User>();
+		User user = new User();
+		user.setId(1l);
+		user.setUserName("murreli");
+		user.setFirstName("Marcelo");
+		user.setLastName("Urreli");
+		users.add(user);
+		return users;
+	}
+
+	public Converter getUsersConverter(){
+		return new GenericListConverter(users, "id");
 	}
 
 	public List<Issue> createIssues(){
@@ -112,27 +150,73 @@ public class ProjectController implements Serializable{
 		}
 		return false;
 	}
-	
+
+	public boolean renderedIssuePanelForNewIssue(){
+		if(currentIssue !=null && currentIssue.getProject() != null){
+			return true;
+		}
+		return false;
+	}
+
+	public List<IssueType> retrieveIssueTypesByProject(){
+		if(currentProject != null && currentProject.getId()!=null){
+			typesByProject =  issueTypeService.getIssueTypesByProject(currentProject);
+		}
+		return typesByProject;
+
+	}
+
+	public void valueChanged(ValueChangeEvent event) {
+		IssueType type =(IssueType)event.getNewValue();
+		currentIssue.setIssueType(type);
+
+	}
+
+	public void updateOwner(ValueChangeEvent event){
+		User u = (User)event.getNewValue();
+		currentIssue.setOwner(u);
+	}
+
+	public Converter genericListConverter(){
+		return new GenericListConverter(typesByProject, "id");
+	}
+
+	public Converter statusListConverter(){
+		return new GenericListConverter(statusByType, "id");
+	}
+
+	public List<IssueStatus> retrieveStatusByProject(){
+		if(currentProject != null && currentProject.getId()!=null && currentIssue != null && currentIssue.getIssueType()!=null){
+			statusByType = issueStatusService.getIssueStatusByIssueType(currentIssue.getIssueType());
+		}
+		return statusByType;
+	}
+
+	public void updateCurrentProjectForNewIssue(Project project){
+		currentProject = project;
+		currentIssue.setProject(currentProject);
+	}
+
 	public void saveSelectedIssue(Issue issue){
 		currentIssue = issue;
-//		return "issueview.xhtml";
+		//		return "issueview.xhtml";
 	}
 
 	public String navigateToIssue(){
-//		Object o = getRequestParameter("selectedIssue");
-//		Object os = getRequestParameter("selectedProject");
-//		
-//		projectService.getIssuesByProject(project);
-//		Issue value = (Issue)requestMap.get("currentIssue");    
+		//		Object o = getRequestParameter("selectedIssue");
+		//		Object os = getRequestParameter("selectedProject");
+		//		
+		//		projectService.getIssuesByProject(project);
+		//		Issue value = (Issue)requestMap.get("currentIssue");    
 		return "issueview.xhtml";
 	}
-	
-	 public static String getRequestParameter(String name) {
-	        return (String)FacesContext.getCurrentInstance()
-	        .getExternalContext()
-	        .getRequestParameterMap()
-	        .get(name);    
-	    }
+
+	public static String getRequestParameter(String name) {
+		return (String)FacesContext.getCurrentInstance()
+				.getExternalContext()
+				.getRequestParameterMap()
+				.get(name);    
+	}
 
 	public void updateCurrentProject(Project project){
 		this.currentProject = project;
@@ -186,8 +270,45 @@ public class ProjectController implements Serializable{
 		this.issueService = issueService;
 	}
 
+	public IssueTypeService getIssueTypeService() {
+		return issueTypeService;
+	}
 
+	public void setIssueTypeService(IssueTypeService issueTypeService) {
+		this.issueTypeService = issueTypeService;
+	}
 
+	public List<IssueType> getTypesByProject() {
+		return typesByProject;
+	}
+
+	public void setTypesByProject(List<IssueType> typesByProject) {
+		this.typesByProject = typesByProject;
+	}
+
+	public List<IssueStatus> getStatusByType() {
+		return statusByType;
+	}
+
+	public void setStatusByType(List<IssueStatus> statusByType) {
+		this.statusByType = statusByType;
+	}
+
+	public IssueStatusService getIssueStatusService() {
+		return issueStatusService;
+	}
+
+	public void setIssueStatusService(IssueStatusService issueStatusService) {
+		this.issueStatusService = issueStatusService;
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
 
 
 
