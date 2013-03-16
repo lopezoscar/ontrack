@@ -3,7 +3,7 @@
 
 Para bajar el proyecto hay que tener las siguientes herramientas:
 
-*Eclipse
+*Eclipse(Helios || Indigo || JUNO)
 
 *Plugin Eclipse SVN(Si tenes Eclipse JUNO hay que bajar el plugin desde la página porque no está mas en el Eclipse Marketplace. URL: http://subclipse.tigris.org/m2eclipse/1.0
 
