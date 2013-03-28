@@ -8,5 +8,7 @@ public interface UserManager extends CRUD<User>{
 	
 	
 	public List<User> getAllUser();
+	
+	public User userByUserName(String userName);
 
 }

@@ -39,6 +39,14 @@ public class UserServiceImpl implements UserService,Serializable{
 		   }
 		   return data;
 	}
+
+	public User userByUserName(String userName) {
+		StringBuilder url = new StringBuilder();
+		url.append("/usersrv/userbyusername/");
+		String response = HTTPManager.post(url.toString(),userName,false);
+		User user = fromJSON(new TypeReference<User>(){}, response);
+		return user;
+	}
 	
 	
 	

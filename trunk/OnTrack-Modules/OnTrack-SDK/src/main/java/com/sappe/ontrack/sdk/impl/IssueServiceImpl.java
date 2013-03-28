@@ -114,7 +114,7 @@ public class IssueServiceImpl implements IssueService,Serializable{
 			return issues;
 		}
 		StringBuilder url = new StringBuilder();
-		url.append("issuesrv/getissusbytype");
+		url.append("/issuesrv/getissusbytype");
 
 		ObjectMapper mapper = new ObjectMapper();
 		String content;

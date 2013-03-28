@@ -160,7 +160,7 @@ public class ProjectController implements Serializable{
 
 	public List<IssueType> retrieveIssueTypesByProject(){
 		if(currentProject != null && currentProject.getId()!=null){
-			typesByProject =  issueTypeService.getIssueTypesByProject(currentProject);
+			typesByProject =  issueTypeService.getIssueTypesByProject(currentProject.getId());
 		}
 		return typesByProject;
 

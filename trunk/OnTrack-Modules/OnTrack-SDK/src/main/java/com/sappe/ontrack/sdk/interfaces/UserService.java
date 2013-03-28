@@ -8,5 +8,6 @@ public interface UserService {
 	
 	public void login();
 	public List<User> getAllUsers();
+	public User userByUserName(String userName);
 
 }

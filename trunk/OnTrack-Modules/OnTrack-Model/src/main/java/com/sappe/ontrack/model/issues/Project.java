@@ -1,6 +1,7 @@
 package com.sappe.ontrack.model.issues;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -11,12 +12,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+
+import com.sappe.ontrack.model.users.Role;
+import com.sappe.ontrack.model.users.User;
 
 @Entity
 @Table(name="project")
@@ -47,6 +52,13 @@ public class Project implements Serializable{
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="id_project")
 	private Set<IssueType> issueTypes;
+	
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="id_project")
+	private List<Role> roles;
+	
+	@ManyToMany
+	private List<User> users;
 	
 	public Project(){}
 
@@ -123,5 +135,25 @@ public class Project implements Serializable{
 	public void setIssueTypes(Set<IssueType> issueTypes) {
 		this.issueTypes = issueTypes;
 	}
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+	
+	
+	
+	
 
 }
