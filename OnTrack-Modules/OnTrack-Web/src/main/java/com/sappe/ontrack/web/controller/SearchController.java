@@ -8,12 +8,14 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.convert.Converter;
 
 import com.sappe.ontrack.model.issues.Issue;
 import com.sappe.ontrack.model.issues.IssueType;
 import com.sappe.ontrack.model.users.User;
 import com.sappe.ontrack.sdk.interfaces.IssueService;
 import com.sappe.ontrack.sdk.interfaces.IssueTypeService;
+import com.sappe.ontrack.web.converters.GenericListConverter;
 import com.sappe.ontrack.web.search.filters.CurrentStatusFilter;
 import com.sappe.ontrack.web.search.filters.IssueCodeFilter;
 import com.sappe.ontrack.web.search.filters.OwnerFilter;
@@ -42,6 +44,10 @@ public class SearchController implements Serializable{
 	List<Issue> issues = new ArrayList<Issue>();
 	
 	List<ISearchFilter> filters = new ArrayList<ISearchFilter>();
+	
+	List<IssueType> issueTypes;
+	
+	String currentProject;
 	
 	@PostConstruct
 	public void initMB(){
@@ -86,10 +92,24 @@ public class SearchController implements Serializable{
 	}
 	
 	public List<IssueType> retrieveAllTypesByProject (String project){
+		currentProject = project;
 		Long projectId = Long.valueOf(project);
-		List<IssueType> issueTypes = issueTypeSrv.getIssueTypesByProject(projectId);
+		issueTypes = issueTypeSrv.getIssueTypesByProject(projectId);
 		return issueTypes;
 		
+	}
+	
+	public Converter issueTypeConverter(){
+		Converter converter = null;
+		if(issueTypes == null){
+			if(currentProject != null){
+				issueTypes = retrieveAllTypesByProject(currentProject);
+			}
+		}
+		if(issueTypes != null){
+			converter = new GenericListConverter(issueTypes, "id");
+		}
+		return converter;
 	}
 	
 

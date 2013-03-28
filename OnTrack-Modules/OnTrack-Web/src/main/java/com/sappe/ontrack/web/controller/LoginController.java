@@ -6,6 +6,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistry;
+
 import com.sappe.ontrack.model.users.User;
 import com.sappe.ontrack.sdk.interfaces.UserService;
 
@@ -22,10 +26,15 @@ public class LoginController implements Serializable{
 	
 	@ManagedProperty(value="#{usersrv}")
 	private UserService userService;
-
+	
 	public void login(){
 		userService.login();
 		
+	}
+	
+	public String logout(){
+//		SecurityContextHolder.clearContext();
+		return "logout.xhtml";
 	}
 	
 	public String viewLoginUser(){
@@ -48,10 +57,5 @@ public class LoginController implements Serializable{
 		this.login = login;
 	}
 
-	
-	
-	
-	
-	
 	
 }

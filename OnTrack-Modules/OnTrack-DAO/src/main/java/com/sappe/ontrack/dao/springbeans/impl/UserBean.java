@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
@@ -83,6 +85,19 @@ public class UserBean implements UserManager{
 	                .getImplementation();
 	    }
 	    return entity;
+	}
+
+	public User userByUserName(String userName) {
+		User user = new User();
+		try{
+			user = (User)em.createNamedQuery("userByUserName").setParameter("userName", userName).getSingleResult();
+		}catch(NoResultException nre){
+			nre.printStackTrace();
+		}catch(NonUniqueResultException nure){
+			nure.printStackTrace();
+		}
+		
+		return user;
 	}
 	
 	

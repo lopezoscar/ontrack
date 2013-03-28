@@ -16,7 +16,6 @@ import com.sappe.ontrack.dao.springbeans.interfaces.IssueManager;
 import com.sappe.ontrack.model.issues.Issue;
 import com.sappe.ontrack.model.issues.IssueStatus;
 import com.sappe.ontrack.model.issues.IssueType;
-import com.sappe.ontrack.model.users.User;
 
 @Component
 public class IssueBean implements IssueManager{
@@ -28,12 +27,6 @@ public class IssueBean implements IssueManager{
 	public Issue create(Issue entity) throws EntityExistsException,
 			IllegalStateException, IllegalArgumentException,
 			TransactionRequiredException {
-		User user = new User();
-		user.setId(1l);
-		user.setUserName("murreli");
-		user.setFirstName("Marcelo");
-		user.setLastName("Urreli");
-		entity.setOwner(user);
 		em.persist(entity);
 		return entity;
 	}

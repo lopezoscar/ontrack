@@ -46,6 +46,14 @@ public class UserService {
 		return users;
 	}
 	
+	@Path("/userbyusername/")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	public User userByUserName(String userName){
+		User user = userManager.userByUserName(userName);
+		return user;
+	}
+	
 	
 
 }

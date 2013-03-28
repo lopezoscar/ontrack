@@ -17,7 +17,7 @@
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:sdk-beans.xml</param-value>
+		<param-value>classpath:sdk-beans.xml /WEB-INF/security.xml</param-value>
 	</context-param>
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -28,6 +28,15 @@
 	<listener>
 		<listener-class>com.sun.faces.config.ConfigureListener</listener-class>
 	</listener>
+	<listener>
+	    <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+  	</listener>
+  	
+  	
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
 
 	<!-- Rich Faces -->
 	<context-param>
@@ -77,7 +86,11 @@
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
 
-
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>home.xhtml</welcome-file>
 	</welcome-file-list>

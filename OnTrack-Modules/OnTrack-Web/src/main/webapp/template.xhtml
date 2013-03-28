@@ -64,15 +64,11 @@
 						</f:facet>
 						<rich:menuItem label="#{msg.configuration}" action="userconfiguration.xhtml"/>			
 					</rich:dropDownMenu>	
-					<rich:dropDownMenu mode="ajax">
-						<f:facet name="label">
-							<h:panelGroup>
-								<h:outputText value="#{msg.exit}" />
-							</h:panelGroup>
-						</f:facet>
-						<rich:menuItem label="#{msg.exit}" action="home.xhtml"/>			
-					</rich:dropDownMenu>
 				</rich:toolbarGroup>
+				
+				<rich:toolbarGroup location="right">
+					<h:outputLink value="#{request.contextPath}/j_spring_security_logout"><h:outputText value="#{msg.exit}"/></h:outputLink>
+		        </rich:toolbarGroup>
 				
 				<rich:toolbarGroup location="right">
 		            <h:inputText styleClass="barsearch" />
