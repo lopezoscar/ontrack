@@ -10,7 +10,6 @@ import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.TransactionRequiredException;
 
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sappe.ontrack.dao.springbeans.interfaces.IssueTypeManager;
@@ -44,11 +43,13 @@ public class IssueTypeBean implements IssueTypeManager{
 		em.detach(entity);
 		
 	}
+	@SuppressWarnings("unchecked")
 	public List<IssueType> getAllIssueType() {
 		Query q = em.createNamedQuery("selectAllIssueType");
 		List<IssueType> issueTypes = q.getResultList();
 		return issueTypes;
 	}
+	@SuppressWarnings("unchecked")
 	public List<IssueType> getIssueTypesByProjectId(long projectId) {
 		List<IssueType> types = em.createNamedQuery("selectIssueTypesByProject").setParameter("projectId", projectId).getResultList();
 		return types;

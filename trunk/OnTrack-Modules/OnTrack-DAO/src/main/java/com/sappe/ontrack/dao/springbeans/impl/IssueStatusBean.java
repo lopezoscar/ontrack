@@ -56,9 +56,8 @@ public class IssueStatusBean implements IssueStatusManager {
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<IssueStatus> getAllIssueStatus() {
-		
-
 		Query q = em.createNamedQuery("selectAllIssueStatus");
 		List<IssueStatus> issuesStatus = q.getResultList();
 		return issuesStatus;

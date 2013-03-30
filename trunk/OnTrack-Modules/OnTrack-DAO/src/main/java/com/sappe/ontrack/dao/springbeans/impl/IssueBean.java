@@ -64,26 +64,31 @@ public class IssueBean implements IssueManager{
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Issue> getIssuesByOwnerId(Long id) {
 		List<Issue> issues = em.createNamedQuery("getIssuesByOwnerId").setParameter("ownerid", id).getResultList();
 		return issues;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Issue> getIssuesByReporter(String reporter) {
 		List<Issue> issues = em.createNamedQuery("getIssuesByReporter").setParameter("reporter", reporter).getResultList();
 		return issues;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Issue> getIssuesByStatus(IssueStatus status) {
 		List<Issue> issues = em.createNamedQuery("getIssuesByStatus").setParameter("status", status).getResultList();
 		return issues;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Issue> getIssuesByType(IssueType type) {
 		List<Issue> issues = em.createNamedQuery("getIssuesByIssueType").setParameter("type", type).getResultList();
 		return issues;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Issue> getIssuesByCode(String code) {
 		List<Issue> issues = em.createNamedQuery("getIssueByCode").setParameter("code", code).getResultList();
 		return issues;

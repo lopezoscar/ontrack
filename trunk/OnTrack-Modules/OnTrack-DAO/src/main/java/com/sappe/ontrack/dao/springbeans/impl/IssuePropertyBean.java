@@ -55,6 +55,7 @@ public class IssuePropertyBean implements IssuePropertyManager,Serializable{
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<IssuePropertyType> getAllIssuePropertyTypes() {
 		return em.createNamedQuery("allIssuePropertyTypes").getResultList();
 	}

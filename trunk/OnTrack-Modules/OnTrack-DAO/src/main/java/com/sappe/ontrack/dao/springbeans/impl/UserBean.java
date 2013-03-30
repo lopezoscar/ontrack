@@ -57,6 +57,7 @@ public class UserBean implements UserManager{
 
 	public List<User> getAllUser() {
 		Query q = em.createNamedQuery("selectAllUser");
+		@SuppressWarnings("unchecked")
 		List<User> users = q.getResultList();
 		List<Role> roles = new ArrayList<Role>();
 		for (User user : users) {
@@ -73,6 +74,7 @@ public class UserBean implements UserManager{
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public static <T> T initializeAndUnproxy(T entity) {
 	    if (entity == null) {
 	        throw new 
@@ -81,8 +83,8 @@ public class UserBean implements UserManager{
 
 	    Hibernate.initialize(entity);
 	    if (entity instanceof HibernateProxy) {
-	        entity = (T) ((HibernateProxy) entity).getHibernateLazyInitializer()
-	                .getImplementation();
+		        entity = (T) ((HibernateProxy) entity).getHibernateLazyInitializer()
+		                .getImplementation();
 	    }
 	    return entity;
 	}
