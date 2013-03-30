@@ -1,7 +1,6 @@
 package com.sappe.ontrack.dao.springbeans.impl;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityExistsException;
@@ -17,8 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sappe.ontrack.dao.springbeans.interfaces.ProjectManager;
-import com.sappe.ontrack.model.issues.Issue;
-import com.sappe.ontrack.model.issues.IssueType;
 import com.sappe.ontrack.model.issues.Project;
 
 @Component
@@ -91,6 +88,7 @@ public class ProjectBean implements ProjectManager{
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static <T> T initializeAndUnproxy(T entity) {
 	    if (entity == null) {
 	        throw new 

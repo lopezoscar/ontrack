@@ -48,6 +48,7 @@ public class RoleBean implements RoleManager {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Role> getAllRoles(){
 		return em.createNamedQuery("getAllRoles").getResultList();
 	}

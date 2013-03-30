@@ -54,8 +54,8 @@ public class IssuePropertyTypeBean implements IssuePropertyTypeManager, Serializ
 		em.remove(entity);
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<IssuePropertyType> getAllIssuePropertyTypes() {
-
 		return em.createNamedQuery("allIssuePropertyTypes").getResultList();
 	}
 
