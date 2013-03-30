@@ -10,6 +10,7 @@ public class ProjectTest extends BaseTest{
 	
 	@Test
 	public void test(){
+		@SuppressWarnings("unchecked")
 		List<Project> projects = em.createNamedQuery("getAllProjects").getResultList();
 		System.out.println(projects);
 		System.out.println(projects.size());

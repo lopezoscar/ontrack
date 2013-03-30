@@ -24,7 +24,7 @@ public class IssueTest extends BaseTest{
 		List<IssueEntry> entries = new ArrayList<IssueEntry>();
 		IssueEntry entry  = em.find(IssueEntry.class, 1l);
 		entries.add(entry);
-		issue.setEntries(entries);
+//		issue.setEntries(entries);
 		IssueType issueType = em.find(IssueType.class, 1l);
 		issue.setIssueType(issueType);
 		
@@ -32,7 +32,7 @@ public class IssueTest extends BaseTest{
 		
 		List<IssueType> issueTypes = new ArrayList<IssueType>();
 		issueTypes.add(issueType);
-		project.setIssueTypes(issueTypes);
+//		project.setIssueTypes(issueTypes);
 		
 		project.setName("Proyecto");
 		persiste(project);
@@ -46,7 +46,7 @@ public class IssueTest extends BaseTest{
 		issues.add(issue);
 		
 		
-		project.setIssues(issues);
+//		project.setIssues(issues);
 		em.getTransaction().begin();
 		em.merge(project);
 		em.getTransaction().commit();
