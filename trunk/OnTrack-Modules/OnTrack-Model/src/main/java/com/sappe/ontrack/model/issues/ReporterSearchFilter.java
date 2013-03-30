@@ -1,6 +1,5 @@
 package com.sappe.ontrack.model.issues;
 
-import java.util.List;
 
 
 

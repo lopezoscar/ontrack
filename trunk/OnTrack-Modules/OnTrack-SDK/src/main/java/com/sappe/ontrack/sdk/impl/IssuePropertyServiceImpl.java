@@ -6,10 +6,8 @@ import java.util.List;
 
 import org.codehaus.jackson.type.TypeReference;
 
-import com.sappe.ontrack.model.issues.Issue;
 import com.sappe.ontrack.model.issues.IssuePropertyType;
 import com.sappe.ontrack.sdk.interfaces.IssuePropertyService;
-import com.sappe.ontrack.sdk.interfaces.IssueService;
 
 public class IssuePropertyServiceImpl implements IssuePropertyService,Serializable{
 

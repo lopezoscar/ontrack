@@ -26,6 +26,8 @@ public class ReflectionUtil {
 		return result;
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	//TODO Mejorar este metodo ya que no valida tipo y usa rawtypes, debería usar Type Reference(T)
 	public static String getId(Class entityClass){
 		Field id = null;
 		Class currentClass = entityClass;

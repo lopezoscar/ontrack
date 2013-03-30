@@ -7,9 +7,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
-import org.aspectj.lang.annotation.Before;
-import org.springframework.security.access.prepost.PreAuthorize;
-
 import com.sappe.ontrack.model.issues.Issue;
 import com.sappe.ontrack.model.issues.Project;
 import com.sappe.ontrack.model.users.User;

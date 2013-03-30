@@ -1,7 +1,6 @@
 package com.sappe.ontrack.dao.springbeans.interfaces;
 
 import java.util.List;
-import java.util.Set;
 
 import com.sappe.ontrack.model.issues.Issue;
 import com.sappe.ontrack.model.issues.IssueStatus;

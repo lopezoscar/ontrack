@@ -30,15 +30,15 @@ public class RoleTest extends BaseTest{
 		
 	}
 	
-	private Role getRoleById(){
+	public Role getRoleById(){
 		Role role = (Role)em.find(Role.class, 1l);
 		return role;
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	private List<Role> getAllRoles(){
 		List<Role> roles = em.createQuery("select r from Role r").getResultList();
-		
 		return roles;
 		
 	}
