@@ -10,6 +10,7 @@ import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -36,7 +37,15 @@ public class MailBean implements MailManager{
 	 * Class constructor
 	 */
 	public MailBean() {
-
+		if (properties == null) {
+			properties = new Properties();
+		}
+		properties.put("mail.smtp.auth", "true");
+		properties.put("mail.smtp.starttls.enable", "true");
+		properties.put("mail.smtp.host", "smtp.gmail.com");
+		properties.put("mail.smtp.port", "587");
+		properties.put("username", "lopezoscar.job@gmail.com");
+		properties.put("password", "javaDeveloper1");
 	}
 
 	/**
@@ -46,10 +55,8 @@ public class MailBean implements MailManager{
 	 *            HashMap with the corresponding notificator properties
 	 */
 	public void setNotificatorProperties(String host) {
-		if (properties == null) {
-			properties = new Properties();
-		}
-		properties.put("mail.smtp.host", host);
+	
+		
 	}
 
 	/**
@@ -74,7 +81,16 @@ public class MailBean implements MailManager{
 		// name and password.
 		if (properties == null)
 			throw new NotificatorException("No properties set for this action...");
-		Session session = Session.getDefaultInstance(properties, null);
+		
+		Session session = Session.getInstance(properties,
+				  new javax.mail.Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(properties.getProperty("username"), properties.getProperty("password"));
+					}
+				  });
+		
+		
+//		Session session = Session.getDefaultInstance(properties, null);
 		MimeMessage message = new MimeMessage(session);
 		try {
 			// the "from" address may be set in code, or set in the
@@ -116,7 +132,13 @@ public class MailBean implements MailManager{
 		// name and password.
 		if (properties == null)
 			throw new NotificatorException("No properties set for this action...");
-		Session session = Session.getDefaultInstance(properties, null);
+//		Session session = Session.getDefaultInstance(properties, null);
+		Session session = Session.getInstance(properties,
+				  new javax.mail.Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(properties.getProperty("username"), properties.getProperty("password"));
+					}
+				  });
 		MimeMessage message = new MimeMessage(session);
 		try {
 			// the "from" address may be set in code, or set in the
@@ -172,7 +194,14 @@ public class MailBean implements MailManager{
 		// name and password.
 		if (properties == null)
 			throw new NotificatorException("No properties set for this action...");
-		Session session = Session.getDefaultInstance(properties, null);
+//		Session session = Session.getDefaultInstance(properties, null);
+		
+		Session session = Session.getInstance(properties,
+				  new javax.mail.Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(properties.getProperty("username"), properties.getProperty("password"));
+					}
+				  });
 		MimeMessage message = new MimeMessage(session);
 		try {
 			// the "from" address may be set in code, or set in the

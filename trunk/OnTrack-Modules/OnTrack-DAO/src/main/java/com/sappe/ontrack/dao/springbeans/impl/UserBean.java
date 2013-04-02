@@ -1,6 +1,8 @@
 package com.sappe.ontrack.dao.springbeans.impl;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
@@ -20,17 +22,17 @@ import org.hibernate.proxy.HibernateProxy;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.gdata.client.Service.GDataRequest;
 import com.google.gdata.client.contacts.ContactsService;
 import com.google.gdata.data.Link;
 import com.google.gdata.data.contacts.ContactEntry;
 import com.google.gdata.data.contacts.ContactFeed;
-import com.google.gdata.data.contacts.GroupMembershipInfo;
 import com.google.gdata.data.extensions.Email;
-import com.google.gdata.data.extensions.ExtendedProperty;
-import com.google.gdata.data.extensions.Im;
 import com.google.gdata.data.extensions.Name;
+import com.google.gdata.util.ResourceNotFoundException;
 import com.google.gdata.util.ServiceException;
 import com.sappe.ontrack.dao.springbeans.interfaces.UserManager;
+import com.sappe.ontrack.model.issues.DocumentFile;
 import com.sappe.ontrack.model.users.Member;
 import com.sappe.ontrack.model.users.Role;
 import com.sappe.ontrack.model.users.User;
@@ -152,6 +154,9 @@ public class UserBean implements UserManager{
 
 				Link photoLink = entry.getContactPhotoLink();
 				String photoLinkHref = photoLink.getHref();
+//				DocumentFile image = downloadPhoto(service, entry);
+//				memberBuild.image(image);
+				
 				memberBuild.photoLink(photoLinkHref);
 				System.out.println("Photo Link: " + photoLinkHref);
 
@@ -163,6 +168,41 @@ public class UserBean implements UserManager{
 		return members;
 	}
 
+	public DocumentFile downloadPhoto(ContactsService service, ContactEntry entry)
+	throws ServiceException, IOException {
+		//		ContactEntry entry = service.getEntry(contactURL,  ContactEntry.class);
+		DocumentFile image = new DocumentFile();
+		Link photoLink = entry.getContactPhotoLink();
+		if (photoLink != null) {
+			GDataRequest req = service.createLinkQueryRequest(photoLink);
+			try{
+				req.execute();
+				InputStream in = req.getResponseStream();;
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				image.setFileType("image/pjpeg");
+				byte[] buffer = new byte[4096];
+				int read = 0;
+				while (true) {
+					if ((read = in.read(buffer)) != -1) {
+						out.write(buffer, 0, read);
+					} else {
+						break;
+					}
+				}
+				
+				byte[] content = out.toByteArray();
+				image.setContent(content);
+				image.setLength(content.length);
+				image.setName(entry.getName().getFullName().getValue()+".jpg");
+				
+			}catch(ResourceNotFoundException rne){
+				System.out.println("No hay foto");
+			}
+
+		}
+		
+		return image;
+	}
 
 
 
