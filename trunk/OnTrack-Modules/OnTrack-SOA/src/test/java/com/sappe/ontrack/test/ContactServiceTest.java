@@ -1,12 +1,16 @@
 package com.sappe.ontrack.test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.RandomAccessFile;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 
+import com.google.gdata.client.Service.GDataRequest;
 import com.google.gdata.client.contacts.ContactsService;
 import com.google.gdata.data.Link;
 import com.google.gdata.data.contacts.ContactEntry;
@@ -16,11 +20,13 @@ import com.google.gdata.data.extensions.Email;
 import com.google.gdata.data.extensions.ExtendedProperty;
 import com.google.gdata.data.extensions.Im;
 import com.google.gdata.data.extensions.Name;
+import com.google.gdata.util.ResourceNotFoundException;
 import com.google.gdata.util.ServiceException;
+import com.sappe.ontrack.model.issues.DocumentFile;
 import com.sappe.ontrack.model.users.Member;
 
 public class ContactServiceTest {
-	
+
 	@Test
 	public void test(){
 		try {
@@ -33,16 +39,16 @@ public class ContactServiceTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void printAllContacts(String userName,String password)throws ServiceException, IOException {
 		ContactsService service = new ContactsService("OScar");
-	    if (userName == null || password == null) {
-	      return;
-	    }
-	    service.setUserCredentials(userName, password);
-		
-		
-	    List<Member> members = new ArrayList<Member>();	    
+		if (userName == null || password == null) {
+			return;
+		}
+		service.setUserCredentials(userName, password);
+
+
+		List<Member> members = new ArrayList<Member>();	    
 		// Request the feed
 		URL feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
 		ContactFeed resultFeed = service.getFeed(feedUrl, ContactFeed.class);
@@ -57,7 +63,7 @@ public class ContactServiceTest {
 					memberBuild.name(fullNameToDisplay);
 					if (name.getFullName().hasYomi()) {
 						fullNameToDisplay += " (" + name.getFullName().getYomi() + ")";
-						
+
 					}
 					System.out.println("\\\t\\\t" + fullNameToDisplay);
 				} else {
@@ -153,17 +159,58 @@ public class ContactServiceTest {
 			Link photoLink = entry.getContactPhotoLink();
 			String photoLinkHref = photoLink.getHref();
 			System.out.println("Photo Link: " + photoLinkHref);
+			if(photoLink != null){
+				DocumentFile image = downloadPhoto(service,entry);
+				memberBuild.image(image);
+			}
 			if (photoLink.getEtag() != null) {
-				
+
 				memberBuild.photoLink(photoLinkHref);
-				
+
 				System.out.println("Contact Photo's ETag: " + photoLink.getEtag());
 			}
 			System.out.println("Contact's ETag: " + entry.getEtag());
-			
+
 			Member member = memberBuild.build();
 			members.add(member);
 		}
 	}
+
+	public DocumentFile downloadPhoto(ContactsService service, ContactEntry entry)
+	throws ServiceException, IOException {
+		//		ContactEntry entry = service.getEntry(contactURL,  ContactEntry.class);
+		DocumentFile image = new DocumentFile();
+		Link photoLink = entry.getContactPhotoLink();
+		if (photoLink != null) {
+			GDataRequest req = service.createLinkQueryRequest(photoLink);
+			try{
+				req.execute();
+				InputStream in = req.getResponseStream();;
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				image.setFileType("image/pjpeg");
+				byte[] buffer = new byte[4096];
+				int read = 0;
+				while (true) {
+					if ((read = in.read(buffer)) != -1) {
+						out.write(buffer, 0, read);
+					} else {
+						break;
+					}
+				}
+				
+				byte[] content = out.toByteArray();
+				image.setContent(content);
+				image.setLength(content.length);
+				image.setName(entry.getName().getFullName().getValue()+".jpg");
+				
+			}catch(ResourceNotFoundException rne){
+				System.out.println("No hay foto");
+			}
+
+		}
+		
+		return image;
+	}
+
 
 }

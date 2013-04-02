@@ -52,10 +52,12 @@ public class MembersController {
 //			to.add(member.getEmail());
 		}
 		String name = auth.getName();
+		User user = userService.userByUserName(name);
 		StringBuilder sb = new StringBuilder();
-		sb.append(name);
+		sb.append(user.completeName());
+		
 		sb.append(" te invita a ingresar a OnTrack");
-		sb.append("\n URL: http://www.ontrack.com.ar");
+		sb.append("\nURL: http://www.ontrack.com.ar");
 		dto.setSubject(sb.toString());
 		dto.setTo(to);
 		dto.setBody(sb.toString());
