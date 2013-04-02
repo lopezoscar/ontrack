@@ -1,5 +1,7 @@
 package com.sappe.ontrack.model.users;
 
+import com.sappe.ontrack.model.issues.DocumentFile;
+
 /**
  * @author Oscar Lopez
  *
@@ -13,6 +15,7 @@ public class Member {
 	private String email;
 	
 	private String photoLink;
+	
 	
 	private Member(Builder builder){
 		this.name = builder.name;
@@ -66,7 +69,7 @@ public class Member {
 	public boolean isSelected() {
 		return selected;
 	}
-
+	
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}

@@ -25,13 +25,11 @@
 				
 					<h:panelGrid columns="2" cellspacing="0">
 					
-					
 						<ui:include src="/myprojects-include.xhtml"/>
 						<ui:include src="issuelist.xhtml"></ui:include>	
 						<ui:include src="chart.xhtml"></ui:include>
 						
-						<div>
-								<rich:panel>
+									<rich:panel style="width:560px;">
 										<f:facet name="header">
 							                <h:outputText value="#{msg.persons}"></h:outputText>
 							            </f:facet>
@@ -41,11 +39,12 @@
 							                    <f:facet name="header">
 							                    	<h:outputText value="#{msg.photo}"/> 
 							                    </f:facet>
-							                    <h:graphicImage url="#{member.photoLink}" alt="flag" width="33"/>
+							                    <h:graphicImage value="#{member.photoLink}" alt="flag" width="33"/>
 							                </rich:column>
 							                <rich:column>
 							                    <f:facet name="header"><h:outputText value="#{msg.name}"/></f:facet>
-							                    <h:outputText value="#{member.name}"/>
+							                    <h:outputText id="namecolumn" value="#{member.name}"/>
+							                    <rich:tooltip for="namecolumn"><h:outputText value="#{msg.email}"/></rich:tooltip> 
 							                </rich:column>
 							                <rich:column>
 							                    <f:facet name="header"><h:outputText value="#{msg.email}"/></f:facet>
@@ -53,9 +52,9 @@
 							                </rich:column>
 							            </rich:pickList>
 						           
+						           		
+						           
 									</rich:panel>
-			
-								</div>	
 						
 					</h:panelGrid>
 					

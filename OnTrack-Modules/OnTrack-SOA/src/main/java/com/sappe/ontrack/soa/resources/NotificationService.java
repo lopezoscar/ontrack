@@ -9,12 +9,14 @@ import javax.ws.rs.core.Response.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import com.sappe.ontrack.dao.exceptions.NotificatorException;
 import com.sappe.ontrack.dao.springbeans.interfaces.NotificationManager;
 import com.sappe.ontrack.model.notifications.NotificationDTO;
 
 @Path("notificationsrv")
+@Component
 public class NotificationService {
 	
 	@Autowired
