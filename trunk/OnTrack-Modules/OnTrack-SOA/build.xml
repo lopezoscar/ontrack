@@ -1,0 +1,27 @@
+<project name="Claims-appweb" default="copywar" basedir=".">
+
+	<!--=========================================================================
+				SYSOne Insurance Suite
+				Helper for claims-appweb  - Version 0.1
+	==========================================================================-->
+
+	<property name="dist.dir" value="target" />
+	<property name="tomcat.home" value="/home/oscar/opt/tomcat-ontrack" />
+	<property name="deploy.dir" value="${tomcat.home}/webapps" />
+	<property name="website.name" value="OnTrack-SOA.war" />
+	<property name="websitedir.name" value="OnTrack-SOA" />
+
+	<!-- Undeploys the web site from tomcat -->
+	<target name="copywar" depends="">
+
+		<delete dir="${deploy.dir}/${websitedir.name}" />
+		<delete file="${deploy.dir}/${website.name}" />
+
+		<echo message="Deleted directory and War" />
+
+		<!--Copy web application to deplyment dir -->
+		<copy file="${dist.dir}/${website.name}" todir="${deploy.dir}" />
+	</target>
+
+
+</project>

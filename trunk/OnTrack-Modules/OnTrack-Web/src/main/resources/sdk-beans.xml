@@ -28,6 +28,8 @@
 	<bean id="issuepropertysrv" class="com.sappe.ontrack.sdk.impl.IssuePropertyServiceImpl" />
 	<bean id="issuestatussrv" class="com.sappe.ontrack.sdk.impl.IssueStatusServiceImpl" />
 	<bean id="issuetypesrv" class="com.sappe.ontrack.sdk.impl.IssueTypeServiceImpl"/>
+	<bean id="notificationsrv" class="com.sappe.ontrack.sdk.impl.NotificationServiceImpl"/>
+	
 
 
 </beans>

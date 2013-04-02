@@ -1,7 +1,10 @@
 package com.sappe.ontrack.soa.resources;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -13,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import com.google.gdata.util.ServiceException;
 import com.sappe.ontrack.dao.springbeans.interfaces.UserManager;
+import com.sappe.ontrack.model.users.Member;
 import com.sappe.ontrack.model.users.User;
 
 
@@ -52,6 +57,24 @@ public class UserService {
 	public User userByUserName(String userName){
 		User user = userManager.userByUserName(userName);
 		return user;
+	}
+	
+	@Path("/contacts")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public List<Member> contactsByUserName(User user){
+		List<Member> contacts = new ArrayList<Member>();
+		try {
+			contacts = userManager.contactsByUserName(user.getMail(),user.getPassword());
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return contacts;
 	}
 	
 	

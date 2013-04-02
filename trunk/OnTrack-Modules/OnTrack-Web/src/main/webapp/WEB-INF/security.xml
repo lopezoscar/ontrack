@@ -11,9 +11,9 @@
 		<security:intercept-url pattern="/login.xhtml" access="permitAll"/>
 		<security:logout invalidate-session="true" success-handler-ref="logoutHandler"/>
 		<intercept-url pattern="/**" access="isAuthenticated()" />
-<!-- 		<session-management invalid-session-url="/login.xhtml"> -->
-<!--         	<concurrency-control max-sessions="1" session-registry-ref="sessionRegistry" expired-url="/login.xhtml"/> -->
-<!--     	</session-management> -->
+		<session-management invalid-session-url="/login.xhtml">
+        	<concurrency-control max-sessions="1" session-registry-ref="sessionRegistry" expired-url="/login.xhtml"/>
+    	</session-management>
 		<openid-login login-page="/login.xhtml" authentication-failure-handler-ref="openIdAuthFailureHandler" default-target-url="/" >
 			<attribute-exchange>
 				<openid-attribute name="axContactEmail"

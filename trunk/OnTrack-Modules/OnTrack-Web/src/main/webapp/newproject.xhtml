@@ -11,8 +11,9 @@
 	<ui:composition template="/template.xhtml">
 				<ui:define name="body">
 						<rich:panel header="#{msg.newproject}">
+								
 							<h:form>
-
+						
 								<h:panelGrid columns="2" cellspacing="2">
 									<h:outputText value="#{msg.name}"/>
 									<h:inputText value="#{newprojectctrl.project.name}" />	
@@ -24,74 +25,120 @@
 										<f:facet name="header">
 							                <h:outputText value="#{msg.persons}"></h:outputText>
 							            </f:facet>
-										
-						            
-							           <rich:panel style="width:220px;">
-								            <f:facet name="header">
-								                <h:outputText value="#{msg.selectoneuser}"></h:outputText>
-								            </f:facet>
-								            
-								            <rich:select defaultLabel="#{msg.selectanuser}" value="#{newprojectctrl.currentUser}">
-								                <f:selectItems value="#{newprojectctrl.retrieveAllUsers()}" />
-								               
-								            </rich:select>
-								           
-								        </rich:panel>
-							        
-								        <rich:panel>
-								        
-								        	<rich:pickList value="#{newprojectctrl.selectedRoles}" sourceCaption="#{msg.defineroles}" targetCaption="#{msg.selectedUsers}" listWidth="165px" listHeight="100px" orderable="true">
-							              	  	<f:selectItems value="#{newprojectctrl.retrieveAllRoles()}" var="role" itemValue="#{role}" itemLabel="#{role.roleName}" />
-							            	</rich:pickList>
-								        </rich:panel>
-						            
-						 
-						            
+										<rich:pickList value="#{membersctrl.selectedMembers}" var="member" listHeight="200px">
+							                <f:selectItems value="#{membersctrl.contactsFromUser()}" />
+							                <rich:column>
+							                    <f:facet name="header">
+							                    	<h:outputText value="#{msg.photo}"/> 
+							                    </f:facet>
+							                    <h:graphicImage url="#{member.photoLink}" alt="flag" width="33"/>
+							                </rich:column>
+							                <rich:column>
+							                    <f:facet name="header"><h:outputText value="#{msg.name}"/></f:facet>
+							                    <h:outputText value="#{member.name}"/>
+							                </rich:column>
+							                <rich:column>
+							                    <f:facet name="header"><h:outputText value="#{msg.email}"/></f:facet>
+							                    <h:outputText value="#{member.email}"/>
+							                </rich:column>
+							            </rich:pickList>
+						           
 									</rich:panel>
+									
+									<h:form>
+									<rich:dataTable id="memberstable" rows="20" value="#{membersctrl.contactsFromUser()}" var="member">
+											<f:facet name="header">
+													<h:outputText value="#{msg.invites}"/>
+												</f:facet>
+											<rich:column>
+							                    <f:facet name="header">
+							                    	<h:outputText value="#{msg.select}"/> 
+							                    </f:facet>
+							                    <h:selectBooleanCheckbox value="#{member.selected}"></h:selectBooleanCheckbox>
+							                </rich:column>	
+											<rich:column>
+							                    <f:facet name="header">
+							                    	<h:outputText value="#{msg.photo}"/> 
+							                    </f:facet>
+							                    <h:graphicImage url="#{member.photoLink}" alt="#{msg.photo}" width="33"/>
+							                </rich:column>
+							                <rich:column>
+							                    <f:facet name="header"><h:outputText value="#{msg.name}"/></f:facet>
+							                    <h:outputText value="#{member.name}"/>
+							                </rich:column>
+							                <rich:column>
+							                    <f:facet name="header"><h:outputText value="#{msg.email}"/></f:facet>
+							                    <h:outputText value="#{member.email}"/>
+							                </rich:column>
+									</rich:dataTable>
+									
+									<rich:dataScroller for="memberstable" maxPages="5" renderIfSinglePage="false"/>
+									
+									<a4j:commandButton value="#{msg.sendmails}" action="#{membersctrl.notifySelectedMembers()}" execute="@form"/>
+									<a4j:commandButton value="#{msg.selectAll}" action="#{membersctrl.selectAllMembers()}" execute="@form" render="memberstable"/>
+									</h:form>
 								 </rich:tab>
+								 
 								<rich:tab header="#{msg.issueconfiguration}">
 								
 								
 									<rich:panel header="#{msg.issuestypes}">
 										<h:panelGrid columns="2">
 											<h:panelGrid columns="2">
-												<h:outputText value="#{msg.issuestypes}" />
-												<h:inputText value="#{newprojectctrl.currentIssueType.description}" />
-												<a4j:commandButton value="#{msg.save}" action="#{newprojectctrl.saveIssueType()}" execute="@form" render="typestable" />	
-											</h:panelGrid>
-											<rich:dataTable id="typestable" value="#{newprojectctrl.createdIssuesTypes}" var="item" >
-												<rich:column>
-													<f:facet name="header">
-														<h:outputText value="#{msg.issuetype}"/>
-													</f:facet>
-													<h:outputText value="#{item.description}"/>
-												</rich:column>
-												<rich:column>
-													<f:facet name="header">
-														<h:outputText value="#{msg.assignproperty}"/>
-													</f:facet>
-													<a4j:commandButton value="#{msg.create}" action="#{newprojectctrl.updateCurrentIssueType(item)}" render="propertypanelid" execute="@form">
-														
+												<h:form id="typeform">
+													<h:outputText value="#{msg.issuestypes}" />
+													<h:inputText id="descType" value="#{newprojectctrl.currentIssueType.description}" />
+													<a4j:commandButton value="#{msg.save}" action="#{newprojectctrl.saveIssueType()}" execute="@form" render="typeform,typestable,propertypanelid">
+														<a4j:ajax event="complete" render="typeform"/>
 													</a4j:commandButton>
-												</rich:column>
-											</rich:dataTable>
+												</h:form>
+											</h:panelGrid>
+												
+												<h:form>
+												<rich:dataTable id="typestable" value="#{newprojectctrl.createdIssuesTypes}" var="item" >
+													<rich:column>
+														<f:facet name="header">
+															<h:outputText value="#{msg.issuetype}"/>
+														</f:facet>
+														<h:outputText value="#{item.description}"/>
+													</rich:column>
+													<rich:column>
+														<f:facet name="header">
+															<h:outputText value="#{msg.assignproperty}"/>
+														</f:facet>
+														<a4j:commandButton value="#{msg.remove}" action="#{newprojectctrl.removeIssueType(item)}" render="typestable" execute="@form">
+															
+														</a4j:commandButton>
+													</rich:column>
+												</rich:dataTable>
+												</h:form>
+											
+											<rich:dataScroller for="typestable" maxPages="5" renderIfSinglePage="false"/>
+											
 										</h:panelGrid>
 									</rich:panel>
 									
 									<a4j:outputPanel id="propertypanelid">
 										<rich:panel header="#{msg.propertytypes}">
+											<h:form>
 											<h:panelGrid columns="2">
 												<h:outputText value="#{msg.issuetype}" />
-												
-												<h:inputText value="#{newprojectctrl.currentIssueType.description}" readonly="true"/>	
+												<h:selectOneMenu id="selecttype" defaultLabel="#{msg.selectatype}" value="#{newprojectctrl.currentIssueType}"> 	 
+														<f:selectItems value="#{newprojectctrl.selectCreatedIssueTypes()}"/>
+												</h:selectOneMenu>
 												<h:outputText value="#{msg.propertyname}" />
 												<h:inputText value="#{newprojectctrl.currentIssueProperty.description}"/>
 												<h:outputText value="#{msg.propertytype}"/>
-												<rich:select defaultLabel="#{msg.selectatype}"  value="#{newprojectctrl.currentIssuePropertyType}" converter="#{newprojectctrl.propertyConverter()}">
+												<h:selectOneMenu defaultLabel="#{msg.selectatype}"  value="#{newprojectctrl.currentIssuePropertyType}" converter="#{newprojectctrl.propertyConverter()}">
 													<f:selectItems value="#{newprojectctrl.allTypes}"/>
-												</rich:select>
+												</h:selectOneMenu>
+												
+												<a4j:commandButton action="#{newprojectctrl.saveProperty()}" value="#{msg.add}" render="propertypanelid" execute="@form"/>
 
-											</h:panelGrid>
+												</h:panelGrid>
+											</h:form>
+											
+											<h:form>
 											<rich:dataTable id="propertytypestable" value="#{newprojectctrl.propertyTypes}" var="item" >
 												<f:facet name="header">
 													<h:outputText value="#{msg.propertytypes}"/>
@@ -108,64 +155,44 @@
 													</f:facet>
 													<h:outputText value="#{item.type.name}" />
 												</h:column>
+												<h:column>
+													<f:facet name="header">
+														<h:outputText value="#{msg.actions}"/>
+													</f:facet>
+													<a4j:commandButton action="#{newprojectctrl.removePropertyType}" value="#{msg.remove}" execute="@form" render="propertytypestable"/>												
+												</h:column>
 											</rich:dataTable>
+											</h:form>
 											
-											<a4j:commandButton action="#{newprojectctrl.saveProperty()}" value="#{msg.savepropertytype}" render="propertytypestable" execute="@form"/>
 										</rich:panel>
 										
-										
-										
+										<rich:panel header="#{msg.workflow}">
+											<h:form>
+												<h:panelGrid columns="1">
+													<h:selectOneMenu defaultLabel="#{msg.selectatype}"  
+																 value="#{newprojectctrl.currentIssueType}" 
+																 converter="#{newprojectctrl.propertyConverter()}">
+														<f:selectItems value="#{newprojectctrl.createdIssuesTypes}"/>
+														<a4j:ajax event="change" render="workflowpanel"/>
+													</h:selectOneMenu>
+																									
+													<rich:panel id="workflowpanel" header="#{msg.workflow}" rendered="#{newprojectctrl.currentIssueType !=null and newprojectctrl.currentIssueType.description != null}">
+														<rich:orderingList value="#{newprojectctrl.allIssueStatus}" var="item" itemValue="#{item}" itemLabel="#{item.description}"/>
+													</rich:panel>													
+												</h:panelGrid>												
+											</h:form>
+										</rich:panel>	
 										
 									</a4j:outputPanel>
 										
 									</rich:tab>
-									<rich:tab header="#{msg.workflow}">
-										<rich:panel header="#{msg.workflow}">
-											<h:panelGrid columns="1">
-												<rich:select defaultLabel="#{msg.selectatype}"  value="#{newprojectctrl.currentIssuePropertyType}" converter="#{newprojectctrl.propertyConverter()}">
-													<f:selectItems value="#{newprojectctrl.createdIssuesTypes}"/>
-												</rich:select>
-												
-												<h:panelGrid columns="2">
-												 <rich:dataTable id="statusSource" columns="1" value="#{newprojectctrl.allIssueStatus}" var="item">
-												 	<f:facet name="header">
-												 		
-												 	</f:facet>
-								                    <h:column>
-								                        <a4j:outputPanel layout="block" styleClass="default">
-								                            <rich:dragSource type="#{item.description}" dragValue="#{item}" />
-								                            <h:outputText value="#{item.description}"></h:outputText>
-								                        </a4j:outputPanel>
-								                    </h:column>
-								                </rich:dataTable>
-								                
-								                 <rich:panel styleClass="dropTargetPanel">
-									                <f:facet name="header">
-									                    <h:outputText value="#{msg.workflowsort}" />
-									                </f:facet>
-									                <rich:dropTarget acceptedTypes="@all" dropValue="item" dropListener="#{DnDIssueStatus.processDrop}"
-									                    render="targetstatus statusSource" />
-									 
-									                <rich:dataTable id="targetstatus" columns="1" value="#{newprojectctrl.targetIssueStatus}" var="item">
-									                    <h:column>
-									                        <h:outputText value="#{item.description}"></h:outputText>
-									                    </h:column>
-									                </rich:dataTable>
-									 			
-									 
-									              </rich:panel>
-									            
-									            
-												</h:panelGrid>
-											</h:panelGrid>
-										</rich:panel>
-									</rich:tab>
+									
 												
 									</rich:tabPanel>
 								
 								
 								<h:commandButton value="#{msg.createproject}" action="#{newprojectctrl.createProject()}" />
-							</h:form>
+						</h:form>								
 						
 						
 						</rich:panel>

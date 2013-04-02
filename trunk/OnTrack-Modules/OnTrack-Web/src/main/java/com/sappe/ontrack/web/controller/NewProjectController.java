@@ -3,23 +3,28 @@ package com.sappe.ontrack.web.controller;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.convert.Converter;
+import javax.faces.model.SelectItem;
 
 import com.sappe.ontrack.model.issues.IssueProperty;
 import com.sappe.ontrack.model.issues.IssuePropertyType;
 import com.sappe.ontrack.model.issues.IssueStatus;
 import com.sappe.ontrack.model.issues.IssueType;
 import com.sappe.ontrack.model.issues.Project;
+import com.sappe.ontrack.model.issues.Workflow;
 import com.sappe.ontrack.model.users.Role;
 import com.sappe.ontrack.model.users.User;
 import com.sappe.ontrack.sdk.interfaces.IssuePropertyService;
 import com.sappe.ontrack.sdk.interfaces.IssueStatusService;
+import com.sappe.ontrack.sdk.interfaces.IssueTypeService;
 import com.sappe.ontrack.sdk.interfaces.ProjectService;
 import com.sappe.ontrack.sdk.interfaces.RoleService;
 import com.sappe.ontrack.sdk.interfaces.UserService;
@@ -49,6 +54,9 @@ public class NewProjectController implements Serializable{
 	@ManagedProperty(value="#{projectsrv}")
 	private ProjectService projectSrv;
 	
+	@ManagedProperty(value="#{issuetypesrv}")
+	IssueTypeService issueTypeService;
+	
 	
 	private List<User> allUsers = new ArrayList<User>();
 	private List<User> selectedUser = new ArrayList<User>();
@@ -74,6 +82,10 @@ public class NewProjectController implements Serializable{
 	
 	private List<IssueStatus> targetIssueStatus = new ArrayList<IssueStatus>();
 	
+	private List<IssueStatus> issueStatus = new ArrayList<IssueStatus>();
+	
+	private IssueStatus currentStatus;
+	
 	
 	public void addStatusToTarget(IssueStatus is){
 		targetIssueStatus.add(is);
@@ -93,11 +105,17 @@ public class NewProjectController implements Serializable{
 		currentIssueType = issueType;
 	}
 	
-	public void saveIssueType(){
-		if(!createdIssuesTypes.contains(currentIssueType)){
-			createdIssuesTypes.add(currentIssueType);	
-			currentIssueType = new IssueType();
+	public void removeIssueType(IssueType it){
+		if(it!=null && createdIssuesTypes.contains(it)){
+			createdIssuesTypes.remove(it);
 		}
+	}
+	
+	public void saveIssueType(){
+		if(!createdIssuesTypes.contains(currentIssueType) && currentIssueType != null){
+			createdIssuesTypes.add(currentIssueType);	
+		}
+		currentIssueType = new IssueType();
 	}
 	
 	public List<IssuePropertyType> getAllTypes(){
@@ -106,17 +124,65 @@ public class NewProjectController implements Serializable{
 		return types;
 	}
 	
+	public void upStatus(IssueStatus is){
+		int currentIndex = issueStatus.indexOf(is);
+		if(currentIndex < 1){
+			return;
+		}
+		issueStatus.set(currentIndex-1, is);
+	}
+	
+	/**
+	 * Algoritmo
+	 * 
+	 * if(idx == 1) 
+	 * 
+	 * 
+	 * @param is
+	 */
+	public void downStatus(IssueStatus is){
+		int currentIndex = issueStatus.indexOf(is);
+		if(currentIndex > issueStatus.size()){
+			return;
+		}
+		issueStatus.set(currentIndex+1, is);
+	}
+	
+	public void upStatus(){
+		System.out.println("#################### UP STATUS ###########");
+	}
+	
+	public void downStatus(){
+		System.out.println("#################### UP STATUS ###########");
+	}
+	
+	public Set<IssueType> retrieveIssueTypesByProject(){
+		if(project.getId()!=null){
+			issueTypeService.getIssueTypesByProject(project.getId());
+		}
+		return new HashSet<IssueType>();
+	}
+	
 	public void saveProperty(){
 //		propertiesForIssueType.put(currentIssueType, propertyTypes);
 		currentIssueProperty.setType(currentIssuePropertyType);
 		propertyTypes.add(currentIssueProperty);
 		currentIssueProperty = new IssueProperty();
 		currentIssuePropertyType = new IssuePropertyType();
+	}
+	
+	public Workflow buildWorflow(IssueType issueType, List<IssueStatus>issueStatus, Project project){
+		Workflow workflow = new Workflow();
+		workflow.setIssueType(issueType);
+		workflow.setIssueStatus(issueStatus);
+		workflow.setProject(project);
 		
+		return workflow;
 	}
 	
 	public List<IssueStatus> getAllIssueStatus(){
-		return issueStatusService.getAllIssueStatus();
+		issueStatus = issueStatusService.getAllIssueStatus();
+		return issueStatus;
 	}
 	
 	public Converter converter(){
@@ -125,6 +191,10 @@ public class NewProjectController implements Serializable{
 	
 	public Converter propertyConverter(){
 		return new GenericListConverter(getAllTypes(), "id");
+	}
+	
+	public Converter issueStatusConverter(){
+		return new GenericListConverter(getAllIssueStatus(), "id");
 	}
 	
 	
@@ -185,6 +255,14 @@ public class NewProjectController implements Serializable{
 
 	public List<IssueType> getCreatedIssuesTypes() {
 		return createdIssuesTypes;
+	}
+	
+	public List<SelectItem> selectCreatedIssueTypes(){
+		List<SelectItem> items = new ArrayList<SelectItem>();
+		for (IssueType item : createdIssuesTypes) {
+			items.add(new SelectItem(item,item.getDescription()));
+		}
+		return items;
 	}
 
 
@@ -289,9 +367,31 @@ public class NewProjectController implements Serializable{
 	public void setProjectSrv(ProjectService projectSrv) {
 		this.projectSrv = projectSrv;
 	}
-	
-	
 
+	public IssueTypeService getIssueTypeService() {
+		return issueTypeService;
+	}
+
+	public void setIssueTypeService(IssueTypeService issueTypeService) {
+		this.issueTypeService = issueTypeService;
+	}
+
+	public List<IssueStatus> getIssueStatus() {
+		return issueStatus;
+	}
+
+	public void setIssueStatus(List<IssueStatus> issueStatus) {
+		this.issueStatus = issueStatus;
+	}
+
+	public IssueStatus getCurrentStatus() {
+		return currentStatus;
+	}
+
+	public void setCurrentStatus(IssueStatus currentStatus) {
+		this.currentStatus = currentStatus;
+	}
+	
 	
 
 }

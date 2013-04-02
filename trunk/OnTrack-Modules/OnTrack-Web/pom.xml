@@ -9,6 +9,49 @@
 	<groupId>com.sappe.ontrack.web</groupId>
 	<artifactId>OnTrack-Web</artifactId>
 	<packaging>war</packaging>
+	
+	<build>
+		<finalName>OnTrack</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		<!-- copyToTomcat with build.xml -->
+			 <plugin>
+			   <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                     <executions>
+                    <execution>                      
+                        <id>package-ear</id>
+                        <phase>package</phase>                         
+                        <configuration>
+                            <tasks>
+                                <ant target="copywar" inheritRefs="true">
+                                <!-- Here, connect with build.xml -->                         
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+			<!-- End of copyToTomcat -->
+		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>${resources.location}</directory>
+			</resource>
+		</resources>
+	</build>
 
 
 	<dependencyManagement>

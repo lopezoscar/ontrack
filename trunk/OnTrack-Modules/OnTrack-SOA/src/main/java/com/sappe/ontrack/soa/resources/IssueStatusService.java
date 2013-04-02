@@ -44,7 +44,7 @@ public class IssueStatusService {
 		return issueStatus;		
 	}
 	
-	@POST
+	@GET
 	@Path("getallissuestatus")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<IssueStatus> getAllIssueStatus(){
