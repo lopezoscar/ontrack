@@ -57,7 +57,7 @@ public class Project implements Serializable{
 	@JoinColumn(name="id_project")
 	private List<Role> roles;
 	
-	@ManyToMany
+	@ManyToMany(mappedBy="projects")
 	private List<User> users;
 	
 	public Project(){}

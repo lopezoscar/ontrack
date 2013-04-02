@@ -29,7 +29,33 @@
 						<ui:include src="/myprojects-include.xhtml"/>
 						<ui:include src="issuelist.xhtml"></ui:include>	
 						<ui:include src="chart.xhtml"></ui:include>
-							
+						
+						<div>
+								<rich:panel>
+										<f:facet name="header">
+							                <h:outputText value="#{msg.persons}"></h:outputText>
+							            </f:facet>
+										<rich:pickList value="#{membersctrl.selectedMembers}" var="member" listHeight="200px">
+							                <f:selectItems value="#{membersctrl.contactsFromUser()}" />
+							                <rich:column>
+							                    <f:facet name="header">
+							                    	<h:outputText value="#{msg.photo}"/> 
+							                    </f:facet>
+							                    <h:graphicImage url="#{member.photoLink}" alt="flag" width="33"/>
+							                </rich:column>
+							                <rich:column>
+							                    <f:facet name="header"><h:outputText value="#{msg.name}"/></f:facet>
+							                    <h:outputText value="#{member.name}"/>
+							                </rich:column>
+							                <rich:column>
+							                    <f:facet name="header"><h:outputText value="#{msg.email}"/></f:facet>
+							                    <h:outputText value="#{member.email}"/>
+							                </rich:column>
+							            </rich:pickList>
+						           
+									</rich:panel>
+			
+								</div>	
 						
 					</h:panelGrid>
 					

@@ -37,8 +37,8 @@ public class Role implements Serializable{
 	@Column(name="acronym")
 	private String acronym;
 	
-	@ManyToOne
-	private Project project;
+//	@ManyToOne
+//	private Project project;
 	
 	@ManyToMany
 	private List<Permission> permissions;
@@ -75,6 +75,16 @@ public class Role implements Serializable{
 	public void setPermissions(List<Permission> permissions) {
 		this.permissions = permissions;
 	}
+	
+	
+
+//	public Project getProject() {
+//		return project;
+//	}
+//
+//	public void setProject(Project project) {
+//		this.project = project;
+//	}
 
 	@Override
 	public int hashCode() {

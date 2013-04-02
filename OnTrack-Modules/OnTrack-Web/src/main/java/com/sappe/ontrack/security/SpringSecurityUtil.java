@@ -1,10 +1,10 @@
 package com.sappe.ontrack.security;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 
 import com.sappe.ontrack.model.users.Role;
 import com.sappe.ontrack.model.users.User;
@@ -13,8 +13,8 @@ public class SpringSecurityUtil {
 	
 	public static final Collection<GrantedAuthority> getAuthorities(User user){
 		
-		final String[] authorities = new String[user.getRoles().size()];
 		if(user != null){
+			final String[] authorities = new String[user.getRoles().size()];
 //			if(user.getPermissions() != null){
 //				for (int permission = 0; permission < user.getPermissions().size() ; permission++) {
 //					authorities[permission] = user.getPermissions().get(permission).getAcronym();
@@ -29,7 +29,8 @@ public class SpringSecurityUtil {
 			}
 		}
 		
-		List<GrantedAuthority> permissions = AuthorityUtils.createAuthorityList(authorities);
+//		List<GrantedAuthority> permissions = AuthorityUtils.createAuthorityList(authorities);
+		List<GrantedAuthority> permissions = new ArrayList<GrantedAuthority>();
 		return permissions;
 	} 
 	
