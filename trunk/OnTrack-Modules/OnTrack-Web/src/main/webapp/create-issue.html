@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html lang="es-AR">
+	<head>
+		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		 <meta charset="UTF-8"/>
+		 <!-- Bootstrap -->
+    	 <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+    	 <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    	 
+    	 <script src="js/jquery.js"></script>
+    	 <script src="js/bootstrap.js"></script>
+    	 
+    	 <!-- CSS  -->
+    	 <link rel="css/global.css" rel="stylesheet" />
+    	 
+    	 <!-- CKEditor -->
+    	 <script src="ckeditor/ckeditor.js"></script>
+    	 <script>
+			  	$('.dropdown-toggle').dropdown();
+			  </script>
+<!--     	 <script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script> -->
+
+	</head>
+	
+	<body>
+	
+		<div class="container">
+			<div class="navbar">
+			  <div class="navbar-inner">
+			    <a class="brand" href="home.html">OnTrack</a>
+			    <ul class="nav">
+			      <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Proyectos
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a href="create-project.html">Crear Proyecto</a></li>
+				      <li><a href="my-projects.html">Mis Proyectos</a></li>
+				    </ul>
+				  </li>
+			      <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Issues
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a href="create-issue.html">Crear Issue</a></li>
+				      <li><a href="my-issues.html">Mis Issues</a></li>
+				      <li><a href="search-issues.html">Buscar Issues</a></li>
+				    </ul>
+				  </li>
+				  
+				  <li class="pull-right"><a href="#">Perfil</a></li>
+			      <li class="pull-right"><a href="#">Salir</a></li>
+				  
+			    </ul>
+			    
+			    <form class="navbar-search pull-right">
+					  <input type="text" class="search-query" placeholder="Search">
+				</form>
+			  </div>
+			</div>			
+			<!-- End Nav Bar -->
+			
+			
+			
+  		</div>
+  		<!-- End Container -->
+  		
+  		<div class="container-fluid">
+  		<!-- 
+  			Tipo de Issue Combo
+  			Estado Combo
+  			Reporter Text
+  			Descripcion editor textarea
+  			
+  			Attachments e Historial - Tab
+  			
+  			Comments - Table (Lectura)
+  			Comment - Textarea
+  			Boton add Entry
+  			
+  			Boton Crear Issue
+  			
+  			 -->
+			<fieldset>
+				<legend>Crear Issue</legend>
+			</fieldset> 
+			
+			<div class="row-fluid">
+			
+			<div class="span3 well">
+			<div class="btn-group btn-group-vertical">
+  			  <button class="btn dropdown-toggle" data-toggle="dropdown">
+			 	Proyecto
+			 	<span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu">
+				    <li><a>OnTrack</a></li>
+				    <li><a>FreeMarker</a></li>
+				    <li><a>YourJob</a></li>
+				  </ul>
+  			
+  			 
+			
+			  <button class="btn dropdown-toggle" data-toggle="dropdown">
+			 	Tipo de Issue
+			 	<span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu">
+			    <li><a>BUG</a></li>
+			    <li><a>ISSUE</a></li>
+			    <li><a>TASK</a></li>
+			    <li><a>DOC</a></li>
+			  </ul>
+  			 
+  			  <button class="btn dropdown-toggle" data-toggle="dropdown">
+			 	Estado
+			 	<span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu">
+				    <li><a>TODO</a></li>
+				    <li><a>DOING</a></li>
+				    <li><a>TEST</a></li>
+				    <li><a>DONE</a></li>
+				  </ul>
+  			  </div>
+  			 
+  			 <input name="Reporter" type="text" placeholder="Reporter" class="input-medium"/>
+  			 <input name="Owner" type="text" placeholder="Owner" class="input-medium"/>
+  			
+  			 </div>
+  			 <!-- End Span02 -->
+  			 
+  			 <div class="span9">
+  			 	<textarea class="ckeditor" name="editor"></textarea>
+  			 	
+  			 	<div class="well">
+				  <form>
+				  	  <label>Attachments</label>
+				  	  <input type="file" name="attachment" />
+					  <button type="submit" class="btn">Guardar Archivo</button>
+				  </form>
+  				</div>
+  			 </div>
+  			 
+  			 
+  			 </div>
+  			 <!-- End Row Fluid  -->
+  			 
+  			
+  			 
+  			 
+  			 
+  			 
+  			 <div class="form-actions">
+				<input type="button" class="btn btn-primary" value="Guardar Issue"/>
+			</div>
+			
+  			 
+  			
+</div>
+  			 
+  		</div>
+  		<!-- End Container -->
+  		
+	</body>
+	
+</html>
