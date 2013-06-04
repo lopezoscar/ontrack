@@ -19,5 +19,7 @@ common.loader=${catalina.base}/lib,${catalina.base}/lib/*.jar,${catalina.home}/l
 El archivo properties tiene las siguientes keys
 
 hibernate.connection.url = jdbc:mysql://localhost:3306/ontrack?autoReconnect=true
+
 hibernate.connection.username = ****
+
 hibernate.connection.password = ****
