@@ -161,7 +161,7 @@ public class ContactServiceTest {
 			System.out.println("Photo Link: " + photoLinkHref);
 			if(photoLink != null){
 				DocumentFile image = downloadPhoto(service,entry);
-				memberBuild.image(image);
+//				memberBuild.image(image);
 			}
 			if (photoLink.getEtag() != null) {
 
@@ -173,6 +173,13 @@ public class ContactServiceTest {
 
 			Member member = memberBuild.build();
 			members.add(member);
+		}
+		
+		
+		
+		for (Member member : members) {
+			System.out.println(member.getName());
+			System.out.println(member.getEmail());
 		}
 	}
 
