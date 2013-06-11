@@ -10,6 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,8 @@ public class IssueStatusService {
 	@Autowired
 	IssueStatusManager issueStatusManager;
 	
+	static final Logger logger = Logger.getLogger(IssueStatusService.class);
+	
 	
 	@POST
 	@Path("createissuestatus")
@@ -41,6 +44,7 @@ public class IssueStatusService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public IssueStatus getIssueStatusById(@PathParam("pk") Long primaryKey){
 		IssueStatus issueStatus = issueStatusManager.read(primaryKey);
+		logger.info("Se obtuvo el id: "+primaryKey+" de Issue Status");
 		return issueStatus;		
 	}
 	

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="AR_ES">
+<html lang="AR_ES" ng-app>
 	<head>
 		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		 <meta charset="UTF-8"/>
@@ -11,6 +11,7 @@
     	 <link href="jquery-ui/css/smoothness/jquery-ui.css" rel="stylesheet"/>
     	 <link href="css/global.css" rel="stylesheet" />
     	 
+    	  
     	 <!-- JS -->
     	 <!-- JQuery -->
     	 <script src="js/jquery.js"></script>
@@ -18,6 +19,10 @@
     	 <script src="jquery-ui/js/jquery-ui.js"></script>
     	 <!-- Bootstrap -->
     	 <script src="js/bootstrap.js"></script>
+    	 <!-- Angular JS -->
+    	 <script src="angularjs/angular.js"></script>
+    	 <!-- Create Project JS -->
+    	 <script src="js/create-project.js"></script>
     	 
     	 <script src="js/jquery.ddslick.min.js"></script>
 
@@ -28,52 +33,22 @@
     		  $(this).tab('show');
     		})
     		
-    		//Dropdown plugin data
-var ddData = [
-    {
-        text: "Facebook",
-        value: 1,
-        selected: false,
-        description: "Description with Facebook",
-        imageSrc: "http://dl.dropbox.com/u/40036711/Images/facebook-icon-32.png"
-    },
-    {
-        text: "Twitter",
-        value: 2,
-        selected: false,
-        description: "Description with Twitter",
-        imageSrc: "http://dl.dropbox.com/u/40036711/Images/twitter-icon-32.png"
-    },
-    {
-        text: "LinkedIn",
-        value: 3,
-        selected: true,
-        description: "Description with LinkedIn",
-        imageSrc: "http://dl.dropbox.com/u/40036711/Images/linkedin-icon-32.png"
-    },
-    {
-        text: "Foursquare",
-        value: 4,
-        selected: false,
-        description: "Description with Foursquare",
-        imageSrc: "http://dl.dropbox.com/u/40036711/Images/foursquare-icon-32.png"
-    }
-];
-    		$('#demoBasic').ddslick({
-			    data: ddData,
-			    width: 300,
-			    imagePosition: "left",
-			    selectText: "Select your favorite social network",
-			    onSelected: function (data) {
-			        console.log(data);
-			    }
-			});
+    		$(function() {
+			    $( "#sortable" ).sortable();
+			    $( "#sortable" ).disableSelection();
+			  });
     		
     	 </script>
     	 
+    	 <style>
+    	 	#sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+			#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
+			#sortable li span { position: absolute; margin-left: -1.3em; }
+    	 </style>
+    	 
 	</head>
 	
-	<body>
+	<body ng-controller="CreateProjectCtrl">
 	
 		<div class="container">
 			<div class="navbar">
@@ -124,7 +99,8 @@ var ddData = [
   			
   			<ul class="nav nav-tabs" id="projectTab">
 			  <li><a href="#persons" data-toggle="tab">Integrantes</a></li>
-			  <li><a href="#config" data-toggle="tab">Configuración</a></li>
+			  <li><a href="#config" data-toggle="tab">Tipos de Issues</a></li>
+			  <li><a href="#status" data-toggle="tab">Estados</a></li>
 			  <li><a href="#workflow" data-toggle="tab">Workflow</a></li>
 			</ul>
 			<div class="tab-content">
@@ -134,26 +110,16 @@ var ddData = [
 				<div class="container-fluid">
 				<div class="row-fluid">
 					<div class="span6 well">
-						<div class="media">
+					
+						<p>Cantidad de Contactos: {{members.length}}</p>
+						<div class="media" ng-repeat="member in members">
 						  <input type="checkbox" class="pull-left" style="padding-right:20px"/>
-						  <a class="pull-left" href="#">
-						    <img class="media-object" data-src="holder.js/64x64" src="img/marce.jpg" style="width:64px; height:64px;">
-						  </a>
+<!-- 						  <a class="pull-left" href="#"> -->
+<!-- 						    <img class="media-object" data-src="holder.js/64x64" src="{{member.photoLink}}" style="width:64px; height:64px;"> -->
+<!-- 						  </a> -->
 						  <div class="media-body">
-						    <h4 class="media-heading">Marcelo Urreli</h4>
-						    <p style="display:inline">Test/QA en Sappe.com</p>
-						  </div>
-						</div>
-						
-						<div class="media">
-						  <input type="checkbox" class="pull-left" style="padding-right:20px"/>
-						  <a class="pull-left" href="#">
-						    <img class="media-object" data-src="holder.js/64x64" src="img/nico.jpg" style="width:64px; height:64px;">
-						  </a>
-						  <div class="media-body">
-						    <h4 class="media-heading">Nicolas Reymundo</h4>
-						    <p style="display:inline">Test/QA en Sappe.com</p>
-						  
+						    <h4 class="media-heading">{{member.name}}</h4>
+						    <p style="display:inline">{{member.email}}</p>
 						  </div>
 						</div>
 						
@@ -180,11 +146,13 @@ var ddData = [
 			  	
 			  		<fieldset>
 			  			<legend>Tipo de Issue</legend>
-			  		
-					<input type="text" placeholder="Tipo de Issue"/>
-					<input type="button" class="btn btn-primary" value="Guardar"/>
+			  		<form novalidate class="simple-form">
+						<input id="issueTypeDesc" type="text" placeholder="Tipo de Issue" ng-model="desc"/>
+						<input type="button" class="btn btn-primary" value="Guardar" ng-click="saveIssueType(desc)"/>
+					</form>
 					
-					<table class="table">
+					<div class="span6">
+					<table class="table" >
 		  				<thead>
 		  					<tr>
 			  					<th>Nombre</th>
@@ -192,39 +160,95 @@ var ddData = [
 		  					</tr>
 		  				</thead>
 		  				<tbody>
-		  					<tr>
-			  					<td>Nombre</td>
-			  					<td>Acciones</td>
+		  					<tr ng-repeat="type in issueTypes">
+			  					<td ng-model="desc">{{type.desc}}</td>
+			  					<td>
+			  						<a href="#issueTypeModal" role="button" class="btn btn-primary" data-toggle="modal" ng-click="setCurrentIssueType(type)">Editar</a>
+			  						<input type="button" class="btn btn-danger" value="Eliminar" ng-click="removeIssueType($index)"/>
+			  					</td>
 		  					</tr>
 		  				</tbody>
 		  			</table>
 		  			
+		  			</div>
+		  			
 		  			</fieldset>
 		  		</div>
 		  		
-		  		<div>
-		  			<fieldset>
-		  			
-		  			<legend>Tipos de Propiedad</legend>
-		  			
-		  			
-		  			<ul class="nav well">
-		  				<li class="dropdown">
-						    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						      Tipo de Issues
-						      <b class="caret"></b>
-						    </a>
-						    <ul class="dropdown-menu">
-						      <li><a href="#">Issue</a></li>
-						      <li><a href="#">Bug</a></li>
-						      <li><a href="#">Task</a></li>
-						    </ul>
-						  </li>
-		  			</ul>
-		  			
-	  				<input type="text" placeholder="Tipo de Propiedad"/>			
-	  				<input type="button" class="btn btn-primary" value="Guardar"/>
-		  			
+		  		
+		  		
+		  		
+			  
+			  </div>
+			  <div class="tab-pane" id="status">
+			  
+			  		<h4>Elige un Tipo de Issue y crear los Estados</h4>
+			  		
+			  		<form novalidate class="simple-form">
+				  		<select ng-change="updateCurrentType(type)" ng-model="status.type" ng-options="type.desc for type in issueTypes"></select>
+				  		<input type="text" class="input-medium" ng-model="status.description"/>
+				  		<input type="button" class="btn btn-primary" value="Guardar" ng-click="saveStatus(status)"/>
+			  		</form>	  		
+			  		
+			  		<div class="span6">
+						<table class="table" >
+			  				<thead>
+			  					<tr>
+				  					<th>Estado</th>
+				  					<th>Acciones</th>
+			  					</tr>
+			  				</thead>
+			  				<tbody>
+			  					<tr ng-repeat="status in currentTypeForIssueStatus.status">
+				  					<td ng-model="desc">{{status.description}}</td>
+				  					<td>
+				  						<input type="button" class="btn btn-danger" value="Eliminar" ng-click="removeStatusFromIssueType($index)"/>
+				  					</td>
+			  					</tr>
+			  				</tbody>
+			  			</table>
+		  			</div>
+			  </div>
+			  
+			  <div class="tab-pane" id="workflow">
+			  		<div class="span6">
+						<h4>Workflow</h4>
+						<form novalidate class="simple-form">
+					  		<select ng-model="workflow.type" ng-options="type.desc for type in issueTypes"></select>
+					  		
+						    <ul id="sortable">
+							  <li class="ui-state-default" ng-repeat="status in workflow.type.status"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{status.description}}</li>
+							</ul>
+							
+							
+						</form>	  		
+					</div>
+			  </div>
+			</div>	
+			
+			<div class="form-actions">
+				<input type="button" class="btn btn-primary" disabled="disabled" value="Guardar Proyecto"/>
+			</div>
+  		</div>
+  		
+  		
+  		<!-- Modal -->
+		<div id="issueTypeModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h3 id="myModalLabel">Tipos de Propiedad</h3>
+		  </div>
+		  <div class="modal-body">
+		    <div>
+		  			<form novalidate class="simple-form">
+						<input type="text" class="input-small uneditable-input" ng-readonly="true" placeholder="{{currentIssueType.desc}}" ng-model="property.issueType"/>
+						<select ng-model="property.type" ng-options="type.name for type in issuePropertyTypes" ng-required>
+						</select>
+			  			
+		  				<input type="text" placeholder="Nombre" ng-model="property.description"/>
+		  				<input type="button" class="btn btn-primary" value="Guardar" ng-click="savePropertyType(property)"/>
+	  				
+		  			</form>
 		
 					
 					<table class="table">
@@ -237,64 +261,21 @@ var ddData = [
 		  					</tr>
 		  				</thead>
 		  				<tbody>
-		  					<tr>
-								<td>Bug</td>
-			  					<td>Descripcion</td>
-			  					<td>Texto</td>
-			  					<td>Acciones</td>
+		  					<tr ng-repeat="prop in currentIssueType.issueProperties">
+		  						<td>{{prop.issueType.desc}}</td>
+			  					<td>{{prop.description}}</td>
+								<td>{{prop.type.name}}</td>
+			  					<td><input type="button" class="btn btn-primary" value="Eliminar" ng-click="removePropertyType($index)"/></td>
 		  					</tr>
 		  				</tbody>
 		  			</table>
 		  			
-		  			</fieldset>
-		  			
 		  		</div>
-		  		
-		  		
-			  
-			  </div>
-			  <div class="tab-pane" id="workflow">
-			  
-			  	<fieldset>
-			  		<legend>Workflow</legend>
-			  		<h4>Configura el Workflow para cada tipo de Issue</h4>
-			  		
-			  		<div class="well">
-			  		
-			  		<ul class="nav">
-		  				<li class="dropdown">
-						    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						      Tipo de Issues
-						      <b class="caret"></b>
-						    </a>
-						    <ul class="dropdown-menu">
-						      <li><a href="#">Issue</a></li>
-						      <li><a href="#">Bug</a></li>
-						      <li><a href="#">Task</a></li>
-						    </ul>
-						  </li>
-		  			</ul>
-			  		</div>
-			  	
-				    <ul id="sortable">
-					  <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>TODO</li>
-					  <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>DOING</li>
-					  <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>TESTING</li>
-					  <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>DONE</li>
-					  <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>REDO</li>
-					</ul>
-			    </fieldset>
-			  
-			  </div>
-			</div>	
-			
-			<div class="form-actions">
-				<input type="button" class="btn btn-primary" disabled="disabled" value="Guardar Proyecto"/>
-			</div>
-  		</div>
-  		
-  		
-  		
+		  </div>
+		  <div class="modal-footer">
+		    <button class="btn" data-dismiss="modal" aria-hidden="true">Volver</button>
+		  </div>
+		</div>
   		
   		
   		<!-- Contenido Configuración -->

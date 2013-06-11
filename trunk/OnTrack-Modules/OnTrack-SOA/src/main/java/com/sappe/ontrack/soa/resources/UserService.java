@@ -11,6 +11,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -63,7 +65,8 @@ public class UserService {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public List<Member> contactsByUserName(User user){
+	public Response contactsByUserName(User user){
+		
 		List<Member> contacts = new ArrayList<Member>();
 		try {
 			contacts = userManager.contactsByUserName(user.getMail(),user.getPassword());
@@ -74,7 +77,9 @@ public class UserService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return contacts;
+		return Response.status(Status.OK).entity(contacts).header("Access-Control-Allow-Origin", "*").build();
+		
+//		return contacts;
 	}
 	
 	
