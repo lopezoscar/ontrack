@@ -20,13 +20,13 @@ public class SpringSecurityUtil {
 //					authorities[permission] = user.getPermissions().get(permission).getAcronym();
 //				}
 //			}
-			if(user.getRoles()!= null){
-				for (Role userRole : user.getRoles()) {
-					for (int permission = 0; permission < userRole.getPermissions().size(); permission++) {
-						authorities[permission] = userRole.getPermissions().get(permission).getAcronym();
-					}
-				}
-			}
+//			if(user.getRoles()!= null){
+//				for (Role userRole : user.getRoles()) {
+//					for (int permission = 0; permission < userRole.getPermissions().size(); permission++) {
+//						authorities[permission] = userRole.getPermissions().get(permission).getAcronym();
+//					}
+//				}
+//			}
 		}
 		
 //		List<GrantedAuthority> permissions = AuthorityUtils.createAuthorityList(authorities);
