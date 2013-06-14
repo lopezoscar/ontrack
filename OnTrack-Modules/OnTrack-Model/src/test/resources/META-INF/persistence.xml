@@ -20,7 +20,6 @@
 		<class>com.sappe.ontrack.model.users.Person</class>
 		<class>com.sappe.ontrack.model.users.User</class>
 		<class>com.sappe.ontrack.model.users.Role</class>
-		<class>com.sappe.ontrack.model.users.Permission</class>
 		<class>com.sappe.ontrack.model.users.Module</class>
     </persistence-unit>
 </persistence>

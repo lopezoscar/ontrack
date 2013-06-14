@@ -1,8 +1,12 @@
 package com.ontrack.test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 import com.sappe.ontrack.model.issues.IssueStatus;
@@ -25,7 +29,8 @@ public class WorkflowTest extends BaseTest{
 		issueStatus.add(is);
 		workflow.setIssueStatus(issueStatus);
 		
-		persiste(workflow);
+		toJson(workflow);
+//		persiste(workflow);
 	}
 
 }

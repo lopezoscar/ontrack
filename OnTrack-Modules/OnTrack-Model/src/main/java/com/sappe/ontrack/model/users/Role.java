@@ -40,8 +40,6 @@ public class Role implements Serializable{
 //	@ManyToOne
 //	private Project project;
 	
-	@ManyToMany
-	private List<Permission> permissions;
 
 	
 	public Long getId() {
@@ -66,14 +64,6 @@ public class Role implements Serializable{
 
 	public void setAcronym(String acronym) {
 		this.acronym = acronym;
-	}
-	
-	public List<Permission> getPermissions() {
-		return permissions;
-	}
-
-	public void setPermissions(List<Permission> permissions) {
-		this.permissions = permissions;
 	}
 	
 	
