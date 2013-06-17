@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="AR_ES">
+<html lang="AR_ES" ng-app>
 	<head>
 		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		 <meta charset="UTF-8"/>
@@ -12,10 +12,16 @@
     	 
     	 <!-- CSS  -->
     	 <link rel="css/global.css" rel="stylesheet" />
+    	 
+    	  <!-- Angular JS -->
+    	 <script src="angularjs/angular.js"></script>
+    	 
+    	  <!-- Search Issue JS -->
+    	 <script src="js/search-issue.js"></script>
 
 	</head>
 	
-	<body>
+	<body ng-controller="SearchIssueCtrl">
 	
 		<div class="container">
 			<div class="navbar">
@@ -62,20 +68,52 @@
   		
   		<div class="container-fluid">
   			<div class="row-fluid">
-  				<div class="span6" align="center">
-  					<h3>Filtros para búsqueda de issue</h3>
-	  				<div class="btn-group" data-toggle="buttons-radio">
-					  <button class="btn btn-info" >Proyecto</button>
-					  <button class="btn btn-info" >Owner</button>
-					  <button class="btn btn-info" >Reporter</button>
-	  				  <button class="btn btn-info" >Status</button>
-	  				  <button class="btn btn-info" >Type</button>
-					  <button class="btn btn-info" >Code</button>
-
+  				<h3>Filtros para búsqueda de issue</h3>
+  				<div class="span6 well" align="center">
+	  				<div class="btn-group" data-toggle="buttons-radio" ng-init="instanceFilters()">
+					  <button class="btn btn-info" ng-repeat="filter in filters" ng-click="updateFilter(filter)">{{filter.name}}</button>
 					</div>
 				</div>
-  			</div>
+			</div>
+			<div class="row-fluid">
+				<!-- Project - Owner - Reporter - Status - Type -Code -->
+				<form novalidate class="simple-form">
+			  		<div class="span2" ng-show="selectedFilter.isProjectFilter">
+			  			<h4>Por Proyecto</h4>
+			  			<select ng-model="selectedFilter.selectedProject" ng-options="project.name for project in selectedFiter.projects"></select>
+			  		</div>
+			  		<div class="span2" ng-show="selectedFilter.isOwnerFilter">
+			  			<h4>Por Owner</h4>
+			  			<input type="text" class="input-large" placeholder="{{selectedFilter.name}}" ng-model="selectedFilter.owner"/>
+			  		</div>
+					<div class="span2" ng-show="selectedFilter.isReporterFilter">
+			  			<h4>Por Reporter</h4>
+			  			<input type="text" class="input-large" placeholder="{{selectedFilter.name}}" ng-model="selectedFilter.reporter"/>
+			  		</div>
+			  		<div class="span2" ng-show="selectedFilter.isIssueStatusFilter">
+			  			<h4>Por IssueStatus</h4>
+			  			<select ng-model="selectedFilter.selectedProject" ng-options="project.name for project in selectedFilter.projects" ng-change="selectedFilter.changeIssueTypesByProject(workflows)"></select>
+			  			<select ng-model="selectedFilter.selectedTypeAndWorkflow" ng-options="wf.issueType.description for wf in selectedFiter.issueTypes"></select>
+			  		</div>
+			  		<div class="span2" ng-show="selectedFilter.isIssueTypeFilter">
+			  			<h4>Por IssueType</h4>
+			  			<select ng-model="selectedFilter.selectedProject" ng-options="project.name for project in selectedFilter.projects" ng-change="selectedFilter.changeIssueTypesByProject(workflows)"></select>
+			  			<select ng-model="selectedFilter.selectedTypeAndWorkflow" ng-options="wf.issueType.description for wf in selectedFiter.issueTypes"></select>
+			  		</div>
+			  		<div class="span2" ng-show="selectedFilter.isIssueCodeFilter">
+			  			<h4>Por IssueCode</h4>
+			  			<input type="text" class="input-large" placeholder="{{selectedFilter.name}}" ng-model="selectedFilter.code"/>
+			  		</div>
+			  		<div class="form-actions span10">
+			  			<input type="button" class="btn btn-primary" value="Buscar" ng-click="searchIssues(selectedFilter)">
+			  		</div>
+		  		</form>
+			</div>
+  			
+
   		</div>
+  		
+  		
   		
   		
 	</body>
