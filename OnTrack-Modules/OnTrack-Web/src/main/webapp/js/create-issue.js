@@ -19,7 +19,7 @@ function CreateIssueCtrl($scope){
     	$scope.users = getUsersByProjectAndType($scope.currentProject,issue.issueType,$scope.workflows);
     };
     
-    
+    //Duplicate function on search-issue - Ver Injección de dependencias y-o crear servicios
     function getIssueTypesBySelectedProject(currentProject,workflows){
     	var result = [];
     	angular.forEach(workflows,function(wf,idx){
