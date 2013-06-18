@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html lang="AR_ES">
+	<head>
+		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		 <meta charset="UTF-8"/>
+		 <!-- Bootstrap -->
+    	 <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+    	 <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    	 
+    	 <script src="js/jquery.js"></script>
+    	 <script src="js/bootstrap.js"></script>
+    	 
+    	 <!-- CSS  -->
+    	 <link rel="css/global.css" rel="stylesheet" />
+    	 
+    	 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		
+	<script type="text/javascript">
+
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+          ['Bugs', 3],
+          ['Issues', 1],
+          ['Releases', 1],
+          ['User Stories', 1],
+          ['Requirement', 2]
+        ]);
+
+        // Set chart options
+        var options = {'title':'Issue Types',
+                       'width':400,
+                       'height':275};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+
+	</head>
+	
+	<body>
+		<div class="container">
+			<div class="navbar">
+			  <div class="navbar-inner">
+			    <a class="brand" href="home.html">OnTrack</a>
+			    <ul class="nav">
+			      <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Proyectos
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a href="create-project.html">Crear Proyecto</a></li>
+				      <li><a href="my-projects.html">Mis Proyectos</a></li>
+				    </ul>
+				  </li>
+			      <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Issues
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a href="create-issue.html">Crear Issue</a></li>
+				      <li><a href="my-issues.html">Mis Issues</a></li>
+				      <li><a href="search-issues.html">Buscar Issues</a></li>
+				    </ul>
+				  </li>
+				  
+				  <li class="pull-right"><a href="#">Perfil</a></li>
+			      <li class="pull-right"><a href="#">Salir</a></li>
+				  
+			    </ul>
+			    
+			    <form class="navbar-search pull-right">
+					  <input type="text" class="search-query" placeholder="Search">
+				</form>
+			  </div>
+			</div>			
+			<!-- End Nav Bar -->
+  		</div>
+  		<!-- End Container -->
+  		
+  		
+  		<div class="container-fluid">
+  			<div class="row-fluid">
+  				<div class="span4">
+		  			<table class="table">
+		  				<thead>
+		  					<tr>
+			  					<th>Project ID</th>
+			  					<th>Nombre</th>
+			  					<th>Acciones</th>
+		  					</tr>
+		  				</thead>
+		  				<tbody>
+		  					<tr>
+			  					<td>Project ID</td>
+			  					<td>Nombre</td>
+			  					<td>Acciones</td>
+		  					</tr>
+		  				</tbody>
+		  			</table>
+  				</div>
+  				<!-- End Span04 -->
+  				<div class="span4">
+  					<table class="table">
+		  				<thead>
+		  					<tr>
+			  					<th>Issue ID</th>
+			  					<th>Nombre</th>
+			  					<th>Acciones</th>
+		  					</tr>
+		  				</thead>
+		  				<tbody>
+		  					<tr>
+			  					<td>Issue ID</td>
+			  					<td>Nombre</td>
+			  					<td>Acciones</td>
+		  					</tr>
+		  				</tbody>
+		  			</table>
+  				</div>
+  				<!-- End Span04 -->
+  					<div class="span4">
+  						<div id="chart_div"></div>
+  					</div>
+  				<!-- End Span04 -->
+  			</div>
+  			<!-- End Row-Fluid -->
+  		</div>
+  		<!-- End Container Fluid -->
+  		
+	</body>
+	
+</html>

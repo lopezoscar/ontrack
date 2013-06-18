@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<html lang="es-AR" ng-app>
+	<head>
+		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		 <meta charset="UTF-8"/>
+		 <!-- Bootstrap -->
+    	 <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+    	 <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    	 
+    	 <script src="js/jquery.js"></script>
+    	 <script src="js/bootstrap.js"></script>
+    	 
+    	 <!-- CSS  -->
+    	 <link rel="css/global.css" rel="stylesheet" />
+    	 <!-- Angular JS -->
+    	 <script src="angularjs/angular.js"></script>
+    	  <!-- Create Issue JS -->
+    	 <script src="js/create-issue.js"></script>
+    	 
+    	 <!-- CKEditor -->
+    	 <script src="ckeditor/ckeditor.js"></script>
+    	 <script>
+			  	$('.dropdown-toggle').dropdown();
+			  </script>
+<!--     	 <script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script> -->
+
+	</head>
+	
+	<body ng-controller="CreateIssueCtrl">
+	
+		<div class="container">
+			<div class="navbar">
+			  <div class="navbar-inner">
+			    <a class="brand" href="home.html">OnTrack</a>
+			    <ul class="nav">
+			      <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Proyectos
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a href="create-project.html">Crear Proyecto</a></li>
+				      <li><a href="my-projects.html">Mis Proyectos</a></li>
+				    </ul>
+				  </li>
+			      <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Issues
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a href="create-issue.html">Crear Issue</a></li>
+				      <li><a href="my-issues.html">Mis Issues</a></li>
+				      <li><a href="search-issues.html">Buscar Issues</a></li>
+				    </ul>
+				  </li>
+				  
+				  <li class="pull-right"><a href="#">Perfil</a></li>
+			      <li class="pull-right"><a href="#">Salir</a></li>
+				  
+			    </ul>
+			    
+			    <form class="navbar-search pull-right">
+					  <input type="text" class="search-query" placeholder="Search">
+				</form>
+			  </div>
+			</div>			
+			<!-- End Nav Bar -->
+			
+			
+			
+  		</div>
+  		<!-- End Container -->
+  		
+  		<div class="container-fluid">
+  		<!-- 
+  			Tipo de Issue Combo
+  			Estado Combo
+  			Reporter Text
+  			Descripcion editor textarea
+  			
+  			Attachments e Historial - Tab
+  			
+  			Comments - Table (Lectura)
+  			Comment - Textarea
+  			Boton add Entry
+  			
+  			Boton Crear Issue
+  			
+  			 -->
+			<fieldset>
+				<legend>Crear Issue</legend>
+			</fieldset> 
+			<form novalidate class="simple-form">
+			
+  			
+			<div class="row-fluid">
+			
+			<div class="span3 well">
+			 <input ng-model="issue.title" class="input-large" type="text" placeholder="Título">
+			 <select ng-model="issue.project" ng-options="w.project.name for w in workflows" ng-change="updateIssueTypes(issue)">
+			 	<option value='' disabled selected style='display:none;'>Elegi un proyecto</option>
+			 </select>
+			 <select ng-model="issue.issueType" ng-options="w.issueType.description for w in workflowsByProject" ng-change="updateStatusByTypeAndUsers(issue)">
+			 	<option value='' disabled selected style='display:none;'>Elegi un tipo de Issue</option>
+			 </select>
+			 <select ng-model="issue.issueStatus" ng-options="s.description for s in statusByType">
+			 	<option value='' disabled selected style='display:none;'>Elegi un Estado</option>
+			 </select>
+  			 <select ng-model="issue.owner" ng-options="u.lastName for u in users">
+  			 	<option value='' disabled selected style='display:none;'>Elegi el Responsable</option>
+  			 </select>
+  			 <input  ng-model="issue.reporter" name="Reporter" type="text" placeholder="Reporter" class="input-large" ng-readonly="true"/>
+  			
+  			 </div>
+  			 <!-- End Span02 -->
+  			 
+  			 <div class="span9">
+  			 	
+  			 	<textarea ng-model="issue.description" class="ckeditor" name="editor"></textarea>
+  			 	
+  			 	
+  			 	<div class="well">
+				  <form class="simple-form">
+				  	  <label>Attachments</label>
+				  	  <input type="file" name="attachment" />
+					  <button type="submit" class="btn">Guardar Archivo</button>
+				  </form>
+  				</div>
+  			 </div>
+  			 
+  			 </div>
+  			 <!-- End Row Fluid  -->
+  			 
+  			<div class="form-actions">
+				<input type="button" class="btn btn-primary" value="Guardar Issue" ng-click="saveIssue(issue)" ng-disabled="renderedIssueBtn"/>
+			</div>
+  			</form>
+  			<!-- End Form that wrapper all inputs and selects --> 
+  			
+  			
+		</div>
+		
+		
+  			 
+  		</div>
+  		<!-- End Container -->
+  		
+	</body>
+	
+</html>
