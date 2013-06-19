@@ -49,6 +49,7 @@ public class ServicesTest {
 			System.out.println("Class: "+key+" - Cant Methods: "+size+"\n");
 			for (MethodModelTest m : list) {
 				System.out.println(m.getPath());
+				System.out.println("Method:"+m.getMethod());
 			}
 			System.out.println("\n");
 		}
