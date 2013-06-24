@@ -1,11 +1,12 @@
 function SearchIssueCtrl($scope,$http){
 	$scope.selectedFilter = {};
-	
 	$scope.workflows = [{"id":3,"issueType":{"id":1,"description":"Bug"},"issueStatus":[{"id":1,"description":"TODO"}],"project":{"id":1,"name":"Proyecto","roles":[{"id":3,"roleName":"Desarrollador","acronym":"DEV"}],"users":[{"id":1,"firstName":"Oscar","lastName":"Lopez","mail":"lopezoscar.job@gmail.com","userName":"https://www.google.com/accounts/o8/id?id=AItOawkMAYTsPU9NHMnyriu6ija1u-qkqW5mS3I","password":"Test","roles":[],"projects":[]}]}}];
-	
+	//$scope.issues = [{"id":1,"title":"Error al guardar Issue","description":"NullPointerException al Guardar un Issue del tipo Bug para el proyecto 1","reporter":"Oscar","owner":{"id":1,"firstName":"Oscar","lastName":"Lopez","mail":"lopezoscar.job@gmail.com","userName":"https://www.google.com/accounts/o8/id?id=AItOawkk783CXOx_P9FJJXcPqEHrOwkjYXhs3g8","password":"Test","roles":[{"id":1,"roleName":"Usuario","acronym":"ROLE_USER"},{"id":2,"roleName":"Administrador","acronym":"ROLE_ADMIN"}],"projects":[]},"currentStatus":{"id":1,"description":"TODO"},"issueType":{"id":1,"description":"Cualquiera"},"parent":null,"childs":null,"project":null,"entries":null},{"id":2,"title":"Error al crear estadística","description":"Error al generar la estadística para los tipos de issue","reporter":"Oscar","owner":{"id":1,"firstName":"Oscar","lastName":"Lopez","mail":"lopezoscar.job@gmail.com","userName":"https://www.google.com/accounts/o8/id?id=AItOawkk783CXOx_P9FJJXcPqEHrOwkjYXhs3g8","password":"Test","roles":[{"id":1,"roleName":"Usuario","acronym":"ROLE_USER"},{"id":2,"roleName":"Administrador","acronym":"ROLE_ADMIN"}],"projects":[]},"currentStatus":{"id":1,"description":"TODO"},"issueType":{"id":1,"description":"Cualquiera"},"parent":null,"childs":null,"project":null,"entries":null},{"id":6,"title":"Titulo del Issue","description":"<p>\r\n\tdes</p>\r\n","reporter":"Oscar","owner":{"id":1,"firstName":"Oscar","lastName":"Lopez","mail":"lopezoscar.job@gmail.com","userName":"https://www.google.com/accounts/o8/id?id=AItOawkk783CXOx_P9FJJXcPqEHrOwkjYXhs3g8","password":"Test","roles":[{"id":1,"roleName":"Usuario","acronym":"ROLE_USER"},{"id":2,"roleName":"Administrador","acronym":"ROLE_ADMIN"}],"projects":[]},"currentStatus":{"id":1,"description":"TODO"},"issueType":{"id":2,"description":"Issue"},"parent":null,"childs":null,"project":null,"entries":null}];
+	$scope.issues = [];
 	$scope.updateFilter = function(filter){
 		filter.init($scope);
 		$scope.selectedFilter = filter;
+		$scope.issues = [];
 	};
 	
 	$scope.instanceFilters = function (){
@@ -17,13 +18,33 @@ function SearchIssueCtrl($scope,$http){
 		$scope.filters.push(new IssueCodeFilter());
 	};
 	$scope.filters = [];
-}
+	
+	$scope.searchIssues = function(){
+		$scope.selectedFilter.searchIssues($http);
+	};
+};
+
+function retrieveIssuesByGet($scope,$http,url){
+	var server = "http://localhost:8080/OnTrack-SOA/";
+	$http.get(server+url).success(function(callback){
+		$scope.issues = callback;
+	});
+};
+
+function retrieveIssuesByPOST($scope,$http,url,data){
+    var server = "http://localhost:8080/OnTrack-SOA/";
+	$http.post(server+url).data(data).success(function(callback){
+		$scope.issues = callback;
+	});
+};
+
+
 
 function ProjectFilter(){
 	this.name="Proyecto";
 	this.projects = [];
 	this.selectedProject = {};
-	
+	this.url = "issuesrv/getissusbytype";
 	this.init = function(scope){
 		//Here should be ti search workflows by user
 		var result = getAllProjectsFromWorkflows(scope.workflows);
@@ -31,12 +52,20 @@ function ProjectFilter(){
 	};
 	
 	this.isProjectFilter = true;
+	
+	
+	this.searchIssues = function($http){
+		
+	};
+	
 }
 
 function IssueTypeFilter(){
+
+	this.scope = {};
+
 	this.name="Issue Type";
 	this.projects = [];
-	
 	this.selectedProject = "";
 	this.issueTypes = [];
 	
@@ -45,14 +74,20 @@ function IssueTypeFilter(){
 	};
 	
 	this.init = function(scope){
+		this.scope = scope; 
 		this.projects = getAllProjectsFromWorkflows(scope.workflows);
 	};
 	
 	this.isIssueTypeFilter = true;
+	
+	this.searchIssues = function($http){
+		
+	};
 }
-
+	
 function IssueStatusFilter(){
 	this.name="Estado";
+	this.url = "issuesrv/getissusbystatus";
 	this.selectedProject = {};
 	this.issueType = {};
 	this.issueStatus= {};
@@ -78,6 +113,10 @@ function IssueStatusFilter(){
 	};
 	
 	this.isIssueStatusFilter = true;
+	
+	this.searchIssues = function($http){
+		
+	};
 }
 
 function issueTypesByProjectId(filter){
@@ -88,34 +127,75 @@ function issueTypesByProjectId(filter){
 }
 
 function ReporterFilter(){
+	this.scope = {};
+
 	this.name="Reporter";
 	this.reporter ="";
+	this.url = "issuesrv/getissusbyreporter";
 	
-	this.init = function(scope){};
+	this.init = function(scope){
+		this.scope = scope;
+	};
 	
 	this.isReporterFilter = true;
+	
+	this.searchIssues = function($http){
+		var params = [];
+		params.push(this.reporter);
+		
+		retrieveIssuesByGet(this.scope,$http,buildURL(this.url,params));
+	};
+	
+	function buildURL(url,params){
+		var result = url;
+		angular.forEach(params, function(value, key){
+			result = result+"/"+value;
+		});
+		return result;
+		
+	}
 }
 
 function OwnerFilter(){
+	this.scope = {};
+
 	this.name="Owner";
 	this.owner ="";
-	
-	this.init = function(scope){};
+	this.url = "issuesrv/getissuesbyownerid";
+	this.init = function(scope){
+		this.scope = scope;
+	};
 	
 	this.isOwnerFilter = true;
+	
+	this.searchIssues = function($http){
+		var params = [];
+		params.push(this.owner);
+		
+		retrieveIssuesByGet(this.scope,$http,buildURL(this.url,params));
+	};
+	
+	function buildURL(url,params){
+		var result = url;
+		angular.forEach(params, function(value, key){
+			result = result+"/"+value;
+		});
+		return result;
+		
+	}
 }
 
 function IssueCodeFilter(){
 	this.name="Issue Code";
 	this.issueCode="";
-	
+	this.url = "issuesrv/getissuesbycode";
 	this.init = function(scope){};
 	
 	this.isIssueCodeFilter = true;
-}
-
-function searchIssues(filter){
-
+	
+	this.searchIssues = function(){
+	
+	};
 }
 
 //Duplicate function on create-issue - Ver Injección de dependencias y-o crear servicios

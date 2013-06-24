@@ -61,7 +61,7 @@ function CreateProjectCtrl($scope,$http){
 		//if($.inArray(desc, $scope.issueTypes) == 0){
 			$scope.issueTypes.splice(idx,1);
 		//}
-	}
+	};
 	
 	$scope.removePropertyType = function (idx){
 	 //var index=$scope.issueTypes.indexOf(idx)
@@ -75,7 +75,7 @@ function CreateProjectCtrl($scope,$http){
 		
 		//$scope.issueProperties.splice(idx,1);
 	//}
-	}
+	};
 	
 	$scope.saveStatus = function(status){
 		var itIdx = $scope.issueTypes.indexOf(status.type);
@@ -88,51 +88,21 @@ function CreateProjectCtrl($scope,$http){
 		$scope.status = angular.copy({});
 		
 		
-	}
+	};
 	
 	$scope.setCurrentIssueType = function(type){
 		$scope.currentIssueType = type
-	}
+	};
 	
 	$scope.removeStatusFromIssueType = function(idx){
 		
-	}
+	};
 	
 	$scope.updateCurrentStatus = function(type){
 		$scope.currentTypeForIssueStatus = type;
-	}
+	};
 }
 
-function retrieveContacts(userData){
-	$.ajax({
-		  type: "POST",
-		  url: "http://localhost:8080/OnTrack-SOA/usersrv/contacts",
-		  data: userData,
-		  crossDomain: true,
-		  success: function(){
-		  		console.log("Web service OK");
-		  },
-		  dataType: "json",
-		});
-}
 
-function PhoneListCtrl($scope, $http) {
-  $http.get('phones/phones.json').success(function(data) {
-    $scope.phones = data;
-  });
- 
-  $scope.orderProp = 'age';
-}
 
-//TODO Cambiar a solución con AngularJS
-/*
-$(function(){
-	var dropdown = $(".dropdown-menu li a");
-    dropdown.click(function(){
-      //$(".btn:first-child").text($(this).text());
-      $(".btn:first-child").val($(this).text());
-
-   });
-});
-*/
 

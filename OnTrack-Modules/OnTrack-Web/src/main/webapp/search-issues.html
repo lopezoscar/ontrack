@@ -105,10 +105,28 @@
 			  			<input type="text" class="input-large" placeholder="{{selectedFilter.name}}" ng-model="selectedFilter.code"/>
 			  		</div>
 			  		<div class="form-actions span10">
-			  			<input type="button" class="btn btn-primary" value="Buscar" ng-click="searchIssues(selectedFilter)">
+			  			<input type="button" class="btn btn-primary" value="Buscar" ng-click="searchIssues()">
 			  		</div>
 		  		</form>
 			</div>
+  			<div class="row-fluid">
+  				<table class="table">
+		  				<thead>
+		  					<tr>
+			  					<th>Issue ID</th>
+			  					<th>Nombre</th>
+			  					<th>Acciones</th>
+		  					</tr>
+		  				</thead>
+		  				<tbody>
+		  					<tr ng-repeat="i in issues">
+			  					<td>{{i.id}}</td>
+			  					<td>{{i.title}}</td>
+			  					<td><input type="button" class="btn btn-primary" value="Ver" ng-click="viewIssue()"></td>
+		  					</tr>
+		  				</tbody>
+		  			</table>
+  			</div>
   			
 
   		</div>
