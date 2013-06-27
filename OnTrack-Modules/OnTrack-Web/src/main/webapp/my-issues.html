@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="AR_ES">
+<html lang="AR_ES" ng-app>
 	<head>
 		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		 <meta charset="UTF-8"/>
@@ -12,10 +12,16 @@
     	 
     	 <!-- CSS  -->
     	 <link rel="css/global.css" rel="stylesheet" />
+    	 
+    	 <!-- Angular JS -->
+    	 <script src="angularjs/angular.js"></script>
+    	 
+    	  <!-- Search Issue JS -->
+    	 <script src="js/my-issues.js"></script>
 
 	</head>
 	
-	<body>
+	<body ng-controller="MyIssuesController">
 	
 		<div class="container">
 			<div class="navbar">
@@ -57,6 +63,30 @@
 			<!-- End Nav Bar -->
   		</div>
   		<!-- End Container -->
+  		
+  		<div class="container-fluid">
+  			<div class="row-fluid">
+  				<table class="table">
+		  				<thead>
+		  					<tr>
+			  					<th>Issue ID</th>
+			  					<th>Titulo</th>
+			  					<th>Acciones</th>
+		  					</tr>
+		  				</thead>
+		  				<tbody>
+		  					<tr ng-repeat="i in issues">
+			  					<td>{{i.id}}</td>
+			  					<td>{{i.title}}</td>
+			  					<td><input type="button" class="btn btn-primary" value="Editar" ng-click="viewIssue(i)"/></td>
+		  					</tr>
+		  				</tbody>
+		  			</table>
+  			</div>
+  		
+  		</div>
+  		
+  		
 	</body>
 	
 </html>
