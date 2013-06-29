@@ -36,7 +36,6 @@ public class IssueStatusService {
 	public IssueStatus createIssueStatus(IssueStatus issueStatus){
 		IssueStatus is = issueStatusManager.create(issueStatus);	
 		return is;
-		
 	}
 	
 	@GET

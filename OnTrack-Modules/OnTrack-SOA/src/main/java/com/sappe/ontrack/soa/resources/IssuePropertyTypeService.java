@@ -9,6 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,9 +30,10 @@ public class IssuePropertyTypeService {
 	@POST
 	@Path("createissuepropertytype")
 	@Produces(MediaType.APPLICATION_JSON)
-	public IssuePropertyType createIssuePropertyType (IssuePropertyType issuePropertyType) {
+	public Response createIssuePropertyType (IssuePropertyType issuePropertyType) {
 		IssuePropertyType ipt = issuePropertyTypeManager.create(issuePropertyType);
-		return ipt;
+		return Response.ok().entity(ipt).build();
+//		return ipt;
 	}
 	
 	@GET

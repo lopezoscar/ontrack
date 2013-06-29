@@ -9,11 +9,13 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.TransactionRequiredException;
 
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sappe.ontrack.dao.springbeans.interfaces.IssuePropertyTypeManager;
 import com.sappe.ontrack.model.issues.IssuePropertyType;
 
+@Component
 public class IssuePropertyTypeBean implements IssuePropertyTypeManager, Serializable{
 
 	/**
