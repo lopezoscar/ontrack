@@ -21,5 +21,7 @@
 		<class>com.sappe.ontrack.model.users.User</class>
 		<class>com.sappe.ontrack.model.users.Role</class>
 		<class>com.sappe.ontrack.model.users.Module</class>
+		<class>com.sappe.ontrack.services.Service</class>
+		<class>com.sappe.ontrack.services.ServiceParameter</class>
     </persistence-unit>
 </persistence>

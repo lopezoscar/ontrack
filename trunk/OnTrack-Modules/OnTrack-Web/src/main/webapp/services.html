@@ -54,27 +54,19 @@
 				    </div>
 				    <div id="{{srv.name+$index}}" class="accordion-body collapse ">
 				      <div class="accordion-inner">
-				      
-				      
 				        <div class="container-fluid">
-				      	<div class="row-fluid">
+				      		<div class="row-fluid">
 								<div ng-show="isPost(srv)">
 									<form novalidate class="form-horizontal simple-form">
 											<div class="span12">
 												<h5>URL</h5>
-<!-- 												<select ng-options="srv.path for srv in cat.methods" ng-model="srv.path"></select> -->
-				
 												<input type="text" ng-readonly="true" class="input-xxlarge uneditable-input" ng-model="srv.path"/>
 												<h5>Body</h5>
-												
 												<textarea rows="8" class="field span12"  ng-model="srv.parameters"></textarea>
-												
 												<input type="button" class="btn btn-primary" value="invoke" ng-click="post(srv)"/>
-												
 											</div>
 									</form>
 									<h5>Response</h5>
-										
 										<ul class="nav nav-tabs" id="responseTab">
 										  <li><a href="#http-header-post" data-toggle="tab">HTTP Header</a></li>
 										  <li><a href="#http-body-post"   data-toggle="tab">HTTP Body</a></li>
@@ -111,7 +103,7 @@
 												<div class="tab-content">
 												  <div class="tab-pane active" id="http-header">
 													  <p>HTTP Status {{srv.status}}</p>
-													  <p>Content-Type {{srv.header.content-type}}</p>
+													  Content-Type <p ng-bind-html="srv.header.content-type"></p>
 													  <p>Fecha de Ejecución {{srv.header.date}}</p>
 													  
 												  </div>
