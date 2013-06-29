@@ -276,6 +276,7 @@ public class Issue implements Serializable{
 	}
 
 
+	@JsonIgnore
 	public Set<Issue> getChilds() {
 		return childs;
 	}
