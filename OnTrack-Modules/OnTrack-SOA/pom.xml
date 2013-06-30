@@ -1,9 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	 <properties>
-        <maven.compiler.source>1.5</maven.compiler.source>
-        <maven.compiler.target>1.5</maven.compiler.target>
-    </properties><modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.sappe.ontrack</groupId>
 		<artifactId>OnTrack-Modules</artifactId>
@@ -59,6 +56,8 @@
 	<!-- http://blog.springsource.org/2009/12/02/obtaining-spring-3-artifacts-with-maven/ -->
 	<!-- Shared version number properties -->
 	<properties>
+		<maven.compiler.source>1.5</maven.compiler.source>
+        <maven.compiler.target>1.5</maven.compiler.target>
 		<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
 	</properties>
 
