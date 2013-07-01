@@ -33,11 +33,15 @@
     		  $(this).tab('show');
     		})
     		
-    		$(function() {
-			    $( "#sortable" ).sortable();
-			    $( "#sortable" ).disableSelection();
-			  });
-    		
+//     		$(function() {
+//     			$('#sortable').sortable({
+//     				update: function(event, ui) {
+//     					var statusOrder = $(this).sortable('toArray').toString();
+//     					console.log(statusOrder);
+//     				}
+//     			});
+// 			    $( "#sortable" ).disableSelection();
+// 			  });    		
     	 </script>
     	 
     	 <style>
@@ -94,9 +98,9 @@
   		
   		
   		<div class="container">
-  			
-  			<input type="text" placeholder="Nombre del proyecto">
-  			
+  			<form  novalidate class="simple-form">
+	  			<input type="text" placeholder="Nombre del proyecto" ng-model="project.name">
+  			</form>
   			<ul class="nav nav-tabs" id="projectTab">
 			  <li><a href="#persons" data-toggle="tab">Integrantes</a></li>
 			  <li><a href="#config" data-toggle="tab">Tipos de Issues</a></li>
@@ -217,7 +221,7 @@
 					  		<select ng-model="workflow.type" ng-options="type.desc for type in issueTypes"></select>
 					  		
 						    <ul id="sortable">
-							  <li class="ui-state-default" ng-repeat="status in workflow.type.status"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{status.description}}</li>
+							  <li id="{{status.description}}" class="ui-state-default" ng-bind="status.description" ng-repeat="status in workflow.type.status"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{status.description}}</li>
 							</ul>
 							
 							
@@ -227,7 +231,7 @@
 			</div>	
 			
 			<div class="form-actions">
-				<input type="button" class="btn btn-primary" disabled="disabled" value="Guardar Proyecto"/>
+				<input type="button" class="btn btn-primary" value="Guardar Proyecto" ng-click="saveProject()"/>
 			</div>
   		</div>
   		

@@ -1,5 +1,8 @@
 package com.sappe.ontrack.soa.resources;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -7,12 +10,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 import com.sappe.ontrack.dao.springbeans.interfaces.IssueTypeManager;
 import com.sappe.ontrack.model.issues.IssueType;
@@ -31,6 +33,18 @@ public class IssueTypeService {
 	public IssueType createIssueType(IssueType issueType) {
 		IssueType it = issueTypeManager.create(issueType);
 		return it;
+	}
+	
+	@POST
+	@Path("createissuetypebylist")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response createIssueTypeByList(List<IssueType> issueTypes) {
+		List<IssueType> response = new ArrayList<IssueType>();
+		for (IssueType type : issueTypes) {
+			IssueType it = issueTypeManager.create(type);
+			response.add(it);
+		}
+		return Response.ok().entity(response).build();
 	}
 	
 	@GET

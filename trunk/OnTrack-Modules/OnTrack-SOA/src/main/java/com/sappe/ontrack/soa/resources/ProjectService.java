@@ -1,5 +1,6 @@
 package com.sappe.ontrack.soa.resources;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -12,6 +13,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -55,13 +60,11 @@ public class ProjectService {
 	public Response saveProject(Project project){
 		Project savedProject = projectManager.create(project);
 		if(savedProject != null){
-			return Response.ok().build();
+			return Response.ok().entity(savedProject).build();
 		}
 		return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 	}
 	
-
-
 	public ProjectManager getProjectManager() {
 		return projectManager;
 	}
@@ -70,7 +73,6 @@ public class ProjectService {
 	public void setProjectManager(ProjectManager projectManager) {
 		this.projectManager = projectManager;
 	}
-	
 	
 
 }

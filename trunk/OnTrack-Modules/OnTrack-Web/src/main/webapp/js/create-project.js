@@ -4,6 +4,7 @@ function CreateProjectCtrl($scope,$http){
 	$scope.issueTypes = [];
 	$scope.issueProperties = [];
 	$scope.workflows = [];
+	$scope.savedProject = {};
 	//$scope.issuePropertyTypes = ["Texto","Numérico","Calendario","Archivo"];
 	
 	var userData = {
@@ -33,7 +34,9 @@ function CreateProjectCtrl($scope,$http){
 			$scope.issueTypes.push(issueType);
 			$scope.desc = angular.copy("");
 		//}
-	}
+	};
+	
+	
 	
 	$scope.savePropertyType = function (property){
 		//Work around para create-project.html. Se necesita setear por default un valor en el ng-model
@@ -48,13 +51,13 @@ function CreateProjectCtrl($scope,$http){
 		
 		$scope.property = angular.copy({});
 		$scope.currentIssueType = angular.copy({});
-	}
+	};
 	
 	$scope.saveWorkflow = function(workflow){
 		if($.inArray(workflow, $scope.workflow) < 0){
 			$scope.workflows.push(workflow);
 		}
-	}
+	};
 	
 	$scope.removeIssueType = function (idx){
 		 //var index=$scope.issueTypes.indexOf(idx)
@@ -101,7 +104,100 @@ function CreateProjectCtrl($scope,$http){
 	$scope.updateCurrentStatus = function(type){
 		$scope.currentTypeForIssueStatus = type;
 	};
-}
+	
+	$scope.saveProject = function(){
+		var listTypes = [];
+		angular.forEach($scope.issueTypes,function(value,key){
+			var issueType = {
+				id:null,
+				project:null,
+				description: value.desc
+			};
+			listTypes.push(issueType);
+		});
+		 
+		var project = {
+			name: $scope.project.name,
+		};
+	
+		//{"id":null,"issueType":{"id":1,"description":"Cualquiera"},"issueStatus":[{"id":1,"description":"TODO"}],"project":{"id":1,"name":"Proyecto","roles":[{"id":3,"roleName":"Desarrollador","acronym":"DEV"}],"users":[]}}
+		
+		$http({method: 'POST', url: server+'projectsrv/saveproject',data:project,headers: {'Content-Type': 'application/json'}}).
+		  success(function(data, status, headers, config) {
+		   	$scope.savedProject = data;
+		   	
+		   	//Init saveWorkflows
+		  var workflowsToSave = [];
+		  angular.forEach($scope.issueTypes,function(wf,key){
+		  	var workflow = {
+				project: $scope.savedProject,
+				issueType :  {description:wf.desc},
+				issueStatus: filterDescriptionOnStatus(wf.status)
+			};
+			workflowsToSave.push(workflow);
+		  });
+		  
+		  		
+		  			
+		  
+		  $http({method: 'POST', url: server+'workflowsrv/createworkflowbylist',data:workflowsToSave,headers: {'Content-Type': 'application/json'}}).
+		  success(function(data, status, headers, config) {
+		   	$scope.workflowsArePersisted = true;
+		  }).
+		  error(function(data, status, headers, config) {
+		  	$scope.workflowsArePersisted = false;
+		  });
+		  
+		  //End saveWorkflows
+		   	
+		   	
+		   	
+		  }).
+		  error(function(data, status, headers, config) {
+		  
+		  });
+		  //END saveProject
+		  
+		  
+		  
+		  
+		
+		
+	};
+	
+	//No debería acceder a elementos del DOM desde un controlador
+	//Se hace dado que fue la solución más rápida entre angular y jquery
+	var sortableEle;
+    $scope.dragStart = function(e, ui) {
+        ui.item.data('start', ui.item.index());
+    };
+    $scope.dragEnd = function(e, ui) {
+        var start = ui.item.data('start'),
+            end = ui.item.index();
+        
+        $scope.workflow.type.status.splice(end, 0, 
+            $scope.workflow.type.status.splice(start, 1)[0]);
+        
+        $scope.$apply();
+    };
+        
+    sortableEle = $('#sortable').sortable({
+        start: $scope.dragStart,
+        update: $scope.dragEnd
+    });
+	
+	
+	
+};
+
+function filterDescriptionOnStatus(status){
+	var issueStatusOnlyDesc = [];
+	angular.forEach(status,function(value,key){
+		issueStatusOnlyDesc.push({description:value.description});
+	});
+	return issueStatusOnlyDesc;
+};
+
 
 
 
