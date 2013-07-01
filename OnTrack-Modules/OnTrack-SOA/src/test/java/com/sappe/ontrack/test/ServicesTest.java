@@ -44,7 +44,7 @@ public class ServicesTest extends BaseTest{
 	public final static String baseURL = "http://localhost:8080/OnTrack-SOA/";
 	
 	@Test
-	@Transactional
+//	@Transactional
 	public void listServices(){
 		String response = "";
 		Map<String,Object> beans = beanFactory.getBeansWithAnnotation(Path.class);
