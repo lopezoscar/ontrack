@@ -21,26 +21,26 @@
 				</configuration>
 			</plugin>
 			<!-- copyToTomcat with build.xml -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>package-ear</id>
-						<phase>package</phase>
-						<configuration>
-							<tasks>
-								<ant target="copywar" inheritRefs="true">
-									<!-- Here, connect with build.xml -->
-								</ant>
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.apache.maven.plugins</groupId> -->
+<!-- 				<artifactId>maven-antrun-plugin</artifactId> -->
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<id>package-ear</id> -->
+<!-- 						<phase>package</phase> -->
+<!-- 						<configuration> -->
+<!-- 							<tasks> -->
+<!-- 								<ant target="copywar" inheritRefs="true"> -->
+<!-- 									Here, connect with build.xml -->
+<!-- 								</ant> -->
+<!-- 							</tasks> -->
+<!-- 						</configuration> -->
+<!-- 						<goals> -->
+<!-- 							<goal>run</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
+<!-- 			</plugin> -->
 			<!-- End of copyToTomcat -->
 		</plugins>
 		<resources>
@@ -56,8 +56,6 @@
 	<!-- http://blog.springsource.org/2009/12/02/obtaining-spring-3-artifacts-with-maven/ -->
 	<!-- Shared version number properties -->
 	<properties>
-		<maven.compiler.source>1.5</maven.compiler.source>
-        <maven.compiler.target>1.5</maven.compiler.target>
 		<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
 	</properties>
 
@@ -117,7 +115,14 @@
 			<artifactId>spring-orm</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>3.3.2.GA</version>
+		</dependency>
 
+		
 		<!-- Support for testing Spring applications with tools such as JUnit and 
 			TestNG This artifact is generally always defined with a 'test' scope for 
 			the integration testing framework and unit testing stubs -->
@@ -178,21 +183,22 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
-	
-		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
-		            
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>            
 		            
 
 	</dependencies>
-
-	
-
+	<repositories>
+			<repository>
+			    <id>java.net</id>
+			    <url>http://download.java.net/maven/2/</url>
+			</repository>
+	</repositories>
 </project>
