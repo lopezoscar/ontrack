@@ -1,5 +1,6 @@
 package com.sappe.ontrack.soa.resources;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -11,6 +12,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -38,9 +42,10 @@ public class IssuePropertyTypeService {
 	
 	@GET
 	@Path("getissuepropertytypebyid/{pk}")
-	public IssuePropertyType getIssuePropertyTypeByID (@PathParam("pk") Long primaryKey) {
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getIssuePropertyTypeByID (@PathParam("pk") Long primaryKey) {
 		IssuePropertyType issuePropertyType = issuePropertyTypeManager.read(primaryKey);
-		return issuePropertyType;
+		return toJson(issuePropertyType);
 	}
 	
 	@POST
@@ -64,6 +69,25 @@ public class IssuePropertyTypeService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void deleteIssuePropertyType (IssuePropertyType issuePropertyTypeJson) {
 		issuePropertyTypeManager.delete(issuePropertyTypeJson);
+	}
+	
+	private String toJson(Object o){
+		ObjectMapper mapper = new ObjectMapper();
+		String json = null;
+		try {
+			json = mapper.writeValueAsString(o);
+			System.out.println(json);
+		} catch (JsonGenerationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return json;
 	}
 
 }
