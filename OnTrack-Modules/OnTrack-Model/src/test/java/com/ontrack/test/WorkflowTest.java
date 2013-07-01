@@ -20,17 +20,24 @@ public class WorkflowTest extends BaseTest{
 	@Test
 	public void test(){
 		Workflow workflow = new Workflow();
-		IssueType issueType = em.find(IssueType.class, 1l);
+		IssueType issueType = new IssueType();
+		issueType.setDescription("ISSUE");
 		workflow.setIssueType(issueType);
-		Project project = em.find(Project.class, 1l);
+		
+		Project project = em.find(Project.class, 26l);
 		workflow.setProject(project);
+		
 		List<IssueStatus> issueStatus = new ArrayList<IssueStatus>();
-		IssueStatus is = em.find(IssueStatus.class, 1l);
+		IssueStatus is = new IssueStatus();
+		is.setDescription("TODO");
 		issueStatus.add(is);
 		workflow.setIssueStatus(issueStatus);
+//		{"id":null,"issueType":{"id":null,"description":"ISSUE"},"issueStatus":[{"id":null,"description":"TODO"}],"project":{"id":26,"name":"Project","roles":[],"users":[]}}
+
+//		"{"project":{"id":26,"name":"Project","roles":null,"users":null},"issueType":{"description":"Issue"},"issueStatus":[{"description":"TODO"}]}";
 		
-		toJson(workflow);
-//		persiste(workflow);
+//		toJson(workflow);
+		persiste(workflow);
 	}
 
 }

@@ -47,11 +47,11 @@ public class Project implements Serializable{
 
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	@JoinColumn(name="id_issue",nullable=true)
-	private Set<Issue> issues;
+	private List<Issue> issues;
 
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="id_project")
-	private Set<IssueType> issueTypes;
+	private List<IssueType> issueTypes;
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="id_project")
@@ -62,8 +62,8 @@ public class Project implements Serializable{
 	
 	public Project(){}
 
-	public Project(Long id, String name, Set<Issue> issues,
-			Set<IssueType> issueTypes) {
+	public Project(Long id, String name, List<Issue> issues,
+			List<IssueType> issueTypes) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -119,20 +119,20 @@ public class Project implements Serializable{
 	}
 
 	@JsonIgnore
-	public Set<Issue> getIssues() {
+	public List<Issue> getIssues() {
 		return issues;
 	}
 
-	public void setIssues(Set<Issue> issues) {
+	public void setIssues(List<Issue> issues) {
 		this.issues = issues;
 	}
 
 	@JsonIgnore
-	public Set<IssueType> getIssueTypes() {
+	public List<IssueType> getIssueTypes() {
 		return issueTypes;
 	}
 
-	public void setIssueTypes(Set<IssueType> issueTypes) {
+	public void setIssueTypes(List<IssueType> issueTypes) {
 		this.issueTypes = issueTypes;
 	}
 
