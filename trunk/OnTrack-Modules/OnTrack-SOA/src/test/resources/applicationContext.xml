@@ -32,6 +32,7 @@
 	<bean id="issuepropertytypebean" class="com.sappe.ontrack.dao.springbeans.impl.IssuePropertyTypeBean"/>
 	<bean id="notificationbean" class="com.sappe.ontrack.dao.springbeans.impl.NotificationBean"/>
 	<bean id="mailbean" class="com.sappe.ontrack.dao.springbeans.impl.MailBean"/>
+	<bean id="servicebean" class="com.sappe.ontrack.dao.springbeans.impl.ServiceBean"/>
 	
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
