@@ -34,6 +34,10 @@ public class IssueStatusService {
 	@Path("createissuestatus")
 	@Produces(MediaType.APPLICATION_JSON)
 	public IssueStatus createIssueStatus(IssueStatus issueStatus){
+		List<IssueStatus> issueStatuses = issueStatusManager.getIssueStatusByDesc(issueStatus.getDescription());
+		if(issueStatuses != null  && !issueStatuses.isEmpty()){
+			return issueStatuses.iterator().next();
+		}
 		IssueStatus is = issueStatusManager.create(issueStatus);	
 		return is;
 	}

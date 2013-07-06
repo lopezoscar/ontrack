@@ -117,7 +117,7 @@
 					
 						<p>Cantidad de Contactos: {{members.length}}</p>
 						<div class="media" ng-repeat="member in members">
-						  <input type="checkbox" class="pull-left" style="padding-right:20px"/>
+						  <input type="checkbox" class="pull-left" style="padding-right:20px" ng-checked="member.selected" ng-click="addUser(member)"/>
 <!-- 						  <a class="pull-left" href="#"> -->
 <!-- 						    <img class="media-object" data-src="holder.js/64x64" src="{{member.photoLink}}" style="width:64px; height:64px;"> -->
 <!-- 						  </a> -->
@@ -125,12 +125,13 @@
 						    <h4 class="media-heading">{{member.name}}</h4>
 						    <p style="display:inline">{{member.email}}</p>
 						  </div>
+						  
 						</div>
 						
 					</div>
 					<div class="span6 well" >
 						<h3>Acciones</h3>
-						<input type="button" class="btn btn-primary" value="Invitar" style="margin-left:20px"/>
+						<input type="button" class="btn btn-primary" value="Invitar" style="margin-left:20px" ng-click="addToProject()"/>
 						<input type="button" class="btn btn-primary" value="Borrar" style="margin-left:20px"/>
 						<input type="button" class="btn btn-primary" value="Enviar Mensaje" style="margin-left:20px"/>
 					</div>

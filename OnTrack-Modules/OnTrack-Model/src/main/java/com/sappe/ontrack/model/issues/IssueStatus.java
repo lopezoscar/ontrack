@@ -16,6 +16,7 @@ import javax.persistence.Table;
 @NamedQueries(
 		{ 
 			@NamedQuery(name="selectAllIssueStatus", query = "select iss from IssueStatus iss"),
+			@NamedQuery(name="getIssueStatusByDesc",query="select iss from IssueStatus iss where iss.description = :description")
 		}
 			
 		)

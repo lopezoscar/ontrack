@@ -64,13 +64,18 @@ public class IssueStatusBean implements IssueStatusManager {
 	}
 
 	public List<IssueStatus> getIssueStatusByIssueType(IssueType issueType) {
-		Workflow wf = (Workflow)em.createNamedQuery("selectWorkflowByIssueType").setParameter("issueType", issueType).getSingleResult();
-		List<IssueStatus> result = new ArrayList<IssueStatus>();
-		List<IssueStatus> status =  wf.getIssueStatus();
-		for (IssueStatus issueStatus : status) {
-			result.add(issueStatus);
-		}
-		return result;
+//		Workflow wf = (Workflow)em.createNamedQuery("selectWorkflowByIssueType").setParameter("issueType", issueType).getSingleResult();
+//		List<IssueStatus> result = new ArrayList<IssueStatus>();
+//		List<IssueStatus> status =  wf.getIssueStatus();
+//		for (IssueStatus issueStatus : status) {
+//			result.add(issueStatus);
+//		}
+//		return result;
+		return null;
+	}
+
+	public List<IssueStatus> getIssueStatusByDesc(String desc) {
+		return em.createNamedQuery("getIssueStatusByDesc").setParameter("description", desc).getResultList();
 	}
 	
 	

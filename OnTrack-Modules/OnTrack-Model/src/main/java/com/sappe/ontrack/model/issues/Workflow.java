@@ -1,14 +1,15 @@
 package com.sappe.ontrack.model.issues;
 
+import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -23,21 +24,26 @@ import javax.persistence.Table;
 		}
 			
 		)
-public class Workflow {
+public class Workflow implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5647143789467964364L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id_workflow")
 	private Long id;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name="id_issue_type")
 	private IssueType issueType;
 	
-	@OneToMany(cascade=CascadeType.ALL)
-//	@JoinTable(name="issue_status_by_workflow", 
-//				joinColumns={@JoinColumn(name="id_workflow")},
-//				inverseJoinColumns={@JoinColumn(name="id_issue_type")})
+	@OneToMany
+	@JoinTable(name="issue_status_by_workflow", 
+				joinColumns={@JoinColumn(name="id_workflow")},
+				inverseJoinColumns={@JoinColumn(name="id_issue_status")})
 	@JoinColumn(name="id_workflow")
 	private List<IssueStatus> issueStatus;
 	

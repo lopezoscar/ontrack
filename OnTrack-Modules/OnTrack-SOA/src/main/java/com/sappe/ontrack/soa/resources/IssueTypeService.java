@@ -31,8 +31,13 @@ public class IssueTypeService {
 	@Path("createissuetype")
 	@Produces(MediaType.APPLICATION_JSON)
 	public IssueType createIssueType(IssueType issueType) {
-		IssueType it = issueTypeManager.create(issueType);
-		return it;
+		List<IssueType> it = issueTypeManager.getIssueTypesByDesc(issueType.getDescription());
+		if(it != null && !it.isEmpty()){
+			//Existe al menos un IssueType con este nombre, retornar el primero.
+			return it.iterator().next();
+		}
+		IssueType newIssueType = issueTypeManager.create(issueType);
+		return newIssueType;
 	}
 	
 	@POST

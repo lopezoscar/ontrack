@@ -5,6 +5,15 @@ function CreateProjectCtrl($scope,$http){
 	$scope.issueProperties = [];
 	$scope.workflows = [];
 	$scope.savedProject = {};
+	$scope.selectedMembers = [];
+	
+	$scope.addUser = function(member){
+		$scope.selectedMembers.push(member);
+	};
+	
+	$scope.removeUser = function(member){
+		$scope.selectedMembers.pop(member);
+	};
 	//$scope.issuePropertyTypes = ["Texto","Numérico","Calendario","Archivo"];
 	
 	var userData = {
@@ -128,6 +137,7 @@ function CreateProjectCtrl($scope,$http){
 		   	
 		   	//Init saveWorkflows
 		  var workflowsToSave = [];
+		  
 		  angular.forEach($scope.issueTypes,function(wf,key){
 		  	var workflow = {
 				project: $scope.savedProject,
@@ -137,7 +147,13 @@ function CreateProjectCtrl($scope,$http){
 			workflowsToSave.push(workflow);
 		  });
 		  
-		  		
+		  /*
+		  var workflow = {
+				project: $scope.savedProject,
+				issueTypes :  filterDescriptionOnTypes($scope.issueTypes),
+				issueStatus: filterDescriptionOnStatus(wf.status)
+			};
+		  	*/	
 		  			
 		  
 		  $http({method: 'POST', url: server+'workflowsrv/createworkflowbylist',data:workflowsToSave,headers: {'Content-Type': 'application/json'}}).
@@ -196,6 +212,14 @@ function filterDescriptionOnStatus(status){
 		issueStatusOnlyDesc.push({description:value.description});
 	});
 	return issueStatusOnlyDesc;
+};
+
+function filterDescriptionOnTypes(types){
+	var issueTypesOnlyDesc = [];
+	angular.forEach(types,function(value,key){
+		issueTypesOnlyDesc.push({description:value.description});
+	});
+	return issueTypesOnlyDesc;
 };
 
 

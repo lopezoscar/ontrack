@@ -21,7 +21,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @NamedQueries(
 		{
 			@NamedQuery(name="selectAllIssueType", query = "select ist from IssueType ist"),
-			@NamedQuery(name="selectIssueTypesByProject",query = "select it from IssueType it where it.project.id = :projectId")
+			@NamedQuery(name="selectIssueTypesByProject",query = "select it from IssueType it where it.project.id = :projectId"),
+			@NamedQuery(name="selectIssueTypeByDesc", query="select it from IssueType it where it.description = :description")
 		}
 		)
 

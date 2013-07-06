@@ -1,6 +1,7 @@
 package com.sappe.ontrack.soa.resources;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.POST;
@@ -9,10 +10,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.sappe.ontrack.dao.springbeans.interfaces.IssueStatusManager;
+import com.sappe.ontrack.dao.springbeans.interfaces.IssueTypeManager;
 import com.sappe.ontrack.dao.springbeans.interfaces.WorkflowManager;
+import com.sappe.ontrack.model.issues.IssueStatus;
+import com.sappe.ontrack.model.issues.IssueType;
 import com.sappe.ontrack.model.issues.Workflow;
 
 @Component
@@ -28,6 +35,12 @@ public class WorkflowService implements Serializable{
 	
 	@Autowired
 	private WorkflowManager wfManager;
+	
+	@Autowired
+	private IssueTypeManager issueTypeManager;
+	
+	@Autowired
+	private IssueStatusManager issueStatusManager;
 
 	@Path("createworkflow")
 	@POST
@@ -40,15 +53,55 @@ public class WorkflowService implements Serializable{
 	@Path("createworkflowbylist")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createWorkflow(List<Workflow> workflows){
+	public Response createWorkflow(String workflowsinJson){
+		List<Workflow> workflows = fromJSON(new TypeReference<List<Workflow>>(){}, workflowsinJson);
 		try{
 			for (Workflow wf : workflows) {
+				IssueType issueType = createIssueTypes(wf.getIssueType());
+				wf.setIssueType(issueType);
+				
+				List<IssueStatus> persistedIssueStatus  = new ArrayList<IssueStatus>();
+				for (IssueStatus iss : wf.getIssueStatus()) {
+					IssueStatus is = createIssueStatus(iss);
+					persistedIssueStatus.add(is);
+				}
+				wf.setIssueStatus(persistedIssueStatus);
 				Workflow createdWF = wfManager.create(wf);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		return Response.ok().build();
+	}
+	
+	private IssueType createIssueTypes(IssueType issueType){
+		List<IssueType> it = issueTypeManager.getIssueTypesByDesc(issueType.getDescription());
+		if(it != null && !it.isEmpty()){
+			//Existe al menos un IssueType con este nombre, retornar el primero.
+			return it.iterator().next();
+		}
+		IssueType newIssueType = issueTypeManager.create(issueType);
+		return newIssueType;
+	}
+	
+	private IssueStatus createIssueStatus(IssueStatus issueStatus){
+		List<IssueStatus> issueStatuses = issueStatusManager.getIssueStatusByDesc(issueStatus.getDescription());
+		if(issueStatuses != null  && !issueStatuses.isEmpty()){
+			return issueStatuses.iterator().next();
+		}
+		IssueStatus is = issueStatusManager.create(issueStatus);	
+		return is;
+	}
+	
+	public static <T> T fromJSON(final TypeReference<T> type,final String jsonPacket) {
+		   T data = null;
+	
+		   try {
+		      data = new ObjectMapper().readValue(jsonPacket, type);
+		   } catch (Exception e) {
+		      e.printStackTrace();
+		   }
+		   return data;
 	}
 
 }
