@@ -10,4 +10,6 @@ public interface IssueTypeManager extends CRUD<IssueType>{
 	
 	List<IssueType> getIssueTypesByProjectId(long projectId);		
 	
+	List<IssueType> getIssueTypesByDesc(String desc);
+	
 }

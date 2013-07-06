@@ -11,5 +11,7 @@ public interface IssueStatusManager extends CRUD<IssueStatus>{
 	
 	List<IssueStatus> getIssueStatusByIssueType(IssueType issueType);
 	
+	List<IssueStatus> getIssueStatusByDesc(String desc);
+	
 	
 }
