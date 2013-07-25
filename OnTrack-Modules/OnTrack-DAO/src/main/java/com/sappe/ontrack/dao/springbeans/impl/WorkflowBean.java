@@ -1,6 +1,7 @@
 package com.sappe.ontrack.dao.springbeans.impl;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
@@ -11,7 +12,9 @@ import javax.persistence.TransactionRequiredException;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sappe.ontrack.dao.springbeans.interfaces.WorkflowManager;
+import com.sappe.ontrack.model.issues.IssueStatusByWorkflow;
 import com.sappe.ontrack.model.issues.Workflow;
+import com.sappe.ontrack.model.users.User;
 
 public class WorkflowBean implements WorkflowManager{
 	
@@ -43,6 +46,17 @@ public class WorkflowBean implements WorkflowManager{
 			PersistenceException {
 		em.remove(entity);
 		
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Workflow> listWorkflowsByUser(User user) {
+		return em.createQuery("select wf from Workflow wf where :user in elements( wf.project.users)").setParameter("user", user).getResultList();
+	}
+	
+	@Transactional
+	public IssueStatusByWorkflow saveIssueStatusByWorkfow(IssueStatusByWorkflow wf){
+		em.persist(wf);
+		return wf;
 	}
 
 }

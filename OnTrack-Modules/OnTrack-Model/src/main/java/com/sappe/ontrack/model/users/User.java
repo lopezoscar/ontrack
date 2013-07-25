@@ -13,6 +13,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import com.sappe.ontrack.model.issues.Project;
 
 @Entity
@@ -97,6 +99,7 @@ public class User extends Person implements Serializable{
 	//		this.permissions = permissions;
 	//	}
 
+	@JsonIgnore
 	public List<Project> getProjects() {
 		return projects;
 	}

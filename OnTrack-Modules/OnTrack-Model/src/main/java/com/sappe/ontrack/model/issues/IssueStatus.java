@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="issue_status")
@@ -35,7 +36,8 @@ public class IssueStatus implements Serializable{
 	@Column(name="description")
 	private String description;
 	
-	
+	@Transient
+	private int position;
 
 	@Override
 	public int hashCode() {
@@ -76,6 +78,14 @@ public class IssueStatus implements Serializable{
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
 	}
 
 	@Override

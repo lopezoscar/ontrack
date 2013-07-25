@@ -15,12 +15,14 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="workflow")
 @NamedQueries(
 		{ 
-			@NamedQuery(name="selectWorkflowByIssueType", query = "select wf from Workflow wf where wf.issueType = :issueType")
+			@NamedQuery(name="selectWorkflowByIssueType", query = "select wf from Workflow wf where wf.issueType = :issueType"),
+			
 		}
 			
 		)
@@ -40,12 +42,22 @@ public class Workflow implements Serializable{
 	@JoinColumn(name="id_issue_type")
 	private IssueType issueType;
 	
+//	@JoinTable(name="issue_status_by_workflow", 
+//				joinColumns={@JoinColumn(name="id_workflow")},
+//				inverseJoinColumns={@JoinColumn(name="id_issue_status")})
+//	@JoinColumn(name="id_workflow")
 	@OneToMany
-	@JoinTable(name="issue_status_by_workflow", 
-				joinColumns={@JoinColumn(name="id_workflow")},
-				inverseJoinColumns={@JoinColumn(name="id_issue_status")})
-	@JoinColumn(name="id_workflow")
+	private List<IssueStatusByWorkflow> issueStatusByWorkflow;
+	
+	@Transient
 	private List<IssueStatus> issueStatus;
+	
+	@OneToMany
+	@JoinTable(name="issue_property_by_workflow",
+				joinColumns={@JoinColumn(name="id_workflow")},
+				inverseJoinColumns={@JoinColumn(name="id_issue_property")}
+			)
+	private List<IssueProperty> issueProperties;
 	
 	@OneToOne
 	@JoinColumn(name="id_project")
@@ -100,6 +112,24 @@ public class Workflow implements Serializable{
 
 	public void setIssueStatus(List<IssueStatus> issueStatus) {
 		this.issueStatus = issueStatus;
+	}
+	
+	
+	public List<IssueStatusByWorkflow> getIssueStatusByWorkflow() {
+		return issueStatusByWorkflow;
+	}
+
+	public void setIssueStatusByWorkflow(
+			List<IssueStatusByWorkflow> issueStatusByWorkflow) {
+		this.issueStatusByWorkflow = issueStatusByWorkflow;
+	}
+
+	public List<IssueProperty> getIssueProperties() {
+		return issueProperties;
+	}
+
+	public void setIssueProperties(List<IssueProperty> issueProperties) {
+		this.issueProperties = issueProperties;
 	}
 
 	public Project getProject() {

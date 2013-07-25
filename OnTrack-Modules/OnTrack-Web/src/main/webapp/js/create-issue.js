@@ -1,12 +1,29 @@
 
  
-function CreateIssueCtrl($scope){
-    $scope.workflows = [{"id":3,"issueType":{"id":1,"description":"Bug"},"issueStatus":[{"id":1,"description":"TODO"}],"project":{"id":1,"name":"Proyecto","roles":[{"id":3,"roleName":"Desarrollador","acronym":"DEV"}],"users":[{"id":1,"firstName":"Oscar","lastName":"Lopez","mail":"lopezoscar.job@gmail.com","userName":"https://www.google.com/accounts/o8/id?id=AItOawkMAYTsPU9NHMnyriu6ija1u-qkqW5mS3I","password":"Test","roles":[],"projects":[]}]}}];
+function CreateIssueCtrl($scope,$http){
+    //$scope.workflows = [{"id":3,"issueType":{"id":1,"description":"Bug"},"issueStatus":[{"id":1,"description":"TODO"}],"project":{"id":1,"name":"Proyecto","roles":[{"id":3,"roleName":"Desarrollador","acronym":"DEV"}],"users":[{"id":1,"firstName":"Oscar","lastName":"Lopez","mail":"lopezoscar.job@gmail.com","userName":"https://www.google.com/accounts/o8/id?id=AItOawkMAYTsPU9NHMnyriu6ija1u-qkqW5mS3I","password":"Test","roles":[],"projects":[]}]}}];
+    $scope.workflows = [];
     $scope.workflowsByProject = [];
     $scope.currentProject = {};
     $scope.statusByType = [];
     $scope.users = [];
     $scope.renderedIssueBtn = false;
+    
+    var user = {
+    	id: 1
+    };
+    var server = 'http://localhost:8080/OnTrack-SOA/';
+    function retrieveWorkflowsByUser(user){
+    	$http({method: 'POST', url: server+'workflowsrv/listworkflowsbyuser',data:user,headers: {'Content-Type': 'application/json'}}).
+		  success(function(data, status, headers, config) {
+		   	$scope.workflows = data;
+		  }).
+		  error(function(data, status, headers, config) {
+		  	$scope.noWorkflows = true;
+		  });
+    };
+    
+    retrieveWorkflowsByUser(user);
     
     $scope.updateIssueTypes = function(issue){
     	//TODO Bug - el primer .project en realidad es el obj Workflow
@@ -54,8 +71,14 @@ function CreateIssueCtrl($scope){
     }
     
     $scope.saveIssue = function(issue){
-    	$scope.currentIssue = issue;
-    }
+    	$http({method: 'POST', url: server+'issuesrv/saveissue',data:issue,headers: {'Content-Type': 'application/json'}}).
+		  success(function(data, status, headers, config) {
+		   	$scope.currentIssue = issue;
+		  }).
+		  error(function(data, status, headers, config) {
+		  	$scope.saveIssueFail = true;
+		  });
+    };
     
     function enableSaveIssueBtn(){
     	$scope.renderedIssueBtn = true;
