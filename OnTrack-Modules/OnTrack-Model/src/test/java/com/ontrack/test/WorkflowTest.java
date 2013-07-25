@@ -49,7 +49,7 @@ public class WorkflowTest extends BaseTest{
 		
 		iswf.add(position);
 		
-		w1.setIssueStatus(iswf);
+//		w1.setIssueStatus(iswf);
 		
 		
 		em.getTransaction().begin();
