@@ -208,8 +208,10 @@ function CreateProjectCtrl($scope,$http){
 
 function filterDescriptionOnStatus(status){
 	var issueStatusOnlyDesc = [];
+	var pos = 0;
 	angular.forEach(status,function(value,key){
-		issueStatusOnlyDesc.push({description:value.description});
+		pos++;
+		issueStatusOnlyDesc.push({description:value.description, position:pos});
 	});
 	return issueStatusOnlyDesc;
 };

@@ -15,6 +15,8 @@
 		<class>com.sappe.ontrack.model.issues.Issue</class>
 		<class>com.sappe.ontrack.model.issues.Project</class>
 		<class>com.sappe.ontrack.model.issues.IssueType</class>
+		<class>com.sappe.ontrack.model.issues.IssueTypeAndStatus</class>
+		<class>com.sappe.ontrack.model.issues.IssueTypeAndStatusPK</class>
 		<class>com.sappe.ontrack.model.issues.EntryDocumentFile</class>
 		<class>com.sappe.ontrack.model.issues.Workflow</class>
 		<class>com.sappe.ontrack.model.users.Person</class>
@@ -23,5 +25,7 @@
 		<class>com.sappe.ontrack.model.users.Module</class>
 		<class>com.sappe.ontrack.services.Service</class>
 		<class>com.sappe.ontrack.services.ServiceParameter</class>
+			<class>com.sappe.ontrack.model.issues.IssueStatusByWorkflow</class>
+		<class>com.sappe.ontrack.model.issues.IssueStatusByWorkflowPK</class>
     </persistence-unit>
 </persistence>
