@@ -19,8 +19,11 @@ import com.sappe.ontrack.dao.springbeans.interfaces.IssueStatusManager;
 import com.sappe.ontrack.dao.springbeans.interfaces.IssueTypeManager;
 import com.sappe.ontrack.dao.springbeans.interfaces.WorkflowManager;
 import com.sappe.ontrack.model.issues.IssueStatus;
+import com.sappe.ontrack.model.issues.IssueStatusByWorkflow;
+import com.sappe.ontrack.model.issues.IssueStatusByWorkflowPK;
 import com.sappe.ontrack.model.issues.IssueType;
 import com.sappe.ontrack.model.issues.Workflow;
+import com.sappe.ontrack.model.users.User;
 
 @Component
 @Path("workflowsrv")
@@ -50,6 +53,14 @@ public class WorkflowService implements Serializable{
 		return Response.ok().entity(wf).build();
 	}
 	
+	@Path("listworkflowsbyuser")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listWorkflowsByUser(User user){
+		List<Workflow> workflows = wfManager.listWorkflowsByUser(user);
+		return Response.ok().entity(workflows).build();
+	}
+	
 	@Path("createworkflowbylist")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -57,16 +68,29 @@ public class WorkflowService implements Serializable{
 		List<Workflow> workflows = fromJSON(new TypeReference<List<Workflow>>(){}, workflowsinJson);
 		try{
 			for (Workflow wf : workflows) {
+				
 				IssueType issueType = createIssueTypes(wf.getIssueType());
 				wf.setIssueType(issueType);
+				Workflow createdWF = wfManager.create(wf);
 				
-				List<IssueStatus> persistedIssueStatus  = new ArrayList<IssueStatus>();
+				List<IssueStatusByWorkflow> issueStatusByWorkflow  = new ArrayList<IssueStatusByWorkflow>();
 				for (IssueStatus iss : wf.getIssueStatus()) {
 					IssueStatus is = createIssueStatus(iss);
-					persistedIssueStatus.add(is);
+
+					IssueStatusByWorkflow statusByWorkflow = new IssueStatusByWorkflow();
+					statusByWorkflow.setIs(is);
+					statusByWorkflow.setPosition(iss.getPosition());
+					statusByWorkflow.setWf(createdWF);
+					
+					IssueStatusByWorkflowPK pk = new IssueStatusByWorkflowPK();
+					pk.setStatus(is.getId());
+					pk.setWorkflow(createdWF.getId());
+					
+					statusByWorkflow.setPk(pk);
+					statusByWorkflow = wfManager.saveIssueStatusByWorkfow(statusByWorkflow);
+					
 				}
-				wf.setIssueStatus(persistedIssueStatus);
-				Workflow createdWF = wfManager.create(wf);
+				wf.setIssueStatusByWorkflow(issueStatusByWorkflow);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
