@@ -59,5 +59,9 @@ public class IssuePropertyBean implements IssuePropertyManager,Serializable{
 	public List<IssuePropertyType> getAllIssuePropertyTypes() {
 		return em.createNamedQuery("allIssuePropertyTypes").getResultList();
 	}
+	
+	public List<IssueProperty> getIssuePropertyByDesc(String desc){
+		return em.createQuery("select ip from IssueProperty ip where ip.description = :description").setParameter("description", desc).getResultList();
+	}
 
 }
