@@ -42,11 +42,8 @@ public class Workflow implements Serializable{
 	@JoinColumn(name="id_issue_type")
 	private IssueType issueType;
 	
-//	@JoinTable(name="issue_status_by_workflow", 
-//				joinColumns={@JoinColumn(name="id_workflow")},
-//				inverseJoinColumns={@JoinColumn(name="id_issue_status")})
-//	@JoinColumn(name="id_workflow")
 	@OneToMany
+	@JoinColumn(name="id_workflow")
 	private List<IssueStatusByWorkflow> issueStatusByWorkflow;
 	
 	@Transient

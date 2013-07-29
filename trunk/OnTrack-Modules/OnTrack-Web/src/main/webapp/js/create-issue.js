@@ -8,7 +8,7 @@ function CreateIssueCtrl($scope,$http){
     $scope.statusByType = [];
     $scope.users = [];
     $scope.renderedIssueBtn = false;
-    
+    $scope.issueProperties = [];
     var user = {
     	id: 1
     };
@@ -34,6 +34,13 @@ function CreateIssueCtrl($scope,$http){
     $scope.updateStatusByTypeAndUsers = function (issue){
     	$scope.statusByType = getIssueStatusByProjectAndType($scope.currentProject,issue.issueType,$scope.workflows);
     	$scope.users = getUsersByProjectAndType($scope.currentProject,issue.issueType,$scope.workflows);
+    	$scope.issueProperties = issue.issueType.issueProperties;
+    };
+    
+    function retrieveStatusById(id){
+    	var issueStatus = {};
+    	
+    	return issueStatus;
     };
     
     //Duplicate function on search-issue - Ver Injección de dependencias y-o crear servicios
@@ -52,8 +59,28 @@ function CreateIssueCtrl($scope,$http){
     function getIssueStatusByProjectAndType(currentProject,issueType,workflows){
     	var result = [];
     	angular.forEach(workflows,function(wf,idx){
+    	
     		if(wf.project.id == currentProject.id && wf.issueType == issueType.issueType){
-    			 result.push.apply(result, wf.issueStatus);
+    		
+    			angular.forEach(wf.issueStatusByWorkflow,function(isbwf,idx){
+    			
+    				$http({method: 'GET', url: server+'issuestatussrv/getissuestatusbyid/'+isbwf.pk.status}).
+					  success(function(data, status, headers, config) {
+					  	var issueStatus = data;
+	    				var status = {
+	    					issueStatus: issueStatus,
+	    					position: isbwf.position
+	    				};
+    			 		result.push(status);    	
+					   
+					  }).
+					  error(function(data, status, headers, config) {
+					    
+					  });
+    			
+    			
+    						
+    			});		
     		}
     	});
     	return result; 
