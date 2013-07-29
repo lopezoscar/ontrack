@@ -142,7 +142,8 @@ function CreateProjectCtrl($scope,$http){
 		  	var workflow = {
 				project: $scope.savedProject,
 				issueType :  {description:wf.desc},
-				issueStatus: filterDescriptionOnStatus(wf.status)
+				issueStatus: filterDescriptionOnStatus(wf.status),
+				issueProperties: filterDescriptionAndTypeOnIssueProperties(wf.issueProperties)
 			};
 			workflowsToSave.push(workflow);
 		  });
@@ -222,6 +223,14 @@ function filterDescriptionOnTypes(types){
 		issueTypesOnlyDesc.push({description:value.description});
 	});
 	return issueTypesOnlyDesc;
+};
+
+function filterDescriptionAndTypeOnIssueProperties(properties){
+	var propertiesWithoutIssueType = [];
+	angular.forEach(properties,function(value,key){
+		propertiesWithoutIssueType.push({description:value.description, type: value.type});
+	});
+	return propertiesWithoutIssueType;
 };
 
 

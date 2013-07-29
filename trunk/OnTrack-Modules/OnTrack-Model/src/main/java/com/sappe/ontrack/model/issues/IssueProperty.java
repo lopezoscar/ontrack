@@ -29,12 +29,9 @@ public class IssueProperty implements Serializable{
 	@Column(name="description")
 	private String description;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name="type")
 	private IssuePropertyType type;
-	
-	
-	
 	
 
 	@Override

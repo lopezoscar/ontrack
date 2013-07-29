@@ -8,5 +8,7 @@ import com.sappe.ontrack.model.issues.IssuePropertyType;
 public interface IssuePropertyManager extends CRUD<IssueProperty>{
 	
 	List<IssuePropertyType> getAllIssuePropertyTypes();
+	
+	List<IssueProperty> getIssuePropertyByDesc(String desc);
 
 }

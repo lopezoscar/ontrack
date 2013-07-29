@@ -15,9 +15,13 @@ import org.codehaus.jackson.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.sappe.ontrack.dao.springbeans.interfaces.IssuePropertyManager;
+import com.sappe.ontrack.dao.springbeans.interfaces.IssuePropertyTypeManager;
 import com.sappe.ontrack.dao.springbeans.interfaces.IssueStatusManager;
 import com.sappe.ontrack.dao.springbeans.interfaces.IssueTypeManager;
 import com.sappe.ontrack.dao.springbeans.interfaces.WorkflowManager;
+import com.sappe.ontrack.model.issues.IssueProperty;
+import com.sappe.ontrack.model.issues.IssuePropertyType;
 import com.sappe.ontrack.model.issues.IssueStatus;
 import com.sappe.ontrack.model.issues.IssueStatusByWorkflow;
 import com.sappe.ontrack.model.issues.IssueStatusByWorkflowPK;
@@ -44,6 +48,12 @@ public class WorkflowService implements Serializable{
 	
 	@Autowired
 	private IssueStatusManager issueStatusManager;
+	
+	@Autowired
+	private IssuePropertyManager issuePropertyManager;
+	
+	@Autowired
+	private IssuePropertyTypeManager issuePropertyTypeManager;
 
 	@Path("createworkflow")
 	@POST
@@ -69,8 +79,16 @@ public class WorkflowService implements Serializable{
 		try{
 			for (Workflow wf : workflows) {
 				
+				List<IssueProperty> persistedIssueProperties = new ArrayList<IssueProperty>();
+				for (IssueProperty property : wf.getIssueProperties()) {
+					IssueProperty p = createIssueProperty(property);
+					persistedIssueProperties.add(p);
+				}
+				
 				IssueType issueType = createIssueTypes(wf.getIssueType());
 				wf.setIssueType(issueType);
+				wf.setIssueProperties(persistedIssueProperties);
+				
 				Workflow createdWF = wfManager.create(wf);
 				
 				List<IssueStatusByWorkflow> issueStatusByWorkflow  = new ArrayList<IssueStatusByWorkflow>();
@@ -91,6 +109,9 @@ public class WorkflowService implements Serializable{
 					
 				}
 				wf.setIssueStatusByWorkflow(issueStatusByWorkflow);
+				
+				
+				wfManager.update(createdWF);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -115,6 +136,19 @@ public class WorkflowService implements Serializable{
 		}
 		IssueStatus is = issueStatusManager.create(issueStatus);	
 		return is;
+	}
+	
+	private IssueProperty createIssueProperty(IssueProperty issueProperty){
+		List<IssueProperty> issueProp = issuePropertyManager.getIssuePropertyByDesc(issueProperty.getDescription());
+		if(issueProp != null  && !issueProp.isEmpty()){
+			return issueProp.iterator().next();
+		}
+		IssueProperty ip = new IssueProperty();
+		ip.setDescription(issueProperty.getDescription());
+		IssuePropertyType type = issuePropertyTypeManager.read(issueProperty.getType().getId());
+		ip.setType(type);
+		ip = issuePropertyManager.create(ip);	
+		return ip;
 	}
 	
 	public static <T> T fromJSON(final TypeReference<T> type,final String jsonPacket) {
