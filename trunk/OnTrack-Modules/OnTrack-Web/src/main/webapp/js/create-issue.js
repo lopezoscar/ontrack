@@ -35,7 +35,20 @@ function CreateIssueCtrl($scope,$http){
     	$scope.statusByType = getIssueStatusByProjectAndType($scope.currentProject,issue.issueType,$scope.workflows);
     	$scope.users = getUsersByProjectAndType($scope.currentProject,issue.issueType,$scope.workflows);
     	$scope.issueProperties = issue.issueType.issueProperties;
+    	$scope.entries = createEntriesByProperty($scope.issueProperties);
     };
+    
+    function createEntriesByProperty(issueProperties){
+    	var result = [];
+    	angular.forEach(issueProperties,function(prop,idx){
+    		var entry = {
+    			property: prop
+    		};
+    		result.push(entry);
+    		
+    	});
+    	return result;
+    }
     
     function retrieveStatusById(id){
     	var issueStatus = {};
@@ -98,13 +111,28 @@ function CreateIssueCtrl($scope,$http){
     }
     
     $scope.saveIssue = function(issue){
-    	$http({method: 'POST', url: server+'issuesrv/saveissue',data:issue,headers: {'Content-Type': 'application/json'}}).
+    	issue.entries = $scope.entries;
+	    var issueToSend = filterIssue(issue);
+    	$http({method: 'POST', url: server+'issuesrv/saveissue',data:issueToSend,headers: {'Content-Type': 'application/json'}}).
 		  success(function(data, status, headers, config) {
 		   	$scope.currentIssue = issue;
 		  }).
 		  error(function(data, status, headers, config) {
 		  	$scope.saveIssueFail = true;
 		  });
+    };
+    
+    function filterIssue(issueToFilter){
+    	var issue = {
+    		title: issueToFilter.title,
+    		description: issueToFilter.description,
+    		issueType: issueToFilter.issueType.issueType,
+    		currentStatus: issueToFilter.issueStatus.issueStatus,
+    		project: issueToFilter.project.project,
+    		owner: issueToFilter.owner,
+    		entries: issueToFilter.entries
+    	};
+    	return issue;
     };
     
     function enableSaveIssueBtn(){

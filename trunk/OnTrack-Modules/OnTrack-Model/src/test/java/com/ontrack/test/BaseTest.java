@@ -11,6 +11,7 @@ import javax.persistence.Persistence;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -99,6 +100,17 @@ public class BaseTest {
 			e.printStackTrace();
 		}
 		return json;
+	}
+	
+	public static <T> T fromJSON(final TypeReference<T> type,final String jsonPacket) {
+		   T data = null;
+	
+		   try {
+		      data = new ObjectMapper().readValue(jsonPacket, type);
+		   } catch (Exception e) {
+		      e.printStackTrace();
+		   }
+		   return data;
 	}
 
 }

@@ -13,6 +13,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -42,16 +44,17 @@ public class IssueService {
 	@GET
 	@Path("getentriesbyissueid/{issueid}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Set<IssueEntry> getEntriesByIssueId(@PathParam("issueid")Long issueId){
+	public List<IssueEntry> getEntriesByIssueId(@PathParam("issueid")Long issueId){
 		Issue issue = issueManager.read(issueId);
-		Set<IssueEntry> entries =  issue.getEntries();
+		List<IssueEntry> entries =  issue.getEntries();
 		return entries;
 	}
 	
 	@POST
 	@Path("saveissue")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createIssue(Issue issue){
+	public Response createIssue(String issueJson){
+		Issue issue = fromJSON( new TypeReference<Issue>() {},issueJson);
 		Issue result = issueManager.create(issue);
 		if(result.getId() != null){
 			return Response.ok().build();
@@ -105,5 +108,15 @@ public class IssueService {
 		return issueManager.getIssuesByCode(code);
 	}
 
+	public static <T> T fromJSON(final TypeReference<T> type,final String jsonPacket) {
+		   T data = null;
+	
+		   try {
+		      data = new ObjectMapper().readValue(jsonPacket, type);
+		   } catch (Exception e) {
+		      e.printStackTrace();
+		   }
+		   return data;
+	}
 		
 }
