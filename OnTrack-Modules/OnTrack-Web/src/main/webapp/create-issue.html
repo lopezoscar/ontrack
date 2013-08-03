@@ -128,8 +128,8 @@
 				  </form>
   				</div>
   				
-  				<div ng-repeat="prop in issueProperties">
-  					{{prop.description}}: <input type="text" ng-model="prop.value" />
+  				<div ng-repeat="entry in entries">
+  					{{entry.property.description}}: <input type="text" ng-model="entry.value" />
   				</div>
   				
   			 </div>

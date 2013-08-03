@@ -1,6 +1,7 @@
 package com.sappe.ontrack.model.issues;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -86,16 +87,14 @@ public class Issue implements Serializable{
 	private Project project;
 	
 	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
-	@JoinColumn(name="id_issue_entry")
-	private Set<IssueEntry> entries;
+	@JoinColumn(name="id_issue")
+	private List<IssueEntry> entries;
 	
-	
-
 
 	public Issue(Long id,String code, String title, String description, String reporter,
 			User owner, IssueStatus currentStatus, IssueType issueType,
 			Issue parent, Set<Issue> childs, Project project,
-			Set<IssueEntry> entries) {
+			List<IssueEntry> entries) {
 		super();
 		this.id = id;
 		this.code = code;
@@ -297,12 +296,12 @@ public class Issue implements Serializable{
 	}
 
 
-	public Set<IssueEntry> getEntries() {
+	public List<IssueEntry> getEntries() {
 		return entries;
 	}
 
 
-	public void setEntries(Set<IssueEntry> entries) {
+	public void setEntries(List<IssueEntry> entries) {
 		this.entries = entries;
 	}
 
