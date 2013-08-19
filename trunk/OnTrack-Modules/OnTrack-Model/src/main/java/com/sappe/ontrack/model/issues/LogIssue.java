@@ -1,9 +1,7 @@
 package com.sappe.ontrack.model.issues;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,43 +9,43 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-import com.sappe.ontrack.model.users.User;
-
 @Entity
-@Table(name="issue_entry")
-public class IssueEntry implements Serializable{
+@Table(name="log_issues")
+public class LogIssue implements Serializable{
+	
+	public static final int CREATED_ISSUE_CODE = 1;
+	public static final int MERGED_ISSUE_CODE = 2;
+	public static final int FINISHED_ISSUE_CODE = 3;
+	
+	
 	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3690492788180803305L;
+	private static final long serialVersionUID = -6892050620357259939L;
 
 	@Id
+	@Column(name="id_log")
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id_issue_entry")
 	private Long id;
 	
-	@Column(name="value")
-	private String value;
+	@ManyToOne
+	@JoinColumn(name="action")
+	private IssueAction action;
+	
+	@Column(name="description")
+	private String description;
+	
+	@Column(name="date")
+	private String date;
 	
 	@ManyToOne
-	@JoinColumn(name="owner")
-	private User owner;
-	
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="id_issue_entry")
-	private List<EntryDocumentFile> files;
-	
-	@ManyToOne
-	@JoinColumn(name="id_issue_property")
-	private IssueProperty property;
-	
-	
+	@JoinColumn(name="id_issue")
+	private Issue issue;
 
 	public Long getId() {
 		return id;
@@ -56,39 +54,40 @@ public class IssueEntry implements Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 	
-	public String getValue() {
-		return value;
+	
+
+	public IssueAction getAction() {
+		return action;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
+	public void setAction(IssueAction action) {
+		this.action = action;
 	}
 
-	public User getOwner() {
-		return owner;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setOwner(User owner) {
-		this.owner = owner;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+	
 	@JsonIgnore
-	public List<EntryDocumentFile> getFiles() {
-		return files;
+	public Issue getIssue() {
+		return issue;
 	}
 
-	public void setFiles(List<EntryDocumentFile> files) {
-		this.files = files;
-	}
-
-	public IssueProperty getProperty() {
-		return property;
-	}
-
-	public void setProperty(IssueProperty property) {
-		this.property = property;
+	public void setIssue(Issue issue) {
+		this.issue = issue;
 	}
 
 	@Override
@@ -107,7 +106,7 @@ public class IssueEntry implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		IssueEntry other = (IssueEntry) obj;
+		LogIssue other = (LogIssue) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -115,7 +114,6 @@ public class IssueEntry implements Serializable{
 			return false;
 		return true;
 	}
-
 	
 	
 

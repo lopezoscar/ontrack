@@ -17,6 +17,10 @@
 		<class>com.sappe.ontrack.model.issues.IssueType</class>
 		<class>com.sappe.ontrack.model.issues.IssueTypeAndStatus</class>
 		<class>com.sappe.ontrack.model.issues.IssueTypeAndStatusPK</class>
+		<class>com.sappe.ontrack.model.issues.LogIssue</class>
+		<class>com.sappe.ontrack.model.issues.ProcessHistory</class>
+		<class>com.sappe.ontrack.model.issues.IssueAction</class>
+		<class>com.sappe.ontrack.model.issues.IssueComment</class>
 		<class>com.sappe.ontrack.model.issues.EntryDocumentFile</class>
 		<class>com.sappe.ontrack.model.issues.Workflow</class>
 		<class>com.sappe.ontrack.model.users.Person</class>

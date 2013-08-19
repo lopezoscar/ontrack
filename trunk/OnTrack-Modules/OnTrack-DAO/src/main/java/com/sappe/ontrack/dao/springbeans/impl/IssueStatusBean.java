@@ -1,7 +1,6 @@
 package com.sappe.ontrack.dao.springbeans.impl;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityExistsException;
@@ -16,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sappe.ontrack.dao.springbeans.interfaces.IssueStatusManager;
 import com.sappe.ontrack.model.issues.IssueStatus;
+import com.sappe.ontrack.model.issues.IssueStatusByWorkflow;
 import com.sappe.ontrack.model.issues.IssueType;
-import com.sappe.ontrack.model.issues.Workflow;
 
 @Component
 public class IssueStatusBean implements IssueStatusManager {
@@ -63,15 +62,11 @@ public class IssueStatusBean implements IssueStatusManager {
 		return issuesStatus;
 	}
 
-	public List<IssueStatus> getIssueStatusByIssueType(IssueType issueType) {
-//		Workflow wf = (Workflow)em.createNamedQuery("selectWorkflowByIssueType").setParameter("issueType", issueType).getSingleResult();
-//		List<IssueStatus> result = new ArrayList<IssueStatus>();
-//		List<IssueStatus> status =  wf.getIssueStatus();
-//		for (IssueStatus issueStatus : status) {
-//			result.add(issueStatus);
-//		}
-//		return result;
-		return null;
+	public List<IssueStatusByWorkflow> getIssueStatusByIssueType(IssueType issueType) {
+		Query q = em.createQuery("select isw from IssueStatusByWorkflow isw where isw.wf.issueType = :it");
+		q.setParameter("it", issueType);
+		List<IssueStatusByWorkflow> status = q.getResultList();
+		return status;
 	}
 
 	public List<IssueStatus> getIssueStatusByDesc(String desc) {

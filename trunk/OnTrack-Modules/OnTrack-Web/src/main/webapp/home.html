@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="AR_ES">
+<html lang="AR_ES" ng-app>
 	<head>
 		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		 <meta charset="UTF-8"/>
@@ -14,6 +14,9 @@
     	 <link rel="css/global.css" rel="stylesheet" />
     	 
     	 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    	 
+    	 <script src="angularjs/angular.js"></script>
+    	  <script src="js/home.js"></script>
 		
 	<script type="text/javascript">
 
@@ -53,7 +56,7 @@
 
 	</head>
 	
-	<body>
+	<body ng-controller="HomeController">
 		<div class="container">
 			<div class="navbar">
 			  <div class="navbar-inner">
@@ -127,10 +130,10 @@
 		  					</tr>
 		  				</thead>
 		  				<tbody>
-		  					<tr>
-			  					<td>Issue ID</td>
-			  					<td>Nombre</td>
-			  					<td>Acciones</td>
+		  					<tr ng-repeat="i in issues">
+			  					<td>{{i.id}}</td>
+			  					<td>{{i.title}}</td>
+			  					<td><a class="btn btn-primary" ng-href="{{webserver}}/create-issue.html?issue={{i.id}}">Ver</a></td>
 		  					</tr>
 		  				</tbody>
 		  			</table>

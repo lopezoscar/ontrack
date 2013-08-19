@@ -90,6 +90,17 @@ public class Issue implements Serializable{
 	@JoinColumn(name="id_issue")
 	private List<IssueEntry> entries;
 	
+	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@JoinColumn(name="id_issue")
+	private List<IssueComment> comments;
+	
+	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@JoinColumn(name="id_issue")
+	private List<LogIssue> logs;
+	
+	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@JoinColumn(name="id_issue")
+	private List<ProcessHistory> history;
 
 	public Issue(Long id,String code, String title, String description, String reporter,
 			User owner, IssueStatus currentStatus, IssueType issueType,
@@ -279,30 +290,57 @@ public class Issue implements Serializable{
 	public Set<Issue> getChilds() {
 		return childs;
 	}
-
-
+	
 	public void setChilds(Set<Issue> childs) {
 		this.childs = childs;
 	}
-
 
 	public Project getProject() {
 		return project;
 	}
 
-
 	public void setProject(Project project) {
 		this.project = project;
 	}
-
 
 	public List<IssueEntry> getEntries() {
 		return entries;
 	}
 
-
 	public void setEntries(List<IssueEntry> entries) {
 		this.entries = entries;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public List<IssueComment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<IssueComment> comments) {
+		this.comments = comments;
+	}
+
+	public List<LogIssue> getLogs() {
+		return logs;
+	}
+	
+	public void setLogs(List<LogIssue> logs) {
+		this.logs = logs;
+	}
+
+	public List<ProcessHistory> getHistory() {
+		return history;
+	}
+
+	public void setHistory(List<ProcessHistory> history) {
+		this.history = history;
 	}
 
 	
