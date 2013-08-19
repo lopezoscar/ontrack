@@ -26,6 +26,7 @@
 		<property name="requiredParameterValue" value="true" />
 	</bean>
 	
+	<aop:aspectj-autoproxy />
 	
 	<bean id="issuebean" class="com.sappe.ontrack.dao.springbeans.impl.IssueBean" />
 	<bean id="userbean" class="com.sappe.ontrack.dao.springbeans.impl.UserBean"/>
@@ -39,6 +40,9 @@
 	<bean id="mailbean" class="com.sappe.ontrack.dao.springbeans.impl.MailBean"/>
 	<bean id="servicebean" class="com.sappe.ontrack.dao.springbeans.impl.ServiceBean"/>
 	<bean id="workflowbean" class="com.sappe.ontrack.dao.springbeans.impl.WorkflowBean"/>
+	<bean id="issueactionbean" class="com.sappe.ontrack.dao.springbeans.impl.IssueActionBean"/>
+	<bean id="logissuebean" class="com.sappe.ontrack.dao.springbeans.impl.LogIssueBean"/>
+	<bean id="processhistorybean" class="com.sappe.ontrack.dao.springbeans.impl.ProcessHistoryBean"/>
 	
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
