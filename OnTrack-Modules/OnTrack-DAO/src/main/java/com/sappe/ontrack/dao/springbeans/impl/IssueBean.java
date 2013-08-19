@@ -9,11 +9,15 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.TransactionRequiredException;
 
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sappe.ontrack.dao.springbeans.interfaces.IssueManager;
 import com.sappe.ontrack.model.issues.Issue;
+import com.sappe.ontrack.model.issues.IssueComment;
 import com.sappe.ontrack.model.issues.IssueStatus;
 import com.sappe.ontrack.model.issues.IssueType;
 
@@ -48,7 +52,6 @@ public class IssueBean implements IssueManager{
 			IllegalArgumentException, TransactionRequiredException,
 			PersistenceException {
 		em.remove(entity);
-		
 	}
 
 	public List<Issue> getAllElements() {
@@ -92,6 +95,16 @@ public class IssueBean implements IssueManager{
 	public List<Issue> getIssuesByCode(String code) {
 		List<Issue> issues = em.createNamedQuery("getIssueByCode").setParameter("code", code).getResultList();
 		return issues;
+	}
+
+	@Transactional
+	public List<IssueComment> addCommentToIssue(IssueComment comment) {
+		Issue issue = read(comment.getIssueID());
+		List<IssueComment> comments = issue.getComments();
+		em.persist(comment);
+		comments.add(comment);
+		update(issue);
+		return comments;
 	}
 	
 	

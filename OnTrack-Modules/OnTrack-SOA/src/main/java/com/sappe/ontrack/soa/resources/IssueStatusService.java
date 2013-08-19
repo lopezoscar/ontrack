@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import com.sappe.ontrack.dao.springbeans.interfaces.IssueStatusManager;
 import com.sappe.ontrack.model.issues.IssueStatus;
+import com.sappe.ontrack.model.issues.IssueStatusByWorkflow;
 import com.sappe.ontrack.model.issues.IssueType;
 
 @Component
@@ -78,7 +79,7 @@ public class IssueStatusService {
 	@Path("getissuestatusbyissuetype")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<IssueStatus> getIssueStatusByIssueType(IssueType issueType) {
+	public List<IssueStatusByWorkflow> getIssueStatusByIssueType(IssueType issueType) {
 		return issueStatusManager.getIssueStatusByIssueType(issueType);
 	}
 	

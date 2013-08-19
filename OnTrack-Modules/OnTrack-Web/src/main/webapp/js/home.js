@@ -1,4 +1,4 @@
-function SearchIssueCtrl($scope,$http){
+function HomeController($scope,$http,$location){
 	$scope.selectedFilter = {};
 	$scope.workflows = [];
 	//$scope.issues = [{"id":1,"title":"Error al guardar Issue","description":"NullPointerException al Guardar un Issue del tipo Bug para el proyecto 1","reporter":"Oscar","owner":{"id":1,"firstName":"Oscar","lastName":"Lopez","mail":"lopezoscar.job@gmail.com","userName":"https://www.google.com/accounts/o8/id?id=AItOawkk783CXOx_P9FJJXcPqEHrOwkjYXhs3g8","password":"Test","roles":[{"id":1,"roleName":"Usuario","acronym":"ROLE_USER"},{"id":2,"roleName":"Administrador","acronym":"ROLE_ADMIN"}],"projects":[]},"currentStatus":{"id":1,"description":"TODO"},"issueType":{"id":1,"description":"Cualquiera"},"parent":null,"childs":null,"project":null,"entries":null},{"id":2,"title":"Error al crear estadística","description":"Error al generar la estadística para los tipos de issue","reporter":"Oscar","owner":{"id":1,"firstName":"Oscar","lastName":"Lopez","mail":"lopezoscar.job@gmail.com","userName":"https://www.google.com/accounts/o8/id?id=AItOawkk783CXOx_P9FJJXcPqEHrOwkjYXhs3g8","password":"Test","roles":[{"id":1,"roleName":"Usuario","acronym":"ROLE_USER"},{"id":2,"roleName":"Administrador","acronym":"ROLE_ADMIN"}],"projects":[]},"currentStatus":{"id":1,"description":"TODO"},"issueType":{"id":1,"description":"Cualquiera"},"parent":null,"childs":null,"project":null,"entries":null},{"id":6,"title":"Titulo del Issue","description":"<p>\r\n\tdes</p>\r\n","reporter":"Oscar","owner":{"id":1,"firstName":"Oscar","lastName":"Lopez","mail":"lopezoscar.job@gmail.com","userName":"https://www.google.com/accounts/o8/id?id=AItOawkk783CXOx_P9FJJXcPqEHrOwkjYXhs3g8","password":"Test","roles":[{"id":1,"roleName":"Usuario","acronym":"ROLE_USER"},{"id":2,"roleName":"Administrador","acronym":"ROLE_ADMIN"}],"projects":[]},"currentStatus":{"id":1,"description":"TODO"},"issueType":{"id":2,"description":"Issue"},"parent":null,"childs":null,"project":null,"entries":null}];
@@ -23,12 +23,15 @@ function SearchIssueCtrl($scope,$http){
 		$scope.selectedFilter.searchIssues($http);
 	};
 	
-	var user = {
+	$scope.currentUser =
+	{
     	id: 1
-    };
-    var server = 'http://localhost:8080/OnTrack-SOA/';
+    }; 
+    
+    $scope.webserver = "http://localhost:8080/OnTrack";
+    $scope.server = 'http://localhost:8080/OnTrack-SOA/';
     function retrieveWorkflowsByUser(user){
-    	$http({method: 'POST', url: server+'workflowsrv/listworkflowsbyuser',data:user,headers: {'Content-Type': 'application/json'}}).
+    	$http({method: 'POST', url: $scope.server+'workflowsrv/listworkflowsbyuser',data:$scope.currentUser,headers: {'Content-Type': 'application/json'}}).
 		  success(function(data, status, headers, config) {
 		   	$scope.workflows = data;
 		  }).
@@ -37,13 +40,22 @@ function SearchIssueCtrl($scope,$http){
 		  });
     };
     
-    retrieveWorkflowsByUser(user);
+    retrieveWorkflowsByUser($scope.currentUser);
+    
+    $scope.ownerFilter = new OwnerFilter();
+    $scope.ownerFilter.init($scope);
+    $scope.ownerFilter.searchIssues($http);
+    
+    $scope.viewIssue = function(issue){
+    	$location.replace(true).path("/create-issue.html"+"?issue="+issue.id);
+    }
 };
 
 function retrieveIssuesByGet($scope,$http,url){
 	var server = "http://localhost:8080/OnTrack-SOA/";
 	$http.get(server+url).success(function(callback){
 		$scope.issues = callback;
+		//$scope.$apply();
 	});
 };
 
@@ -51,6 +63,7 @@ function retrieveIssuesByPOST($scope,$http,url,data){
     var server = "http://localhost:8080/OnTrack-SOA/";
 	$http.post(server+url).data(data).success(function(callback){
 		$scope.issues = callback;
+		$scope.$apply();
 	});
 };
 
@@ -70,7 +83,7 @@ function ProjectFilter(){
 	this.isProjectFilter = true;
 	
 	
-	this.searchIssues = function($http){
+	this.	s = function($http){
 		
 	};
 	
@@ -176,7 +189,7 @@ function OwnerFilter(){
 	this.scope = {};
 
 	this.name="Owner";
-	this.owner ="";
+	this.owner = "";
 	this.url = "issuesrv/getissuesbyownerid";
 	this.init = function(scope){
 		this.scope = scope;
@@ -186,7 +199,7 @@ function OwnerFilter(){
 	
 	this.searchIssues = function($http){
 		var params = [];
-		params.push(this.owner);
+		params.push(1);
 		
 		retrieveIssuesByGet(this.scope,$http,buildURL(this.url,params));
 	};

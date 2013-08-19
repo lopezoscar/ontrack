@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="es-AR" ng-app>
+<html lang="es-AR" ng-app="issue_mod">
 	<head>
 		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		 <meta charset="UTF-8"/>
@@ -16,11 +16,46 @@
     	 <script src="angularjs/angular.js"></script>
     	  <!-- Create Issue JS -->
     	 <script src="js/create-issue.js"></script>
+    	 <script src="js/app.js"></script>
+    	 
+    	  <!-- JQuery UI -->
+    	 <script src="jquery-ui/js/jquery-ui.js"></script>
+    	 
+		<link href="jquery-ui/css/smoothness/jquery-ui.css" rel="stylesheet"/>
+    	 
+    	 <style>
+			  #feedback { font-size: 1.4em; }
+			  #stacklogs .ui-selecting { background: #FECA40; }
+			  #stacklogs .ui-selected { background: #F39814; color: white; }
+			  #stacklogs { list-style-type: none; margin: 0; padding: 0; width: 100%; }
+			  #stacklogs li { margin: 3px; padding: 0.4em; font-size: 18px; height: 18px; }
+			  
+			  #stackhistory .ui-selecting { background: #FECA40; }
+			  #stackhistory .ui-selected { background: #F39814; color: white; }
+			  #stackhistory { list-style-type: none; margin: 0; padding: 0; width: 100%; }
+			  #stackhistory li { margin: 3px; padding: 0.4em; font-size: 18px; height: 18px; }
+		 </style>
+    	 
+    	<script>
+			  $(function() {
+			    $( "#stacklogs" ).selectable();
+			  });
+			  $(function() {
+			    $( "#stackhistory" ).selectable();
+			  });
+		</script>
     	 
     	 <!-- CKEditor -->
     	 <script src="ckeditor/ckeditor.js"></script>
     	 <script>
 			  	$('.dropdown-toggle').dropdown();
+			  	
+			  	
+			  	$('#issueTab a').click(function (e) {
+			  	  e.preventDefault();
+			  	  $(this).tab('show');
+			  	})
+			  	
 			  </script>
 <!--     	 <script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script> -->
 
@@ -96,7 +131,7 @@
   			
 			<div class="row-fluid">
 			
-			<div class="span3 well">
+			<div class="span3 well" ng-hide="modifyStatus">
 			 <input ng-model="issue.title" class="input-large" type="text" placeholder="Título">
 			 <select ng-model="issue.project" ng-options="w.project.name for w in workflows" ng-change="updateIssueTypes(issue)">
 			 	<option value='' disabled selected style='display:none;'>Elegi un proyecto</option>
@@ -113,32 +148,85 @@
   			 <input  ng-model="issue.reporter" name="Reporter" type="text" placeholder="Reporter" class="input-large" ng-readonly="true"/>
   			
   			 </div>
+  			 
+  			 <div class="span3 well" ng-show="modifyStatus">
+  			 	 <input ng-model="issue.title" class="input-large" type="text" ng-readonly="true"/>
+  			 	 <input ng-model="issue.project.name" class="input-large" type="text" ng-readonly="true"/>
+  			 	 <input ng-model="issue.issueType.description" class="input-large" type="text" ng-readonly="true"/>
+				 <select ng-model="issue.issueStatus" ng-options="s.issueStatus.description for s in issueStatusForModify | orderBy:'s.position'">
+				 	<option value='' disabled selected style='display:none;'>{{issue.currentStatus.description}}</option>
+				 </select>
+				 <input  ng-model="issue.owner.lastName" class="input-large" type="text" ng-readonly="true"/>
+				 <input  ng-model="issue.reporter" name="Reporter" type="text" placeholder="Reporter" class="input-large" ng-readonly="true"/>
+  			 </div>
   			 <!-- End Span02 -->
   			 
   			 <div class="span9">
-  			 	
   			 	<textarea ng-model="issue.description" class="ckeditor" name="editor"></textarea>
-  			 	
-  			 	
   			 	<div class="well">
-				  <form class="simple-form">
+				  
+				  
+			<ul class="nav nav-tabs" id="issueTab">
+			  <li><a href="#comments" data-toggle="tab">Comentarios</a></li>
+			  <li><a href="#entries" data-toggle="tab">Propiedades Dinámicas</a>
+			  <li><a href="#log" data-toggle="tab">Log</a></li>
+			  <li><a href="#history" data-toggle="tab">Process History</a></li>
+			  <li><a href="#files" data-toggle="tab">Archivos</a></li>
+			</ul>
+			
+			<div class="tab-content">
+				<div id="comments" class="tab-pane">
+					<div class="span3" ng-show="modifyStatus">
+						<div ng-repeat="comment in comments">
+							<h4>{{comment.author}} - {{comment.date}}</h4>
+							<p>{{comment.text}}</p>
+						</div>	
+						<textarea ng-model="text" ></textarea>
+						<input type="button" class="btn" ng-click="saveComment(text)" value="Agregar Comentario"/>
+					</div>
+					<div ng-hide="modifyStatus"><h4 >No se pueden agregar comentarios al momento de crear el issue, ingrese los datos en la descripción</h4></div>
+				
+			</div>
+			<div id="entries">
+				<div ng-repeat="entry in entries">
+  					{{entry.property.description}}: <input type="text" ng-model="entry.value" />
+  				</div>
+			</div>
+			<div id="log" class="tab-pane">
+				<div>
+					<h4>Stack Logs</h4>
+				    <ol id="stacklogs">
+					  <li ng-repeat="log in issue.logs" class="ui-widget-content">{{log.description}} - {{log.date}}</li>
+					</ol>				
+				</div>
+			</div>
+			<div id="history" class="tab-pane">
+				<div>
+					<h4>Stack History</h4>
+				    <ol id="stackhistory">
+					  <li ng-repeat="entry in issue.history" class="ui-widget-content">{{entry.status}} - {{entry.date}}</li>
+					</ol>
+				</div>
+			</div>
+			<div id="files" class="tab-pane">
 				  	  <label>Attachments</label>
 				  	  <input type="file" name="attachment" />
 					  <button type="submit" class="btn">Guardar Archivo</button>
-				  </form>
-  				</div>
-  				
-  				<div ng-repeat="entry in entries">
-  					{{entry.property.description}}: <input type="text" ng-model="entry.value" />
-  				</div>
-  				
+			</div>
+			
+			</div>
+			<!-- End Tab Content -->
+			
+  		</div>
   			 </div>
+  			 
+  		
   			 
   			 </div>
   			 <!-- End Row Fluid  -->
   			 
   			<div class="form-actions">
-				<input type="button" class="btn btn-primary" value="Guardar Issue" ng-click="saveIssue(issue)" ng-disabled="renderedIssueBtn"/>
+				<input type="button" class="btn btn-primary" value="Guardar Issue" ng-click="saveIssue(issue)"  ng-disabled="renderedIssueBtn"/>
 			</div>
   			</form>
   			<!-- End Form that wrapper all inputs and selects --> 

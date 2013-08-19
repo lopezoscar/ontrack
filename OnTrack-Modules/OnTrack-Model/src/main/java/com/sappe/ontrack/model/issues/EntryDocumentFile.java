@@ -21,7 +21,7 @@ public class EntryDocumentFile extends DocumentFile implements Serializable{
 
 	
 	@ManyToOne
-	@JoinColumn(name="issue_entry")
+	@JoinColumn(name="id_issue_entry")
 	private IssueEntry issueEntry;
 	
 	
