@@ -9,6 +9,8 @@ function SearchIssueCtrl($scope,$http){
 		$scope.issues = [];
 	};
 	
+	$scope.webserver = "http://localhost:8080/OnTrack";
+	
 	$scope.instanceFilters = function (){
 		$scope.filters.push(new ProjectFilter());
 		$scope.filters.push(new IssueTypeFilter());

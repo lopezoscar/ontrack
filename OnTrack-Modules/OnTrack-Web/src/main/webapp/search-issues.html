@@ -122,7 +122,7 @@
 		  					<tr ng-repeat="i in issues">
 			  					<td>{{i.id}}</td>
 			  					<td>{{i.title}}</td>
-			  					<td><input type="button" class="btn btn-primary" value="Ver" ng-click="viewIssue()"></td>
+			  					<td><a class="btn btn-primary" ng-href="{{webserver}}/create-issue.html?issue={{i.id}}">Ver</a></td>
 		  					</tr>
 		  				</tbody>
 		  			</table>
