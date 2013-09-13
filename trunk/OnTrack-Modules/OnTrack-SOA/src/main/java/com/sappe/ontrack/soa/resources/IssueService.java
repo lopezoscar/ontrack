@@ -97,8 +97,7 @@ public class IssueService {
 	}
 	
 	@GET
-	@Path("getissuesbyowneri" +
-			"d/{id}")
+	@Path("getissuesbyownerid/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Issue> getIssuesByOwnerId(@PathParam("id")Long ownerId){
 		List<Issue> issues = issueManager.getIssuesByOwnerId(ownerId);
