@@ -42,13 +42,30 @@ function HomeController($scope,$http,$location){
     
     retrieveWorkflowsByUser($scope.currentUser);
     
+    function retrieveProjectsByUser(user){
+    	$http({method: 'POST', url: $scope.server+'projectsrv/projectsbyuser',data:$scope.currentUser,headers: {'Content-Type': 'application/json'}}).
+		  success(function(data, status, headers, config) {
+		   	$scope.projects = data;
+		  }).
+		  error(function(data, status, headers, config) {
+		  	$scope.noProjects = true;
+		  });
+    };
+    
+    retrieveProjectsByUser($scope.currentUser);
+    
     $scope.ownerFilter = new OwnerFilter();
     $scope.ownerFilter.init($scope);
     $scope.ownerFilter.searchIssues($http);
     
     $scope.viewIssue = function(issue){
     	$location.replace(true).path("/create-issue.html"+"?issue="+issue.id);
-    }
+    };
+    
+    $scope.viewProject = function(project){
+    	$location.replace(true).path("/create-project.html"+"?project="+project.id);
+    };
+    
 };
 
 function retrieveIssuesByGet($scope,$http,url){

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sappe.ontrack.dao.springbeans.interfaces.WorkflowManager;
 import com.sappe.ontrack.model.issues.IssueStatusByWorkflow;
+import com.sappe.ontrack.model.issues.Project;
 import com.sappe.ontrack.model.issues.Workflow;
 import com.sappe.ontrack.model.users.User;
 
@@ -51,6 +52,10 @@ public class WorkflowBean implements WorkflowManager{
 	@SuppressWarnings("unchecked")
 	public List<Workflow> listWorkflowsByUser(User user) {
 		return em.createQuery("select wf from Workflow wf where :user in elements( wf.project.users)").setParameter("user", user).getResultList();
+	}
+	
+	public List<Workflow> listWorkflowsByProject(Project project){
+		return em.createQuery("select wf from Workflow wf where wf.project = :project").setParameter("project", project).getResultList();
 	}
 	
 	@Transactional

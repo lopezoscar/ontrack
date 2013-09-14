@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sappe.ontrack.dao.springbeans.interfaces.ProjectManager;
 import com.sappe.ontrack.model.issues.Project;
+import com.sappe.ontrack.model.users.User;
 
 @Component
 public class ProjectBean implements ProjectManager{
@@ -61,19 +62,13 @@ public class ProjectBean implements ProjectManager{
 	@Transactional
 	public List<Project> getAllProjects() {
 		List<Project> projects = em.createNamedQuery("getAllProjects").getResultList();
-//		for (Project project : projects) {
-//			List<Issue> issues = project.getIssues();
-//			for (Issue issue : issues) {
-//				issue = initializeAndUnproxy(issue);
-//			}
-//			issues = initializeAndUnproxy(issues);
-//			project.setIssues(issues);
-//			List<IssueType> types = project.getIssueTypes();
-//			types = initializeAndUnproxy(types);
-//			project.setIssueTypes(types);
-//		}
-//		List<Project> projects = new ArrayList<Project>();
 		return projects;
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<Project> projectsByUser(User user){
+		return em.createNamedQuery("projectByUser").setParameter("user", user).getResultList();
 	}
 
 	public static boolean isUninitialized(Object proxy) {
