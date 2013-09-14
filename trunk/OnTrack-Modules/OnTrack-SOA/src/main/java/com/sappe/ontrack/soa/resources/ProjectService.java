@@ -1,6 +1,5 @@
 package com.sappe.ontrack.soa.resources;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -13,10 +12,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -25,6 +20,7 @@ import com.sappe.ontrack.dao.springbeans.interfaces.IssueManager;
 import com.sappe.ontrack.dao.springbeans.interfaces.ProjectManager;
 import com.sappe.ontrack.model.issues.Issue;
 import com.sappe.ontrack.model.issues.Project;
+import com.sappe.ontrack.model.users.User;
 
 @Path("/projectsrv")
 @Component
@@ -36,6 +32,13 @@ public class ProjectService {
 	
 	@Autowired
 	IssueManager issueManager;
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/projectbyid/{id}")
+	public Project projectById(@PathParam("id")Long id){
+		return projectManager.read(id);
+	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -61,6 +64,17 @@ public class ProjectService {
 		Project savedProject = projectManager.create(project);
 		if(savedProject != null){
 			return Response.ok().entity(savedProject).build();
+		}
+		return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/projectsbyuser")
+	public Response getProjectsByUser(User user){
+		List<Project> projects = projectManager.projectsByUser(user);
+		if(projects != null && !projects.isEmpty()){
+			return Response.ok(projects).build();
 		}
 		return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 	}

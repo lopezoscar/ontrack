@@ -111,10 +111,10 @@
 		  					</tr>
 		  				</thead>
 		  				<tbody>
-		  					<tr>
-			  					<td>Project ID</td>
-			  					<td>Nombre</td>
-			  					<td>Acciones</td>
+			  				<tr ng-repeat="p in projects">
+			  					<th>{{p.id}}</th>
+			  					<th>{{p.name}}</th>
+			  					<th><a class="btn btn-primary" ng-href="{{webserver}}/create-project.html?project={{p.id}}">Ver</a></th>
 		  					</tr>
 		  				</tbody>
 		  			</table>
@@ -125,7 +125,7 @@
 		  				<thead>
 		  					<tr>
 			  					<th>Issue ID</th>
-			  					<th>Nombre</th>
+			  					<th>Título</th>
 			  					<th>Acciones</th>
 		  					</tr>
 		  				</thead>

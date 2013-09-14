@@ -1,3 +1,4 @@
+
 function CreateIssueCtrl($scope,$http,$location){
 	
 	$scope.currentIssueID = $location.search().issue; 

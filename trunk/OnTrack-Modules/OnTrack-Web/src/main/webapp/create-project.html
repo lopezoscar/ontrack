@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="AR_ES" ng-app>
+<html lang="AR_ES" ng-app="project_mod">
 	<head>
 		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		 <meta charset="UTF-8"/>
@@ -23,7 +23,7 @@
     	 <script src="angularjs/angular.js"></script>
     	 <!-- Create Project JS -->
     	 <script src="js/create-project.js"></script>
-    	 
+	     <script src="js/app.js"></script>    	 
     	 <script src="js/jquery.ddslick.min.js"></script>
 
 		<!-- Project Tab Panel -->    	 
@@ -166,7 +166,7 @@
 		  				</thead>
 		  				<tbody>
 		  					<tr ng-repeat="type in issueTypes">
-			  					<td ng-model="desc">{{type.desc}}</td>
+			  					<td ng-model="description">{{type.description}}</td>
 			  					<td>
 			  						<a href="#issueTypeModal" role="button" class="btn btn-primary" data-toggle="modal" ng-click="setCurrentIssueType(type)">Editar</a>
 			  						<input type="button" class="btn btn-danger" value="Eliminar" ng-click="removeIssueType($index)"/>
@@ -190,7 +190,7 @@
 			  		<h4>Elige un Tipo de Issue y crear los Estados</h4>
 			  		
 			  		<form novalidate class="simple-form">
-				  		<select ng-change="updateCurrentType(type)" ng-model="status.type" ng-options="type.desc for type in issueTypes"></select>
+				  		<select ng-change="updateCurrentType(type)" ng-model="status.type" ng-options="type.description for type in issueTypes"></select>
 				  		<input type="text" class="input-medium" ng-model="status.description"/>
 				  		<input type="button" class="btn btn-primary" value="Guardar" ng-click="saveStatus(status)"/>
 			  		</form>	  		
@@ -219,7 +219,7 @@
 			  		<div class="span6">
 						<h4>Workflow</h4>
 						<form novalidate class="simple-form">
-					  		<select ng-model="workflow.type" ng-options="type.desc for type in issueTypes"></select>
+					  		<select ng-model="workflow.type" ng-options="type.description for type in issueTypes"></select>
 					  		
 						    <ul id="sortable">
 							  <li id="{{status.description}}" class="ui-state-default" ng-bind="status.description" ng-repeat="status in workflow.type.status"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{status.description}}</li>
