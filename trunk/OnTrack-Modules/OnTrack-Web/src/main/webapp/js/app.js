@@ -16,4 +16,7 @@ project_mod.config(function($locationProvider) {
   $locationProvider.html5Mode(true);
 });
 
-angular.injector(['ng', 'project_mod'])
+angular.injector(['ng', 'project_mod']);
+
+var search_issues_mod = angular.module('search-filter', []);
+

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="AR_ES" ng-app>
+<html lang="AR_ES" ng-app="search-filter">
 	<head>
 		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		 <meta charset="UTF-8"/>
@@ -7,56 +7,33 @@
     	 <link href="css/bootstrap.css" rel="stylesheet" media="screen">
     	 <link href="css/bootstrap-responsive.css" rel="stylesheet">
     	 
+    	 <link href="angular-modules/ng-table/ng-table.css" rel="stylesheet">
+    	 
     	 <script src="js/jquery.js"></script>
+    	 <script src="jquery-ui/js/jquery-ui.js"></script>
+    	 <script src="datatables/media/js/jquery.dataTables.js"></script>
+    	 <link rel="stylesheet" type="text/css" href="datatables/media/css/jquery.dataTables.css">
     	 <script src="js/bootstrap.js"></script>
     	 
     	 <!-- CSS  -->
     	 <link rel="css/global.css" rel="stylesheet" />
     	 
-    	 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    	 
+    	  <!-- Angular JS -->
     	 <script src="angularjs/angular.js"></script>
-    	  <script src="js/home.js"></script>
-		
-	<script type="text/javascript">
-
-      // Load the Visualization API and the piechart package.
-      google.load('visualization', '1.0', {'packages':['corechart']});
-
-      // Set a callback to run when the Google Visualization API is loaded.
-      google.setOnLoadCallback(drawChart);
-
-      // Callback that creates and populates a data table,
-      // instantiates the pie chart, passes in the data and
-      // draws it.
-      function drawChart() {
-
-        // Create the data table.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
-        data.addRows([
-          ['Bugs', 3],
-          ['Issues', 1],
-          ['Releases', 1],
-          ['User Stories', 1],
-          ['Requirement', 2]
-        ]);
-
-        // Set chart options
-        var options = {'title':'Issue Types',
-                       'width':400,
-                       'height':275};
-
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
-    </script>
-
+    	 
+    	  <!-- Search Issue JS -->
+    	 <script src="js/search-issue-filter.js"></script>
+    	 <script src="js/app.js"></script>
+    	 
+    	 <script>
+    	 	$(document).ready(function() {
+    		    $('#issues').dataTable();
+    		} );
+    	 </script>
+    
 	</head>
-	
-	<body ng-controller="HomeController">
+	<body ng-controller="SearchIssueFilterCtrl">
+		
 		<div class="container">
 			<div class="navbar">
 			  <div class="navbar-inner">
@@ -98,34 +75,15 @@
   		</div>
   		<!-- End Container -->
   		
-  		
   		<div class="container-fluid">
   			<div class="row-fluid">
-  				<div class="span4">
-		  			<table class="table">
-		  				<thead>
-		  					<tr>
-			  					<th>Project ID</th>
-			  					<th>Nombre</th>
-			  					<th>Acciones</th>
-		  					</tr>
-		  				</thead>
-		  				<tbody>
-			  				<tr ng-repeat="p in projects">
-			  					<th>{{p.id}}</th>
-			  					<th>{{p.name}}</th>
-			  					<th><a class="btn btn-primary" ng-href="{{webserver}}/create-project.html?project={{p.id}}">Ver</a></th>
-		  					</tr>
-		  				</tbody>
-		  			</table>
-  				</div>
-  				<!-- End Span04 -->
-  				<div class="span4">
-  					<table class="table">
+  				<h3>Filtros para búsqueda de issue</h3>
+  				<div align="center">
+  						<table id="issues">
 		  				<thead>
 		  					<tr>
 			  					<th>Issue ID</th>
-			  					<th>Título</th>
+			  					<th>Nombre</th>
 			  					<th>Acciones</th>
 		  					</tr>
 		  				</thead>
@@ -137,17 +95,9 @@
 		  					</tr>
 		  				</tbody>
 		  			</table>
-  				</div>
-  				<!-- End Span04 -->
-  					<div class="span4">
-  						<div id="chart_div"></div>
-  					</div>
-  				<!-- End Span04 -->
-  			</div>
-  			<!-- End Row-Fluid -->
-  		</div>
-  		<!-- End Container Fluid -->
-  		
+				</div>
+			</div>
+		</div>	
+		<!-- End Container Fluid -->
 	</body>
-	
-</html>
+	</html>
