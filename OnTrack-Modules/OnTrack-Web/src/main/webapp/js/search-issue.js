@@ -146,7 +146,7 @@ function issueTypesByProjectId(filter){
 
 function ReporterFilter(){
 	this.scope = {};
-
+	this.httpMethod = "GET";
 	this.name="Reporter";
 	this.reporter ="";
 	this.url = "issuesrv/getissusbyreporter";
@@ -191,6 +191,7 @@ function OwnerFilter(){
 		params.push(this.owner);
 		
 		retrieveIssuesByGet(this.scope,$http,buildURL(this.url,params));
+		search(this);
 	};
 	
 	function buildURL(url,params){
@@ -246,4 +247,6 @@ function getIssueStatusByProjectAndType(currentProject,issueType,workflows){
 	});
 	return result; 
 }
+
+
 
