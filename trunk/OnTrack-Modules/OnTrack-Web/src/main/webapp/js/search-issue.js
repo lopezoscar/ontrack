@@ -61,12 +61,12 @@ function retrieveIssuesByPOST($scope,$http,url,data){
 function ProjectFilter(){
 	this.name="Proyecto";
 	this.projects = [];
-	this.selectedProject = {};
+	this.selectedProject = "";
 	this.url = "issuesrv/getissusbytype";
+	this.scope = {};
 	this.init = function(scope){
-		//Here should be ti search workflows by user
-		var result = getAllProjectsFromWorkflows(scope.workflows);
-		scope.selectedFilter.projects = result;	
+		this.scope = scope;
+		this.projects = getAllProjectsFromWorkflows(scope.workflows);
 	};
 	
 	this.isProjectFilter = true;
