@@ -1,5 +1,6 @@
 package com.sappe.ontrack.soa.resources;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -21,6 +22,7 @@ import com.sappe.ontrack.dao.springbeans.interfaces.IssueActionManager;
 import com.sappe.ontrack.dao.springbeans.interfaces.IssueManager;
 import com.sappe.ontrack.dao.springbeans.interfaces.LogIssueManager;
 import com.sappe.ontrack.dao.springbeans.interfaces.ProcessHistoryManager;
+import com.sappe.ontrack.dao.springbeans.interfaces.ProjectManager;
 import com.sappe.ontrack.model.issues.Issue;
 import com.sappe.ontrack.model.issues.IssueAction;
 import com.sappe.ontrack.model.issues.IssueComment;
@@ -28,6 +30,8 @@ import com.sappe.ontrack.model.issues.IssueEntry;
 import com.sappe.ontrack.model.issues.IssueStatus;
 import com.sappe.ontrack.model.issues.IssueType;
 import com.sappe.ontrack.model.issues.LogIssue;
+import com.sappe.ontrack.model.issues.Project;
+import com.sappe.ontrack.model.users.User;
 
 @Component
 @Path("issuesrv")
@@ -45,6 +49,22 @@ public class IssueService {
 	
 	@Autowired
 	private ProcessHistoryManager processHistoryManager;
+	
+	@Autowired
+	private ProjectManager projectManager;
+	
+	@POST
+	@Path("listIssuesByUser")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Issue> listIssuesByUser(User user){
+		List<Project> projects = projectManager.projectsByUser(user);
+		List<Issue> issues = new ArrayList<Issue>();
+		for (Project project : projects) {
+			List<Issue> result = issueManager.getIssuesByProjectId(project.getId());
+			issues.addAll(result);
+		}
+		return issues;
+	}
 	
 	@GET
 	@Path("getissuebyid/{pk}")

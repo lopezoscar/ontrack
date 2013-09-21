@@ -7,27 +7,34 @@ function SearchIssueFilterCtrl($scope,$http){
 	$scope.server = "http://localhost:8080/OnTrack-SOA/";
 	$scope.webserver = "http://localhost:8080/OnTrack/";
     
+    var user = {
+    	id: 1
+    };
     
-    $scope.ownerFilter = new OwnerFilter();
-    $scope.ownerFilter.owner = 1;
-    $scope.ownerFilter.init($scope);
-    $scope.ownerFilter.searchIssues($http);
-	
+    $http({method: 'POST', url: $scope.server+"issuesrv/listIssuesByUser",data:user,headers: {'Content-Type': 'application/json'}}).
+		  success(function(data, status, headers, config) {
+		   	$scope.issues = data;
+		   	$scope.issues = parserResultToDataTable($scope.issues);
+			createDatatables($scope.issues);
+		
+		
+		
+		})
+		.error(function(data, status, headers, config) {
+		  	$scope.noIssues = true;
+		  });;
+		  
+ 	
 }
 
-function retrieveIssuesByGet($scope,$http,url){
-	$http.get($scope.server+url).success(function(callback){
-		$scope.issues = callback;
-		$scope.issues = parserResultToDataTable($scope.issues);
+function createDatatables(issues){
 		var asInitVals = new Array();
-		var oTable = $('#issues').dataTable($scope.issues);
+		var oTable = $('#issues').dataTable(issues);
 		  
 	    $("tfoot input").keyup( function () {
 	        /* Filter on the column (the index) of this element */
 	        oTable.fnFilter( this.value, $("tfoot input").index(this) );
 	    } );
-	     
-	     
 	     
 	    /*
 	     * Support functions to provide a little bit of 'user friendlyness' to the textboxes in
@@ -52,9 +59,13 @@ function retrieveIssuesByGet($scope,$http,url){
 	            this.value = asInitVals[$("tfoot input").index(this)];
 	        }
 	    } );
-			
+}
+
+function retrieveIssuesByGet($scope,$http,url){
+	$http.get($scope.server+url).success(function(callback){
+		$scope.issues = callback;
 	});
-};
+}
 
 function retrieveIssuesByPOST($scope,$http,url,data){
 	$http.post($scope.server+url).data(data).success(function(callback){
@@ -85,11 +96,41 @@ function parserResultToDataTable(data){
 		aoColumns: [
 		            { "sTitle": "ID Issue" },
 		            { "sTitle": "Titulo" },
-		            { "sTitle": "Acciones" }]
+		            { "sTitle": "Reporter" },
+		            { "sTitle": "Owner" },
+		            { "sTitle": "Estado Actual" },
+		            { "sTitle": "Tipo de Issue" },
+		            { "sTitle": "Proyecto" },
+		            { "sTitle": "Descripcion" },
+		            { "sTitle": "Acciones" }
+		            ]
 	};
 	
-	angular.forEach(data, function(value, key){
-		var row = [value.id,value.title,"Ver"];
+	function validateNullAndUndenfinded(param){
+		return param == null || param == "undefined";
+	}
+	
+	angular.forEach(data, function(issue, key){
+		var issueId =  validateNullAndUndenfinded(issue.id) ? "":issue.id;
+		var title =   validateNullAndUndenfinded(issue.title) ? "":issue.title;
+		var reporter = validateNullAndUndenfinded(issue.reporter) ? "":issue.reporter;
+		var owner = validateNullAndUndenfinded(issue.owner.lastName+", "+issue.owner.firstName)? "": issue.owner.lastName+", "+issue.owner.firstName;
+		var currentStatus = validateNullAndUndenfinded(issue.currentStatus.description) ? "":issue.currentStatus.description; 
+		var issueType = validateNullAndUndenfinded(issue.issueType.descrption)? "":issue.issueType.descrption;
+		var project = validateNullAndUndenfinded(issue.project)? "":issue.project;
+		var description = validateNullAndUndenfinded(issue.description) ? "":issue.description;  
+		
+		
+		
+		var row = [issueId,
+				   title,
+				   owner, 
+				   currentStatus,
+				   issueType,
+				   project,
+				   description,
+				    "Ver"];
+		console.log(row);
 		source.aaData.push(row);
 	});
 	
