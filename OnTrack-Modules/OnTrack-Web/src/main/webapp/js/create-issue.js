@@ -19,6 +19,7 @@ function CreateIssueCtrl($scope,$http,$location){
     var user = {
     	id: 1
     };
+    $scope.webserver = "http://localhost:8080/OnTrack";
     $scope.server = "http://localhost:8080/OnTrack-SOA/";
     function retrieveWorkflowsByUser(user){
     	$http({method: 'POST', url: $scope.server+'workflowsrv/listworkflowsbyuser',data:user,headers: {'Content-Type': 'application/json'}}).
