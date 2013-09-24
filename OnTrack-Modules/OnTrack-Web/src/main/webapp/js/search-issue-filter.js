@@ -1,7 +1,7 @@
 
 
 
-function SearchIssueFilterCtrl($scope,$http){
+function SearchIssueFilterCtrl($scope,$http,$location){
 	$scope.issues = [];
 	
 	$scope.server = "http://localhost:8080/OnTrack-SOA/";
@@ -15,7 +15,7 @@ function SearchIssueFilterCtrl($scope,$http){
 		  success(function(data, status, headers, config) {
 		   	$scope.issues = data;
 		   	$scope.issues = parserResultToDataTable($scope.issues);
-			createDatatables($scope.issues);
+			createDatatables($scope.issues,$location);
 		
 		
 		
@@ -27,7 +27,7 @@ function SearchIssueFilterCtrl($scope,$http){
  	
 }
 
-function createDatatables(issues){
+function createDatatables(issues,$location){
 		var asInitVals = new Array();
 		var oTable = $('#issues').dataTable(issues);
 		  
@@ -59,6 +59,57 @@ function createDatatables(issues){
 	            this.value = asInitVals[$("tfoot input").index(this)];
 	        }
 	    } );
+	    
+	    
+//	    $("#issues tbody tr" ).addClass("hasmenu");
+//	    $("#issues").contextmenu({
+//	        delegate: ".hasmenu",
+//	        menu: [
+//	            {title: "Ver", cmd: "view", uiIcon: "icon ui-icon-zoomin"}
+//	            ],
+//	        select: function(event, ui) {
+//	            alert("select " + ui.cmd + " on " + ui.target.text());
+//	            //window.location = "http://localhost:8080/OnTrack/create-issue.html?issue="+ui.target.text();
+//	        }
+//	    });
+	    
+//	    $("#issues tbody tr").click( function( e ) {
+//	        if ( $(this).hasClass('row_selected') ) {
+//	            $(this).removeClass('row_selected');
+//	        }
+//	        else {
+//	            oTable.$('tr.row_selected').removeClass('row_selected');
+//	            $(this).addClass('row_selected');
+//	        }
+//	    });
+	    $('#issues tbody tr').on('mouseover', function (event) { 
+	    	 var aData = oTable.fnGetData(this); // get datarow
+		        if (null != aData){
+//		        	$(this).tooltip({});
+//		            $(this).addClass('selected');
+		        }
+	    });
+	    
+	    $('#issues tbody tr').on('click', function (event) {        
+	        var aData = oTable.fnGetData(this); // get datarow
+	        if (null != aData)  // null if we clicked on title row
+	        {
+	        	window.location = "http://localhost:8080/OnTrack/create-issue.html?issue="+aData[0];
+//	    	    $("#issues tbody tr" ).addClass("hasmenu");
+//	    	    $("#issues").contextmenu({
+//	    	        delegate: ".hasmenu",
+//	    	        trigger: 'left',
+//	    	        menu: [
+//	    	            {title: "Ver", cmd: "view", uiIcon: "icon ui-icon-zoomin"}
+//	    	            ],
+//	    	        select: function(event, ui) {
+//	    	            window.location = "http://localhost:8080/OnTrack/create-issue.html?issue="+aData[0];
+//	    	        }
+//	    	    });
+	    	    
+//	        	 console.log(aData);
+	        };
+	    });
 }
 
 function retrieveIssuesByGet($scope,$http,url){
@@ -76,22 +127,11 @@ function retrieveIssuesByPOST($scope,$http,url,data){
 };
 
 
-var data = {
-		"aaData": [
-           [ "Trident", "Internet Explorer 4.0", "Win 95+"],
-           [ "Trident", "Internet Explorer 5.0", "Win 95+"],
-           [ "Webkit", "Safari 3.0", "OSX.4+"]
-       ],
-       "aoColumns": [
-           { "sTitle": "ID Issue" },
-           { "sTitle": "Titulo" },
-           { "sTitle": "Accciones" }
-       ]
-};
 
 function parserResultToDataTable(data){
 	var source = {
-		"sDom": 'T<"clear">lfrtip',
+		sDom: 'T<"clear">lfrtip',
+		bJQueryUI : true,
 		"oTableTools": {
 			"sSwfPath": "datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf",
 			"aButtons": [
@@ -106,18 +146,17 @@ function parserResultToDataTable(data){
 				"print"
 			]
 		},
-		aaSorting: [ [0,'desc'], [1,'asc'] ,[2,'asc']],
+		aaSorting: [ [0,'desc']],
 		aaData: [],
 		aoColumns: [
 		            { "sTitle": "ID Issue" },
 		            { "sTitle": "Titulo" },
-//		            { "sTitle": "Reporter" },
-//		            { "sTitle": "Owner" },
-//		            { "sTitle": "Estado Actual" },
-//		            { "sTitle": "Tipo de Issue" },
-//		            { "sTitle": "Proyecto" },
-//		            { "sTitle": "Descripcion" },
-		            { "sTitle": "Acciones" }
+		            { "sTitle": "Reporter" },
+		            { "sTitle": "Owner" },
+		            { "sTitle": "Estado Actual" },
+		            { "sTitle": "Tipo de Issue" },
+		            { "sTitle": "Proyecto" },
+		            
 		            ]
 	};
 	
@@ -126,25 +165,25 @@ function parserResultToDataTable(data){
 	}
 	
 	angular.forEach(data, function(issue, key){
-		var issueId =  validateNullAndUndenfinded(issue.id) ? "":issue.id;
-		var title =   validateNullAndUndenfinded(issue.title) ? "":issue.title;
-		var reporter = validateNullAndUndenfinded(issue.reporter) ? "":issue.reporter;
-		var owner = validateNullAndUndenfinded(issue.owner.lastName+", "+issue.owner.firstName)? "": issue.owner.lastName+", "+issue.owner.firstName;
-		var currentStatus = validateNullAndUndenfinded(issue.currentStatus.description) ? "":issue.currentStatus.description; 
-		var issueType = validateNullAndUndenfinded(issue.issueType.descrption)? "":issue.issueType.descrption;
-		var project = validateNullAndUndenfinded(issue.project)? "":issue.project;
-		var description = validateNullAndUndenfinded(issue.description) ? "":issue.description;  
+		var issueId =  validateNullAndUndenfinded(issue.id) ? "INDEFINIDO":issue.id;
+		var title =   validateNullAndUndenfinded(issue.title) ? "INDEFINIDO":issue.title;
+		var reporter = validateNullAndUndenfinded(issue.reporter) ? "INDEFINIDO":issue.reporter;
+		var owner = validateNullAndUndenfinded(issue.owner.lastName+", "+issue.owner.firstName)? "INDEFINIDO": issue.owner.lastName+", "+issue.owner.firstName;
+		var currentStatus = validateNullAndUndenfinded(issue.currentStatus.description) ? "INDEFINIDO":issue.currentStatus.description; 
+		var issueType = validateNullAndUndenfinded(issue.issueType.description)? "INDEFINIDO":issue.issueType.description;
+		var project = validateNullAndUndenfinded(issue.project)? "INDEFINIDO":issue.project;
+		var description = validateNullAndUndenfinded(issue.description) ? "INDEFINIDO":issue.description;  
 		
 		
 		
 		var row = [issueId,
 				   title,
-//				   owner, 
-//				   currentStatus,
-//				   issueType,
-//				   project,
-//				   description,
-				    "Ver"];
+				   reporter,
+				   owner, 
+				   currentStatus,
+				   issueType,
+				   project
+				   ];
 		console.log(row);
 		source.aaData.push(row);
 	});

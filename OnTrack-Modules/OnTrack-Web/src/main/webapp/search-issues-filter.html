@@ -17,7 +17,12 @@
     	 <script src="js/bootstrap.js"></script>
     	 
     	 <!-- CSS  -->
-    	 <link rel="css/global.css" rel="stylesheet" />
+    	 <link href="css/global.css" rel="stylesheet" />
+    	  
+    	 <!-- JQuery UI -->
+    	 <script src="jquery-ui/js/jquery-ui.js"></script>
+    	 
+		<link href="jquery-ui/css/smoothness/jquery-ui.css" rel="stylesheet"/>
     	 
     	  <!-- Angular JS -->
     	 <script src="angularjs/angular.js"></script>
@@ -25,6 +30,10 @@
     	  <!-- Search Issue JS -->
     	 <script src="js/search-issue-filter.js"></script>
     	 <script src="js/app.js"></script>
+    	 
+    	 <style>
+    	 	
+    	 </style>
     	 
     
 	</head>
@@ -77,11 +86,6 @@
   				<div align="center">
   						<table id="issues">
 		  				<thead>
-		  					<tr>
-			  					<th>Issue ID</th>
-			  					<th>Nombre</th>
-			  					<th>Acciones</th>
-		  					</tr>
 		  				</thead>
 		  				<tbody>
 <!-- 		  					<tr ng-repeat="i in issues"> -->
@@ -92,8 +96,13 @@
 		  				</tbody>
 		  				<tfoot>
 							<tr>
-								<th><input type="text" name="search_engine" value="Search engines" class="search_init" /></th>
-								<th><input type="text" name="search_browser" value="Search browsers" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_engine" placeholder="ID Issue" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_browser" placeholder="Titulo" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_engine" placeholder="Reporter" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_browser" placeholder="Owner" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_engine" placeholder="Estado Actual" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_browser" placeholder="Tipo de Issue" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_engine" placeholder="Proyecto" class="search_init" /></th>
 							</tr>
 						</tfoot>
 		  			</table>
