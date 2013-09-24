@@ -91,17 +91,32 @@ var data = {
 
 function parserResultToDataTable(data){
 	var source = {
+		"sDom": 'T<"clear">lfrtip',
+		"oTableTools": {
+			"sSwfPath": "datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf",
+			"aButtons": [
+				"copy",
+				"csv",
+				"xls",
+				{
+					"sExtends": "pdf",
+					"sPdfOrientation": "landscape",
+					"sPdfMessage": "Issues"
+				},
+				"print"
+			]
+		},
 		aaSorting: [ [0,'desc'], [1,'asc'] ,[2,'asc']],
 		aaData: [],
 		aoColumns: [
 		            { "sTitle": "ID Issue" },
 		            { "sTitle": "Titulo" },
-		            { "sTitle": "Reporter" },
-		            { "sTitle": "Owner" },
-		            { "sTitle": "Estado Actual" },
-		            { "sTitle": "Tipo de Issue" },
-		            { "sTitle": "Proyecto" },
-		            { "sTitle": "Descripcion" },
+//		            { "sTitle": "Reporter" },
+//		            { "sTitle": "Owner" },
+//		            { "sTitle": "Estado Actual" },
+//		            { "sTitle": "Tipo de Issue" },
+//		            { "sTitle": "Proyecto" },
+//		            { "sTitle": "Descripcion" },
 		            { "sTitle": "Acciones" }
 		            ]
 	};
@@ -124,11 +139,11 @@ function parserResultToDataTable(data){
 		
 		var row = [issueId,
 				   title,
-				   owner, 
-				   currentStatus,
-				   issueType,
-				   project,
-				   description,
+//				   owner, 
+//				   currentStatus,
+//				   issueType,
+//				   project,
+//				   description,
 				    "Ver"];
 		console.log(row);
 		source.aaData.push(row);
