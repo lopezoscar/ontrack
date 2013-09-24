@@ -3,5 +3,23 @@ body:{
 	background-color: white;
 }
 
+.selected {
+	color:red;
+}
+
+#issues  tr.even:hover{
+    background-color: #cccccc;
+    mouse:pointer;
+}
+ 
+#issues  tr.odd:hover{
+    background-color: #cccccc;
+    mouse:pointer;
+}
+
+/* tr { background-color: red; !important} */
+/* tr:hover { background-color: black; !important }; */
+
+
 
 
