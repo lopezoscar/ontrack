@@ -9,12 +9,12 @@ body:{
 
 #issues  tr.even:hover{
     background-color: #cccccc;
-    mouse:pointer;
+    cursor:pointer
 }
  
 #issues  tr.odd:hover{
     background-color: #cccccc;
-    mouse:pointer;
+    cursor:pointer
 }
 
 /* tr { background-color: red; !important} */

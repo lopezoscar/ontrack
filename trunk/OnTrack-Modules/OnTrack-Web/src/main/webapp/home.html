@@ -18,41 +18,7 @@
     	 <script src="angularjs/angular.js"></script>
     	  <script src="js/home.js"></script>
 		
-	<script type="text/javascript">
-
-      // Load the Visualization API and the piechart package.
-      google.load('visualization', '1.0', {'packages':['corechart']});
-
-      // Set a callback to run when the Google Visualization API is loaded.
-      google.setOnLoadCallback(drawChart);
-
-      // Callback that creates and populates a data table,
-      // instantiates the pie chart, passes in the data and
-      // draws it.
-      function drawChart() {
-
-        // Create the data table.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
-        data.addRows([
-          ['Bugs', 3],
-          ['Issues', 1],
-          ['Releases', 1],
-          ['User Stories', 1],
-          ['Requirement', 2]
-        ]);
-
-        // Set chart options
-        var options = {'title':'Issue Types',
-                       'width':400,
-                       'height':275};
-
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
-    </script>
+	<script type="text/javascript" src="js/charts.js"></script>
 
 	</head>
 	
@@ -97,50 +63,62 @@
 			<!-- End Nav Bar -->
   		</div>
   		<!-- End Container -->
-  		
+  		<div class="container-fluid">
+  			<div class="row-fluid">
+  				<div class="span6">
+  					<div id="status_div">
+  					</div>
+  				</div>
+  				<div class="span6">
+  					<div id="type_div">
+  					</div>
+  				</div>
+  			
+  			</div>
+  		</div>
   		
   		<div class="container-fluid">
   			<div class="row-fluid">
   				<div class="span4">
-		  			<table class="table">
-		  				<thead>
-		  					<tr>
-			  					<th>Project ID</th>
-			  					<th>Nombre</th>
-			  					<th>Acciones</th>
-		  					</tr>
-		  				</thead>
-		  				<tbody>
-			  				<tr ng-repeat="p in projects">
-			  					<th>{{p.id}}</th>
-			  					<th>{{p.name}}</th>
-			  					<th><a class="btn btn-primary" ng-href="{{webserver}}/create-project.html?project={{p.id}}">Ver</a></th>
-		  					</tr>
-		  				</tbody>
-		  			</table>
+<!-- 		  			<table class="table"> -->
+<!-- 		  				<thead> -->
+<!-- 		  					<tr> -->
+<!-- 			  					<th>Project ID</th> -->
+<!-- 			  					<th>Nombre</th> -->
+<!-- 			  					<th>Acciones</th> -->
+<!-- 		  					</tr> -->
+<!-- 		  				</thead> -->
+<!-- 		  				<tbody> -->
+<!-- 			  				<tr ng-repeat="p in projects"> -->
+<!-- 			  					<th>{{p.id}}</th> -->
+<!-- 			  					<th>{{p.name}}</th> -->
+<!-- 			  					<th><a class="btn btn-primary" ng-href="{{webserver}}/create-project.html?project={{p.id}}">Ver</a></th> -->
+<!-- 		  					</tr> -->
+<!-- 		  				</tbody> -->
+<!-- 		  			</table> -->
   				</div>
   				<!-- End Span04 -->
   				<div class="span4">
-  					<table class="table">
-		  				<thead>
-		  					<tr>
-			  					<th>Issue ID</th>
-			  					<th>Título</th>
-			  					<th>Acciones</th>
-		  					</tr>
-		  				</thead>
-		  				<tbody>
-		  					<tr ng-repeat="i in issues">
-			  					<td>{{i.id}}</td>
-			  					<td>{{i.title}}</td>
-			  					<td><a class="btn btn-primary" ng-href="{{webserver}}/create-issue.html?issue={{i.id}}">Ver</a></td>
-		  					</tr>
-		  				</tbody>
-		  			</table>
+<!--   					<table class="table"> -->
+<!-- 		  				<thead> -->
+<!-- 		  					<tr> -->
+<!-- 			  					<th>Issue ID</th> -->
+<!-- 			  					<th>Título</th> -->
+<!-- 			  					<th>Acciones</th> -->
+<!-- 		  					</tr> -->
+<!-- 		  				</thead> -->
+<!-- 		  				<tbody> -->
+<!-- 		  					<tr ng-repeat="i in issues"> -->
+<!-- 			  					<td>{{i.id}}</td> -->
+<!-- 			  					<td>{{i.title}}</td> -->
+<!-- 			  					<td><a class="btn btn-primary" ng-href="{{webserver}}/create-issue.html?issue={{i.id}}">Ver</a></td> -->
+<!-- 		  					</tr> -->
+<!-- 		  				</tbody> -->
+<!-- 		  			</table> -->
   				</div>
   				<!-- End Span04 -->
   					<div class="span4">
-  						<div id="chart_div"></div>
+<!--   						<div id="chart_div"></div> -->
   					</div>
   				<!-- End Span04 -->
   			</div>
