@@ -9,6 +9,30 @@ function HomeController($scope,$http,$location){
 		$scope.issues = [];
 	};
 	
+	$scope.issues = [];
+	
+	$scope.server = "http://localhost:8080/OnTrack-SOA/";
+	$scope.webserver = "http://localhost:8080/OnTrack/";
+    
+    var user = {
+    	id: 1
+    };
+    
+    $http({method: 'POST', url: $scope.server+"issuesrv/listIssuesByUser",data:user,headers: {'Content-Type': 'application/json'}}).
+		  success(function(data, status, headers, config) {
+		   	$scope.issues = data;
+		   	var rows = parseChartDataCurrentStatus($scope.issues);
+		   	drawChart(rows,'status_div','Mis Issues Por Current Status');
+		   	rows = parseChartDataIssueType($scope.issues);
+		   	drawChart(rows,'type_div','Mis Issues Por Issue Type');
+		})
+		.error(function(data, status, headers, config) {
+		  	$scope.noIssues = true;
+		  });;
+	
+	
+	
+	
 	$scope.instanceFilters = function (){
 		$scope.filters.push(new ProjectFilter());
 		$scope.filters.push(new IssueTypeFilter());
@@ -34,13 +58,14 @@ function HomeController($scope,$http,$location){
     	$http({method: 'POST', url: $scope.server+'workflowsrv/listworkflowsbyuser',data:$scope.currentUser,headers: {'Content-Type': 'application/json'}}).
 		  success(function(data, status, headers, config) {
 		   	$scope.workflows = data;
+		   	
 		  }).
 		  error(function(data, status, headers, config) {
 		  	$scope.noWorkflows = true;
 		  });
     };
     
-    retrieveWorkflowsByUser($scope.currentUser);
+//    retrieveWorkflowsByUser($scope.currentUser);
     
     function retrieveProjectsByUser(user){
     	$http({method: 'POST', url: $scope.server+'projectsrv/projectsbyuser',data:$scope.currentUser,headers: {'Content-Type': 'application/json'}}).
@@ -67,6 +92,53 @@ function HomeController($scope,$http,$location){
     };
     
 };
+
+
+function parseChartDataCurrentStatus(issues){
+	var allData = [];
+	var statusList = [];
+	var result = [];
+	angular.forEach(issues, function(issue, key){
+		var status = issue.currentStatus;
+		var idx = statusList.indexOf(status.description);
+		//IF DOESNT EXIST
+		if(idx < 0){
+			statusList.push(status.description);
+			allData.push({status: status.description, cant: 1});
+		}else{
+			var statusCount = allData[idx];
+			statusCount.cant++;
+		}
+	});
+	
+	angular.forEach(allData, function(statusCount, key){
+		result.push([statusCount.status,statusCount.cant]);
+	});
+	return result;
+}
+
+function parseChartDataIssueType(issues){
+	var allData = [];
+	var typeList = [];
+	var result = [];
+	angular.forEach(issues, function(issue, key){
+		var it = issue.issueType;
+		var idx = typeList.indexOf(it.description);
+		//IF DOESNT EXIST
+		if(idx < 0){
+			typeList.push(it.description);
+			allData.push({issueType: it.description, cant: 1});
+		}else{
+			var typeCount = allData[idx];
+			typeCount.cant++;
+		}
+	});
+	
+	angular.forEach(allData, function(typeCount, key){
+		result.push([typeCount.issueType,typeCount.cant]);
+	});
+	return result;
+}
 
 function retrieveIssuesByGet($scope,$http,url){
 	var server = "http://localhost:8080/OnTrack-SOA/";
