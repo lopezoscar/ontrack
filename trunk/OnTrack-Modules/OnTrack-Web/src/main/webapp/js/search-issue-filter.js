@@ -1,6 +1,3 @@
-
-
-
 function SearchIssueFilterCtrl($scope,$http,$location){
 	$scope.issues = [];
 	
@@ -14,17 +11,12 @@ function SearchIssueFilterCtrl($scope,$http,$location){
     $http({method: 'POST', url: $scope.server+"issuesrv/listIssuesByUser",data:user,headers: {'Content-Type': 'application/json'}}).
 		  success(function(data, status, headers, config) {
 		   	$scope.issues = data;
-		   	$scope.issues = parserResultToDataTable($scope.issues);
+		   	$scope.issues = parserResultToDataTableForIssues($scope.issues);
 			createDatatables($scope.issues,$location);
-		
-		
-		
 		})
 		.error(function(data, status, headers, config) {
 		  	$scope.noIssues = true;
 		  });;
-		  
- 	
 }
 
 function createDatatables(issues,$location){
@@ -61,32 +53,9 @@ function createDatatables(issues,$location){
 	    } );
 	    
 	    
-//	    $("#issues tbody tr" ).addClass("hasmenu");
-//	    $("#issues").contextmenu({
-//	        delegate: ".hasmenu",
-//	        menu: [
-//	            {title: "Ver", cmd: "view", uiIcon: "icon ui-icon-zoomin"}
-//	            ],
-//	        select: function(event, ui) {
-//	            alert("select " + ui.cmd + " on " + ui.target.text());
-//	            //window.location = "http://localhost:8080/OnTrack/create-issue.html?issue="+ui.target.text();
-//	        }
-//	    });
-	    
-//	    $("#issues tbody tr").click( function( e ) {
-//	        if ( $(this).hasClass('row_selected') ) {
-//	            $(this).removeClass('row_selected');
-//	        }
-//	        else {
-//	            oTable.$('tr.row_selected').removeClass('row_selected');
-//	            $(this).addClass('row_selected');
-//	        }
-//	    });
 	    $('#issues tbody tr').on('mouseover', function (event) { 
 	    	 var aData = oTable.fnGetData(this); // get datarow
 		        if (null != aData){
-//		        	$(this).tooltip({});
-//		            $(this).addClass('selected');
 		        }
 	    });
 	    
@@ -95,19 +64,6 @@ function createDatatables(issues,$location){
 	        if (null != aData)  // null if we clicked on title row
 	        {
 	        	window.location = "http://localhost:8080/OnTrack/create-issue.html?issue="+aData[0];
-//	    	    $("#issues tbody tr" ).addClass("hasmenu");
-//	    	    $("#issues").contextmenu({
-//	    	        delegate: ".hasmenu",
-//	    	        trigger: 'left',
-//	    	        menu: [
-//	    	            {title: "Ver", cmd: "view", uiIcon: "icon ui-icon-zoomin"}
-//	    	            ],
-//	    	        select: function(event, ui) {
-//	    	            window.location = "http://localhost:8080/OnTrack/create-issue.html?issue="+aData[0];
-//	    	        }
-//	    	    });
-	    	    
-//	        	 console.log(aData);
 	        };
 	    });
 }
@@ -121,18 +77,19 @@ function retrieveIssuesByGet($scope,$http,url){
 function retrieveIssuesByPOST($scope,$http,url,data){
 	$http.post($scope.server+url).data(data).success(function(callback){
 		$scope.issues = callback;
-		$scope.issues = parserResultToDataTable($scope.issues);
+		$scope.issues = parserResultToDataTableForIssues($scope.issues);
 		$('#issues').dataTable($scope.issues);
 	});
 };
 
 
 
-function parserResultToDataTable(data){
+function parserResultToDataTableForIssues(data){
 	var source = {
 		sDom: 'T<"clear">lfrtip',
 		bJQueryUI : true,
-		"oTableTools": {
+		sPaginationType: "full_numbers",
+		oTableTools: {
 			"sSwfPath": "datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf",
 			"aButtons": [
 				"copy",
@@ -192,33 +149,4 @@ function parserResultToDataTable(data){
 	
 	
 }
-
-function OwnerFilter(){
-	this.scope = {};
-
-	this.name="Owner";
-	this.owner ="";
-	this.url = "issuesrv/getissuesbyownerid";
-	this.init = function(scope){
-		this.scope = scope;
-	};
-	
-	this.isOwnerFilter = true;
-	
-	this.searchIssues = function($http){
-		var params = [];
-		params.push(this.owner);
-		retrieveIssuesByGet(this.scope,$http,buildURL(this.url,params));
-	};
-	
-	function buildURL(url,params){
-		var result = url;
-		angular.forEach(params, function(value, key){
-			result = result+"/"+value;
-		});
-		return result;
-	}
-}
-
-
 
