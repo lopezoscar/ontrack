@@ -1,22 +1,13 @@
 function HomeController($scope,$http,$location){
-	$scope.selectedFilter = {};
-	$scope.workflows = [];
-	//$scope.issues = [{"id":1,"title":"Error al guardar Issue","description":"NullPointerException al Guardar un Issue del tipo Bug para el proyecto 1","reporter":"Oscar","owner":{"id":1,"firstName":"Oscar","lastName":"Lopez","mail":"lopezoscar.job@gmail.com","userName":"https://www.google.com/accounts/o8/id?id=AItOawkk783CXOx_P9FJJXcPqEHrOwkjYXhs3g8","password":"Test","roles":[{"id":1,"roleName":"Usuario","acronym":"ROLE_USER"},{"id":2,"roleName":"Administrador","acronym":"ROLE_ADMIN"}],"projects":[]},"currentStatus":{"id":1,"description":"TODO"},"issueType":{"id":1,"description":"Cualquiera"},"parent":null,"childs":null,"project":null,"entries":null},{"id":2,"title":"Error al crear estadística","description":"Error al generar la estadística para los tipos de issue","reporter":"Oscar","owner":{"id":1,"firstName":"Oscar","lastName":"Lopez","mail":"lopezoscar.job@gmail.com","userName":"https://www.google.com/accounts/o8/id?id=AItOawkk783CXOx_P9FJJXcPqEHrOwkjYXhs3g8","password":"Test","roles":[{"id":1,"roleName":"Usuario","acronym":"ROLE_USER"},{"id":2,"roleName":"Administrador","acronym":"ROLE_ADMIN"}],"projects":[]},"currentStatus":{"id":1,"description":"TODO"},"issueType":{"id":1,"description":"Cualquiera"},"parent":null,"childs":null,"project":null,"entries":null},{"id":6,"title":"Titulo del Issue","description":"<p>\r\n\tdes</p>\r\n","reporter":"Oscar","owner":{"id":1,"firstName":"Oscar","lastName":"Lopez","mail":"lopezoscar.job@gmail.com","userName":"https://www.google.com/accounts/o8/id?id=AItOawkk783CXOx_P9FJJXcPqEHrOwkjYXhs3g8","password":"Test","roles":[{"id":1,"roleName":"Usuario","acronym":"ROLE_USER"},{"id":2,"roleName":"Administrador","acronym":"ROLE_ADMIN"}],"projects":[]},"currentStatus":{"id":1,"description":"TODO"},"issueType":{"id":2,"description":"Issue"},"parent":null,"childs":null,"project":null,"entries":null}];
-	$scope.issues = [];
-	$scope.updateFilter = function(filter){
-		filter.init($scope);
-		$scope.selectedFilter = filter;
-		$scope.issues = [];
-	};
-	
 	$scope.issues = [];
 	
 	$scope.server = "http://localhost:8080/OnTrack-SOA/";
 	$scope.webserver = "http://localhost:8080/OnTrack/";
-    
     var user = {
     	id: 1
     };
+    
+    $scope.currentUser = user;
     
     $http({method: 'POST', url: $scope.server+"issuesrv/listIssuesByUser",data:user,headers: {'Content-Type': 'application/json'}}).
 		  success(function(data, status, headers, config) {
@@ -32,40 +23,8 @@ function HomeController($scope,$http,$location){
 	
 	
 	
-	
-	$scope.instanceFilters = function (){
-		$scope.filters.push(new ProjectFilter());
-		$scope.filters.push(new IssueTypeFilter());
-		$scope.filters.push(new ReporterFilter());
-		$scope.filters.push(new OwnerFilter());
-		$scope.filters.push(new IssueStatusFilter());
-		$scope.filters.push(new IssueCodeFilter());
-	};
-	$scope.filters = [];
-	
-	$scope.searchIssues = function(){
-		$scope.selectedFilter.searchIssues($http);
-	};
-	
-	$scope.currentUser =
-	{
-    	id: 1
-    }; 
     
-    $scope.webserver = "http://localhost:8080/OnTrack";
-    $scope.server = 'http://localhost:8080/OnTrack-SOA/';
-    function retrieveWorkflowsByUser(user){
-    	$http({method: 'POST', url: $scope.server+'workflowsrv/listworkflowsbyuser',data:$scope.currentUser,headers: {'Content-Type': 'application/json'}}).
-		  success(function(data, status, headers, config) {
-		   	$scope.workflows = data;
-		   	
-		  }).
-		  error(function(data, status, headers, config) {
-		  	$scope.noWorkflows = true;
-		  });
-    };
-    
-//    retrieveWorkflowsByUser($scope.currentUser);
+    //retrieveWorkflowsByUser($scope.currentUser);
     
     function retrieveProjectsByUser(user){
     	$http({method: 'POST', url: $scope.server+'projectsrv/projectsbyuser',data:$scope.currentUser,headers: {'Content-Type': 'application/json'}}).
@@ -79,9 +38,6 @@ function HomeController($scope,$http,$location){
     
     retrieveProjectsByUser($scope.currentUser);
     
-    $scope.ownerFilter = new OwnerFilter();
-    $scope.ownerFilter.init($scope);
-    $scope.ownerFilter.searchIssues($http);
     
     $scope.viewIssue = function(issue){
     	$location.replace(true).path("/create-issue.html"+"?issue="+issue.id);
@@ -346,4 +302,6 @@ function getIssueStatusByProjectAndType(currentProject,issueType,workflows){
 	});
 	return result; 
 }
+
+
 

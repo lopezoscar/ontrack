@@ -17,6 +17,16 @@ body:{
     cursor:pointer
 }
 
+#projects  tr.even:hover{
+    background-color: #cccccc;
+    cursor:pointer
+}
+ 
+#projects  tr.odd:hover{
+    background-color: #cccccc;
+    cursor:pointer
+}
+
 /* tr { background-color: red; !important} */
 /* tr:hover { background-color: black; !important }; */
 

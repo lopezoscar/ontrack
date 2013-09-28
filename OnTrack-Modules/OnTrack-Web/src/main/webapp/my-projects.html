@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="AR_ES">
+<html lang="AR_ES" ng-app>
 	<head>
 		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		 <meta charset="UTF-8"/>
@@ -10,8 +10,31 @@
     	 <script src="js/jquery.js"></script>
     	 <script src="js/bootstrap.js"></script>
     	 
+    	 <script src="js/search-projects-filter.js"></script>
+    	 
     	 <!-- CSS  -->
     	 <link rel="css/global.css" rel="stylesheet" />
+    	 
+			 <!-- JQuery UI -->
+    	 <script src="jquery-ui/js/jquery-ui.js"></script>
+    	 
+		<link href="jquery-ui/css/smoothness/jquery-ui.css" rel="stylesheet"/>	
+    	 
+    	  <script src="angularjs/angular.js"></script>
+	 	
+	 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    	
+    	 <script src="datatables/media/js/jquery.dataTables.js"></script>
+
+
+		 <script type="text/javascript" src="js/charts.js"></script>
+    	 
+    	 <link rel="stylesheet" type="text/css" href="datatables/media/css/jquery.dataTables.css">
+
+    	 
+    	 
+    	 
+    	 
 
 	</head>
 	
@@ -57,6 +80,25 @@
 			<!-- End Nav Bar -->
   		</div>
   		<!-- End Container -->
+  		
+  		<div class="container-fluid" ng-controller="SearchProjectsController">
+  			<div class="row-fluid">
+  			<div class="span6">
+				  	<table id="projects">
+		  				<thead></thead>
+		  				<tbody></tbody>
+		  				<tfoot>
+							<tr>
+								<th><input class="input-small" type="text" name="search_engine" placeholder="ID Proyecto" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_browser" placeholder="Nombre" class="search_init" /></th>
+						</tfoot>
+		  			</table>  			
+  			</div>
+
+  			</div>
+  		</div>
+  		
+  		
 	</body>
 	
 </html>

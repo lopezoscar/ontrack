@@ -9,6 +9,11 @@
     	 
     	 <script src="js/jquery.js"></script>
     	 <script src="js/bootstrap.js"></script>
+    	   
+    	 <!-- JQuery UI -->
+    	 <script src="jquery-ui/js/jquery-ui.js"></script>
+    	 
+		<link href="jquery-ui/css/smoothness/jquery-ui.css" rel="stylesheet"/>
     	 
     	 <!-- CSS  -->
     	 <link rel="css/global.css" rel="stylesheet" />
@@ -16,13 +21,22 @@
     	 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     	 
     	 <script src="angularjs/angular.js"></script>
-    	  <script src="js/home.js"></script>
-		
-	<script type="text/javascript" src="js/charts.js"></script>
+    	 <script src="js/home.js"></script>
+    	 <script src="js/search-issue-filter.js"></script>
+    	
+    	 <script src="datatables/media/js/jquery.dataTables.js"></script>
+    	 <script src="datatables/extras/TableTools/media/js/TableTools.js"></script>
+    	 <script src="datatables/extras/TableTools/media/js/ZeroClipboard.js"></script>
+		 <script type="text/javascript" src="js/charts.js"></script>
+    	 <script src="js/search-projects-filter.js"></script>
+    	 
+    	 
+    	 <link rel="stylesheet" type="text/css" href="datatables/media/css/jquery.dataTables.css">
+    	 <link rel="stylesheet" type="text/css" href="datatables/extras/TableTools/media/css/TableTools.css">
 
 	</head>
 	
-	<body ng-controller="HomeController">
+	<body >
 		<div class="container">
 			<div class="navbar">
 			  <div class="navbar-inner">
@@ -63,68 +77,59 @@
 			<!-- End Nav Bar -->
   		</div>
   		<!-- End Container -->
-  		<div class="container-fluid">
-  			<div class="row-fluid">
-  				<div class="span6">
-  					<div id="status_div">
-  					</div>
-  				</div>
-  				<div class="span6">
-  					<div id="type_div">
-  					</div>
-  				</div>
-  			
-  			</div>
-  		</div>
+  	
   		
-  		<div class="container-fluid">
+  		<div ng-init="parserResultToDataTableForIssues" class="container-fluid" ng-controller="SearchIssueFilterCtrl">
   			<div class="row-fluid">
-  				<div class="span4">
-<!-- 		  			<table class="table"> -->
-<!-- 		  				<thead> -->
-<!-- 		  					<tr> -->
-<!-- 			  					<th>Project ID</th> -->
-<!-- 			  					<th>Nombre</th> -->
-<!-- 			  					<th>Acciones</th> -->
-<!-- 		  					</tr> -->
-<!-- 		  				</thead> -->
-<!-- 		  				<tbody> -->
-<!-- 			  				<tr ng-repeat="p in projects"> -->
-<!-- 			  					<th>{{p.id}}</th> -->
-<!-- 			  					<th>{{p.name}}</th> -->
-<!-- 			  					<th><a class="btn btn-primary" ng-href="{{webserver}}/create-project.html?project={{p.id}}">Ver</a></th> -->
-<!-- 		  					</tr> -->
-<!-- 		  				</tbody> -->
-<!-- 		  			</table> -->
-  				</div>
-  				<!-- End Span04 -->
-  				<div class="span4">
-<!--   					<table class="table"> -->
-<!-- 		  				<thead> -->
-<!-- 		  					<tr> -->
-<!-- 			  					<th>Issue ID</th> -->
-<!-- 			  					<th>Título</th> -->
-<!-- 			  					<th>Acciones</th> -->
-<!-- 		  					</tr> -->
-<!-- 		  				</thead> -->
-<!-- 		  				<tbody> -->
-<!-- 		  					<tr ng-repeat="i in issues"> -->
-<!-- 			  					<td>{{i.id}}</td> -->
-<!-- 			  					<td>{{i.title}}</td> -->
-<!-- 			  					<td><a class="btn btn-primary" ng-href="{{webserver}}/create-issue.html?issue={{i.id}}">Ver</a></td> -->
-<!-- 		  					</tr> -->
-<!-- 		  				</tbody> -->
-<!-- 		  			</table> -->
-  				</div>
-  				<!-- End Span04 -->
-  					<div class="span4">
-<!--   						<div id="chart_div"></div> -->
-  					</div>
-  				<!-- End Span04 -->
+  					<div align="center">
+  						<legend>Mis Issues</legend>
+  						<table id="issues">
+		  				<thead></thead>
+		  				<tbody></tbody>
+		  				<tfoot>
+							<tr>
+								<th><input class="input-small" type="text" name="search_engine" placeholder="ID Issue" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_browser" placeholder="Titulo" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_engine" placeholder="Reporter" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_browser" placeholder="Owner" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_engine" placeholder="Estado Actual" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_browser" placeholder="Tipo de Issue" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_engine" placeholder="Proyecto" class="search_init" /></th>
+							</tr>
+						</tfoot>
+		  			</table>
+		  			
+				</div>
   			</div>
   			<!-- End Row-Fluid -->
   		</div>
   		<!-- End Container Fluid -->
+  		
+  			<div class="container-fluid"  ng-controller="HomeController">
+  			<div class="row-fluid" align="center">
+  				<legend>Dashboard</legend>
+  				<div class="span3">
+  					<div id="status_div">
+  					</div>
+  				</div>
+  				<div class="span3">
+  					<div id="type_div">
+  					</div>
+  				</div>
+  				<div class="span3" ng-controller="SearchProjectsController">
+				  	<table id="projects">
+		  				<thead></thead>
+		  				<tbody></tbody>
+		  				<tfoot>
+							<tr>
+								<th><input class="input-small" type="text" name="search_engine" placeholder="ID Proyecto" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_browser" placeholder="Nombre" class="search_init" /></th>
+						</tfoot>
+		  			</table>  			
+  			</div>
+  			
+  			</div>
+  		</div>
   		
 	</body>
 	
