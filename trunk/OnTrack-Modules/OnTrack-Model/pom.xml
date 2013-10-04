@@ -25,6 +25,28 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<resources.location>src/main/config/dev</resources.location>
+				<classifier>dev</classifier>
+			</properties>
+		</profile>
+		<profile>
+			<id>cloud</id>
+			<properties>
+				<resources.location>src/main/config/cloud</resources.location>
+				<classifier>cloud</classifier>
+			</properties>
+		</profile>
+	</profiles>
+	
+	 
 
 	<repositories>
 		<repository>
