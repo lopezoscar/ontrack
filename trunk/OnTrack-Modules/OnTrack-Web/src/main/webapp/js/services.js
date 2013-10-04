@@ -1,4 +1,4 @@
-function ServicesController($scope,$http){
+function ServicesController($scope,$http,$location){
 	$scope.response = {};
 	$scope.currentSrv = {};
 	$scope.post = function(srv){
@@ -7,7 +7,9 @@ function ServicesController($scope,$http){
 		//$http.post(srv.path, srv.body).success(function (callback){
 			//$scope.currentSrv.response = angular.toJson(callback,true);
 		//});
-		$http({method: 'POST', url: srv.path,data:srv.body,headers: {'Content-Type': 'application/json'}}).
+		
+		$scope.server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack-SOA/";
+		$http({method: 'POST', url: $scope.server+srv.path,data:srv.body,headers: {'Content-Type': 'application/json'}}).
 		  success(function(data, status, headers, config) {
 		    $scope.currentSrv.response = angular.toJson(data,true);
 		    $scope.currentSrv.header = headers();
@@ -23,7 +25,7 @@ function ServicesController($scope,$http){
 	
 	
 	
-	$http.get("http://localhost:8080/OnTrack-SOA/consolesrv/listservices").success(function(callback){
+	$http.get($scope.server+"/consolesrv/listservices").success(function(callback){
 		$scope.services = callback;
 		$scope.categories = [];
 		var category = {};
@@ -42,7 +44,7 @@ function ServicesController($scope,$http){
 			//$scope.currentSrv.response = angular.toJson(callback,true);
 		//});
 		
-	$http({method: 'GET', url: srv.path}).
+	$http({method: 'GET', url: $scope.server+srv.path}).
 	  success(function(data, status, headers, config) {
 	    $scope.currentSrv.response = angular.toJson(data,true);
 	    $scope.currentSrv.header = headers();
