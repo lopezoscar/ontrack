@@ -13,6 +13,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
+import junit.framework.Assert;
+
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -72,6 +74,7 @@ public class ServicesTest extends BaseTest{
 			}
 		}
 		response = toJson(methodsByClass);
+		
 //		return Response.ok().entity(response).header("Access-Control-Allow-Origin", "*").build();
 		
 //		return response;
@@ -116,7 +119,7 @@ public class ServicesTest extends BaseTest{
 	
 	private String buildPath(String baseURL,String servicePath,String methodName,boolean httpGET,List<ServiceParameter> parameters){
 		StringBuffer sb = new StringBuffer();
-		sb.append(baseURL);
+//		sb.append(baseURL);
 		sb.append(servicePath);
 		sb.append("/");
 		sb.append(methodName);
