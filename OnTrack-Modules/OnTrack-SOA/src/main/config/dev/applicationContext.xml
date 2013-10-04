@@ -1,0 +1,78 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/tx 
+       http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/util 
+       http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+
+	<context:component-scan base-package="com.sappe.ontrack.soa.resources" />
+	
+<!-- 	<util:properties id="serverProperties" location="classpath:ontrack.properties"/> -->
+ 
+<!-- 	<context:component-scan base-package="com.sappe.ontrack.dao.springbeans.impl" /> -->
+	<tx:annotation-driven/>
+	<bean
+		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor">
+		<property name="requiredParameterValue" value="true" />
+	</bean>
+	
+	<aop:aspectj-autoproxy />
+	
+	<bean id="issuebean" class="com.sappe.ontrack.dao.springbeans.impl.IssueBean" />
+	<bean id="userbean" class="com.sappe.ontrack.dao.springbeans.impl.UserBean"/>
+	<bean id="rolebean" class="com.sappe.ontrack.dao.springbeans.impl.RoleBean"/>
+	<bean id='issuestatusbean' class="com.sappe.ontrack.dao.springbeans.impl.IssueStatusBean"/>
+	<bean id='projectbean' class="com.sappe.ontrack.dao.springbeans.impl.ProjectBean"/>
+	<bean id="issuepropertybean" class="com.sappe.ontrack.dao.springbeans.impl.IssuePropertyBean"/>
+	<bean id="issuetypebean" class="com.sappe.ontrack.dao.springbeans.impl.IssueTypeBean"/>	
+	<bean id="issuepropertytypebean" class="com.sappe.ontrack.dao.springbeans.impl.IssuePropertyTypeBean"/>
+	<bean id="notificationbean" class="com.sappe.ontrack.dao.springbeans.impl.NotificationBean"/>
+	<bean id="mailbean" class="com.sappe.ontrack.dao.springbeans.impl.MailBean"/>
+	<bean id="servicebean" class="com.sappe.ontrack.dao.springbeans.impl.ServiceBean"/>
+	<bean id="workflowbean" class="com.sappe.ontrack.dao.springbeans.impl.WorkflowBean"/>
+	<bean id="issueactionbean" class="com.sappe.ontrack.dao.springbeans.impl.IssueActionBean"/>
+	<bean id="logissuebean" class="com.sappe.ontrack.dao.springbeans.impl.LogIssueBean"/>
+	<bean id="processhistorybean" class="com.sappe.ontrack.dao.springbeans.impl.ProcessHistoryBean"/>
+	
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="loadTimeWeaver">
+			<bean
+				class="org.springframework.instrument.classloading.ReflectiveLoadTimeWeaver" />
+		</property>
+		<property name="jpaPropertyMap"> 
+ 	        <props> 
+ 	            <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/ontrack?autoReconnect=true</prop> 
+ 	            <prop key="hibernate.connection.username">root</prop> 
+ 	            <prop key="hibernate.connection.password">admin</prop> 
+ 	        </props>
+ 	    </property> 
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="generateDdl" value="false" />
+			</bean>
+		</property>
+		<property name="persistenceUnitName" value="ontrack"></property>
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	
+	<!-- Exception translation bean post processor -->
+	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+	<bean
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor">
+		<property name="defaultPersistenceUnitName" value="ontrack" />
+	</bean>
+</beans>
