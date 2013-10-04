@@ -10,7 +10,8 @@ function CreateProjectCtrl($scope,$http,$location){
 	$scope.savedProject = {};
 	$scope.selectedMembers = [];
 	
-	$scope.server = "http://localhost:8080/OnTrack-SOA/";
+//	$scope.server = "http://localhost:8080/OnTrack-SOA/";
+	$scope.server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack-SOA/";
 	
 	getProjectById($scope.currentProjectID);
 	
@@ -114,13 +115,11 @@ function CreateProjectCtrl($scope,$http,$location){
 		password: "javaDeveloper1"
 	};
 	
-	var server = 'http://localhost:8080/OnTrack-SOA/';
-	
-	$http.post(server+'usersrv/contacts', userData).success(function (callback){
+	$http.post($scope.server+'usersrv/contacts', userData).success(function (callback){
 		$scope.members = callback;
 	});
 	
-	$http.get(server+'issuepropertysrv/allissuepropertytypes').success(function (callback){
+	$http.get($scope.server+'issuepropertysrv/allissuepropertytypes').success(function (callback){
 		$scope.issuePropertyTypes = callback;
 	});
 	

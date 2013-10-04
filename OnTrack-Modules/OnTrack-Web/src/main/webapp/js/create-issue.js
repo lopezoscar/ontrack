@@ -5,7 +5,6 @@ function CreateIssueCtrl($scope,$http,$location){
 	
 	
 	$scope.modifyStatus = false;
-    //$scope.workflows = [{"id":3,"issueType":{"id":1,"description":"Bug"},"issueStatus":[{"id":1,"description":"TODO"}],"project":{"id":1,"name":"Proyecto","roles":[{"id":3,"roleName":"Desarrollador","acronym":"DEV"}],"users":[{"id":1,"firstName":"Oscar","lastName":"Lopez","mail":"lopezoscar.job@gmail.com","userName":"https://www.google.com/accounts/o8/id?id=AItOawkMAYTsPU9NHMnyriu6ija1u-qkqW5mS3I","password":"Test","roles":[],"projects":[]}]}}];
     $scope.workflows = [];
     $scope.workflowsByProject = [];
     $scope.currentProject = {};
@@ -19,8 +18,8 @@ function CreateIssueCtrl($scope,$http,$location){
     var user = {
     	id: 1
     };
-    $scope.webserver = "http://localhost:8080/OnTrack";
-    $scope.server = "http://localhost:8080/OnTrack-SOA/";
+    $scope.server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack-SOA/";
+	$scope.webserver = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack/";
     function retrieveWorkflowsByUser(user){
     	$http({method: 'POST', url: $scope.server+'workflowsrv/listworkflowsbyuser',data:user,headers: {'Content-Type': 'application/json'}}).
 		  success(function(data, status, headers, config) {

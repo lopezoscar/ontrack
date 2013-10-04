@@ -1,8 +1,8 @@
 function SearchIssueFilterCtrl($scope,$http,$location){
 	$scope.issues = [];
 	
-	$scope.server = "http://localhost:8080/OnTrack-SOA/";
-	$scope.webserver = "http://localhost:8080/OnTrack/";
+	$scope.server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack-SOA/";
+	$scope.webserver = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack/";
     
     var user = {
     	id: 1
@@ -63,7 +63,8 @@ function createDatatables(issues,$location){
 	        var aData = oTable.fnGetData(this); // get datarow
 	        if (null != aData)  // null if we clicked on title row
 	        {
-	        	window.location = "http://localhost:8080/OnTrack/create-issue.html?issue="+aData[0];
+	        	var server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack/";
+	        	window.location = server+"create-issue.html?issue="+aData[0];
 	        };
 	    });
 }
