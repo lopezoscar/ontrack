@@ -12,7 +12,7 @@ Contiene las siguientes User Stories
 == User Stories ==
 
 
-=== _Registración y Login Nativo_ ===
+=== ~~_Registración y Login Nativo_~~ ===
 
 *Descripción*
 'Como nuevo usuario deseo poder registrarme como nuevo usuario de la aplicación y así poder loguearme a la aplicación
