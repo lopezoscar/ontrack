@@ -103,12 +103,12 @@ Contiene las siguientes User Stories
 'Como usuario deseo poder realizar busquedas en base a ciertos filtros pre-determinados'
 
 *Criterios de aceptación*
-  # Desde una interface podre seleccionar de una lista el tipo de filtro que quiero usar y completar el criterio de busqueda correspondiente. 
-  # Las opciones por defecto seran: 'Issues en X estado', 'Issues asignados a cierta persona', 'Issues creados por X usuario', 'Ultimos N issues reportados'. 
+  # Desde una interface podre seleccionar de una lista el filtro que quiero usar y completar el criterio de busqueda correspondiente. 
+  # Las filtros disponibles seran: 'ID Issue', 'Titulo', 'Reportó', 'Dueño','estado actual','tipo de issue','proyecto'. Se podrá combinar mas de un filtro para realizar una búsqueda mas precisa.
   # Unicamente debera buscar issues del proyecto sobre el cual estoy realizando la busqueda.
   # Se debera mostrar una lista informacion sobre cada issue que devuelva la busqueda y ademas un link a la vista detallada de cada uno. 
   # La lista de resultados debera contener unicamente issues cuyo campo requerido coincida con los criterios de la busqueda. 
 
 *Especificación por Ejemplos.*
-  # Desde la vista de un proyecto voy a las opciones de busqueda y pido los ultimos 10 issues reportados. La lista resultante debera tener los ultimos 10 issues reportados en ese proyecto. 
-  # Desde la vista de un proyecto voy a las opciones de busqueda y pido los issues reportados por un usuario en particular. La lista resultante debera tener unicamente los issues reportados por ese usuario y pertenecientes al proyecto en cuestion. 
+  # Completo el filtro de 'estado actual' y debo obtener los issues que empiecen o contengan en su estado los caracteres del filtro. 
+  # Completo el filtro de 'estado actual' y 'Dueño', la busqueda solo me deberá retornar los issues con el estado ingresado y el dueño especificado en el filtro
