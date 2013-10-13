@@ -44,6 +44,7 @@ Contiene las siguientes User Stories
    # Existirá el rol de usuario dueño del proyecto, será quien lo cree
    # El usuario dueño del proyecto deberá poseer una interface para invitar a los usuarios
    # Un usuario puede estar en mas de un proyecto y con distintos roles
+   # Los usuarios a invitar serán tomados de la lista de contactos de la cuenta de Gmail del usuario que invite
 
 *Especificación por Ejemplos.*
    # El usuario @Juan.Perez crea un proyecto nuevo 'A', invita a @Luis.Lopez y a @Jorge.Fernandez, 
