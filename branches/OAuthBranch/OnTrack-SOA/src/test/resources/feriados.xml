@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<bsvrsp>
+	<header>
+		<nombre>corporate_02</nombre>
+		<fecha>26092013</fecha>
+		<hora>165804</hora>
+		<resultado>ok</resultado>
+		<aviso>
+			<codigo>TCA0006</codigo>
+			<mensaje>FIN DE DATOS</mensaje>
+		</aviso>
+	</header>
+	<data>
+		<fhfesti> </fhfesti>
+		<tpfesti> </tpfesti>
+		<fec_desde>20130124</fec_desde>
+		<fec_hasta>20131224</fec_hasta>
+		<general>
+			<rowset>
+				<count>16</count>
+				<row>
+					<fecha>31.01.2013</fecha>
+					<tipo> </tipo>
+					<lugar> </lugar>
+					<nombre>BICENTENARIO ASAMBLEA 1813</nombre>
+				</row>
+				<row>
+					<fecha>11.02.2013</fecha>
+					<tipo> </tipo>
+					<lugar> </lugar>
+					<nombre>CARNAVAL</nombre>
+				</row>
+				<row>
+					<fecha>12.02.2013</fecha>
+					<tipo> </tipo>
+					<lugar> </lugar>
+					<nombre>CARNAVAL</nombre>
+				</row>
+				<row>
+					<fecha>20.02.2013</fecha>
+					<tipo> </tipo>
+					<lugar> </lugar>
+					<nombre>BATALLA DE SALTA</nombre>
+				</row>
+				<row>
+					<fecha>28.03.2013</fecha>
+					<tipo> </tipo>
+					<lugar> </lugar>
+					<nombre>JUEVES SANTO</nombre>
+				</row>
+				<row>
+					<fecha>29.03.2013</fecha>
+					<tipo> </tipo>
+					<lugar> </lugar>
+					<nombre>VIERNES SANTO</nombre>
+				</row>
+				<row>
+					<fecha>01.04.2013</fecha>
+					<tipo> </tipo>
+					<lugar> </lugar>
+					<nombre>DIA DE MALVINAS</nombre>
+				</row>
+				<row>
+					<fecha>02.04.2013</fecha>
+					<tipo> </tipo>
+					<lugar> </lugar>
+					<nombre>D&#186;A DEL VETERANO Y DE LOS CA&#186;D</nombre>
+				</row>
+				<row>
+					<fecha>01.05.2013</fecha>
+					<tipo> </tipo>
+					<lugar> </lugar>
+					<nombre>DIA DEL TRABAJADOR</nombre>
+				</row>
+				<row>
+					<fecha>20.06.2013</fecha>
+					<tipo> </tipo>
+					<lugar> </lugar>
+					<nombre>DIA DE LA BANDERA</nombre>
+				</row>
+				<row>
+					<fecha>21.06.2013</fecha>
+					<tipo> </tipo>
+					<lugar> </lugar>
+					<nombre>PUENTE FERIADO</nombre>
+				</row>
+				<row>
+					<fecha>09.07.2013</fecha>
+					<tipo> </tipo>
+					<lugar> </lugar>
+					<nombre>DIA DE LA INDEPENDENCIA</nombre>
+				</row>
+				<row>
+					<fecha>19.08.2013</fecha>
+					<tipo> </tipo>
+					<lugar> </lugar>
+					<nombre>FALLECIMIENTO GRAL. SAN MARTIN</nombre>
+				</row>
+				<row>
+					<fecha>14.10.2013</fecha>
+					<tipo> </tipo>
+					<lugar> </lugar>
+					<nombre>D&#186;A DEL RESPETO A LA DIVERSIDA</nombre>
+				</row>
+				<row>
+					<fecha>06.11.2013</fecha>
+					<tipo> </tipo>
+					<lugar> </lugar>
+					<nombre>DIA DEL BANCARIO</nombre>
+				</row>
+				<row>
+					<fecha>25.11.2013</fecha>
+					<tipo> </tipo>
+					<lugar> </lugar>
+					<nombre>D&#186;A DE LA SOBERAN&#186;A NACIONAL</nombre>
+				</row>
+			</rowset>
+		</general>
+	</data>
+</bsvrsp>

@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html lang="AR_ES" ng-app>
+	<head>
+		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		 <meta charset="UTF-8"/>
+		 <!-- Bootstrap -->
+    	 <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+    	 <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    	 
+    	 <script src="js/jquery.js"></script>
+    	 <script src="js/bootstrap.js"></script>
+    	   
+    	 <!-- JQuery UI -->
+    	 <script src="jquery-ui/js/jquery-ui.js"></script>
+    	 
+		<link href="jquery-ui/css/smoothness/jquery-ui.css" rel="stylesheet"/>
+    	 
+    	 <!-- CSS  -->
+    	 <link rel="css/global.css" rel="stylesheet" />
+    	 
+    	 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    	 
+    	 <script src="angularjs/angular.js"></script>
+    	 <script src="js/home.js"></script>
+    	 <script src="js/search-issue-filter.js"></script>
+    	
+    	 <script src="datatables/media/js/jquery.dataTables.js"></script>
+    	 <script src="datatables/extras/TableTools/media/js/TableTools.js"></script>
+    	 <script src="datatables/extras/TableTools/media/js/ZeroClipboard.js"></script>
+		 <script type="text/javascript" src="js/charts.js"></script>
+    	 <script src="js/search-projects-filter.js"></script>
+    	 
+    	 
+    	 <link rel="stylesheet" type="text/css" href="datatables/media/css/jquery.dataTables.css">
+    	 <link rel="stylesheet" type="text/css" href="datatables/extras/TableTools/media/css/TableTools.css">
+
+	</head>
+	
+	<body >
+		<div class="container">
+			<div class="navbar">
+			  <div class="navbar-inner">
+			    <a class="brand" href="home.html">OnTrack</a>
+			    <ul class="nav">
+			      <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Proyectos
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a href="create-project.html">Crear Proyecto</a></li>
+				      <li><a href="my-projects.html">Mis Proyectos</a></li>
+				    </ul>
+				  </li>
+			      <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Issues
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a href="create-issue.html">Crear Issue</a></li>
+				      <li><a href="my-issues.html">Mis Issues</a></li>
+				      <li><a href="search-issues-filter.html">Buscar Issues</a></li>
+				    </ul>
+				  </li>
+				  <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Documentación
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a target="_blank" href="http://www.manula.com/manuals/lopezoscar-job/ontrack/1/es/topic/proyectos">Documentación Online</a></li>
+				      <li><a target="_blank" href="http://www.manula.com/media/07/811_830_858_es_1381265406.pdf">Descargar Manual de Usuario</a></li>
+				      <li><a target="_blank" href="https://code.google.com/p/ontrack/">Repositorio del Proyecto</a></li>
+				    </ul>
+				  </li>
+				  
+				  <li class="pull-right"><a href="#">Perfil</a></li>
+			      <li class="pull-right"><a href="#">Salir</a></li>
+				  
+			    </ul>
+			    
+			    <form class="navbar-search pull-right">
+					  <input type="text" class="search-query" placeholder="Search">
+				</form>
+			  </div>
+			</div>			
+			<!-- End Nav Bar -->
+  		</div>
+  		<!-- End Container -->
+  	
+  		
+  		<div ng-init="parserResultToDataTableForIssues" class="container-fluid" ng-controller="SearchIssueFilterCtrl">
+  			<div class="row-fluid">
+  					<div align="center">
+  						<legend>Mis Issues</legend>
+  						<table id="issues">
+		  				<thead></thead>
+		  				<tbody></tbody>
+		  				<tfoot>
+							<tr>
+								<th><input class="input-small" type="text" name="search_engine" placeholder="ID Issue" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_browser" placeholder="Titulo" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_engine" placeholder="Reporter" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_browser" placeholder="Owner" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_engine" placeholder="Estado Actual" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_browser" placeholder="Tipo de Issue" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_engine" placeholder="Proyecto" class="search_init" /></th>
+							</tr>
+						</tfoot>
+		  			</table>
+		  			
+				</div>
+  			</div>
+  			<!-- End Row-Fluid -->
+  		</div>
+  		<!-- End Container Fluid -->
+  		
+  			<div class="container-fluid"  ng-controller="HomeController">
+  			<div class="row-fluid" align="center">
+  				<legend>Dashboard</legend>
+  				<div class="span3">
+  					<div id="status_div">
+  					</div>
+  				</div>
+  				<div class="span3">
+  					<div id="type_div">
+  					</div>
+  				</div>
+  				<div class="span3" ng-controller="SearchProjectsController">
+				  	<table id="projects">
+		  				<thead></thead>
+		  				<tbody></tbody>
+		  				<tfoot>
+							<tr>
+								<th><input class="input-small" type="text" name="search_engine" placeholder="ID Proyecto" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_browser" placeholder="Nombre" class="search_init" /></th>
+						</tfoot>
+		  			</table>  			
+  			</div>
+  			
+  			</div>
+  		</div>
+  		
+	</body>
+	
+</html>

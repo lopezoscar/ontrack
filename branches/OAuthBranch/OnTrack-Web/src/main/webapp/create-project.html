@@ -1,0 +1,318 @@
+<!DOCTYPE HTML>
+<html lang="AR_ES" ng-app="project_mod">
+	<head>
+		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		 <meta charset="UTF-8"/>
+    	 <!-- CSS  -->
+		 <!-- Bootstrap -->
+    	 <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+    	 <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    	 <!-- JQuery and JQuery UI -->
+    	 <link href="jquery-ui/css/smoothness/jquery-ui.css" rel="stylesheet"/>
+    	 <link href="css/global.css" rel="stylesheet" />
+    	 
+    	  
+    	 <!-- JS -->
+    	 <!-- JQuery -->
+    	 <script src="js/jquery.js"></script>
+    	 <!-- JQuery UI -->
+    	 <script src="jquery-ui/js/jquery-ui.js"></script>
+    	 <!-- Bootstrap -->
+    	 <script src="js/bootstrap.js"></script>
+    	 <!-- Angular JS -->
+    	 <script src="angularjs/angular.js"></script>
+    	 <!-- Create Project JS -->
+    	 <script src="js/create-project.js"></script>
+	     <script src="js/app.js"></script>    	 
+    	 <script src="js/jquery.ddslick.min.js"></script>
+
+		<!-- Project Tab Panel -->    	 
+    	 <script>
+    	 	$('#projectTab a').click(function (e) {
+    		  e.preventDefault();
+    		  $(this).tab('show');
+    		})
+    		
+//     		$(function() {
+//     			$('#sortable').sortable({
+//     				update: function(event, ui) {
+//     					var statusOrder = $(this).sortable('toArray').toString();
+//     					console.log(statusOrder);
+//     				}
+//     			});
+// 			    $( "#sortable" ).disableSelection();
+// 			  });    		
+    	 </script>
+    	 
+    	 <style>
+    	 	#sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+			#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
+			#sortable li span { position: absolute; margin-left: -1.3em; }
+    	 </style>
+    	 
+	</head>
+	
+	<body ng-controller="CreateProjectCtrl">
+	
+		<div class="container">
+			<div class="navbar">
+			  <div class="navbar-inner">
+			    <a class="brand" href="home.html">OnTrack</a>
+			    <ul class="nav">
+			      <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Proyectos
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a href="create-project.html">Crear Proyecto</a></li>
+				      <li><a href="my-projects.html">Mis Proyectos</a></li>
+				    </ul>
+				  </li>
+			      <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Issues
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a href="create-issue.html">Crear Issue</a></li>
+				      <li><a href="my-issues.html">Mis Issues</a></li>
+				      <li><a href="search-issues-filter.html">Buscar Issues</a></li>
+				    </ul>
+				  </li>
+				  <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Documentación
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a target="_blank" href="http://www.manula.com/manuals/lopezoscar-job/ontrack/1/es/topic/proyectos">Documentación Online</a></li>
+				      <li><a target="_blank" href="http://www.manula.com/media/07/811_830_858_es_1381265406.pdf">Descargar Manual de Usuario</a></li>
+				      <li><a target="_blank" href="https://code.google.com/p/ontrack/">Repositorio del Proyecto</a></li>
+				    </ul>
+				  </li>
+				  <li class="pull-right"><a href="#">Perfil</a></li>
+			      <li class="pull-right"><a href="#">Salir</a></li>
+				  
+			    </ul>
+			    
+			    <form class="navbar-search pull-right">
+					  <input type="text" class="search-query" placeholder="Search">
+				</form>
+			  </div>
+			</div>			
+			<!-- End Nav Bar -->
+  		</div>
+  		<!-- End Container -->
+  		
+  		
+  		
+  		<div class="container">
+  			<form  novalidate class="simple-form">
+	  			<input type="text" placeholder="Nombre del proyecto" ng-model="project.name">
+  			</form>
+  			<ul class="nav nav-tabs" id="projectTab">
+			  <li><a href="#persons" data-toggle="tab">Integrantes</a></li>
+			  <li><a href="#config" data-toggle="tab">Tipos de Issues</a></li>
+			  <li><a href="#status" data-toggle="tab">Estados</a></li>
+			  <li><a href="#workflow" data-toggle="tab">Workflow</a></li>
+			</ul>
+			<div class="tab-content">
+			  <div class="tab-pane active" id="persons">
+			  
+			<div id="contactlist">
+				<div class="container-fluid">
+				<div class="row-fluid">
+					<div class="span6 well">
+					
+						<p>Cantidad de Contactos: {{members.length}}</p>
+						<div class="media" ng-repeat="member in members">
+						  <input type="checkbox" class="pull-left" style="padding-right:20px" ng-checked="member.selected" ng-click="addUser(member)"/>
+<!-- 						  <a class="pull-left" href="#"> -->
+<!-- 						    <img class="media-object" data-src="holder.js/64x64" src="{{member.photoLink}}" style="width:64px; height:64px;"> -->
+<!-- 						  </a> -->
+						  <div class="media-body">
+						    <h4 class="media-heading">{{member.name}}</h4>
+						    <p style="display:inline">{{member.email}}</p>
+						  </div>
+						  
+						</div>
+						
+					</div>
+					<div class="span6 well" >
+						<h3>Acciones</h3>
+						<input type="button" class="btn btn-primary" value="Invitar" style="margin-left:20px" ng-click="addToProject()"/>
+						<input type="button" class="btn btn-primary" value="Borrar" style="margin-left:20px"/>
+						<input type="button" class="btn btn-primary" value="Enviar Mensaje" style="margin-left:20px"/>
+					</div>
+				</div>
+				
+				
+				</div>
+				
+			</div>
+			<!-- End Contact List -->
+			
+		</div>
+		<!-- End Persons -->	  
+			  
+			  <div class="tab-pane" id="config">
+			  	<div>
+			  	
+			  		<fieldset>
+			  			<legend>Tipo de Issue</legend>
+			  		<form novalidate class="simple-form">
+						<input id="issueTypeDesc" type="text" placeholder="Tipo de Issue" ng-model="desc"/>
+						<input type="button" class="btn btn-primary" value="Guardar" ng-click="saveIssueType(desc)"/>
+					</form>
+					
+					<div class="span6">
+					<table class="table" >
+		  				<thead>
+		  					<tr>
+			  					<th>Nombre</th>
+			  					<th>Acciones</th>
+		  					</tr>
+		  				</thead>
+		  				<tbody>
+		  					<tr ng-repeat="type in issueTypes">
+			  					<td ng-model="description">{{type.description}}</td>
+			  					<td>
+			  						<a href="#issueTypeModal" role="button" class="btn btn-primary" data-toggle="modal" ng-click="setCurrentIssueType(type)">Editar</a>
+			  						<input type="button" class="btn btn-danger" value="Eliminar" ng-click="removeIssueType($index)"/>
+			  					</td>
+		  					</tr>
+		  				</tbody>
+		  			</table>
+		  			
+		  			</div>
+		  			
+		  			</fieldset>
+		  		</div>
+		  		
+		  		
+		  		
+		  		
+			  
+			  </div>
+			  <div class="tab-pane" id="status">
+			  
+			  		<h4>Elige un Tipo de Issue y crear los Estados</h4>
+			  		
+			  		<form novalidate class="simple-form">
+				  		<select ng-change="updateCurrentType(type)" ng-model="status.type" ng-options="type.description for type in issueTypes"></select>
+				  		<input type="text" class="input-medium" ng-model="status.description"/>
+				  		<input type="button" class="btn btn-primary" value="Guardar" ng-click="saveStatus(status)"/>
+			  		</form>	  		
+			  		
+			  		<div class="span6">
+						<table class="table" >
+			  				<thead>
+			  					<tr>
+				  					<th>Estado</th>
+				  					<th>Acciones</th>
+			  					</tr>
+			  				</thead>
+			  				<tbody>
+			  					<tr ng-repeat="status in currentTypeForIssueStatus.status">
+				  					<td ng-model="desc">{{status.description}}</td>
+				  					<td>
+				  						<input type="button" class="btn btn-danger" value="Eliminar" ng-click="removeStatusFromIssueType($index)"/>
+				  					</td>
+			  					</tr>
+			  				</tbody>
+			  			</table>
+		  			</div>
+			  </div>
+			  
+			  <div class="tab-pane" id="workflow">
+			  		<div class="span6">
+						<h4>Workflow</h4>
+						<form novalidate class="simple-form">
+					  		<select ng-model="workflow.type" ng-options="type.description for type in issueTypes"></select>
+					  		
+						    <ul id="sortable">
+							  <li id="{{status.description}}" class="ui-state-default" ng-bind="status.description" ng-repeat="status in workflow.type.status"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{status.description}}</li>
+							</ul>
+							
+							
+						</form>	  		
+					</div>
+			  </div>
+			</div>	
+			
+			<div class="form-actions">
+				<input type="button" class="btn btn-primary" value="Guardar Proyecto" ng-click="saveProject()"/>
+			</div>
+  		</div>
+  		
+  		
+  		<!-- Modal -->
+		<div id="issueTypeModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h3 id="myModalLabel">Tipos de Propiedad</h3>
+		  </div>
+		  <div class="modal-body">
+		    <div>
+		  			<form novalidate class="simple-form">
+						<input type="text" class="input-small uneditable-input" ng-readonly="true" placeholder="{{currentIssueType.desc}}" ng-model="property.issueType"/>
+						<select ng-model="property.type" ng-options="type.name for type in issuePropertyTypes" ng-required>
+						</select>
+			  			
+		  				<input type="text" placeholder="Nombre" ng-model="property.description"/>
+		  				<input type="button" class="btn btn-primary" value="Guardar" ng-click="savePropertyType(property)"/>
+	  				
+		  			</form>
+		
+					
+					<table class="table">
+		  				<thead>
+		  					<tr>
+		  						<th>Tipo de Issue</th>
+			  					<th>Nombre</th>
+			  					<th>Tipo de Propiedad</th>
+			  					<th>Acciones</th>
+		  					</tr>
+		  				</thead>
+		  				<tbody>
+		  					<tr ng-repeat="prop in currentIssueType.issueProperties">
+		  						<td>{{prop.issueType.desc}}</td>
+			  					<td>{{prop.description}}</td>
+								<td>{{prop.type.name}}</td>
+			  					<td><input type="button" class="btn btn-primary" value="Eliminar" ng-click="removePropertyType($index)"/></td>
+		  					</tr>
+		  				</tbody>
+		  			</table>
+		  			
+		  		</div>
+		  </div>
+		  <div class="modal-footer">
+		    <button class="btn" data-dismiss="modal" aria-hidden="true">Volver</button>
+		  </div>
+		</div>
+  		
+  		
+  		<!-- Contenido Configuración -->
+  		<!-- Tipo de Issue - Texto + Boton Save -->
+  		<!-- Lista de Tipos de Issues Agregados + Boton Editar / Eliminar -->
+  		
+  		
+  		<!-- Panel Tipo de Propiedad -->
+  		<!-- Combo Tipo de Issue -->
+  		<!-- Nombre de la Propiedad - Texto -->
+  		<!-- Tipo de Propiedad - Combo -->
+  		<!-- Boton guardar -->
+  		
+  		<!-- Tabla de propiedades -->
+  		<!-- Nombre de la propiedad - Text -->
+  		<!-- Tipo de la propiedad - Text -->
+  		<!-- Botones remover/editer -->
+  		
+  		<!-- Panel Workflow -->
+  		<!-- Combo tipo de issues -->
+  		<!-- Selectable de los estados de los tipos de issue -->
+  		
+	</body>
+	
+</html>

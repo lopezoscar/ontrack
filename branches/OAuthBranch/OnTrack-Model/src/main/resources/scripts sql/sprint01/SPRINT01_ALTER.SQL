@@ -1,0 +1,1 @@
+ALTER TABLE `ontrack`.`issue_property` ADD COLUMN `type` BIGINT NULL  AFTER `description` ;
