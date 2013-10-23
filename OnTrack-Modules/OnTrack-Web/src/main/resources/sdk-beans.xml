@@ -11,18 +11,17 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
        
-<!--     <import resource="security.xml"/> -->
-
 	<context:component-scan base-package="com.sappe.ontrack.sdk.impl" />
 	<tx:annotation-driven />
 
-	<bean class="com.sappe.ontrack.sdk.impl.UserServiceImpl" id="userServiceImpl"></bean>
-
+	<bean class="com.sappe.ontrack.sdk.impl.UserServiceImpl" id="userServiceImpl"/>
+	<bean class="com.sappe.ontrack.security.SessionServlet" name="SessionServlet" id="sessionServlet"/>
+	<bean class="com.sappe.ontrack.security.ContactsServlet" name="ContactsServlet" id="contactsServlet"/>
+	<bean class="com.sappe.ontrack.security.TokenServlet" name="TokenServlet" id="tokenServlet"/>
 	<bean
 		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor">
 		<property name="requiredParameterValue" value="true" />
 	</bean>
 	
-
 
 </beans>
