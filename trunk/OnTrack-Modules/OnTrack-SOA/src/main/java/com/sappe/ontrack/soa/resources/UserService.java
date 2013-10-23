@@ -69,7 +69,7 @@ public class UserService {
 		
 		List<Member> contacts = new ArrayList<Member>();
 		try {
-			contacts = userManager.contactsByUserName(user.getMail(),user.getPassword());
+			contacts = userManager.contactsByUserName(user.getToken());
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

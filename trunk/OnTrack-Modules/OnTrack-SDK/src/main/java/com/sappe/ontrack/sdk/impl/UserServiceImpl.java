@@ -9,11 +9,13 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.springframework.stereotype.Component;
 
 import com.sappe.ontrack.model.users.Member;
 import com.sappe.ontrack.model.users.User;
 import com.sappe.ontrack.sdk.interfaces.UserService;
 
+@Component
 public class UserServiceImpl implements UserService,Serializable{
 	
 	

@@ -10,11 +10,19 @@
     	 <!-- JQuery and JQuery UI -->
     	 <link href="jquery-ui/css/smoothness/jquery-ui.css" rel="stylesheet"/>
     	 <link href="css/global.css" rel="stylesheet" />
-    	 
+    
+    	 <script src="https://apis.google.com/js/plusone.js" type="text/javascript"></script>
+   		 <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
     	  
     	 <!-- JS -->
     	 <!-- JQuery -->
     	 <script src="js/jquery.js"></script>
+    	 
+    	  <script src="datatables/media/js/jquery.dataTables.js"></script>
+    	 <script src="datatables/extras/TableTools/media/js/TableTools.js"></script>
+    	 <script src="datatables/extras/TableTools/media/js/ZeroClipboard.js"></script>
+    	 
+    	
     	 <!-- JQuery UI -->
     	 <script src="jquery-ui/js/jquery-ui.js"></script>
     	 <!-- Bootstrap -->
@@ -49,6 +57,209 @@
 			#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
 			#sortable li span { position: absolute; margin-left: -1.3em; }
     	 </style>
+    	 
+    	 <script>
+
+ 
+ var token = {};
+
+ var members = {};
+ /*
+   * Activado cuando el usuario acepta el inicio de sesión, cancela o cierra el
+   * cuadro de diálogo de autorización.
+   */  
+  function loginFinishedCallback(authResult) {
+    if (authResult) {
+      if (authResult['error'] == undefined){
+      	token = authResult.access_token;
+        gapi.auth.setToken(authResult); // Almacena el token recuperado.
+        toggleElement('signin-button'); // Oculta el inicio de sesión si se ha accedido correctamente.
+        getEmail(); 
+        members = getContacts(token);                    // Activa la solicitud para obtener la dirección de correo electrónico.
+	
+      } else {
+        console.log('An error occurred');
+      }
+    } else {
+      console.log('Empty authResult');  // Se ha producido algún error
+    }
+  }
+
+  /*
+   * Inicia la solicitud del punto final userinfo para obtener la dirección de correo electrónico del
+   * usuario. Esta función se basa en gapi.auth.setToken que contiene un token
+   * de acceso de OAuth válido.
+   *
+   * Cuando se completa la solicitud, se activa getEmailCallback y recibe
+   * el resultado de la solicitud.
+   */
+  function getEmail(){
+    // Carga las bibliotecas oauth2 para habilitar los métodos userinfo.
+    gapi.client.load('oauth2', 'v2', function() {
+
+			
+          var request = gapi.client.oauth2.userinfo.get();
+
+		  
+			
+          request.execute(getEmailCallback);
+
+        });
+  }
+
+  function getContacts(token){
+	  $.ajax({
+		  url: 'https://www.google.com/m8/feeds/contacts/default/full',
+		  dataType: 'jsonp',
+		  data: { access_token: token, 'max-results': '5000', alt: 'json' },
+		  success:function(data){ 
+				var scope = angular.element('[ng-controller=CreateProjectCtrl]').scope(); 
+				var xmlMembers = [];
+
+				
+	
+				  angular.forEach(data.feed.entry,function(entry,itemNo){
+						if(typeof entry != "undefined"){
+							if(typeof entry.gd$email != "undefined"){
+									if(typeof entry.gd$email[0] != "undefined"){
+									    var email = entry.gd$email[0].address;
+										console.log(email);
+									    xmlMembers.push({selected:false,email:email});
+									}
+								}
+						}
+					  });
+
+				  var asInitVals = new Array();
+				  var aaData = parserResultToDataTableForMembers(xmlMembers);
+				  
+				  var oTable = $('#members').dataTable(aaData);
+				  
+				  $("tfoot input").keyup( function () {
+				        /* Filter on the column (the index) of this element */
+				        oTable.fnFilter( this.value, $("tfoot input").index(this) );
+				    } );
+				     
+				    /*
+				     * Support functions to provide a little bit of 'user friendlyness' to the textboxes in
+				     * the footer
+				     */
+				    $("tfoot input").each( function (i) {
+				        asInitVals[i] = this.value;
+				    } );
+				     
+				    $("tfoot input").focus( function () {
+				        if ( this.className == "search_init" )
+				        {
+				            this.className = "";
+				            this.value = "";
+				        }
+				    } );
+				     
+				    $("tfoot input").blur( function (i) {
+				        if ( this.value == "" )
+				        {
+				            this.className = "search_init";
+				            this.value = asInitVals[$("tfoot input").index(this)];
+				        }
+				    } );
+				    
+				    
+				    $('#members tbody tr').on('mouseover', function (event) { 
+				    	 var aData = oTable.fnGetData(this); // get datarow
+					        if (null != aData){
+					        }
+				    });
+				    
+				    $('#members tbody tr').on('click', function (event) {        
+				        var aData = oTable.fnGetData(this); // get datarow
+				        if (null != aData)  // null if we clicked on title row
+				        {
+				        	//var server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack/";
+				        	//window.location = server+"create-issue.html?issue="+aData[0];
+				        	scope.currentMember = aData[0];
+				        	console.log(aData[0]);
+				        	var member = aData[0];
+				        	scope.addUser(member);
+				        	scope.$apply();
+				        };
+				    });
+					
+
+					
+
+
+
+				  
+	//			  scope.members = xmlMembers;
+//				  scope.$apply();
+				
+			}
+	   });
+  }
+
+  function getEmailCallback(obj){
+	  /*
+    var el = document.getElementById('email');
+    var email = '';
+
+    if (obj['email']) {
+      email = 'Email: ' + obj['email'];
+    }
+
+    //console.log(obj);   // Sin comentario para inspeccionar el objeto completo.
+
+    el.innerHTML = email;
+    toggleElement('email');
+*/    
+  }
+
+  function toggleElement(id) {
+    var el = document.getElementById(id);
+    if (el.getAttribute('class') == 'hide') {
+      el.setAttribute('class', 'show');
+    } else {
+      el.setAttribute('class', 'hide');
+    }
+  }
+
+  
+  </script>
+  
+  <script>
+  function parserResultToDataTableForMembers(data){
+		var source = {
+			bJQueryUI : true,
+			sPaginationType: "two_button",
+			aaSorting: [ [0,'asc']],
+			aaData: [],
+			aoColumns: [
+			            { "sTitle": "Email" }
+			            ]
+		};
+		
+		function validateNullAndUndenfinded(param){
+			return param == null || typeof param == "undefined";
+		}
+		
+		angular.forEach(data, function(member, key){
+			var email =  validateNullAndUndenfinded(member.email) ? "INDEFINIDO": member.email;
+
+			
+			
+			
+			var row = [email
+					   ];
+			console.log(row);
+			source.aaData.push(row);
+		});
+		
+		return source;
+		
+		
+	}
+
+  </script>
     	 
 	</head>
 	
@@ -123,29 +334,41 @@
 			<div id="contactlist">
 				<div class="container-fluid">
 				<div class="row-fluid">
-					<div class="span6 well">
+				
 					
-						<p>Cantidad de Contactos: {{members.length}}</p>
-						<div class="media" ng-repeat="member in members">
-						  <input type="checkbox" class="pull-left" style="padding-right:20px" ng-checked="member.selected" ng-click="addUser(member)"/>
-<!-- 						  <a class="pull-left" href="#"> -->
-<!-- 						    <img class="media-object" data-src="holder.js/64x64" src="{{member.photoLink}}" style="width:64px; height:64px;"> -->
-<!-- 						  </a> -->
-						  <div class="media-body">
-						    <h4 class="media-heading">{{member.name}}</h4>
-						    <p style="display:inline">{{member.email}}</p>
-						  </div>
-						  
-						</div>
-						
+					<h3>Agrega a tus contactos de google</h3>
+					<div id="signin-button" class="show">
+					     <div class="g-signin" data-callback="loginFinishedCallback"
+					      data-approvalprompt="force"
+					      data-clientid="1086494138477-kpre74iookjfs4h47eu26a9r9qg5n1ku.apps.googleusercontent.com"
+					      data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email https://www.google.com/m8/feeds/"
+					      data-height="short"
+					      data-cookiepolicy="single_host_origin">
 					</div>
-					<div class="span6 well" >
-						<h3>Acciones</h3>
-						<input type="button" class="btn btn-primary" value="Invitar" style="margin-left:20px" ng-click="addToProject()"/>
-						<input type="button" class="btn btn-primary" value="Borrar" style="margin-left:20px"/>
-						<input type="button" class="btn btn-primary" value="Enviar Mensaje" style="margin-left:20px"/>
+					
+					 						
 					</div>
+
 				</div>
+						<div id="contactsTable" class="span3">
+								<table id="members">
+									<thead></thead>
+					  				<tbody></tbody>
+									<tfoot></tfoot>
+								</table>
+						</div>	
+						
+						
+						<div id="selectedMembers" class="pull-right">
+							
+							<h3>Miembros Seleccionados</h3>
+							<p>Los miembros seran agregados como usuarios de la aplicación y serán notificados por mail</p>
+							<ul>
+								<li ng-repeat="member in selectedMembers">{{member}}</li>
+							</ul>
+							
+						
+						</div>
 				
 				
 				</div>

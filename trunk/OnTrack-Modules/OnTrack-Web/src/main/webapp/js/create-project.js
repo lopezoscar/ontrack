@@ -10,8 +10,8 @@ function CreateProjectCtrl($scope,$http,$location){
 	$scope.savedProject = {};
 	$scope.selectedMembers = [];
 	
-//	$scope.server = "http://localhost:8080/OnTrack-SOA/";
 	$scope.server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack-SOA/";
+	$scope.webserver = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack/";
 	
 	getProjectById($scope.currentProjectID);
 	
@@ -109,15 +109,23 @@ function CreateProjectCtrl($scope,$http,$location){
 		$scope.selectedMembers.pop(member);
 	};
 	//$scope.issuePropertyTypes = ["Texto","Numérico","Calendario","Archivo"];
+	$http({method: 'GET', url: $scope.webserver+'currentUser',headers: {'Content-Type': 'application/json'}}).
+	  success(function(data, status, headers, config) {
+	   	$scope.currentUser = data;
+	   	
+	   	/* 
+		$http({method: 'POST', url: $scope.webserver+'contacts',headers: {'Content-Type': 'application/json'}}).
+	  			success(function(data, status, headers, config) {
+					$scope.members = data;
+				}).error(function(data,status,headers,config){
+					$scope.noContacts = true;
+				});
+		*/		
+	  }).
+	  error(function(data, status, headers, config) {
+	  	$scope.noUser = true;
+	  });
 	
-	var userData = {
-		mail: "lopezoscar.job@gmail.com",
-		password: "javaDeveloper1"
-	};
-	
-	$http.post($scope.server+'usersrv/contacts', userData).success(function (callback){
-		$scope.members = callback;
-	});
 	
 	$http.get($scope.server+'issuepropertysrv/allissuepropertytypes').success(function (callback){
 		$scope.issuePropertyTypes = callback;

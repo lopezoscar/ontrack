@@ -22,7 +22,7 @@ public class LogoutHandler implements LogoutSuccessHandler{
 			logger.info(authentication.getName());
 			logger.info("Logout Ok");
 		}
-		response.sendRedirect("login.xhtml");
+		response.sendRedirect("index.jsp");
 	}
 
 }

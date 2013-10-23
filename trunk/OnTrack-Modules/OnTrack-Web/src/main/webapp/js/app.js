@@ -19,4 +19,25 @@ project_mod.config(function($locationProvider) {
 angular.injector(['ng', 'project_mod']);
 
 var search_issues_mod = angular.module('search-filter', []);
+/*
+var home_mod = angular.module('homeApp',[]);
+angular.injector(['ng', 'homeApp']);
+var services = angular.module("homeApp.services",[]);
+
+home_mod.factory('UserService',[
+	function($http) {
+		return {getCurrentUser : function(){
+			return $http({method: 'GET', url: $scope.webserver+'currentUser',headers: {'Content-Type': 'application/json'}}).
+				  	success(function(data, status, headers, config) {
+				   		return data;
+				  	}).
+				  	error(function(data, status, headers, config) {
+				  		return {};
+				});
+		}
+	};
+}]);
+*/
+
+
 

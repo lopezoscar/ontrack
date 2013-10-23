@@ -17,11 +17,15 @@ import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.TransactionRequiredException;
 
+import org.codehaus.jackson.JsonFactory;
 import org.hibernate.Hibernate;
 import org.hibernate.proxy.HibernateProxy;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.auth.oauth2.TokenResponse;
+import com.google.api.client.http.HttpTransport;
 import com.google.gdata.client.Service.GDataRequest;
 import com.google.gdata.client.contacts.ContactsService;
 import com.google.gdata.data.Link;
@@ -99,7 +103,7 @@ public class UserBean implements UserManager{
 		Hibernate.initialize(entity);
 		if (entity instanceof HibernateProxy) {
 			entity = (T) ((HibernateProxy) entity).getHibernateLazyInitializer()
-			.getImplementation();
+					.getImplementation();
 		}
 		return entity;
 	}
@@ -117,18 +121,18 @@ public class UserBean implements UserManager{
 		return user;
 	}
 
-	public List<Member> contactsByUserName(String userName,String password) throws ServiceException, IOException {
-		List<Member> members = buildMembers(userName,password);
+	public List<Member> contactsByUserName(String token) throws ServiceException, IOException {
+		List<Member> members = buildMembers(token);
 		return members;
 	}
 
-	private List<Member> buildMembers(String userName,String password)throws ServiceException, IOException {
+	private List<Member> buildMembers(String token)throws ServiceException, IOException {
 		ContactsService service = new ContactsService("OScar");
-		if (userName == null || password == null) {
+		if (token == null) {
 			return new ArrayList<Member>();
 		}
-		service.setUserCredentials(userName, password);
-
+		
+		service.setUserToken(token);
 		List<Member> members = new ArrayList<Member>();
 
 		// Request the feed
@@ -154,9 +158,9 @@ public class UserBean implements UserManager{
 
 				Link photoLink = entry.getContactPhotoLink();
 				String photoLinkHref = photoLink.getHref();
-//				DocumentFile image = downloadPhoto(service, entry);
-//				memberBuild.image(image);
-				
+				//				DocumentFile image = downloadPhoto(service, entry);
+				//				memberBuild.image(image);
+
 				memberBuild.photoLink(photoLinkHref);
 				System.out.println("Photo Link: " + photoLinkHref);
 
@@ -169,7 +173,7 @@ public class UserBean implements UserManager{
 	}
 
 	public DocumentFile downloadPhoto(ContactsService service, ContactEntry entry)
-	throws ServiceException, IOException {
+			throws ServiceException, IOException {
 		//		ContactEntry entry = service.getEntry(contactURL,  ContactEntry.class);
 		DocumentFile image = new DocumentFile();
 		Link photoLink = entry.getContactPhotoLink();
@@ -189,18 +193,18 @@ public class UserBean implements UserManager{
 						break;
 					}
 				}
-				
+
 				byte[] content = out.toByteArray();
 				image.setContent(content);
 				image.setLength(content.length);
 				image.setName(entry.getName().getFullName().getValue()+".jpg");
-				
+
 			}catch(ResourceNotFoundException rne){
 				System.out.println("No hay foto");
 			}
 
 		}
-		
+
 		return image;
 	}
 

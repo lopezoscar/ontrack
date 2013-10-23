@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -32,6 +33,9 @@ public class User extends Person implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 4073644744794579371L;
+	
+	@Transient
+	private String token;
 
 	@Column(name="user_name")
 	private String userName;
@@ -117,6 +121,15 @@ public class User extends Person implements Serializable{
 		return completeName();
 	}
 
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	
 
 
 
