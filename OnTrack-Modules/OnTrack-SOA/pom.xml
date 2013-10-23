@@ -267,7 +267,27 @@
                 <groupId>com.jcraft</groupId>
                 <artifactId>jsch</artifactId>
                 <version>0.1.45</version>
-            </dependency>		            
+            </dependency>	
+            
+             <dependency>
+	      <groupId>com.google.api-client</groupId>
+	      <artifactId>google-api-client</artifactId>
+	      <version>1.17.0-rc</version>
+	    </dependency>
+	    
+	    
+	    
+	    <dependency>
+        <groupId>com.google.http-client</groupId>
+        <artifactId>google-http-client-jackson2</artifactId>
+        <version>1.15.0-rc</version>
+    </dependency>	            
+    
+    <dependency>
+      <groupId>com.google.http-client</groupId>
+      <artifactId>google-http-client</artifactId>
+      <version>1.17.0-rc</version>
+    </dependency>
 
 	</dependencies>
 	<repositories>
