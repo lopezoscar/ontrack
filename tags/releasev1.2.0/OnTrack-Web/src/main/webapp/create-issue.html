@@ -1,0 +1,255 @@
+<!DOCTYPE HTML>
+<html lang="es-AR" ng-app="issue_mod">
+	<head>
+		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		 <meta charset="UTF-8"/>
+		 <!-- Bootstrap -->
+    	 <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+    	 <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    	 
+    	 <script src="js/jquery.js"></script>
+    	 <script src="js/bootstrap.js"></script>
+    	 
+    	 <!-- CSS  -->
+    	 <link rel="css/global.css" rel="stylesheet" />
+    	 <!-- Angular JS -->
+    	 <script src="angularjs/angular.js"></script>
+    	  <!-- Create Issue JS -->
+    	 <script src="js/create-issue.js"></script>
+    	 <script src="js/app.js"></script>
+    	 
+    	  <!-- JQuery UI -->
+    	 <script src="jquery-ui/js/jquery-ui.js"></script>
+    	 
+		<link href="jquery-ui/css/smoothness/jquery-ui.css" rel="stylesheet"/>
+    	 
+    	 <style>
+			  #feedback { font-size: 1.4em; }
+			  #stacklogs .ui-selecting { background: #FECA40; }
+			  #stacklogs .ui-selected { background: #F39814; color: white; }
+			  #stacklogs { list-style-type: none; margin: 0; padding: 0; width: 100%; }
+			  #stacklogs li { margin: 3px; padding: 0.4em; font-size: 18px; height: 18px; }
+			  
+			  #stackhistory .ui-selecting { background: #FECA40; }
+			  #stackhistory .ui-selected { background: #F39814; color: white; }
+			  #stackhistory { list-style-type: none; margin: 0; padding: 0; width: 100%; }
+			  #stackhistory li { margin: 3px; padding: 0.4em; font-size: 18px; height: 18px; }
+		 </style>
+    	 
+    	<script>
+			  $(function() {
+			    $( "#stacklogs" ).selectable();
+			  });
+			  $(function() {
+			    $( "#stackhistory" ).selectable();
+			  });
+		</script>
+    	  
+    	 <!-- CKEditor -->
+    	 <script src="ckeditor/ckeditor.js"></script>
+    	 <script>
+			  	$('.dropdown-toggle').dropdown();
+			  	
+			  	
+			  	$('#issueTab a').click(function (e) {
+			  	  e.preventDefault();
+			  	  $(this).tab('show');
+			  	})
+			  	
+			  </script>
+<!--     	 <script type="text/javascript" src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script> -->
+
+	</head>
+	
+	<body ng-controller="CreateIssueCtrl">
+	
+		<div class="container">
+			<div class="navbar">
+			  <div class="navbar-inner">
+			    <a class="brand" href="home.html">OnTrack</a>
+			    <ul class="nav">
+			      <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Proyectos
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a href="create-project.html">Crear Proyecto</a></li>
+				      <li><a href="my-projects.html">Mis Proyectos</a></li>
+				    </ul>
+				  </li>
+			      <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Issues
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a href="create-issue.html">Crear Issue</a></li>
+				      <li><a href="my-issues.html">Mis Issues</a></li>
+				      <li><a href="search-issues-filter.html">Buscar Issues</a></li>
+				    </ul>
+				  </li>
+				  <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Documentación
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a target="_blank" href="http://www.manula.com/manuals/lopezoscar-job/ontrack/1/es/topic/proyectos">Documentación Online</a></li>
+				      <li><a target="_blank" href="http://www.manula.com/media/07/811_830_858_es_1381265406.pdf">Descargar Manual de Usuario</a></li>
+				      <li><a target="_blank" href="https://code.google.com/p/ontrack/">Repositorio del Proyecto</a></li>
+				    </ul>
+				  </li>
+				  
+				  <li class="pull-right"><a href="#">Perfil</a></li>
+			      <li class="pull-right"><a href="#">Salir</a></li>
+				  
+			    </ul>
+			    
+			    <form class="navbar-search pull-right">
+					  <input type="text" class="search-query" placeholder="Search">
+				</form>
+			  </div>
+			</div>			
+			<!-- End Nav Bar -->
+			
+			
+			
+  		</div>
+  		<!-- End Container -->
+  		
+  		<div class="container-fluid">
+  		<!-- 
+  			Tipo de Issue Combo
+  			Estado Combo
+  			Reporter Text
+  			Descripcion editor textarea
+  			
+  			Attachments e Historial - Tab
+  			
+  			Comments - Table (Lectura)
+  			Comment - Textarea
+  			Boton add Entry
+  			
+  			Boton Crear Issue
+  			
+  			 -->
+			<fieldset>
+				<legend>Crear Issue</legend>
+			</fieldset> 
+			<form novalidate class="simple-form">
+			
+  			
+			<div class="row-fluid">
+			
+			<div class="span3 well" ng-hide="modifyStatus">
+			 <input ng-model="issue.title" class="input-large" type="text" placeholder="Título">
+			 <select ng-model="issue.project" ng-options="w.project.name for w in workflows" ng-change="updateIssueTypes(issue)">
+			 	<option value='' disabled selected style='display:none;'>Elegi un proyecto</option>
+			 </select>
+			 <select ng-model="issue.issueType" ng-options="w.issueType.description for w in workflowsByProject" ng-change="updateStatusByTypeAndUsers(issue)">
+			 	<option value='' disabled selected style='display:none;'>Elegi un tipo de Issue</option>
+			 </select>
+			 <select ng-model="issue.issueStatus" ng-options="s.issueStatus.description for s in statusByType | orderBy:'s.position'">
+			 	<option value='' disabled selected style='display:none;'>Elegi un Estado</option>
+			 </select>
+  			 <select ng-model="issue.owner" ng-options="u.lastName for u in users">
+  			 	<option value='' disabled selected style='display:none;'>Elegi el Responsable</option>
+  			 </select>
+  			 <input  ng-model="issue.reporter" name="Reporter" type="text" placeholder="Reporter" class="input-large" ng-readonly="true"/>
+  			
+  			 </div>
+  			 
+  			 <div class="span3 well" ng-show="modifyStatus">
+  			 	 <input ng-model="issue.title" class="input-large" type="text" ng-readonly="true"/>
+  			 	 <input ng-model="issue.project.name" class="input-large" type="text" ng-readonly="true"/>
+  			 	 <input ng-model="issue.issueType.description" class="input-large" type="text" ng-readonly="true"/>
+				 <select ng-model="issue.issueStatus" ng-options="s.issueStatus.description for s in issueStatusForModify | orderBy:'s.position'">
+				 	<option value='' disabled selected style='display:none;'>{{issue.currentStatus.description}}</option>
+				 </select>
+				 <input  ng-model="issue.owner.lastName" class="input-large" type="text" ng-readonly="true"/>
+				 <input  ng-model="issue.reporter" name="Reporter" type="text" placeholder="Reporter" class="input-large" ng-readonly="true"/>
+  			 </div>
+  			 <!-- End Span02 -->
+  			 
+  			 <div class="span9">
+  			 	<textarea ng-model="issue.description" class="ckeditor" name="editor"></textarea>
+  			 	<div class="well">
+				  
+				  
+			<ul class="nav nav-tabs" id="issueTab">
+			  <li><a href="#comments" data-toggle="tab">Comentarios</a></li>
+			  <li><a href="#entries" data-toggle="tab">Propiedades Dinámicas</a>
+			  <li><a href="#log" data-toggle="tab">Log</a></li>
+			  <li><a href="#history" data-toggle="tab">Process History</a></li>
+			  <li><a href="#files" data-toggle="tab">Archivos</a></li>
+			</ul>
+			
+			<div class="tab-content">
+				<div id="comments" class="tab-pane">
+					<div class="span3" ng-show="modifyStatus">
+						<div ng-repeat="comment in comments">
+							<h4>{{comment.author}} - {{comment.date}}</h4>
+							<p>{{comment.text}}</p>
+						</div>	
+						<textarea ng-model="text" ></textarea>
+						<input type="button" class="btn" ng-click="saveComment(text)" value="Agregar Comentario"/>
+					</div>
+					<div ng-hide="modifyStatus"><h4 >No se pueden agregar comentarios al momento de crear el issue, ingrese los datos en la descripción</h4></div>
+				
+			</div>
+			<div id="entries">
+				<div ng-repeat="entry in entries">
+  					{{entry.property.description}}: <input type="text" ng-model="entry.value" />
+  				</div>
+			</div>
+			<div id="log" class="tab-pane">
+				<div>
+					<h4>Stack Logs</h4>
+				    <ol id="stacklogs">
+					  <li ng-repeat="log in issue.logs" class="ui-widget-content">{{log.description}} - {{log.date}}</li>
+					</ol>				
+				</div>
+			</div>
+			<div id="history" class="tab-pane">
+				<div>
+					<h4>Stack History</h4>
+				    <ol id="stackhistory">
+					  <li ng-repeat="entry in issue.history" class="ui-widget-content">{{entry.status}} - {{entry.date}}</li>
+					</ol>
+				</div>
+			</div>
+			<div id="files" class="tab-pane">
+				  	  <label>Attachments</label>
+				  	  <input type="file" name="attachment" />
+					  <button type="submit" class="btn">Guardar Archivo</button>
+			</div>
+			
+			</div>
+			<!-- End Tab Content -->
+			
+  		</div>
+  			 </div>
+  			 
+  		
+  			 
+  			 </div>
+  			 <!-- End Row Fluid  -->
+  			 
+  			<div class="form-actions">
+				<a class="btn btn-primary" href="{{webserver}}/home.html" value="Guardar Issue" ng-click="saveIssue(issue)"  ng-disabled="renderedIssueBtn">Guardar</a>
+			</div>
+  			</form>
+  			<!-- End Form that wrapper all inputs and selects --> 
+  			
+  			
+		</div>
+		
+		
+  			 
+  		</div>
+  		<!-- End Container -->
+  		
+	</body>
+	
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE>
+<html ng-app>
+<head>
+  <script src="angularjs/angular.js"></script>
+  <script src="js/create-project.js"></script>
+</head>
+<body ng-controller="CreateProjectCtrl">
+ 
+  <ul>
+    <li ng-repeat="member in members">
+      {{member.name}}
+      <p>{{member.email}}</p>
+    </li>
+  </ul>
+</body>
+</html>
