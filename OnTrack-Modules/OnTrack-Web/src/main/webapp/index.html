@@ -1,0 +1,200 @@
+<!DOCTYPE HTML>
+<html lang="AR_ES">
+<head>
+	 	 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		 <meta charset="UTF-8"/>
+		 <!-- Bootstrap -->
+    	 <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+    	 <link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+    	 <script src="js/jquery.js"></script>
+    	 <script src="js/bootstrap.js"></script>
+    	 <script src="https://apis.google.com/js/plusone.js" type="text/javascript"></script>
+   		 <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+   		
+   		 
+		 <!-- CSS  -->
+    	 <link rel="css/global.css" rel="stylesheet" />
+    	 
+    	 
+    	 
+<title>OnTrack Login</title>
+
+<style>
+	.header{
+		height: 15%;
+		width:100%;
+		border: 1px solid black;
+	}
+	#header, #footer {
+		width:100%;
+		float:left;
+	}
+	#footer{
+		
+	}
+	
+	.wrap {
+		position:relative;
+		margin:0 auto;
+               /*replace 900px with your width*/
+		width:100%;
+		background-color: rgb(F,F,0);
+	}
+	
+	.title{
+		font-size: 120px;
+		line-height: 1;
+		letter-spacing: -2px;
+	}
+	
+	.subtitle{
+		font-size: 40px;
+		font-weight: 200;
+		line-height: 1.25;
+	}	
+	
+	  .hide { display: none;}
+  .show { display: block;}
+</style>
+<script>
+
+ 
+ var token = {};
+ /*
+   * Activado cuando el usuario acepta el inicio de sesión, cancela o cierra el
+   * cuadro de diálogo de autorización.
+   */  
+  function loginFinishedCallback(authResult) {
+    if (authResult) {
+      if (authResult['error'] == undefined){
+      	token = authResult.access_token;
+        gapi.auth.setToken(authResult); // Almacena el token recuperado.
+        toggleElement('signin-button'); // Oculta el inicio de sesión si se ha accedido correctamente.
+        getEmail();                     // Activa la solicitud para obtener la dirección de correo electrónico.
+      } else {
+        console.log('An error occurred');
+      }
+    } else {
+      console.log('Empty authResult');  // Se ha producido algún error
+    }
+  }
+
+  /*
+   * Inicia la solicitud del punto final userinfo para obtener la dirección de correo electrónico del
+   * usuario. Esta función se basa en gapi.auth.setToken que contiene un token
+   * de acceso de OAuth válido.
+   *
+   * Cuando se completa la solicitud, se activa getEmailCallback y recibe
+   * el resultado de la solicitud.
+   */
+  function getEmail(){
+    // Carga las bibliotecas oauth2 para habilitar los métodos userinfo.
+    gapi.client.load('oauth2', 'v2', function() {
+
+			
+          var request = gapi.client.oauth2.userinfo.get();
+
+		  
+			
+          request.execute(getEmailCallback);
+
+        });
+  }
+
+  function getContacts(token){
+	  $.ajax({
+		  url: 'https://www.google.com/m8/feeds/contacts/default/full',
+		  dataType: 'jsonp',
+		  data: { access_token: token.access_token, 'max-results': '5000', alt: 'json' },
+		  success:function(data){ 
+				console.log(data);
+			}
+	   });
+  }
+
+	function saveToken(){
+	   $.ajax({
+		  url: '',
+		  dataType: 'jsonp',
+		  data: { access_token: token.access_token, 'max-results': '5000', alt: 'json' },
+		  success:function(data){ 
+				console.log(data);
+			}
+	   });
+	}
+
+  function getEmailCallback(obj){
+    var el = document.getElementById('email');
+    var email = '';
+
+    if (obj['email']) {
+      email = 'Email: ' + obj['email'];
+    }
+
+    //console.log(obj);   // Sin comentario para inspeccionar el objeto completo.
+
+    el.innerHTML = email;
+    toggleElement('email');
+    window.location = "home.html;
+    window.location.reload();
+    
+  }
+
+  function toggleElement(id) {
+    var el = document.getElementById(id);
+    if (el.getAttribute('class') == 'hide') {
+      el.setAttribute('class', 'show');
+    } else {
+      el.setAttribute('class', 'hide');
+    }
+  }
+  </script>
+</head>
+
+<body>
+
+	<div id="header" >
+		 <div class="wrap">
+               <div class="logo">
+                   <img width="120px" height="80px" class="pull-left" src="img/logo.png"  alt="Logo OnTrack" />
+                   <img width="120px" height="80px" class="pull-right" src="img/logo_davinci.jpg" alt="Logo DV"/>
+               </div>
+          </div>
+	</div>
+	
+	<div class="container"> 
+		<div>
+			<h1 class="text-center title">OnTrack</h1>
+			<p class="text-center subtitle">Administra todos tus issues de la manera más fácil</p>
+		
+		
+	
+		<div align="center">
+		
+						<form action="j_spring_openid_security_check" method="post">
+                                <input name="openid_identifier" size="50" maxlength="100"
+                                type="hidden" value="https://www.google.com/accounts/o8/id"/>
+                                <input type="submit" value="Ingresa con Google"/>
+                        </form>
+
+  <div id="signin-button" class="show">
+     <div class="g-signin" data-callback="loginFinishedCallback"
+      data-approvalprompt="force"
+      data-clientid="1086494138477-kpre74iookjfs4h47eu26a9r9qg5n1ku.apps.googleusercontent.com"
+      data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email https://www.google.com/m8/feeds/"
+      data-height="short"
+      data-cookiepolicy="single_host_origin"
+      >
+    </div>
+    
+    </div>
+    
+    </div>
+  </div>
+  </div>
+ 
+
+  <div id="email" class="hide"></div>
+</body>
+</html>

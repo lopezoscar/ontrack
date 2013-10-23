@@ -13,7 +13,7 @@ public class SpringSecurityUtil {
 	
 	public static final Collection<GrantedAuthority> getAuthorities(User user){
 		
-		if(user != null){
+		if(user != null && user.getRoles()!= null){
 			final String[] authorities = new String[user.getRoles().size()];
 //			if(user.getPermissions() != null){
 //				for (int permission = 0; permission < user.getPermissions().size() ; permission++) {

@@ -14,6 +14,6 @@ public interface UserManager extends CRUD<User>{
 	
 	User userByUserName(String userName);
 	
-	public List<Member> contactsByUserName(String userName,String password) throws ServiceException, IOException;
+	public List<Member> contactsByUserName(String token) throws ServiceException, IOException;
 
 }

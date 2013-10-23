@@ -27,7 +27,7 @@ public class LoginFailedHandler extends SimpleUrlAuthenticationFailureHandler {
 			DefaultRedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 			request.getSession(true).setAttribute("USER_OPENID_CREDENTIAL", ((UsernameNotFoundException)exception).getExtraInformation());
 			// redirect to create account page
-			redirectStrategy.sendRedirect(request, response, "/registrationOpenid.do");
+			redirectStrategy.sendRedirect(request, response, "/index.html");
 		} else {
 			super.onAuthenticationFailure(request, response, exception);
 		}
