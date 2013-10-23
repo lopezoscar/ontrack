@@ -9,7 +9,7 @@
 	<groupId>com.sappe.ontrack.web</groupId>
 	<artifactId>OnTrack-Web</artifactId>
 	<packaging>war</packaging>
-	
+
 	<build>
 		<finalName>OnTrack</finalName>
 		<plugins>
@@ -20,27 +20,27 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
-		<!-- copyToTomcat with build.xml -->
-<!-- 			 <plugin> -->
-<!-- 			   <groupId>org.apache.maven.plugins</groupId> -->
-<!--                 <artifactId>maven-antrun-plugin</artifactId> -->
-<!--                      <executions> -->
-<!--                     <execution>                       -->
-<!--                         <id>package-ear</id> -->
-<!--                         <phase>package</phase>                          -->
-<!--                         <configuration> -->
-<!--                             <tasks> -->
-<!--                                 <ant target="copywar" inheritRefs="true"> -->
-<!--                                 Here, connect with build.xml                          -->
-<!--                                 </ant> -->
-<!--                             </tasks> -->
-<!--                         </configuration> -->
-<!--                         <goals> -->
-<!--                             <goal>run</goal> -->
-<!--                         </goals> -->
-<!--                     </execution> -->
-<!--                 </executions> -->
-<!--             </plugin> -->
+			<!-- copyToTomcat with build.xml -->
+			<!-- <plugin> -->
+			<!-- <groupId>org.apache.maven.plugins</groupId> -->
+			<!-- <artifactId>maven-antrun-plugin</artifactId> -->
+			<!-- <executions> -->
+			<!-- <execution> -->
+			<!-- <id>package-ear</id> -->
+			<!-- <phase>package</phase> -->
+			<!-- <configuration> -->
+			<!-- <tasks> -->
+			<!-- <ant target="copywar" inheritRefs="true"> -->
+			<!-- Here, connect with build.xml -->
+			<!-- </ant> -->
+			<!-- </tasks> -->
+			<!-- </configuration> -->
+			<!-- <goals> -->
+			<!-- <goal>run</goal> -->
+			<!-- </goals> -->
+			<!-- </execution> -->
+			<!-- </executions> -->
+			<!-- </plugin> -->
 			<!-- End of copyToTomcat -->
 		</plugins>
 		<resources>
@@ -65,7 +65,7 @@
 			<artifactId>poi</artifactId>
 			<version>3.5-FINAL</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>javax.annotation</groupId>
 			<artifactId>jsr250-api</artifactId>
@@ -85,7 +85,7 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
@@ -175,31 +175,96 @@
 			<version>${org.springframework.version}</version>
 		</dependency>
 
+	
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-openid</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
 		
-
 		 <dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-core</artifactId>
-		    <version>${org.springframework.version}</version>
-		 </dependency> 
-		 <dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-web</artifactId>
-		    <version>${org.springframework.version}</version>
-		  </dependency> 
-		  <dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-config</artifactId>
-		    <version>${org.springframework.version}</version>
-		  </dependency>
-		  
-		  <dependency>
-	        <groupId>org.springframework.security</groupId>
-	        <artifactId>spring-security-openid</artifactId>
-	        <version>${org.springframework.version}</version>
-	      </dependency>
+	      <groupId>com.google.api-client</groupId>
+	      <artifactId>google-api-client</artifactId>
+	      <version>1.17.0-rc</version>
+	    </dependency>
+	    
+	    <dependency>
+        <groupId>com.google.http-client</groupId>
+        <artifactId>google-http-client-jackson2</artifactId>
+        <version>1.15.0-rc</version>
+    </dependency>
+	    
+	    <dependency>
+		  <groupId>com.github.leleuj.springframework.security</groupId>
+		  <artifactId>spring-security-oauth-client</artifactId>
+		  <version>1.1.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.5.6</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.google.gdata</groupId>
+			<artifactId>core</artifactId>
+			<version>1.47.1</version>
+		</dependency>
+		
+		<dependency>
+      <groupId>com.google.http-client</groupId>
+      <artifactId>google-http-client</artifactId>
+      <version>1.17.0-rc</version>
+    </dependency>
     
+    <dependency>
+      <groupId>com.google.apis</groupId>
+      <artifactId>google-api-services-oauth2</artifactId>
+      <version>v2-rev50-1.17.0-rc</version>
+    </dependency>
+    
+      <dependency>
+      <groupId>com.google.apis</groupId>
+      <artifactId>google-api-services-calendar</artifactId>
+      <version>v3-rev59-1.17.0-rc</version>
+    </dependency>
+		
+<!-- 		<dependency> -->
+<!-- 		  <groupId>org.pac4j</groupId> -->
+<!-- 		  <artifactId>pac4j-oauth</artifactId> -->
+<!-- 		  <version>1.4.2-SNAPSHOT</version> -->
+<!-- 		</dependency> -->
+		
+<!-- 		<dependency> -->
+<!-- 		    <groupId>org.pac4j</groupId> -->
+<!-- 		    <artifactId>spring-security-pac4j</artifactId> -->
+<!-- 		    <version>1.2.1</version> -->
+<!-- 		</dependency> -->
 
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
+			<scope>test</scope>
+		</dependency>
 
 
 	</dependencies>
@@ -211,6 +276,18 @@
 			<url>http://download.java.net/maven/2/</url>
 			<layout>default</layout>
 		</repository>
+		
+		  <repository>
+		    <id>sonatype-nexus-snapshots</id>
+		    <name>Sonatype Nexus Snapshots</name>
+		    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		    <releases>
+		      <enabled>false</enabled>
+		    </releases>
+		    <snapshots>
+		      <enabled>true</enabled>
+		    </snapshots>
+		  </repository>
 
 		<repository>
 			<id>maven-nuxeo</id>
