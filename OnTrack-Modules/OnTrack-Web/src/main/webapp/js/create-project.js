@@ -10,6 +10,11 @@ function CreateProjectCtrl($scope,$http,$location){
 	$scope.savedProject = {};
 	$scope.selectedMembers = [];
 	
+	$scope.redirect = function(){
+		scope.$apply(function() { $location.path("home.html"); });
+	
+	};
+	
 	$scope.server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack-SOA/";
 	$scope.webserver = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack/";
 	
@@ -214,6 +219,18 @@ function CreateProjectCtrl($scope,$http,$location){
 		$scope.currentTypeForIssueStatus = type;
 	};
 	
+	function parseMemberToUser(){
+		var users = [];
+		angular.forEach($scope.selectedMembers,function(member,itemNo){
+			var user = {
+				userName: member.title,
+				mail: member.email
+			};
+			users.push(user);
+		});
+		return users;
+	}
+	
 	$scope.saveProject = function(){
 		var listTypes = [];
 		angular.forEach($scope.issueTypes,function(value,key){
@@ -227,14 +244,16 @@ function CreateProjectCtrl($scope,$http,$location){
 		 
 		var project = {
 			name: $scope.project.name,
+			users: parseMemberToUser()
 		};
 	
 		//{"id":null,"issueType":{"id":1,"description":"Cualquiera"},"issueStatus":[{"id":1,"description":"TODO"}],"project":{"id":1,"name":"Proyecto","roles":[{"id":3,"roleName":"Desarrollador","acronym":"DEV"}],"users":[]}}
 		
-		$http({method: 'POST', url: server+'projectsrv/saveproject',data:project,headers: {'Content-Type': 'application/json'}}).
+		$http({method: 'POST', url: $scope.server+'projectsrv/saveproject',data:project,headers: {'Content-Type': 'application/json'}}).
 		  success(function(data, status, headers, config) {
 		   	$scope.savedProject = data;
-		   	
+		   	$scope.projectOK = true;
+		   	$scope.redirect();
 		   	//Init saveWorkflows
 		  var workflowsToSave = [];
 		  
@@ -257,7 +276,7 @@ function CreateProjectCtrl($scope,$http,$location){
 		  	*/	
 		  			
 		  
-		  $http({method: 'POST', url: server+'workflowsrv/createworkflowbylist',data:workflowsToSave,headers: {'Content-Type': 'application/json'}}).
+		  $http({method: 'POST', url: $scope.server+'workflowsrv/createworkflowbylist',data:workflowsToSave,headers: {'Content-Type': 'application/json'}}).
 		  success(function(data, status, headers, config) {
 		   	$scope.workflowsArePersisted = true;
 		  }).

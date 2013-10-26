@@ -19,6 +19,7 @@ import com.sappe.ontrack.model.issues.IssueTypeAndStatus;
 import com.sappe.ontrack.model.issues.IssueTypeAndStatusPK;
 import com.sappe.ontrack.model.issues.Project;
 import com.sappe.ontrack.model.issues.Workflow;
+import com.sappe.ontrack.model.users.User;
 
 public class WorkflowTest extends BaseTest{
 	
@@ -178,6 +179,14 @@ public class WorkflowTest extends BaseTest{
 //		"{"project":{"id":26,"name":"Project","roles":null,"users":null},"issueType":{"description":"Issue"},"issueStatus":[{"description":"TODO"}]}";
 		
 //		toJson(workflow);
+		
+	}
+	
+	@Test
+	public void test2323(){
+		User u = (User)em.find(User.class, 1l);
+		List<Workflow> wfs = em.createQuery("select wf from Workflow wf where :user in elements( wf.project.users)").setParameter("user", u).getResultList();
+		
 		
 	}
 	
