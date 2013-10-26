@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import com.sappe.ontrack.dao.springbeans.interfaces.IssueManager;
 import com.sappe.ontrack.dao.springbeans.interfaces.ProjectManager;
+import com.sappe.ontrack.dao.springbeans.interfaces.UserManager;
 import com.sappe.ontrack.model.issues.Issue;
 import com.sappe.ontrack.model.issues.Project;
 import com.sappe.ontrack.model.users.User;
@@ -32,6 +33,9 @@ public class ProjectService {
 	
 	@Autowired
 	IssueManager issueManager;
+	
+	@Autowired
+	private UserManager userManager;
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -63,6 +67,11 @@ public class ProjectService {
 	public Response saveProject(Project project){
 		Project savedProject = projectManager.create(project);
 		if(savedProject != null){
+			for (User user : project.getUsers()) {
+				user = userManager.create(user);
+				user.getProjects().add(savedProject);
+				userManager.update(user);
+			}
 			return Response.ok().entity(savedProject).build();
 		}
 		return Response.status(Status.INTERNAL_SERVER_ERROR).build();

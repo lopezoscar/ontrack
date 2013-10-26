@@ -114,6 +114,7 @@
 		  data: { access_token: token, 'max-results': '5000', alt: 'json' },
 		  success:function(data){ 
 				var scope = angular.element('[ng-controller=CreateProjectCtrl]').scope(); 
+
 				var xmlMembers = [];
 
 				
@@ -122,9 +123,20 @@
 						if(typeof entry != "undefined"){
 							if(typeof entry.gd$email != "undefined"){
 									if(typeof entry.gd$email[0] != "undefined"){
+										
 									    var email = entry.gd$email[0].address;
-										console.log(email);
-									    xmlMembers.push({selected:false,email:email});
+										var emailArray = email.split("@");
+										var emailServer = emailArray[1];
+
+				    					if(emailServer === "gmail.com"){
+										    var title = "Sin título";
+										    if(typeof entry.title.$t != "undefined"){
+											   title = entry.title.$t;
+											}
+
+											console.log(email);
+										    xmlMembers.push({selected:false,email:email,title:title});
+					    				}
 									}
 								}
 						}
@@ -167,8 +179,7 @@
 				    
 				    $('#members tbody tr').on('mouseover', function (event) { 
 				    	 var aData = oTable.fnGetData(this); // get datarow
-					        if (null != aData){
-					        }
+					      
 				    });
 				    
 				    $('#members tbody tr').on('click', function (event) {        
@@ -177,9 +188,13 @@
 				        {
 				        	//var server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack/";
 				        	//window.location = server+"create-issue.html?issue="+aData[0];
-				        	scope.currentMember = aData[0];
-				        	console.log(aData[0]);
-				        	var member = aData[0];
+				        	//scope.currentMember = aData[1];
+//				        	console.log(scope.currentMember);
+				        	var member = {
+								title: aData[0],
+								email: aData[1]
+						        	};
+
 				        	scope.addUser(member);
 				        	scope.$apply();
 				        };
@@ -234,7 +249,9 @@
 			aaSorting: [ [0,'asc']],
 			aaData: [],
 			aoColumns: [
+			            { "sTitle": "Nombre"},
 			            { "sTitle": "Email" }
+
 			            ]
 		};
 		
@@ -243,12 +260,13 @@
 		}
 		
 		angular.forEach(data, function(member, key){
+			var title =  validateNullAndUndenfinded(member.title) ? "INDEFINIDO": member.title;
 			var email =  validateNullAndUndenfinded(member.email) ? "INDEFINIDO": member.email;
-
 			
 			
 			
-			var row = [email
+			var row = [title,
+						email
 					   ];
 			console.log(row);
 			source.aaData.push(row);
@@ -320,15 +338,15 @@
   		
   		<div class="container">
   			<form  novalidate class="simple-form">
-	  			<input type="text" placeholder="Nombre del proyecto" ng-model="project.name">
+	  			<input type="text" placeholder="Nombre del proyecto" ng-model="project.name" ng-hide="projectOK">
   			</form>
-  			<ul class="nav nav-tabs" id="projectTab">
+  			<ul class="nav nav-tabs" id="projectTab" ng-hide="projectOK">
 			  <li><a href="#persons" data-toggle="tab">Integrantes</a></li>
 			  <li><a href="#config" data-toggle="tab">Tipos de Issues</a></li>
 			  <li><a href="#status" data-toggle="tab">Estados</a></li>
 			  <li><a href="#workflow" data-toggle="tab">Workflow</a></li>
 			</ul>
-			<div class="tab-content">
+			<div class="tab-content" ng-hide="projectOK">
 			  <div class="tab-pane active" id="persons">
 			  
 			<div id="contactlist">
@@ -387,6 +405,8 @@
 			  		<form novalidate class="simple-form">
 						<input id="issueTypeDesc" type="text" placeholder="Tipo de Issue" ng-model="desc"/>
 						<input type="button" class="btn btn-primary" value="Guardar" ng-click="saveIssueType(desc)"/>
+
+						
 					</form>
 					
 					<div class="span6">
@@ -464,9 +484,21 @@
 			  </div>
 			</div>	
 			
-			<div class="form-actions">
-				<input type="button" class="btn btn-primary" value="Guardar Proyecto" ng-click="saveProject()"/>
+			<div class="form-actions" ng-hide="projectOK">
+				<input type="button" class="btn btn-primary" value="Guardar Proyecto" ng-click="saveProject()" ng-disabled="projectOK"/>
+
 			</div>
+			
+					<div style="display:inline">
+						<span ng-show="projectOK" class="alert alert-info">
+							El proyecto ha sido guardado correctamente
+							
+						</span>
+					</div>
+					<div>
+							<a class="btn btn-primary" href="home.html">Volver al home</a>
+							<a class="btn btn-primary" href="create-issue.html">Crear Issues</a>						
+					</div>
   		</div>
   		
   		

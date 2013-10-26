@@ -1,6 +1,7 @@
 package com.sappe.ontrack.model.users;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -105,6 +106,9 @@ public class User extends Person implements Serializable{
 
 	@JsonIgnore
 	public List<Project> getProjects() {
+		if(projects == null || projects.isEmpty()){
+			projects = new ArrayList<Project>();
+		}
 		return projects;
 	}
 
