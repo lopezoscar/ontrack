@@ -64,8 +64,8 @@ Contiene las siguientes User Stories
    # Solo el usuario Dueño del proyecto podrá acceder a la edición de un proyecto
    # Puedo incorporar nuevos tipo de Issues a al proyecto
    # Podría eliminar tipos de issues al proyecto, si existiesen issues del tipo a eliminar seguirán su curso normal, la eliminación del tipo de issue solo será a efectos de imposibilitar la creación de issues del tipo de Issue seleccionado
-   # Puedo asignar y eliminar usuarios, la eliminación del usuario imposibilitará que reporte y le sean asignados nuevos issues
+   # Puedo asignar y eliminar usuarios, la eliminación del usuario imposibilitará que reporte y le sean asignados nuevos issues. Si el usuario eliminado tenía issues asignados estos serán reasignados al administrador al momento de desvincular al usuario del proyecto.
 
 *Especificación por Ejemplos.*
    # como dueño del proyecto, lo edito e incorporo un tipo de issue nuevo 'User Story', elimino un tipo de issue viejo 'Caso de Uso', si poseo Issues del tipo Caso de Uso vivos en el proyecto, estos seguirán existiendo hasta que se cierren, mientras que no podría reportar nuevos issues 'Caso de Uso', pero sí 'User Story'
-   # como dueño del proyecto, lo edito y elimino usuarios que se han desvinculado del proyecto, el usuario desvinculado ya no tendrá visibilidad del proyecto, ni del Issue, pudiendo otros usuarios activos del proyecto reasignarse el Issue.
+   # como dueño del proyecto, lo edito y elimino usuarios que se han desvinculado del proyecto, el usuario desvinculado ya no tendrá visibilidad del proyecto, ni del Issue, el usuario administrador del proyecto será el nuevo Owner de los issues asignados al usuario eliminado
