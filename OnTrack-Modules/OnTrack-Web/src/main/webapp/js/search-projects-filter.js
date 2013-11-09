@@ -4,12 +4,11 @@ function SearchProjectsController($scope,$http){
 	$scope.server = "http://localhost:8080/OnTrack-SOA/";
 	$scope.webserver = "http://localhost:8080/OnTrack/";
     
-    var user = {
-    	id: 1
-    };
-    $scope.currentUser = user;
-    
-    	$http({method: 'POST', url: $scope.server+'projectsrv/projectsbyuser',data:$scope.currentUser,headers: {'Content-Type': 'application/json'}}).
+	$http({method: 'GET', url: $scope.webserver+'currentUser',headers: {'Content-Type': 'application/json'}}).
+	  success(function(data, status, headers, config) {
+	   	$scope.currentUser = data;
+	   	
+	   	$http({method: 'POST', url: $scope.server+'projectsrv/projectsbyuser',data:$scope.currentUser,headers: {'Content-Type': 'application/json'}}).
 		  success(function(data, status, headers, config) {
 		   	$scope.projects = data;
 		   	var rows = parserResultToDataTable($scope.projects);
@@ -18,6 +17,16 @@ function SearchProjectsController($scope,$http){
 		  error(function(data, status, headers, config) {
 		  	$scope.noProjects = true;
 		  });
+	   	 
+	   	
+	  }).
+	  error(function(data, status, headers, config) {
+	  	$scope.noUser = true;
+	  });
+	  
+   
+    
+    	
 }
 
 function createDatatablesForProjects(projects,$location){
@@ -78,7 +87,8 @@ function parserResultToDataTable(data){
 		aaData: [],
 		aoColumns: [
 		            { "sTitle": "ID Proyecto" },
-		            { "sTitle": "Nombre" }
+		            { "sTitle": "Nombre" },
+		            { "sTitle": "Administrador" }
 		            ]
 	};
 	
@@ -89,11 +99,12 @@ function parserResultToDataTable(data){
 	angular.forEach(data, function(project, key){
 		var projectID =  validateNullAndUndenfinded(project.id) ? "INDEFINIDO":project.id;
 		var name =   validateNullAndUndenfinded(project.name) ? "INDEFINIDO":project.name;
-		
+		var admin = validateNullAndUndenfinded(project.admin) ? "INDEFINIDO": project.admin.userName;
 		
 		
 		var row = [projectID,
 				   name,
+				   admin
 				   ];
 		source.aaData.push(row);
 	});

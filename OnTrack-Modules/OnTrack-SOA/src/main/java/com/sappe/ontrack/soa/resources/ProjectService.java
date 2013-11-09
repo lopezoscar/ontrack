@@ -110,6 +110,19 @@ public class ProjectService {
 		return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 	}
 	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/projectsbyadmin")
+	public Response getProjectsByAdmin(User admin){
+		List<Project> projects = projectManager.projectsByAdmin(admin);
+		if(projects != null && !projects.isEmpty()){
+			return Response.ok(projects).build();
+		}
+		return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+	}
+	
+	
+	
 	public ProjectManager getProjectManager() {
 		return projectManager;
 	}

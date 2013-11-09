@@ -10,5 +10,7 @@ public interface ProjectManager extends CRUD<Project>{
 	public List<Project> getAllProjects();
 	
 	public List<Project> projectsByUser(User user);
+	
+	List<Project> projectsByAdmin(User user);
 
 }

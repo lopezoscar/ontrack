@@ -29,7 +29,8 @@ import com.sappe.ontrack.model.users.User;
 @NamedQueries(
 		{
 			@NamedQuery(name="getAllProjects",query="SELECT NEW  com.sappe.ontrack.model.issues.Project (p.id,p.name) from Project as p "),
-			@NamedQuery(name="projectByUser",query="SELECT p from Project p where :user in elements (p.users)")
+			@NamedQuery(name="projectByUser",query="SELECT p from Project p where :user in elements (p.users)"),
+			@NamedQuery(name="projectByAdmin",query="SELECT p from Project p where p.admin = :admin")
 		}
 )
 public class Project implements Serializable{

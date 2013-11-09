@@ -1,5 +1,6 @@
 function CreateProjectCtrl($scope,$http,$location){
 
+	$scope.disableActions = false;
 	
 	$scope.currentProjectID = $location.search().project; 
 	$scope.modifyStatus = false;
@@ -26,7 +27,12 @@ function CreateProjectCtrl($scope,$http,$location){
 	    	$http.get($scope.server+"projectsrv/projectbyid/"+id).success(function(callback){
 	    		$scope.project = callback;
 	    		$scope.modifyStatus = true;
-	    		
+	    		$scope.isAdmin = $scope.project.admin.id == $scope.currentUser.id;
+	    		if($scope.isAdmin){
+	    			$scope.disableActions = false;
+	    		}else{
+	    			$scope.disableActions = true;
+	    		}
 		    	listWorkflowsByProject($scope.project);
 	    	});
     	}
@@ -261,7 +267,8 @@ function CreateProjectCtrl($scope,$http,$location){
 		 
 		var project = {
 			name: $scope.project.name,
-			users: parseMemberToUser()
+			users: parseMemberToUser(),
+			admin: $scope.currentUser
 		};
 		
 		if($scope.project != null && $scope.modifyStatus){

@@ -1,6 +1,7 @@
 package com.sappe.ontrack.dao.springbeans.impl;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityExistsException;
@@ -96,6 +97,14 @@ public class ProjectBean implements ProjectManager{
 	                .getImplementation();
 	    }
 	    return entity;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Project> projectsByAdmin(User user) {
+		if(user == null){
+			return new ArrayList<Project>();
+		}
+		return em.createNamedQuery("projectByAdmin").setParameter("admin", user).getResultList();
 	}
 
 
