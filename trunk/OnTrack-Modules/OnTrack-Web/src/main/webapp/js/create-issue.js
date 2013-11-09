@@ -15,11 +15,28 @@ function CreateIssueCtrl($scope,$http,$location){
     
     $scope.comments = [];
     
-    var user = {
-    	id: 1
-    };
     $scope.server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack-SOA/";
 	$scope.webserver = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack/";
+    
+    $http({method: 'GET', url: $scope.webserver+'currentUser',headers: {'Content-Type': 'application/json'}}).
+	  success(function(data, status, headers, config) {
+	   	$scope.currentUser = data;
+	   	retrieveWorkflowsByUser($scope.currentUser);
+	   	/* 
+		$http({method: 'POST', url: $scope.webserver+'contacts',headers: {'Content-Type': 'application/json'}}).
+	  			success(function(data, status, headers, config) {
+					$scope.members = data;
+				}).error(function(data,status,headers,config){
+					$scope.noContacts = true;
+				});
+		*/		
+	  }).
+	  error(function(data, status, headers, config) {
+	  	$scope.noUser = true;
+	  });
+    
+  
+	
     function retrieveWorkflowsByUser(user){
     	$http({method: 'POST', url: $scope.server+'workflowsrv/listworkflowsbyuser',data:user,headers: {'Content-Type': 'application/json'}}).
 		  success(function(data, status, headers, config) {
@@ -30,7 +47,7 @@ function CreateIssueCtrl($scope,$http,$location){
 		  });
     };
     
-    retrieveWorkflowsByUser(user);
+    
     
    
     

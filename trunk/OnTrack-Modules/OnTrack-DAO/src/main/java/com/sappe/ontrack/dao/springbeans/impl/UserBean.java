@@ -208,6 +208,19 @@ public class UserBean implements UserManager{
 		return image;
 	}
 
+	public User userByEmail(String email) {
+		if(email == null){
+			return null;
+		}
+		User user = null;
+		try{
+			user = (User)em.createNamedQuery("selectUserByEmail").setParameter("email", email).getSingleResult();
+		}catch(NoResultException nre){
+			nre.printStackTrace();
+		}
+		return user;
+	}
+
 
 
 

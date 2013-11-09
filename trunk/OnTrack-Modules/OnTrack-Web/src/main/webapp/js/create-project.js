@@ -1,5 +1,6 @@
 function CreateProjectCtrl($scope,$http,$location){
 
+	
 	$scope.currentProjectID = $location.search().project; 
 	$scope.modifyStatus = false;
 	//$scope.members = [{"selected":false,"name":"Daniel Galanti","email":"dgalanti@gmail.com","photoLink":"https://www.google.com/m8/feeds/photos/media/lopezoscar.job%40gmail.com/64ac740a52fc9e"},{"selected":false,"name":"arielaguirre1420@gmail.com","email":"arielaguirre1420@gmail.com","photoLink":"https://www.google.com/m8/feeds/photos/media/lopezoscar.job%40gmail.com/c6f1850f2fb5ed"},{"selected":false,"name":"Gonzalez Mariela","email":"mgonzalez@escueladavinci.net","photoLink":"https://www.google.com/m8/feeds/photos/media/lopezoscar.job%40gmail.com/3e516260eef2ebe"},{"selected":false,"name":"Pablo Sebastián Reitano","email":"pablo.reitano@softtek.com","photoLink":"https://www.google.com/m8/feeds/photos/media/lopezoscar.job%40gmail.com/449a107897e0f33"},{"selected":false,"name":"Agostina Sysone","email":"","photoLink":"https://www.google.com/m8/feeds/photos/media/lopezoscar.job%40gmail.com/4981aea09f156e9"},{"selected":false,"name":"Pablo Pallocchi","email":"pablopallocchi@gmail.com","photoLink":"https://www.google.com/m8/feeds/photos/media/lopezoscar.job%40gmail.com/56346228fbc91fc"},{"selected":false,"name":"Roselis Guzmán","email":"rguzman@sysone.com","photoLink":"https://www.google.com/m8/feeds/photos/media/lopezoscar.job%40gmail.com/57db2118a77a322"},{"selected":false,"name":"toluispo@hotmail.com","email":"toluispo@hotmail.com","photoLink":"https://www.google.com/m8/feeds/photos/media/lopezoscar.job%40gmail.com/5b8ca91880639fa"},{"selected":false,"name":"Santiago Lohigorry","email":"santiago.lohigorry@gmail.com","photoLink":"https://www.google.com/m8/feeds/photos/media/lopezoscar.job%40gmail.com/6af932f0c1e425a"},{"selected":false,"name":"Robert Anderson","email":"","photoLink":"https://www.google.com/m8/feeds/photos/media/lopezoscar.job%40gmail.com/6d927a40c5b1b3e"},{"selected":false,"name":"Cristian Mielgo","email":"cristian.mielgo@cesvi.com.ar","photoLink":"https://www.google.com/m8/feeds/photos/media/lopezoscar.job%40gmail.com/6dc2d040f6c9263"},{"selected":false,"name":"Pablo Romanos","email":"pabloromanos@gmail.com","photoLink":"https://www.google.com/m8/feeds/photos/media/lopezoscar.job%40gmail.com/7e6ca7d08ab62c8"},{"selected":false,"name":"Gustavo Martinez","email":"gmartinez@datatech.com.ar","photoLink":"https://www.google.com/m8/feeds/photos/media/lopezoscar.job%40gmail.com/7f75160094efbd4"},{"selected":false,"name":"Nicolas Gladkoff","email":"ngladkoff@gmail.com","photoLink":"https://www.google.com/m8/feeds/photos/media/lopezoscar.job%40gmail.com/80b6f8f899a5e20"},{"selected":false,"name":"Alejandro Gaete","email":"agaete.rsa@gmail.com","photoLink":"https://www.google.com/m8/feeds/photos/media/lopezoscar.job%40gmail.com/878111d8acdaa59"},{"selected":false,"name":"maxilimeres@gmail.com","email":"maxilimeres@gmail.com","photoLink":"https://www.google.com/m8/feeds/photos/media/lopezoscar.job%40gmail.com/8acb8140bf874de"},{"selected":false,"name":"Romero, Sergio","email":"sromero@rsaelcomercio.com.ar","photoLink":"https://www.google.com/m8/feeds/photos/media/lopezoscar.job%40gmail.com/90c12678c1d7fd4"},{"selected":false,"name":"Matias Antunez","email":"matias.antunez@cardinalsisa.com","photoLink":"https://www.google.com/m8/feeds/photos/media/lopezoscar.job%40gmail.com/988047f8c179e4b"},{"selected":false,"name":"Laura Vazquez Profe","email":"","photoLink":"https://www.google.com/m8/feeds/photos/media/lopezoscar.job%40gmail.com/9a25d700b9cfd52"},{"selected":false,"name":"Cecilia Bietti","email":"cbietti@gmail.com","photoLink":"https://www.google.com/m8/feeds/photos/media/lopezoscar.job%40gmail.com/9cd25ce8abb307c"}]
@@ -9,9 +10,9 @@ function CreateProjectCtrl($scope,$http,$location){
 	$scope.workflows = [];
 	$scope.savedProject = {};
 	$scope.selectedMembers = [];
-	
+	$scope.projectNameNotFound = false;
 	$scope.redirect = function(){
-		scope.$apply(function() { $location.path("home.html"); });
+		$scope.$apply(function() { $location.path("home.html"); });
 	
 	};
 	
@@ -221,6 +222,7 @@ function CreateProjectCtrl($scope,$http,$location){
 	
 	function parseMemberToUser(){
 		var users = [];
+		users.push($scope.currentUser);
 		angular.forEach($scope.selectedMembers,function(member,itemNo){
 			var user = {
 				userName: member.title,
@@ -228,24 +230,43 @@ function CreateProjectCtrl($scope,$http,$location){
 			};
 			users.push(user);
 		});
+		
+		
 		return users;
 	}
 	
 	$scope.saveProject = function(){
+		if($scope.project == "undefined"){
+			$scope.projectNameNotFound = true;
+			return;
+		}
+	
+		if($scope.project != "undefined" && $scope.project.name == "undefined"){
+			$scope.projectNameNotFound = true;
+			return;
+		}
+	
+	
 		var listTypes = [];
 		angular.forEach($scope.issueTypes,function(value,key){
 			var issueType = {
 				id:null,
 				project:null,
-				description: value.desc
+				description: value.description
 			};
 			listTypes.push(issueType);
 		});
+		 
+		 
 		 
 		var project = {
 			name: $scope.project.name,
 			users: parseMemberToUser()
 		};
+		
+		if($scope.project != null && $scope.modifyStatus){
+			project = $scope.project;
+		}
 	
 		//{"id":null,"issueType":{"id":1,"description":"Cualquiera"},"issueStatus":[{"id":1,"description":"TODO"}],"project":{"id":1,"name":"Proyecto","roles":[{"id":3,"roleName":"Desarrollador","acronym":"DEV"}],"users":[]}}
 		
@@ -258,9 +279,11 @@ function CreateProjectCtrl($scope,$http,$location){
 		  var workflowsToSave = [];
 		  
 		  angular.forEach($scope.issueTypes,function(wf,key){
+		  	
+		  var issueTypeDescription = $scope.modifyStatus ? wf.description : wf.description;
 		  	var workflow = {
 				project: $scope.savedProject,
-				issueType :  {description:wf.desc},
+				issueType :  {description:issueTypeDescription},
 				issueStatus: filterDescriptionOnStatus(wf.status),
 				issueProperties: filterDescriptionAndTypeOnIssueProperties(wf.issueProperties)
 			};

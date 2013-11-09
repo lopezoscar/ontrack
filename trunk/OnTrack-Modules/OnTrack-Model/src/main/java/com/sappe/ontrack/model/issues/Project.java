@@ -2,7 +2,6 @@ package com.sappe.ontrack.model.issues;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -60,6 +61,10 @@ public class Project implements Serializable{
 	
 	@ManyToMany(mappedBy="projects")
 	private List<User> users;
+	
+	@ManyToOne
+	@JoinColumn(name="admin")
+	private User admin;
 	
 	public Project(){}
 
@@ -151,6 +156,14 @@ public class Project implements Serializable{
 
 	public void setUsers(List<User> users) {
 		this.users = users;
+	}
+
+	public User getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(User admin) {
+		this.admin = admin;
 	}
 	
 	

@@ -2,7 +2,9 @@ package com.sappe.ontrack.security;
 
 import java.io.IOException;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,10 +12,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.sappe.ontrack.model.issues.GoogleUser;
 import com.sappe.ontrack.model.users.User;
-import com.sappe.ontrack.sdk.impl.Mapper;
+import com.sappe.ontrack.sdk.interfaces.UserService;
 
 
 public class PreAuthUserDetailsService implements AuthenticationUserDetailsService {
+	
+	@Autowired
+	private UserService userService;
 
 	@Override
 	public UserDetails loadUserDetails(Authentication token)
@@ -26,14 +31,32 @@ public class PreAuthUserDetailsService implements AuthenticationUserDetailsServi
 		if (credentials != null && principal == true) {
 			String tokenGoogle = credentials[1];
 			UserDetailsViewModel vm = new UserDetailsViewModel();
-			User user = new User();
-//				user.setFirstName(gUser.getGiven_name());
-//				user.setLastName(gUser.getFamily_name());
-//				user.setMail(gUser.getEmail());
-			user.setToken(tokenGoogle);
-			vm.setUser(user);
+			GoogleAuthHelper helper = new GoogleAuthHelper();
+			String response;
+			try {
+				response = helper.getUserInfoJson(tokenGoogle);
+				GoogleUser gUser = fromJSON(new TypeReference<GoogleUser>() {},response);
+				
+				User user = userService.userByEmail(gUser.getEmail());
+				if(user != null){
+					user.setToken(tokenGoogle);
+					vm.setUser(user);
+					userDetails = vm;
+				}else{
+					User userModel = new User();
+					userModel.setFirstName(gUser.getGiven_name());
+					userModel.setLastName(gUser.getFamily_name());
+					userModel.setMail(gUser.getEmail());
+					userModel.setToken(tokenGoogle);
+					User u = userService.createUser(userModel);
+					vm.setUser(u);
+					userDetails = vm;
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
-			userDetails = vm;
 		}
 
 		if (userDetails == null) {
@@ -42,5 +65,18 @@ public class PreAuthUserDetailsService implements AuthenticationUserDetailsServi
 
 		return userDetails;
 	}
+	
+	public static <T> T fromJSON(final TypeReference<T> type,final String jsonPacket) {
+		   T data = null;
+	
+		   try {
+		      data = new ObjectMapper().readValue(jsonPacket, type);
+		   } catch (Exception e) {
+		      e.printStackTrace();
+		   }
+		   return data;
+	}
+	
+	
 
 }
