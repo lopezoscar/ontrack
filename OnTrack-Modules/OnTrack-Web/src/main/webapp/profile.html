@@ -1,46 +1,26 @@
 <!DOCTYPE HTML>
-<html lang="AR_ES" ng-app>
+<html lang="es_AR" ng-app="profile_mod">
 	<head>
 		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		 <meta charset="UTF-8"/>
+    	 <!-- CSS  -->
 		 <!-- Bootstrap -->
     	 <link href="css/bootstrap.css" rel="stylesheet" media="screen">
     	 <link href="css/bootstrap-responsive.css" rel="stylesheet">
-    	 
+    	 <!-- JQuery and JQuery UI -->
+    	 <link href="css/global.css" rel="stylesheet" />
+    	 <!-- JS -->
+    	 <!-- JQuery -->
     	 <script src="js/jquery.js"></script>
-    	 <script src="js/bootstrap.js"></script>
-    	 
-    	 <script src="js/search-projects-filter.js"></script>
-    	 
-    	 <!-- CSS  -->
-    	 <link rel="css/global.css" rel="stylesheet" />
-    	 
-			 <!-- JQuery UI -->
-    	 <script src="jquery-ui/js/jquery-ui.js"></script>
-    	 
-		<link href="jquery-ui/css/smoothness/jquery-ui.css" rel="stylesheet"/>	
-    	 
-    	  <script src="angularjs/angular.js"></script>
-	 	
-	 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    	
-    	 <script src="datatables/media/js/jquery.dataTables.js"></script>
 
-
-		 <script type="text/javascript" src="js/charts.js"></script>
+    	 <!-- Angular JS -->
+    	 <script src="angularjs/angular.js"></script>
+    	 <script src="js/profile.js"></script>
+    	 <script src="js/profile_app.js"></script>
     	 
-    	 <link rel="stylesheet" type="text/css" href="datatables/media/css/jquery.dataTables.css">
-
-    	 
-    	 
-    	 
-    	 
-
-	</head>
-	
-	<body>
-	
-		<div class="container">
+   </head>
+   <body ng-controller="ProfileController">
+   		<div class="container">
 			<div class="navbar">
 			  <div class="navbar-inner">
 			    <a class="brand" href="home.html">OnTrack</a>
@@ -63,7 +43,7 @@
 				    <ul class="dropdown-menu">
 				      <li><a href="create-issue.html">Crear Issue</a></li>
 				      <li><a href="my-issues.html">Mis Issues</a></li>
-				      <li><a href="search-issues.html">Buscar Issues</a></li>
+				      <li><a href="search-issues-filter.html">Buscar Issues</a></li>
 				    </ul>
 				  </li>
 				  <li class="dropdown">
@@ -77,8 +57,9 @@
 				      <li><a target="_blank" href="https://code.google.com/p/ontrack/">Repositorio del Proyecto</a></li>
 				    </ul>
 				  </li>
+				  
 				  <li class="pull-right"><a href="profile.html">Perfil</a></li>
-			      <li class="pull-right"><a href="logout">Salir</a></li>
+			      <li class="pull-right"><a href="#">Salir</a></li>
 				  
 			    </ul>
 			    
@@ -88,27 +69,46 @@
 			  </div>
 			</div>			
 			<!-- End Nav Bar -->
-  		</div>
-  		<!-- End Container -->
-  		
-  		<div class="container-fluid" ng-controller="SearchProjectsController">
-  			<div class="row-fluid">
-  			<div class="span6">
-				  	<table id="projects">
-		  				<thead></thead>
-		  				<tbody></tbody>
-		  				<tfoot>
-							<tr>
-								<th><input class="input-small" type="text" name="search_engine" placeholder="ID Proyecto" class="search_init" /></th>
-								<th><input class="input-small" type="text" name="search_browser" placeholder="Nombre" class="search_init" /></th>
-						</tfoot>
-		  			</table>  			
-  			</div>
+			
+		</div>	
+		
+		<div class="container-fluid">
+			<div class="row-fluid">
+			<div class="span6">
+			<legend>Actualiza tus datos</legend>
+			
+			<form novalidate  class="form-horizontal" >
+			  <div class="control-group">
+			    <label class="control-label" for="nick">Apodo</label>
+			    <div class="controls">
+			      <input type="text" id="nick" placeholder="Apodo" ng-model="currentUser.userName">
+			    </div>
+			  </div>
+			  <div class="control-group">
+			    <label class="control-label" for="personName">Nombre</label>
+			    <div class="controls">
+			      <input type="text" id="personName" placeholder="Nombre" ng-model="currentUser.firstName">
+			    </div>
+			  </div>
+			  <div class="control-group">
+			    <label class="control-label" for="personLastName">Apellido</label>
+			    <div class="controls">
+			      <input type="text" id="personLastName" placeholder="Apellido" ng-model="currentUser.lastName">
+			    </div>
+			  </div>
+			  <div class="control-group">
+			    <div class="controls">
+			      <button type="submit" ng-click="saveUser(currentUser)" class="btn">Guardar</button>
+			      <span class="alert alert-info" ng-show="saveOk">Los datos se guardaron correctamente</span>
 
-  			</div>
-  		</div>
-  		
-  		
-	</body>
-	
-</html>
+			    </div>
+			  </div>
+			</form>
+			</div>
+			
+			</div>
+		</div>
+			
+   </body>
+   
+</html> 	 

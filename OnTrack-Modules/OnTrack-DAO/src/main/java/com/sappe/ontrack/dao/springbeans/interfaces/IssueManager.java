@@ -6,6 +6,7 @@ import com.sappe.ontrack.model.issues.Issue;
 import com.sappe.ontrack.model.issues.IssueComment;
 import com.sappe.ontrack.model.issues.IssueStatus;
 import com.sappe.ontrack.model.issues.IssueType;
+import com.sappe.ontrack.model.users.User;
 
 public interface IssueManager extends CRUD<Issue>{
 	
@@ -24,4 +25,6 @@ public interface IssueManager extends CRUD<Issue>{
 	List<Issue> getIssuesByCode(String code);
 	
 	List<IssueComment> addCommentToIssue(IssueComment comment);
+	
+	void reassignOwner(User currentOwner, User newOwner);
 }

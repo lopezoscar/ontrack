@@ -60,6 +60,13 @@ public class UserService {
 		User user = userManager.userByUserName(userName);
 		return user;
 	}
+	@Path("/userbyemail/")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	public User userByUserEmail(String email){
+		User user = userManager.userByEmail(email);
+		return user;
+	}
 	
 	@Path("/contacts")
 	@POST
@@ -80,6 +87,27 @@ public class UserService {
 		return Response.status(Status.OK).entity(contacts).header("Access-Control-Allow-Origin", "*").build();
 		
 //		return contacts;
+	}
+	
+	@Path("/createuser")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public User createUser(User user){
+		User userResponse = userManager.create(user);
+		return userResponse;
+	}
+	
+	@Path("/updateuser")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public User updateUser(User user){
+		if(user != null && user.getId() != null){
+			User userResponse = userManager.update(user);
+			return userResponse;
+		}
+		return null;
 	}
 	
 	

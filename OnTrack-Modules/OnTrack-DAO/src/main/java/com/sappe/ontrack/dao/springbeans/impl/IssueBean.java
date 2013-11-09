@@ -20,6 +20,7 @@ import com.sappe.ontrack.model.issues.Issue;
 import com.sappe.ontrack.model.issues.IssueComment;
 import com.sappe.ontrack.model.issues.IssueStatus;
 import com.sappe.ontrack.model.issues.IssueType;
+import com.sappe.ontrack.model.users.User;
 
 @Component
 public class IssueBean implements IssueManager{
@@ -105,6 +106,14 @@ public class IssueBean implements IssueManager{
 		comments.add(comment);
 		update(issue);
 		return comments;
+	}
+
+	public void reassignOwner(User currentOwner, User newOwner) {
+		List<Issue> issues = getIssuesByOwnerId(currentOwner.getId());
+		for (Issue issue : issues) {
+			issue.setOwner(newOwner);
+			em.merge(issue);
+		}
 	}
 	
 	

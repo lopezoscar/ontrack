@@ -65,14 +65,36 @@ public class ProjectService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/saveproject")
 	public Response saveProject(Project project){
-		Project savedProject = projectManager.create(project);
+		Project savedProject = null;
+		if(project.getId() == null){
+			savedProject = projectManager.create(project);
+		}else{
+			savedProject = projectManager.update(project);
+		}
 		if(savedProject != null){
-			for (User user : project.getUsers()) {
-				user = userManager.create(user);
-				user.getProjects().add(savedProject);
-				userManager.update(user);
+			if(project.getUsers() != null && !project.getUsers().isEmpty()) {
+				for (User user : project.getUsers()) {
+					if(user.getId() != null && !savedProject.getUsers().contains(user)){
+						//user = userManager.create(user);
+						user.getProjects().add(savedProject);
+						userManager.update(user);
+					}else{
+						if(user.getMail() != null){
+							User existedUser = userManager.userByEmail(user.getMail());
+							if(existedUser != null){
+								user = existedUser;
+							}else{
+								user = userManager.create(user);
+							}
+						}else{
+							user = userManager.create(user);
+						}
+						user.getProjects().add(savedProject);
+						userManager.update(user);
+					}
+				}
+				return Response.ok().entity(savedProject).build();
 			}
-			return Response.ok().entity(savedProject).build();
 		}
 		return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 	}

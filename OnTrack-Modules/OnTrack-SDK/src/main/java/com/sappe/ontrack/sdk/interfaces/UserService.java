@@ -11,5 +11,8 @@ public interface UserService {
 	public List<User> getAllUsers();
 	public User userByUserName(String userName);
 	public List<Member> contactsByUserName(User user);
+	User userByEmail(String email);
+	User createUser(User user);
+	
 
 }

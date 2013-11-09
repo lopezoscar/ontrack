@@ -19,6 +19,12 @@ project_mod.config(function($locationProvider) {
 angular.injector(['ng', 'project_mod']);
 
 var search_issues_mod = angular.module('search-filter', []);
+
+
+var profile_mod = angular.module('profile_mod',[]);
+angular.injector(['ng','profile_mod']);
+
+
 /*
 var home_mod = angular.module('homeApp',[]);
 angular.injector(['ng', 'homeApp']);

@@ -11,6 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
@@ -23,6 +24,7 @@ import com.sappe.ontrack.dao.springbeans.interfaces.IssueManager;
 import com.sappe.ontrack.dao.springbeans.interfaces.LogIssueManager;
 import com.sappe.ontrack.dao.springbeans.interfaces.ProcessHistoryManager;
 import com.sappe.ontrack.dao.springbeans.interfaces.ProjectManager;
+import com.sappe.ontrack.dao.springbeans.interfaces.UserManager;
 import com.sappe.ontrack.model.issues.Issue;
 import com.sappe.ontrack.model.issues.IssueAction;
 import com.sappe.ontrack.model.issues.IssueComment;
@@ -52,6 +54,9 @@ public class IssueService {
 	
 	@Autowired
 	private ProjectManager projectManager;
+	
+	@Autowired
+	private UserManager userManager;
 	
 	@POST
 	@Path("listIssuesByUser")
@@ -160,6 +165,25 @@ public class IssueService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public List<IssueComment> addCommentToIssue(IssueComment comment){
 		return issueManager.addCommentToIssue(comment);
+	}
+	
+	
+	@Consumes(MediaType.APPLICATION_JSON)
+	@GET
+	@Path("reassignOwner/{currentOwner}/{newOwner}")
+	public Response reassign(@PathParam("currentOwner")Long currentOwner,@PathParam("newOwner")Long newOwner){
+		if(currentOwner == null || newOwner == null){
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+		try{
+			User oldOwner = userManager.read(currentOwner);
+			User updateOwner = userManager.read(newOwner);
+			issueManager.reassignOwner(oldOwner, updateOwner);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		return Response.ok().build();
 	}
 
 	public static <T> T fromJSON(final TypeReference<T> type,final String jsonPacket) {

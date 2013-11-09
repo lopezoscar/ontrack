@@ -78,6 +78,34 @@ public class UserServiceImpl implements UserService,Serializable{
 		members.addAll(fromJSON(new TypeReference<List<Member>>(){},response));
 		return members;
 	}
+
+	public User userByEmail(String email) {
+		StringBuilder url = new StringBuilder();
+		url.append("/usersrv/userbyemail/");
+		String response = HTTPManager.post(url.toString(),email,false);
+		User user = fromJSON(new TypeReference<User>(){}, response);
+		return user;
+	}
+
+	public User createUser(User user) {
+		ObjectMapper mapper = new ObjectMapper();
+		String content = null;
+		try {
+			content = mapper.writeValueAsString(user);
+		} catch (JsonGenerationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+			// TODO Auto-generated catch block
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String response = HTTPManager.post("/usersrv/createuser", content, false);
+		User createdUser = Mapper.fromJSON(new TypeReference<User>() {}, response);
+		return createdUser;
+	}
 	
 	
 	

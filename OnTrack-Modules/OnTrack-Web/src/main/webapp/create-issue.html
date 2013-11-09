@@ -101,8 +101,8 @@
 				    </ul>
 				  </li>
 				  
-				  <li class="pull-right"><a href="#">Perfil</a></li>
-			      <li class="pull-right"><a href="#">Salir</a></li>
+				  <li class="pull-right"><a href="profile.html">Perfil</a></li>
+			      <li class="pull-right"><a href="logout">Salir</a></li>
 				  
 			    </ul>
 			    
@@ -153,10 +153,10 @@
 			 <select ng-model="issue.issueStatus" ng-options="s.issueStatus.description for s in statusByType | orderBy:'s.position'">
 			 	<option value='' disabled selected style='display:none;'>Elegi un Estado</option>
 			 </select>
-  			 <select ng-model="issue.owner" ng-options="u.lastName for u in users">
+  			 <select ng-model="issue.owner" ng-options="u.userName for u in users">
   			 	<option value='' disabled selected style='display:none;'>Elegi el Responsable</option>
   			 </select>
-  			 <input  ng-model="issue.reporter" name="Reporter" type="text" placeholder="Reporter" class="input-large" ng-readonly="true"/>
+  			 
   			
   			 </div>
   			 
@@ -167,8 +167,8 @@
 				 <select ng-model="issue.issueStatus" ng-options="s.issueStatus.description for s in issueStatusForModify | orderBy:'s.position'">
 				 	<option value='' disabled selected style='display:none;'>{{issue.currentStatus.description}}</option>
 				 </select>
-				 <input  ng-model="issue.owner.lastName" class="input-large" type="text" ng-readonly="true"/>
-				 <input  ng-model="issue.reporter" name="Reporter" type="text" placeholder="Reporter" class="input-large" ng-readonly="true"/>
+				 <input  ng-model="issue.owner.userName" class="input-large" type="text" ng-readonly="true"/> 
+				 <input  ng-model="issue.reporter" name="Reporter" type="text" class="input-large" ng-readonly="true"/>
   			 </div>
   			 <!-- End Span02 -->
   			 

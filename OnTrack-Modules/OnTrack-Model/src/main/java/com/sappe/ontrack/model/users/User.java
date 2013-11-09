@@ -25,7 +25,8 @@ import com.sappe.ontrack.model.issues.Project;
 		{ 
 			@NamedQuery(name="selectAllUser", query = "select u from User u"),
 			@NamedQuery(name="selectUserById", query = "select u from User u where u.id = :id"),
-			@NamedQuery(name="userByUserName", query= "select u from User u where u.userName = :userName")
+			@NamedQuery(name="userByUserName", query= "select u from User u where u.userName = :userName"),
+			@NamedQuery(name="selectUserByEmail", query = "select u from User u where u.mail = :email")
 		}
 )
 public class User extends Person implements Serializable{
