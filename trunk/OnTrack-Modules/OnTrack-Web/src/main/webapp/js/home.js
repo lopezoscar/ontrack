@@ -6,19 +6,16 @@ function HomeController($scope,$http,$location){
     	
 	$http({method: 'GET', url: $scope.webserver+'currentUser',headers: {'Content-Type': 'application/json'}}).
 	  success(function(data, status, headers, config) {
-	   	$scope.currentUser = data; 
+	   	$scope.currentUser = data;
+	   	if($scope.currentUser.userName == null){
+	   		$location.path("profile.html");
+	   	} 
 	  }).
 	  error(function(data, status, headers, config) {
 	  	$scope.noUser = true;
 	  });
 	  
-   			 $http({method: 'GET', url: $scope.webserver+'currentUser',headers: {'Content-Type': 'application/json'}}).
-				  	success(function(data, status, headers, config) {
-				   		 $scope.currentUser = data;
-				  	}).
-				  	error(function(data, status, headers, config) {
-				  		$scope.currentUser = {};
-				});
+   			
    // $scope.currentUser = UserService.getCurrentUser();
     
     $http({method: 'POST', url: $scope.server+"issuesrv/listIssuesByUser",data:$scope.currentUser,headers: {'Content-Type': 'application/json'}}).
@@ -44,6 +41,16 @@ function HomeController($scope,$http,$location){
     };
     
     retrieveProjectsByUser($scope.currentUser);
+    
+    function retrieveProjectsByAdmin(user){
+    	$http({method: 'POST', url: $scope.server+'projectsrv/projectsbyadmin',data:$scope.currentUser,headers: {'Content-Type': 'application/json'}}).
+		  success(function(data, status, headers, config) {
+		   	$scope.projects = data;
+		  }).
+		  error(function(data, status, headers, config) {
+		  	$scope.noProjects = true;
+		  });
+    }
     
 };
 
