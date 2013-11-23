@@ -19,9 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import com.sappe.ontrack.dao.exceptions.NotificatorException;
 import com.sappe.ontrack.dao.springbeans.interfaces.IssueActionManager;
 import com.sappe.ontrack.dao.springbeans.interfaces.IssueManager;
 import com.sappe.ontrack.dao.springbeans.interfaces.LogIssueManager;
+import com.sappe.ontrack.dao.springbeans.interfaces.NotificationManager;
 import com.sappe.ontrack.dao.springbeans.interfaces.ProcessHistoryManager;
 import com.sappe.ontrack.dao.springbeans.interfaces.ProjectManager;
 import com.sappe.ontrack.dao.springbeans.interfaces.UserManager;
@@ -33,6 +35,7 @@ import com.sappe.ontrack.model.issues.IssueStatus;
 import com.sappe.ontrack.model.issues.IssueType;
 import com.sappe.ontrack.model.issues.LogIssue;
 import com.sappe.ontrack.model.issues.Project;
+import com.sappe.ontrack.model.notifications.NotificationDTO;
 import com.sappe.ontrack.model.users.User;
 
 @Component
@@ -57,6 +60,9 @@ public class IssueService {
 	
 	@Autowired
 	private UserManager userManager;
+	
+	@Autowired
+	private NotificationManager notificationManager;
 	
 	@POST
 	@Path("listIssuesByUser")
@@ -94,17 +100,40 @@ public class IssueService {
 	public Response saveIssue(String issueJson){
 		Issue issue = fromJSON( new TypeReference<Issue>() {},issueJson);
 		IssueAction action = null;
+		
+		List<String> mailsToNotify = new ArrayList<String>();
+		
+		NotificationDTO dto = new NotificationDTO();
+		dto.setSubject("OnTrack - Issue Actualizado Exitosamente");
+		dto.setBody("Se guardó correctamente el issue: "+issue.getTitle());
+		
 		if(issue.getId()!=null){
 			Issue toUpdate = issueManager.read(issue.getId());
 			issueManager.update(toUpdate);
 			action = issueActionManager.read(LogIssue.MERGED_ISSUE_CODE);
+			
+			if(toUpdate.getOwner().getMail() != null){
+				mailsToNotify.add(toUpdate.getOwner().getMail());
+			}
+			
 		}else{
 			Issue result = issueManager.create(issue);
+			if(result.getOwner().getMail() != null){
+				mailsToNotify.add(result.getOwner().getMail());
+			}
 			if(result.getId() != null){
 				action = issueActionManager.read(LogIssue.CREATED_ISSUE_CODE);
 				
 			}
 		}
+		
+		try {
+			notificationManager.sendEmails(dto);
+		} catch (NotificatorException e) {
+			e.printStackTrace();
+		}
+		
+		
 		processHistoryManager.addEntryToHistory(issue);
 		logIssueManager.addLogToIssue(issue, action);
 		return Response.ok().build();
