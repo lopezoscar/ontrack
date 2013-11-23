@@ -1,5 +1,6 @@
 package com.sappe.ontrack.soa.resources;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -16,11 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import com.sappe.ontrack.dao.exceptions.NotificatorException;
 import com.sappe.ontrack.dao.springbeans.interfaces.IssueManager;
+import com.sappe.ontrack.dao.springbeans.interfaces.NotificationManager;
 import com.sappe.ontrack.dao.springbeans.interfaces.ProjectManager;
 import com.sappe.ontrack.dao.springbeans.interfaces.UserManager;
 import com.sappe.ontrack.model.issues.Issue;
 import com.sappe.ontrack.model.issues.Project;
+import com.sappe.ontrack.model.notifications.NotificationDTO;
 import com.sappe.ontrack.model.users.User;
 
 @Path("/projectsrv")
@@ -36,6 +40,9 @@ public class ProjectService {
 	
 	@Autowired
 	private UserManager userManager;
+	
+	@Autowired
+	private NotificationManager notificationManager;
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -71,6 +78,10 @@ public class ProjectService {
 		}else{
 			savedProject = projectManager.update(project);
 		}
+		List<String> mailsToNotify = new ArrayList<String>();
+		NotificationDTO dto = new NotificationDTO();
+		dto.setSubject("OnTrack - Proyecto Actualizado Exitosamente");
+		dto.setBody("Se guardó correctamente el proyecto: "+project.getName());
 		if(savedProject != null){
 			if(project.getUsers() != null && !project.getUsers().isEmpty()) {
 				for (User user : project.getUsers()) {
@@ -89,15 +100,27 @@ public class ProjectService {
 						}else{
 							user = userManager.create(user);
 						}
+						if(user.getMail() != null){
+							mailsToNotify.add(user.getMail());
+						}
 						user.getProjects().add(savedProject);
 						userManager.update(user);
 					}
+				}
+				
+				try {
+					notificationManager.sendEmails(dto);
+				} catch (NotificatorException e) {
+					e.printStackTrace();
 				}
 				return Response.ok().entity(savedProject).build();
 			}
 		}
 		return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 	}
+	
+	
+	
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
