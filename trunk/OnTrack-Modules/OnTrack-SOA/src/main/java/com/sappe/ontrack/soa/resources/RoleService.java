@@ -32,8 +32,18 @@ public class RoleService {
 	@Path("getrolebyid/{pk}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Role getRoleById(@PathParam("pk") Integer primaryKey) {
-		Role role = roleManager.read(primaryKey);
+		Long pk = primaryKey.longValue();
+		Role role = roleManager.read(pk);
+		System.out.println(primaryKey);
 		return role; 
+	}
+	
+	@GET
+	@Path("rolebyid/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Role roleById(@PathParam("id") Long id){
+		Role role = roleManager.read(id);
+		return role;
 	}
 	
 	@POST
