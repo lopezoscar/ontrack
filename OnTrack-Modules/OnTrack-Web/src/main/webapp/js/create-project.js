@@ -74,9 +74,28 @@ function CreateProjectCtrl($scope,$http,$location){
 	    		}else{
 	    			$scope.disableActions = true;
 	    		}
+	    		
+	    		fillSelectedMembers($scope.project); 
+	    		
 		    	listWorkflowsByProject($scope.project);
 	    	});
     	}
+    };
+    
+    function fillSelectedMembers(project){
+    	var users = project.users;
+    	users.forEach(function (user,itemNo){
+    		var fullName = "Usuario Pendiente de Registro";
+    		if(user.lastName != null && user.firstName != null){
+    			fullName = user.lastName+" ,"+user.firstName;
+    		}
+    	
+    		var user = {
+    					title:fullName, 
+    					email:user.mail
+    					};
+    		$scope.selectedMembers.push(user);
+    	});
     };
     
     

@@ -73,7 +73,7 @@ function CreateIssueCtrl($scope,$http,$location){
 	    		$scope.modifyStatus = true;
 	    		$scope.comments = $scope.issue.comments;
 	    		getStatusByHTTPForModify($scope);
-	    		$scope.currentProject = issue.project;
+	    		$scope.currentProject = $scope.issue.project;
 	    		
 	    	});
     	}
@@ -217,6 +217,9 @@ function CreateIssueCtrl($scope,$http,$location){
     }
     
     $scope.saveIssue = function(issue){
+    	
+   
+    	issue.descripcion = CKEDITOR.instances.editor.getData();
     	issue.entries = $scope.entries;
     	issue.comments = $scope.comments;
     	var issueToSend = {};

@@ -167,7 +167,10 @@
 				 <select ng-model="issue.issueStatus" ng-options="s.issueStatus.description for s in issueStatusForModify | orderBy:'s.position'">
 				 	<option value='' disabled selected style='display:none;'>{{issue.currentStatus.description}}</option>
 				 </select>
-				 <input  ng-model="issue.owner.userName" class="input-large" type="text" ng-readonly="true"/> 
+				 
+			 <select ng-model="issue.owner" ng-options="u.userName for u in issue.project.users">
+  			 	<option value='' disabled selected style='display:none;'>Elegi el Responsable</option>
+  			 </select> 
 				 <input  ng-model="issue.reporter" name="Reporter" type="text" class="input-large" ng-readonly="true"/>
   			 </div>
   			 <!-- End Span02 -->
