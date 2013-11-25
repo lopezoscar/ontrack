@@ -417,10 +417,11 @@
 						</div>
 						 -->
 						<form novalidate class="form-inline">
-							<h2>Seleccionalos</h2>
+							<h2>Buscalos</h2>
 							<input id="contactsBox" type="text" ng-model="selectedMember" class="typeahead input-xxlarge search-query" />
 							<button type="button" ng-click="addMember()" class="btn btn-danger"> Agregar Contacto</button>
 						</form>
+						<span class="alert alert-error" ng-show="userAlreadyExist" >El usuario {{existingMember.title}} ya existe</span>
 						<div id="selectedMembers" >
 							
 							<h3>Miembros Seleccionados</h3>
