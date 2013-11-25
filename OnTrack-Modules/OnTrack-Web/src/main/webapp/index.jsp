@@ -65,14 +65,7 @@
 
 
 
-	<div id="header" >
-		 <div class="wrap">
-               <div class="logo">
-                   <img width="120px" height="80px" class="pull-left" src="img/logo.png"  alt="Logo OnTrack" />
-                   <img width="120px" height="80px" class="pull-right" src="img/logo_davinci.jpg" alt="Logo DV"/>
-               </div>
-          </div>
-	</div>
+
 	
 	<div class="container"> 
 		<div >
@@ -128,7 +121,7 @@
 	</div>
 	
 	<div id="footer">
-		<p>Footer</p>
+		<p></p>
 	</div>
 	
 

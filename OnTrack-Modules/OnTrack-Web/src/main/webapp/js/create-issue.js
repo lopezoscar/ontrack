@@ -223,6 +223,7 @@ function CreateIssueCtrl($scope,$http,$location){
     	if($scope.modifyStatus){
     		issueToSend = issue;
     	}else{
+    		issue.reporter = $scope.currentUser.userName;
 	    	issueToSend = filterIssue(issue);
     	}
     	
@@ -238,12 +239,14 @@ function CreateIssueCtrl($scope,$http,$location){
     function filterIssue(issueToFilter){
     	var issue = {
     		title: issueToFilter.title,
+    		reporter: issueToFilter.reporter,
     		description: issueToFilter.description,
     		issueType: issueToFilter.issueType.issueType,
     		currentStatus: issueToFilter.issueStatus.issueStatus,
     		project: issueToFilter.project.project,
     		owner: issueToFilter.owner,
-    		entries: issueToFilter.entries
+    		entries: issueToFilter.entries,
+    		reporter: issueToFilter.reporter
     		
     		
     	};
