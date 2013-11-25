@@ -18,6 +18,8 @@ function CreateProjectCtrl($scope,$http,$location){
 	};
 	
 	$scope.addMember = function (selectedMember){
+		$scope.userAlreadyExist = false;
+	
 		var input = document.getElementById("contactsBox");
 		var selectedMember = input.value;
 
@@ -28,7 +30,26 @@ function CreateProjectCtrl($scope,$http,$location){
 				email: titleAndMail[1]
 		        	};
 
+		var existUser = false;
+		var keepGoing = true;
+        $scope.selectedMembers.forEach(function(existingMember,itemNo){
+        	if(!keepGoing) return;
+        	
+        	if(existingMember.email == member.email){
+        		existUser = true;
+        		keepGoing = true;
+        		$scope.existingMember = existingMember;
+        	}
+        	
+        });	
+        
+        if(!existUser){
         	$scope.addUser(member);
+        }else{
+        	$scope.userAlreadyExist = true;
+        }	
+     
+        	
         	//$scope.$apply();
         input.value = "";
 	};
