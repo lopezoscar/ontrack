@@ -73,20 +73,22 @@ public class ProjectService {
 	@Path("/saveproject")
 	public Response saveProject(Project project){
 		Project savedProject = null;
+		boolean projectModify = false;
 		if(project.getId() == null){
 			savedProject = projectManager.create(project);
 		}else{
+			projectModify = true;
 			savedProject = projectManager.update(project);
 		}
 		List<String> mailsToNotify = new ArrayList<String>();
 		NotificationDTO dto = new NotificationDTO();
+		dto.setFrom("noreply@ontrack.com.ar");
 		dto.setSubject("OnTrack - Proyecto Actualizado Exitosamente");
 		dto.setBody("Se guardó correctamente el proyecto: "+project.getName());
 		if(savedProject != null){
 			if(project.getUsers() != null && !project.getUsers().isEmpty()) {
 				for (User user : project.getUsers()) {
 					if(user.getId() != null && !savedProject.getUsers().contains(user)){
-						//user = userManager.create(user);
 						user.getProjects().add(savedProject);
 						userManager.update(user);
 					}else{
@@ -113,6 +115,7 @@ public class ProjectService {
 				} catch (NotificatorException e) {
 					e.printStackTrace();
 				}
+				
 				return Response.ok().entity(savedProject).build();
 			}
 		}

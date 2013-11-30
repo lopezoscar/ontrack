@@ -101,9 +101,11 @@ public class IssueService {
 		Issue issue = fromJSON( new TypeReference<Issue>() {},issueJson);
 		IssueAction action = null;
 		
+		
 		List<String> mailsToNotify = new ArrayList<String>();
 		
 		NotificationDTO dto = new NotificationDTO();
+		dto.setFrom("noreply@ontrack.com.ar");
 		dto.setSubject("OnTrack - Issue Actualizado Exitosamente");
 		dto.setBody("Se guardó correctamente el issue: "+issue.getTitle());
 		
@@ -125,6 +127,9 @@ public class IssueService {
 				action = issueActionManager.read(LogIssue.CREATED_ISSUE_CODE);
 				
 			}
+		}
+		if(!mailsToNotify.isEmpty()){
+			dto.setTo(mailsToNotify);
 		}
 		
 		try {
