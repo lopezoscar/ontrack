@@ -57,7 +57,7 @@ public class LogIssueBean implements LogIssueManager{
 		LogIssue log = new LogIssue();
 		log.setDate(new Date().toString());
 		log.setAction(action);
-		String description = String.format(action.getAction(), issue.getReporter(),issue.getTitle(),issue.getId());
+		String description = String.format(action.getAction(), issue.getOwner().completeName(),issue.getTitle(),issue.getId());
 		log.setDescription(description);
 		log.setIssue(issue);
 		create(log);
