@@ -88,6 +88,10 @@ public class ProjectService {
 		if(savedProject != null){
 			if(project.getUsers() != null && !project.getUsers().isEmpty()) {
 				for (User user : project.getUsers()) {
+					user.setMail(user.getMail().trim());
+					if(user.getUserName()  == null){
+						user.setUserName(user.getMail());
+					}
 					if(user.getId() != null && !savedProject.getUsers().contains(user)){
 						user.getProjects().add(savedProject);
 						userManager.update(user);

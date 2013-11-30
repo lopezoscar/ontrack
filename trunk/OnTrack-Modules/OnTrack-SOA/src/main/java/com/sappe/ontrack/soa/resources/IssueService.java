@@ -97,8 +97,8 @@ public class IssueService {
 	@POST
 	@Path("saveissue")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response saveIssue(String issueJson){
-		Issue issue = fromJSON( new TypeReference<Issue>() {},issueJson);
+	public Response saveIssue(Issue issue){
+//		Issue issue = fromJSON( new TypeReference<Issue>() {},issueJson);
 		IssueAction action = null;
 		
 		
@@ -107,7 +107,7 @@ public class IssueService {
 		NotificationDTO dto = new NotificationDTO();
 		dto.setFrom("noreply@ontrack.com.ar");
 		dto.setSubject("OnTrack - Issue Actualizado Exitosamente");
-		dto.setBody("Se guardó correctamente el issue: "+issue.getTitle());
+		dto.setBody("Se guardó correctamente el issue: \n"+issue);
 		
 		if(issue.getId()!=null){
 			Issue toUpdate = issueManager.read(issue.getId());

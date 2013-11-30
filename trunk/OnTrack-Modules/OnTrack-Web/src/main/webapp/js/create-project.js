@@ -27,7 +27,7 @@ function CreateProjectCtrl($scope,$http,$location){
 		
 		var member = {
 				title: titleAndMail[0],
-				email: titleAndMail[1]
+				email: titleAndMail[1].trim()
 		        	};
 
 		var existUser = false;
@@ -92,7 +92,7 @@ function CreateProjectCtrl($scope,$http,$location){
     	
     		var user = {
     					title:fullName, 
-    					email:user.mail
+    					email:user.mail.trim()
     					};
     		$scope.selectedMembers.push(user);
     	});
@@ -292,7 +292,7 @@ function CreateProjectCtrl($scope,$http,$location){
 		angular.forEach($scope.selectedMembers,function(member,itemNo){
 			var user = {
 				userName: member.title,
-				mail: member.email
+				mail: member.email.trim()
 			};
 			users.push(user);
 		});

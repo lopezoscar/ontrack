@@ -17,11 +17,15 @@ function CreateIssueCtrl($scope,$http,$location){
     
     $scope.server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack-SOA/";
 	$scope.webserver = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack/";
+	
+	getIssueById($scope.currentIssueID);
     
     $http({method: 'GET', url: $scope.webserver+'currentUser',headers: {'Content-Type': 'application/json'}}).
 	  success(function(data, status, headers, config) {
 	   	$scope.currentUser = data;
-	   	retrieveWorkflowsByUser($scope.currentUser);
+	   	if(!$scope.modifyStatus){
+	   		retrieveWorkflowsByUser($scope.currentUser);
+	   	}
 	   	/* 
 		$http({method: 'POST', url: $scope.webserver+'contacts',headers: {'Content-Type': 'application/json'}}).
 	  			success(function(data, status, headers, config) {
@@ -64,7 +68,7 @@ function CreateIssueCtrl($scope,$http,$location){
     	$scope.entries = createEntriesByProperty($scope.issueProperties);
     };
     
-    getIssueById($scope.currentIssueID);
+   
     
     function getIssueById(id){
     	if(id != 0 && id!= "undefinded" && id!= null){
@@ -219,7 +223,7 @@ function CreateIssueCtrl($scope,$http,$location){
     $scope.saveIssue = function(issue){
     	
    
-    	issue.descripcion = CKEDITOR.instances.editor.getData();
+    	issue.description = CKEDITOR.instances.editor.getData();
     	issue.entries = $scope.entries;
     	issue.comments = $scope.comments;
     	var issueToSend = {};

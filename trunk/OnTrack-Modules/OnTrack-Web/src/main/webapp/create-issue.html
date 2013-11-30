@@ -143,7 +143,7 @@
 			<div class="row-fluid">
 			
 			<div class="span3 well" ng-hide="modifyStatus">
-			 <input ng-model="issue.title" class="input-large" type="text" placeholder="Título">
+			 <input ng-model="issue.title" class="input-large" type="text" placeholder="Título" required>
 			 <select ng-model="issue.project" ng-options="w.project.name for w in workflows" ng-change="updateIssueTypes(issue)">
 			 	<option value='' disabled selected style='display:none;'>Elegi un proyecto</option>
 			 </select>
