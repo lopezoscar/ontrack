@@ -343,6 +343,17 @@ public class Issue implements Serializable{
 		this.history = history;
 	}
 
+
+
+
+	@Override
+	public String toString() {
+		return "Issue [title=" + title + ", description=" + description
+				+ ", reporter=" + reporter + ", owner=" + owner
+				+ ", currentStatus=" + currentStatus + ", issueType="
+				+ issueType + "]";
+	}
+
 	
 
 	
