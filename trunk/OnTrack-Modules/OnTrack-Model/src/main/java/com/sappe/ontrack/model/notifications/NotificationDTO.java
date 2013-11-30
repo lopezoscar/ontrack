@@ -1,16 +1,17 @@
 package com.sappe.ontrack.model.notifications;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationDTO {
 	
 	private String from;
 	
-	private List<String> to;
+	private List<String> to = new ArrayList<String>();
 	
-	private List<String> cc;
+	private List<String> cc = new ArrayList<String>();
 	
-	private List<String> cco;
+	private List<String> cco = new ArrayList<String>();
 	
 	private String subject;
 	
