@@ -1,9 +1,22 @@
+function GetURLParameter(sParam)
+{
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++) 
+    {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam) 
+        {
+            return sParameterName[1];
+        }
+    }
+}
 
 function CreateIssueCtrl($scope,$http,$location){
 	
-	$scope.currentIssueID = $location.search().issue; 
+	$scope.currentIssueID = GetURLParameter("issue");
 	
-	
+	$scope.isSaved = false;
 	$scope.modifyStatus = false;
     $scope.workflows = [];
     $scope.workflowsByProject = [];
@@ -78,7 +91,7 @@ function CreateIssueCtrl($scope,$http,$location){
 	    		$scope.comments = $scope.issue.comments;
 	    		getStatusByHTTPForModify($scope);
 	    		$scope.currentProject = $scope.issue.project;
-	    		
+	    		CKEDITOR.instances.editor.setData($scope.issue.description);
 	    	});
     	}
     }
@@ -221,7 +234,7 @@ function CreateIssueCtrl($scope,$http,$location){
     }
     
     $scope.saveIssue = function(issue){
-    	
+    	$scope.isSaved = true;
    
     	issue.description = CKEDITOR.instances.editor.getData();
     	issue.entries = $scope.entries;

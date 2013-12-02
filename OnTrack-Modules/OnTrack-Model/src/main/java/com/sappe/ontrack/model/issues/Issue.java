@@ -29,7 +29,7 @@ import com.sappe.ontrack.model.users.User;
 @NamedQueries(
 		{
 			@NamedQuery(name="getIssuesByProjectId",query="SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.reporter,i.owner,i.currentStatus,i.issueType) FROM Issue as i where i.project.id = :projectid" ),
-			@NamedQuery(name="getIssuesByOwnerId",query="SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.reporter,i.owner,i.currentStatus,i.issueType) FROM Issue as i where i.owner.id = :ownerid" ),
+			@NamedQuery(name="getIssuesByOwnerId",query="SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.reporter,i.owner,i.currentStatus,i.issueType,i.project) FROM Issue as i where i.owner.id = :ownerid" ),
 			@NamedQuery(name="getIssuesByReporter",query = "SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.reporter,i.owner,i.currentStatus,i.issueType) FROM Issue as i where i.reporter = :reporter"),
 			@NamedQuery(name="getIssuesByStatus",query = "SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.reporter,i.owner,i.currentStatus,i.issueType) FROM Issue as i where i.currentStatus = :status"),
 			@NamedQuery(name="getIssuesByType",query = "SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.reporter,i.owner,i.currentStatus,i.issueType) FROM Issue as i where i.issueType = :type"),
@@ -159,6 +159,25 @@ public class Issue implements Serializable{
 		this.owner = owner;
 		this.currentStatus = currentStatus;
 		this.issueType = issueType;
+	}
+	
+	
+
+
+
+
+	public Issue(Long id, String title, String description, String reporter,
+			User owner, IssueStatus currentStatus, IssueType issueType,
+			Project project) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.reporter = reporter;
+		this.owner = owner;
+		this.currentStatus = currentStatus;
+		this.issueType = issueType;
+		this.project = project;
 	}
 
 
