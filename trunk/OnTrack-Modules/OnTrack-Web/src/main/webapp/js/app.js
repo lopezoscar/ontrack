@@ -3,7 +3,7 @@ var issue_mod = angular.module('issue_mod', []);
 
 issue_mod.config(function($locationProvider) {
   $locationProvider.hashPrefix('!');
-  $locationProvider.html5Mode(true);
+  $locationProvider.html5Mode(false);
 });
 
 var injector = angular.injector(['ng', 'issue_mod']);
@@ -13,7 +13,7 @@ var project_mod = angular.module('project_mod', []);
 
 project_mod.config(function($locationProvider) {
   $locationProvider.hashPrefix('!');
-  $locationProvider.html5Mode(true);
+  $locationProvider.html5Mode(false);
 });
 
 angular.injector(['ng', 'project_mod']);

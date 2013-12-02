@@ -175,7 +175,7 @@
   			 </div>
   			 <!-- End Span02 -->
   			 
-  			 <div class="span9">
+  			 <div class="span8" >
   			 	<textarea ng-model="issue.description" class="ckeditor" name="editor"></textarea>
   			 	<div class="well">
 				  
@@ -240,7 +240,9 @@
   			 <!-- End Row Fluid  -->
   			 
   			<div class="form-actions">
-				<a class="btn btn-primary" href="{{webserver}}/home.html" value="Guardar Issue" ng-click="saveIssue(issue)"  ng-disabled="renderedIssueBtn">Guardar</a>
+				<a class="btn btn-primary" value="Guardar Issue" ng-href="home.html" ng-click="saveIssue(issue)" ng-hide="modifyStatus"  ng-disabled="renderedIssueBtn">Guardar</a>
+				<a class="btn btn-primary" value="Guardar Modificaciones"  ng-click="saveIssue(issue)" ng-show="modifyStatus"  ng-disabled="renderedIssueBtn">Guardar Modificaciones</a>
+				<span class="alert alert-info" ng-show="isSaved">El issue fue actualizado correctamente</span>
 			</div>
   			</form>
   			<!-- End Form that wrapper all inputs and selects --> 

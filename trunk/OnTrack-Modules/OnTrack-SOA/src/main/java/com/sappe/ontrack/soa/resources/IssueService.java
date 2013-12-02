@@ -68,12 +68,7 @@ public class IssueService {
 	@Path("listIssuesByUser")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Issue> listIssuesByUser(User user){
-		List<Project> projects = projectManager.projectsByUser(user);
-		List<Issue> issues = new ArrayList<Issue>();
-		for (Project project : projects) {
-			List<Issue> result = issueManager.getIssuesByProjectId(project.getId());
-			issues.addAll(result);
-		}
+		List<Issue> issues = issueManager.getIssuesByOwnerId(user.getId());
 		return issues;
 	}
 	
@@ -82,6 +77,10 @@ public class IssueService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Issue getIssueById(@PathParam("pk") Long primaryKey){
 		Issue issue = issueManager.read(primaryKey);
+		Project project = projectManager.read(issue.getId());
+		if(project!= null){
+			issue.setProject(project);
+		}
 		return issue;
 	}
 	
@@ -111,6 +110,9 @@ public class IssueService {
 		
 		if(issue.getId()!=null){
 			Issue toUpdate = issueManager.read(issue.getId());
+			toUpdate.setCurrentStatus(issue.getCurrentStatus());
+			toUpdate.setOwner(issue.getOwner());
+			toUpdate.setDescription(issue.getDescription());
 			issueManager.update(toUpdate);
 			action = issueActionManager.read(LogIssue.MERGED_ISSUE_CODE);
 			
@@ -145,7 +147,11 @@ public class IssueService {
 //		return Response.status(Status.NOT_FOUND).build();
 	}
 	
-	
+//	private Issue replaceIssueData(Issue issueToReplace,Issue issueData){
+//		issueToReplace.setCurrentStatus(currentStatus);
+//		issueToReplace.setIssueType(issueType);
+//		return issueToReplace;
+//	}
 	
 	@POST
 	@Path("mergeissue")
