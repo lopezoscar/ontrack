@@ -115,6 +115,31 @@
   			<!-- End Row-Fluid -->
   		</div>
   		<!-- End Container Fluid -->
+  		  		<div ng-init="parserResultToDataTableForIssues" class="container-fluid" ng-controller="SearchIssueFilterForProjectCtrl">
+  			<div class="row-fluid">
+  					<div align="center">
+  						<legend>Buscar Issues</legend>
+  						<table id="issuesProject">
+		  				<thead></thead>
+		  				<tbody></tbody>
+		  				<tfoot>
+							<tr>
+								<th><input class="input-small" type="text" name="search_engine" placeholder="ID Issue" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_browser" placeholder="Titulo" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_engine" placeholder="Reporter" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_browser" placeholder="Owner" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_engine" placeholder="Estado Actual" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_browser" placeholder="Tipo de Issue" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_engine" placeholder="Proyecto" class="search_init" /></th>
+							</tr>
+						</tfoot>
+		  			</table>
+		  			
+				</div>
+  			</div>
+  			<!-- End Row-Fluid -->
+  		</div>
+  		
   		
   			<div class="container-fluid"  ng-controller="HomeController">
   			<div class="row-fluid" align="center">

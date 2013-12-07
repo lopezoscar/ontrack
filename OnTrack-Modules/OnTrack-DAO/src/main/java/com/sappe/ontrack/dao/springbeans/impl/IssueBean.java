@@ -9,9 +9,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.TransactionRequiredException;
 
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -95,6 +92,12 @@ public class IssueBean implements IssueManager{
 	@SuppressWarnings("unchecked")
 	public List<Issue> getIssuesByCode(String code) {
 		List<Issue> issues = em.createNamedQuery("getIssueByCode").setParameter("code", code).getResultList();
+		return issues;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Issue> getIssuesByUserFromProjects(User user){
+		List<Issue> issues = em.createNamedQuery("getIssuesByUserFromProject").setParameter("user", user).getResultList();
 		return issues;
 	}
 
