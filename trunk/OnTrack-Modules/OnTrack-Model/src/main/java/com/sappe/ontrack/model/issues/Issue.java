@@ -368,10 +368,20 @@ public class Issue implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Issue [title=" + title + ", description=" + description
-				+ ", reporter=" + reporter + ", owner=" + owner
-				+ ", currentStatus=" + currentStatus + ", issueType="
-				+ issueType + "]";
+		StringBuffer sb = new StringBuffer();
+		sb.append("Estado: ");
+		sb.append(currentStatus);
+		sb.append("\n");
+		sb.append("Owner: ");
+		sb.append(owner);
+		sb.append("\n");
+		sb.append("Reporter ");
+		sb.append(reporter);
+		sb.append("\n");
+		sb.append("Tipo de Issue: ");
+		sb.append(issueType);
+		
+		return sb.toString();
 	}
 
 	

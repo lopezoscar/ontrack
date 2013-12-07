@@ -1,5 +1,6 @@
 package com.sappe.ontrack.soa.resources;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,9 +10,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -43,6 +46,9 @@ public class ProjectService {
 	
 	@Autowired
 	private NotificationManager notificationManager;
+	
+	@Context
+	private UriInfo uri;
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -84,6 +90,18 @@ public class ProjectService {
 		NotificationDTO dto = new NotificationDTO();
 		dto.setFrom("noreply@ontrack.com.ar");
 		dto.setSubject("OnTrack - Proyecto Actualizado Exitosamente");
+
+		URI url = uri.getBaseUri();
+		
+		StringBuffer sb = new StringBuffer();
+		sb.append("Para empezar a utilizar OnTrack en necesario que ingreses en la siguiente url: ");
+		sb.append("http://");
+		sb.append(url.getHost());
+		sb.append(":");
+		sb.append(url.getPort());
+		sb.append("/OnTrack/profile.html");
+
+		
 		dto.setBody("Se guardó correctamente el proyecto: "+project.getName());
 		if(savedProject != null){
 			if(project.getUsers() != null && !project.getUsers().isEmpty()) {

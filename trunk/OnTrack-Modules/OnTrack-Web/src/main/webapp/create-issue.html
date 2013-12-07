@@ -150,7 +150,7 @@
 			 <select ng-model="issue.issueType" ng-options="w.issueType.description for w in workflowsByProject" ng-change="updateStatusByTypeAndUsers(issue)">
 			 	<option value='' disabled selected style='display:none;'>Elegi un tipo de Issue</option>
 			 </select>
-			 <select ng-model="issue.issueStatus" ng-options="s.issueStatus.description for s in statusByType | orderBy:'s.position'">
+			 <select ng-model="issue.issueStatus"  ng-options="s.issueStatus.description for s in statusByType | orderBy:'s.position'">
 			 	<option value='' disabled selected style='display:none;'>Elegi un Estado</option>
 			 </select>
   			 <select ng-model="issue.owner" ng-options="u.userName for u in users">
