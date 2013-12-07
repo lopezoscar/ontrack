@@ -52,6 +52,13 @@ function CreateIssueCtrl($scope,$http,$location){
 	  	$scope.noUser = true;
 	  });
     
+    $scope.setInitStatus = function(statusList){
+    	angular.forEach(statusList,function(status,itemNo){
+    		if(status.position == 1){
+    			$scope.issue.issueStatus = status.description;
+    		}
+    	});
+    };
   
 	
     function retrieveWorkflowsByUser(user){
@@ -79,6 +86,8 @@ function CreateIssueCtrl($scope,$http,$location){
     	$scope.users = getUsersByProjectAndType($scope.currentProject,issue.issueType,$scope.workflows);
     	$scope.issueProperties = issue.issueType.issueProperties;
     	$scope.entries = createEntriesByProperty($scope.issueProperties);
+    	
+    	$scope.setInitStatus($scope.statusByType);
     };
     
    
