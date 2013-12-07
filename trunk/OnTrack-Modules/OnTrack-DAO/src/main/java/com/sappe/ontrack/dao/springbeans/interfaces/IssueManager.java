@@ -24,6 +24,8 @@ public interface IssueManager extends CRUD<Issue>{
 	
 	List<Issue> getIssuesByCode(String code);
 	
+	List<Issue> getIssuesByUserFromProjects(User user);
+	
 	List<IssueComment> addCommentToIssue(IssueComment comment);
 	
 	void reassignOwner(User currentOwner, User newOwner);

@@ -4,17 +4,17 @@ function SearchIssueFilterCtrl($scope,$http,$location){
 	$scope.server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack-SOA/";
 	$scope.webserver = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack/";
     
-  
+	$scope.lookupService = "issuesrv/listIssuesByUser";
     
     $http({method: 'GET', url: $scope.webserver+'currentUser',headers: {'Content-Type': 'application/json'}}).
 	  success(function(data, status, headers, config) {
 	   	$scope.currentUser = data;
 	   	
-	   	$http({method: 'POST', url: $scope.server+"issuesrv/listIssuesByUser",data:$scope.currentUser,headers: {'Content-Type': 'application/json'}}).
+	   	$http({method: 'POST', url: $scope.server+$scope.lookupService,data:$scope.currentUser,headers: {'Content-Type': 'application/json'}}).
 		  success(function(data, status, headers, config) {
 		   	$scope.issues = data;
 		   	$scope.issues = parserResultToDataTableForIssues($scope.issues);
-			createDatatables($scope.issues,$location);
+			createDatatables($scope.issues,$location,"issues");
 		})
 		.error(function(data, status, headers, config) {
 		  	$scope.noIssues = true;
@@ -28,9 +28,39 @@ function SearchIssueFilterCtrl($scope,$http,$location){
     
 }
 
-function createDatatables(issues,$location){
+function SearchIssueFilterForProjectCtrl($scope,$http,$location){
+	$scope.issues = [];
+	
+	$scope.server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack-SOA/";
+	$scope.webserver = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack/";
+    
+	$scope.lookupService = "issuesrv/listIssuesByUserFromProject";
+    
+    $http({method: 'GET', url: $scope.webserver+'currentUser',headers: {'Content-Type': 'application/json'}}).
+	  success(function(data, status, headers, config) {
+	   	$scope.currentUser = data;
+	   	
+	   	$http({method: 'POST', url: $scope.server+$scope.lookupService,data:$scope.currentUser,headers: {'Content-Type': 'application/json'}}).
+		  success(function(data, status, headers, config) {
+		   	$scope.issues = data;
+		   	$scope.issues = parserResultToDataTableForIssues($scope.issues);
+			createDatatables($scope.issues,$location,"issuesProject");
+		})
+		.error(function(data, status, headers, config) {
+		  	$scope.noIssues = true;
+		  });;
+	   	
+	   	
+	  }).error(function(data, status, headers, config) {
+		  	$scope.noUser = true;
+	  });;
+    
+    
+}
+
+function createDatatables(issues,$location,tableId){
 		var asInitVals = new Array();
-		var oTable = $('#issues').dataTable(issues);
+		var oTable = $('#'+tableId).dataTable(issues);
 		  
 	    $("tfoot input").keyup( function () {
 	        /* Filter on the column (the index) of this element */

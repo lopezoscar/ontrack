@@ -72,6 +72,14 @@ public class IssueService {
 		return issues;
 	}
 	
+	@POST
+	@Path("listIssuesByUserFromProject")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Issue> listIssuesByUserFromProject(User user){
+		List<Issue> issues = issueManager.getIssuesByUserFromProjects(user);
+		return issues;
+	}
+	
 	@GET
 	@Path("getissuebyid/{pk}")
 	@Produces(MediaType.APPLICATION_JSON)
