@@ -17,6 +17,7 @@ import com.sappe.ontrack.dao.springbeans.interfaces.IssueStatusManager;
 import com.sappe.ontrack.model.issues.IssueStatus;
 import com.sappe.ontrack.model.issues.IssueStatusByWorkflow;
 import com.sappe.ontrack.model.issues.IssueType;
+import com.sappe.ontrack.model.issues.Project;
 
 @Component
 public class IssueStatusBean implements IssueStatusManager {
@@ -62,9 +63,10 @@ public class IssueStatusBean implements IssueStatusManager {
 		return issuesStatus;
 	}
 
-	public List<IssueStatusByWorkflow> getIssueStatusByIssueType(IssueType issueType) {
-		Query q = em.createQuery("select isw from IssueStatusByWorkflow isw where isw.wf.issueType = :it");
+	public List<IssueStatusByWorkflow> getIssueStatusByIssueType(IssueType issueType,Project project) {
+		Query q = em.createQuery("select isw from IssueStatusByWorkflow isw where isw.wf.issueType = :it and isw.wf.project = :project");
 		q.setParameter("it", issueType);
+		q.setParameter("project", project);
 		List<IssueStatusByWorkflow> status = q.getResultList();
 		return status;
 	}

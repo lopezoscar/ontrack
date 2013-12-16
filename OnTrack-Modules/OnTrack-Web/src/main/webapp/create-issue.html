@@ -150,10 +150,10 @@
 			 <select ng-model="issue.issueType" ng-options="w.issueType.description for w in workflowsByProject" ng-change="updateStatusByTypeAndUsers(issue)">
 			 	<option value='' disabled selected style='display:none;'>Elegi un tipo de Issue</option>
 			 </select>
-			 <select ng-model="issue.issueStatus"  ng-options="s.issueStatus.description for s in statusByType | orderBy:'s.position'">
+			 <select ng-model="issue.issueStatus"  ng-options="s.issueStatus.description for s in statusByType | orderBy:'position'">
 			 	<option value='' disabled selected style='display:none;'>Elegi un Estado</option>
 			 </select>
-  			 <select ng-model="issue.owner" ng-options="u.userName for u in users">
+  			 <select ng-model="issue.owner" ng-options="u.userName for u in projectUsers">
   			 	<option value='' disabled selected style='display:none;'>Elegi el Responsable</option>
   			 </select>
   			 
@@ -164,13 +164,19 @@
   			 	 <input ng-model="issue.title" class="input-large" type="text" ng-readonly="true"/>
   			 	 <input ng-model="issue.project.name" class="input-large" type="text" ng-readonly="true"/>
   			 	 <input ng-model="issue.issueType.description" class="input-large" type="text" ng-readonly="true"/>
-				 <select ng-model="issue.issueStatus" ng-options="s.issueStatus.description for s in issueStatusForModify | orderBy:'s.position'">
+				 <select ng-model="issue.currentStatus" ng-options="s.issueStatus.description for s in issueStatusForModify | orderBy:'position'">
 				 	<option value='' disabled selected style='display:none;'>{{issue.currentStatus.description}}</option>
 				 </select>
-				 
-			 <select ng-model="issue.owner" ng-options="u.userName for u in issue.project.users">
-  			 	<option value='' disabled selected style='display:none;'>Elegi el Responsable</option>
-  			 </select> 
+			
+			 <input ng-hide="editOwner" ng-model="issue.owner.userName" type="text" ng-readonly="true"/>
+			 <button class="btn btn-info" style="margin-bottom:10px;"  ng-click="setEditOwner()" ng-hide="editOwner">Cambiar Owner</button>
+			 	 
+			 <select ng-show="editOwner" ng-model="issue.owner" ng-options="u.userName for u in projectUsers">
+  			 	
+  			 </select>
+  			 
+  			 
+  			  
 				 <input  ng-model="issue.reporter" name="Reporter" type="text" class="input-large" ng-readonly="true"/>
   			 </div>
   			 <!-- End Span02 -->
@@ -181,11 +187,11 @@
 				  
 				  
 			<ul class="nav nav-tabs" id="issueTab">
-			  <li><a href="#comments" data-toggle="tab">Comentarios</a></li>
-			  <li><a href="#entries" data-toggle="tab">Propiedades Dinámicas</a>
-			  <li><a href="#log" data-toggle="tab">Log</a></li>
-			  <li><a href="#history" data-toggle="tab">Process History</a></li>
-			  <li><a href="#files" data-toggle="tab">Archivos</a></li>
+			  <li><a ng-click="showIssueProperties = false" href="#comments" data-toggle="tab">Comentarios</a></li>
+			  <li><a ng-click="showIssueProperties = true" href="#entries" data-toggle="tab">Propiedades Dinámicas</a>
+			  <li><a ng-click="showIssueProperties = false"href="#log" data-toggle="tab">Log</a></li>
+			  <li><a ng-click="showIssueProperties = false" href="#history" data-toggle="tab">Process History</a></li>
+			  <li><a ng-click="showIssueProperties = false" href="#files" data-toggle="tab">Archivos</a></li>
 			</ul>
 			
 			<div class="tab-content">
@@ -202,7 +208,7 @@
 				
 			</div>
 			<div id="entries">
-				<div ng-repeat="entry in entries">
+				<div ng-repeat="entry in entries" ng-show="showIssueProperties">
   					{{entry.property.description}}: <input type="text" ng-model="entry.value" />
   				</div>
 			</div>

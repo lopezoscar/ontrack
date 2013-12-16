@@ -16,9 +16,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.sappe.ontrack.dao.springbeans.interfaces.IssueStatusManager;
+import com.sappe.ontrack.dao.springbeans.interfaces.IssueTypeManager;
+import com.sappe.ontrack.dao.springbeans.interfaces.ProjectManager;
 import com.sappe.ontrack.model.issues.IssueStatus;
 import com.sappe.ontrack.model.issues.IssueStatusByWorkflow;
 import com.sappe.ontrack.model.issues.IssueType;
+import com.sappe.ontrack.model.issues.Project;
 
 @Component
 @Path("issuestatussrv")
@@ -26,7 +29,13 @@ public class IssueStatusService {
 
 	@Qualifier("issuestatusbean")
 	@Autowired
-	IssueStatusManager issueStatusManager;
+	private IssueStatusManager issueStatusManager;
+	
+	@Autowired
+	private ProjectManager projectManager;
+	
+	@Autowired
+	private IssueTypeManager issueTypeManager;
 	
 	static final Logger logger = Logger.getLogger(IssueStatusService.class);
 	
@@ -75,12 +84,13 @@ public class IssueStatusService {
 		issueStatusManager.delete(issueStatusJson);
 	}
 	
-	@POST
-	@Path("getissuestatusbyissuetype")
-	@Consumes(MediaType.APPLICATION_JSON)
+	@GET
+	@Path("getissuestatusbyissuetype/{issueTypeId}/{projectId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<IssueStatusByWorkflow> getIssueStatusByIssueType(IssueType issueType) {
-		return issueStatusManager.getIssueStatusByIssueType(issueType);
+	public List<IssueStatusByWorkflow> getIssueStatusByIssueType(@PathParam("issueTypeId")Long issueTypeId,@PathParam("projectId")Long projectId) {
+		Project project = projectManager.read(projectId);
+		IssueType issueType = issueTypeManager.read(issueTypeId);
+		return issueStatusManager.getIssueStatusByIssueType(issueType,project);
 	}
 	
 	
