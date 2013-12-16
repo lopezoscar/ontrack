@@ -148,6 +148,8 @@ public class IssueService {
 			toUpdate.setCurrentStatus(issue.getCurrentStatus());
 			toUpdate.setOwner(issue.getOwner());
 			toUpdate.setDescription(issue.getDescription());
+			toUpdate.setEntries(issue.getEntries());
+			
 			issueManager.update(toUpdate);
 			action = issueActionManager.read(LogIssue.MERGED_ISSUE_CODE);
 

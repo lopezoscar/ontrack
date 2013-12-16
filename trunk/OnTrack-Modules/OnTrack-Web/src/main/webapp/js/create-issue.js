@@ -25,6 +25,11 @@ function CreateIssueCtrl($scope,$http,$location){
     $scope.users = [];
     $scope.renderedIssueBtn = false;
     $scope.issueProperties = [];
+    $scope.editOwner = false;
+    
+    $scope.setEditOwner = function(){
+    	$scope.editOwner = true;
+    }
     
     $scope.comments = [];
     
@@ -55,7 +60,7 @@ function CreateIssueCtrl($scope,$http,$location){
     $scope.setInitStatus = function(statusList){
     	angular.forEach(statusList,function(status,itemNo){
     		if(status.position == 1){
-    			$scope.issue.issueStatus = status.description;
+    			$scope.issue.currentStatus = status;
     		}
     	});
     };
@@ -73,13 +78,29 @@ function CreateIssueCtrl($scope,$http,$location){
     
     
     
-   
+   $scope.filterUsers = function(issue){
+   		var users = issue.project.users;
+   		var list = $scope.filterProjectUsers(users);
+   		return list;
+   }
     
     $scope.updateIssueTypes = function(issue){
     	//TODO Bug - el primer .project en realidad es el obj Workflow
     	$scope.currentProject = issue.project.project;
     	$scope.workflowsByProject = getIssueTypesBySelectedProject($scope.currentProject,$scope.workflows);
+    	
+    	$scope.projectUsers = $scope.filterProjectUsers($scope.currentProject.users);
     };
+    
+    $scope.filterProjectUsers = function(users){
+    	var list = [];
+    	angular.forEach(users,function(user,itemNo){
+    		if(user.userName != null && user.userName != "undefined"){
+    			list.push(user);
+    		}
+    	});
+    	return list;
+    }
     
     $scope.updateStatusByTypeAndUsers = function (issue){
     	$scope.statusByType = getIssueStatusByProjectAndType($scope.currentProject,issue.issueType,$scope.workflows);
@@ -98,9 +119,13 @@ function CreateIssueCtrl($scope,$http,$location){
 	    		$scope.issue = callback;
 	    		$scope.modifyStatus = true;
 	    		$scope.comments = $scope.issue.comments;
+	    		$scope.entries = $scope.issue.entries;
 	    		getStatusByHTTPForModify($scope);
 	    		$scope.currentProject = $scope.issue.project;
 	    		CKEDITOR.instances.editor.setData($scope.issue.description);
+	    		
+	    		$scope.projectUsers = $scope.filterUsers($scope.issue);
+	    		
 	    	});
     	}
     }
@@ -112,9 +137,12 @@ function CreateIssueCtrl($scope,$http,$location){
 	    if($scope.issue == null || $scope.issue.issueType == null){
 	    	return ;
 	    }
-    			$http({method: 'POST', url: $scope.server+'issuestatussrv/getissuestatusbyissuetype',data:$scope.issue.issueType,headers: {'Content-Type': 'application/json'}}).
+	    
+	    var urlService = $scope.server+'issuestatussrv/getissuestatusbyissuetype/'+$scope.issue.issueType.id+"/"+$scope.issue.project.id;
+    			$http({method: 'GET', url: urlService,headers: {'Content-Type': 'application/json'}}).
 				  success(function(data, status, headers, config) {
 		    	 	$scope.issueStatusByWorkflow = data;
+		    	 	$scope.issueStatusForModify = [];
 		    	 	$scope.issueStatusForModify = getIssueStatusByProjectAndTypeForModify($scope.issueStatusByWorkflow);
 		    	 	
 				  }).
@@ -164,10 +192,22 @@ function CreateIssueCtrl($scope,$http,$location){
     	return result;
     }
     
+	//For todays date;
+	Date.prototype.today = function(){ 
+	    return ((this.getDate() < 10)?"0":"") + this.getDate() +"/"+(((this.getMonth()+1) < 10)?"0":"") + (this.getMonth()+1) +"/"+ this.getFullYear() 
+	};
+	//For the time now
+	Date.prototype.timeNow = function(){
+	     return ((this.getHours() < 10)?"0":"") + this.getHours() +":"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes() +":"+ ((this.getSeconds() < 10)?"0":"") + this.getSeconds();
+	};
+	
+	
+    
      $scope.saveComment = function(text){
+     	var newDate = new Date();
 	     var comment = {
-	    	author: "Oscar",
-	    	date: "06-08-2013",
+	    	author: $scope.currentUser.userName,
+	    	date: newDate.today(),
 	    	text: text,
 	    	issueID: $scope.currentIssueID
 	     };
