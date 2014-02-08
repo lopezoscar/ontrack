@@ -92,13 +92,13 @@ function createDatatables(issues,$location,tableId){
 	    } );
 	    
 	    
-	    $('#issues tbody tr').on('mouseover', function (event) { 
+	    $("#"+tableId+' tbody tr').on('mouseover', function (event) { 
 	    	 var aData = oTable.fnGetData(this); // get datarow
 		        if (null != aData){
 		        }
 	    });
 	    
-	    $('#issues tbody tr').on('click', function (event) {        
+	    $("#"+tableId+' tbody tr').on('click', function (event) {        
 	        var aData = oTable.fnGetData(this); // get datarow
 	        if (null != aData)  // null if we clicked on title row
 	        {
@@ -181,7 +181,7 @@ function parserResultToDataTableForIssues(data){
 				   issueType,
 				   project
 				   ];
-		console.log(row);
+		//console.log(row);
 		source.aaData.push(row);
 	});
 	
