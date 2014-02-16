@@ -278,8 +278,11 @@ function CreateProjectCtrl($scope,$http,$location){
 		$scope.currentIssueType = type;
 	};
 	
-	$scope.removeStatusFromIssueType = function(idx){
+	$scope.removeStatusFromIssueType = function(status){
+		var itIdx = $scope.issueTypes.indexOf(status.type);
+		var issueType = $scope.issueTypes[itIdx];
 		
+		issueType.status.splice(status,1);
 	};
 	
 	$scope.updateCurrentStatus = function(type){
@@ -302,12 +305,12 @@ function CreateProjectCtrl($scope,$http,$location){
 	}
 	
 	$scope.saveProject = function(){
-		if($scope.project == "undefined"){
+		if(typeof $scope.project === "undefined"){
 			$scope.projectNameNotFound = true;
 			return;
 		}
 	
-		if($scope.project != "undefined" && $scope.project.name == "undefined"){
+		if(typeof $scope.project != "undefined" && typeof $scope.project.name === "undefined"){
 			$scope.projectNameNotFound = true;
 			return;
 		}
