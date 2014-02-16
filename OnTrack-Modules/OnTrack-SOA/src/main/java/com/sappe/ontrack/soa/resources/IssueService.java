@@ -111,10 +111,34 @@ public class IssueService {
 	@Path("saveissue")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response saveIssue(Issue issue){
-		//		Issue issue = fromJSON( new TypeReference<Issue>() {},issueJson);
 		IssueAction action = null;
-
 		List<String> mailsToNotify = new ArrayList<String>();
+		
+		if(issue.getId()!=null){
+			Issue toUpdate = issueManager.read(issue.getId());
+			toUpdate.setCurrentStatus(issue.getCurrentStatus());
+			toUpdate.setOwner(issue.getOwner());
+			toUpdate.setDescription(issue.getDescription());
+			toUpdate.setEntries(issue.getEntries());
+			
+			issueManager.update(toUpdate);
+			action = issueActionManager.read(LogIssue.MERGED_ISSUE_CODE);
+
+			if(toUpdate.getOwner().getMail() != null){
+				mailsToNotify.add(toUpdate.getOwner().getMail());
+			}
+
+		}else{
+			Issue result = issueManager.create(issue);
+			if(result.getOwner().getMail() != null){
+				mailsToNotify.add(result.getOwner().getMail());
+			}
+			if(result.getId() != null){
+				action = issueActionManager.read(LogIssue.CREATED_ISSUE_CODE);
+
+			}
+		}
+		
 
 		NotificationDTO dto = new NotificationDTO();
 		dto.setFrom("noreply@ontrack.com.ar");
@@ -142,31 +166,6 @@ public class IssueService {
 
 		dto.setBody(sb.toString());
 		
-		
-		if(issue.getId()!=null){
-			Issue toUpdate = issueManager.read(issue.getId());
-			toUpdate.setCurrentStatus(issue.getCurrentStatus());
-			toUpdate.setOwner(issue.getOwner());
-			toUpdate.setDescription(issue.getDescription());
-			toUpdate.setEntries(issue.getEntries());
-			
-			issueManager.update(toUpdate);
-			action = issueActionManager.read(LogIssue.MERGED_ISSUE_CODE);
-
-			if(toUpdate.getOwner().getMail() != null){
-				mailsToNotify.add(toUpdate.getOwner().getMail());
-			}
-
-		}else{
-			Issue result = issueManager.create(issue);
-			if(result.getOwner().getMail() != null){
-				mailsToNotify.add(result.getOwner().getMail());
-			}
-			if(result.getId() != null){
-				action = issueActionManager.read(LogIssue.CREATED_ISSUE_CODE);
-
-			}
-		}
 		if(!mailsToNotify.isEmpty()){
 			dto.setTo(mailsToNotify);
 		}
@@ -181,14 +180,8 @@ public class IssueService {
 		processHistoryManager.addEntryToHistory(issue);
 		logIssueManager.addLogToIssue(issue, action);
 		return Response.ok().build();
-		//		return Response.status(Status.NOT_FOUND).build();
 	}
 
-	//	private Issue replaceIssueData(Issue issueToReplace,Issue issueData){
-	//		issueToReplace.setCurrentStatus(currentStatus);
-	//		issueToReplace.setIssueType(issueType);
-	//		return issueToReplace;
-	//	}
 
 	@POST
 	@Path("mergeissue")
