@@ -1,6 +1,13 @@
 function ServicesController($scope,$http,$location){
 	$scope.response = {};
 	$scope.currentSrv = {};
+	
+	$scope.server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack-SOA/";
+	
+	$scope.saveCurrentService = function (service){
+		$scope.currentService = service;
+	}
+	
 	$scope.post = function(srv){
 		$scope.currentSrv = srv;
 		
@@ -8,7 +15,7 @@ function ServicesController($scope,$http,$location){
 			//$scope.currentSrv.response = angular.toJson(callback,true);
 		//});
 		
-		$scope.server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack-SOA/";
+		
 		$http({method: 'POST', url: $scope.server+srv.path,data:srv.body,headers: {'Content-Type': 'application/json'}}).
 		  success(function(data, status, headers, config) {
 		    $scope.currentSrv.response = angular.toJson(data,true);
@@ -25,12 +32,26 @@ function ServicesController($scope,$http,$location){
 	
 	
 	
-	$http.get($scope.server+"/consolesrv/listservices").success(function(callback){
+	$http.get($scope.server+"consolesrv/listservices").success(function(callback){
 		$scope.services = callback;
 		$scope.categories = [];
 		var category = {};
 		angular.forEach($scope.services,function(value,key){
 			category.name = key;
+			
+			angular.forEach(value,function(method,key){
+				if(typeof method.path != "undefined" && method.path.charAt(0) == '/'){
+					method.path = method.path.replace('/','');	
+				}
+				if(method.method == "POST"){
+					angular.forEach(method.parameters,function(param,itemNo){
+						param.body = JSON.stringify(param.body);
+					});
+				}
+				
+			});
+			
+				
 			category.methods = value;
 			$scope.categories.push(category);
 			category = {};
