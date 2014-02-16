@@ -524,7 +524,7 @@
 			  					<tr ng-repeat="status in currentTypeForIssueStatus.status">
 				  					<td ng-model="desc">{{status.description}}</td>
 				  					<td>
-				  						<input type="button" class="btn btn-danger" value="Eliminar" ng-click="removeStatusFromIssueType($index)" ng-disabled="disableActions"/>
+				  						<input type="button" class="btn btn-danger" value="Eliminar" ng-click="removeStatusFromIssueType(status)" ng-disabled="disableActions"/>
 				  					</td>
 			  					</tr>
 			  				</tbody>

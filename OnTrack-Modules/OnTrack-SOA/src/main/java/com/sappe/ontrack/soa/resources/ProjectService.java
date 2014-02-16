@@ -127,8 +127,10 @@ public class ProjectService {
 						if(user.getMail() != null){
 							mailsToNotify.add(user.getMail());
 						}
-						user.getProjects().add(savedProject);
-						userManager.update(user);
+						if(!savedProject.getAdmin().equals(user)){
+							user.getProjects().add(savedProject);
+							userManager.update(user);
+						}
 					}
 				}
 				
