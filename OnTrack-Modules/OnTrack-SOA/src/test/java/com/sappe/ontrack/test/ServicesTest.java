@@ -43,7 +43,7 @@ public class ServicesTest extends BaseTest{
 //	@PersistenceContext
 //	private EntityManager em;
 	
-	public final static String baseURL = "http://localhost:8080/OnTrack-SOA/";
+//	public final static String baseURL = "http://localhost:8080/OnTrack-SOA/";
 	
 	@Test
 //	@Transactional
@@ -109,7 +109,7 @@ public class ServicesTest extends BaseTest{
 				method.setClazz(clazz.getCanonicalName());
 				method.setName(m.getName());
 				
-				method.setPath(buildPath(baseURL, servicePath, methodName, httpGET, method.getParameters()));
+				method.setPath(buildPath(null, servicePath, methodName, httpGET, method.getParameters()));
 				methods.add(method);
 			}
 		}

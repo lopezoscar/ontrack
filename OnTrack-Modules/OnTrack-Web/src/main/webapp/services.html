@@ -62,7 +62,9 @@
 												<h5>URL</h5>
 												<input type="text" ng-readonly="true" class="input-xxlarge uneditable-input" ng-model="srv.path"/>
 												<h5>Body</h5>
-												<textarea rows="8" class="field span12"  ng-model="srv.parameters"></textarea>
+												<textarea rows="8" class="field span12"  >
+													{{ srv.parameters | json }}
+												</textarea>
 												<input type="button" class="btn btn-primary" value="invoke" ng-click="post(srv)"/>
 											</div>
 									</form>
@@ -98,22 +100,22 @@
 									<h5>Response</h5>
 												<ul class="nav nav-tabs" id="responseTab">
 												  <li><a href="#http-header" data-toggle="tab">HTTP Header</a></li>
-												  <li><a href="#http-body"   data-toggle="tab">HTTP Body</a></li>
+<!-- 												  <li><a href="#http-body"   data-toggle="tab">HTTP Body</a></li> -->
+												  <li><a href="#myModal"  ng-click="saveCurrentService(srv)" data-toggle="modal">HTTP Body</a></li>
 												</ul>
 												<div class="tab-content">
 												  <div class="tab-pane active" id="http-header">
 													  <p>HTTP Status {{srv.status}}</p>
 													  Content-Type <p ng-bind-html="srv.header.content-type"></p>
 													  <p>Fecha de Ejecución {{srv.header.date}}</p>
-													  
 												  </div>
-												  <div class="tab-pane" id="http-body">
-														<pre class="prettyprint pre-scrollable">
-															<code class="lang-javascript">
-																{{srv.response}}
-															</code>
-														</pre>
-												  </div>
+<!-- 												  <div class="tab-pane" id="http-body"> -->
+<!-- 														<pre class="prettyprint pre-scrollable"> -->
+<!-- 															<code class="lang-javascript"> -->
+<!-- 																{{srv.response}} -->
+<!-- 															</code> -->
+<!-- 														</pre> -->
+<!-- 												  </div> -->
 												</div>
 								</div>
 			      			</div>
@@ -124,6 +126,28 @@
 				    </div>
 				  </div>
 				</div>
+				
+				
+				<!-- Modal -->
+				<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				  <div class="modal-header">
+				    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				    <h3 id="myModalLabel">Http Body</h3>
+				  </div>
+				  <div class="modal-body">
+				  <pre class="prettyprint pre-scrollable">
+					<code class="lang-javascript">
+						{{currentService.response}}
+					</code>
+				</pre>
+				    
+				  </div>
+				  <div class="modal-footer">
+				    <button class="btn" data-dismiss="modal" aria-hidden="true">Salir</button>
+				  </div>
+				</div>
+				
+				
 			</div>
 			
 		
@@ -141,6 +165,6 @@
 		</div>
 	
 		</div>
-	</div>	
+	
 	</body>
 	</html>
