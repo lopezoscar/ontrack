@@ -141,8 +141,10 @@
   			
 			<div class="row-fluid">
 			
+			
 			<div class="span3 well" ng-hide="modifyStatus">
 			 <input ng-model="issue.title" class="input-large" type="text" placeholder="Título" required>
+			 
 			 <select ng-model="issue.project" ng-options="w.project.name for w in workflows" ng-change="updateIssueTypes(issue)">
 			 	<option value='' disabled selected style='display:none;'>Elegi un proyecto</option>
 			 </select>
@@ -160,7 +162,7 @@
   			 </div>
   			 
   			 <div class="span3 well" ng-show="modifyStatus">
-  			 	 <input ng-model="issue.title" class="input-large" type="text" ng-readonly="true"/>
+  			 	 <input ng-model="issue.title" class="input-large" type="text" ng-readonly="true" required/>
   			 	 <input ng-model="issue.project.name" class="input-large" type="text" ng-readonly="true"/>
   			 	 <input ng-model="issue.issueType.description" class="input-large" type="text" ng-readonly="true"/>
 				 <select ng-model="issue.currentStatus" ng-options="s.issueStatus.description for s in issueStatusForModify | orderBy:'position'">
@@ -245,9 +247,10 @@
   			 <!-- End Row Fluid  -->
   			 
   			<div class="form-actions">
-				<a class="btn btn-primary" value="Guardar Issue" ng-href="home.html" ng-click="saveIssue(issue)" ng-hide="modifyStatus"  ng-disabled="renderedIssueBtn">Guardar</a>
+				<a class="btn btn-primary" value="Guardar Issue"  ng-click="saveIssue(issue)" ng-hide="modifyStatus"  ng-disabled="renderedIssueBtn">Guardar</a>
 				<a class="btn btn-primary" value="Guardar Modificaciones"  ng-click="saveIssue(issue)" ng-show="modifyStatus"  ng-disabled="renderedIssueBtn">Guardar Modificaciones</a>
 				<span class="alert alert-info" ng-show="isSaved">El issue fue actualizado correctamente</span>
+				<span class="alert alert-error" ng-show="titleError">{{titleErrorMessage}}</span>
 			</div>
   			</form>
   			<!-- End Form that wrapper all inputs and selects --> 
