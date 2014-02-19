@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.gdata.util.ServiceException;
 import com.sappe.ontrack.dao.springbeans.interfaces.UserManager;
+import com.sappe.ontrack.model.issues.Project;
 import com.sappe.ontrack.model.users.Member;
 import com.sappe.ontrack.model.users.User;
 
@@ -32,6 +33,9 @@ public class UserService {
 	@Qualifier("userbean")
 	@Autowired
 	private UserManager userManager;
+	
+	@Autowired
+	private ProjectService projectService;
 	
 	
 	//getuserbyid/100
@@ -104,6 +108,9 @@ public class UserService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public User updateUser(User user){
 		if(user != null && user.getId() != null){
+			Response response = projectService.getProjectsByUser(user);
+			List<Project> projectsUser = (List<Project>)response.getEntity();
+			user.setProjects(projectsUser);
 			User userResponse = userManager.update(user);
 			return userResponse;
 		}
