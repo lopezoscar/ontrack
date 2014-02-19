@@ -82,6 +82,7 @@ public class ProjectService {
 		boolean projectModify = false;
 		if(project.getId() == null){
 			savedProject = projectManager.create(project);
+			projectManager.projectsByAdmin(project.getAdmin());
 			project.getAdmin().getProjects().add(savedProject);
 			userManager.update(project.getAdmin());
 //			projectManager.update(savedProject);
