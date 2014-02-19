@@ -24,6 +24,8 @@
     	 <script src="js/home.js"></script>
     	 <script src="js/search-issue-filter.js"></script>
     	 <script src="js/angular-services.js"></script>
+    	 <script src="js/profile_modal.js"></script>
+    	 <script src="js/profile.js"></script>
     	 <script src="datatables/media/js/jquery.dataTables.js"></script>
     	 <script src="datatables/extras/TableTools/media/js/TableTools.js"></script>
     	 <script src="datatables/extras/TableTools/media/js/ZeroClipboard.js"></script>
@@ -165,6 +167,52 @@
   			</div>
   			
   			</div>
+  			
+<!--   			<a href="#myModal" ng-hide="true" role="button" class="btn" data-toggle="modal">Launch demo modal</a> -->
+ 
+			<!-- Modal -->
+			<div ng-controller="ProfileModal" id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-header">
+			    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			    <h3 id="myModalLabel">Actualiza tu Username para que te vean en los proyectos</h3>
+			  </div>
+			  	<div class="modal-body">
+			   <form  ng-controller="ProfileController"  novalidate  class="form-horizontal" >
+			  
+			  <div class="control-group">
+			    <label class="control-label" for="nick">Username</label>
+			    <div class="controls">
+			      <input type="text" id="nick" placeholder="Username" ng-model="currentUser.userName" required>
+			   	  <div class="alert alert-info" ng-show="userNameRequired">Debe cargar un Username</div>
+			    </div>
+			  </div>
+			  <div class="control-group">
+			    <label class="control-label" for="personName">Nombre</label>
+			    <div class="controls">
+			      <input type="text" id="personName" placeholder="Nombre" ng-model="currentUser.firstName">
+			    </div>
+			  </div>
+			  <div class="control-group">
+			    <label class="control-label" for="personLastName">Apellido</label>
+			    <div class="controls">
+			      <input type="text" id="personLastName" placeholder="Apellido" ng-model="currentUser.lastName">
+			    </div>
+			  </div>
+			
+			<div class="modal-footer">
+			      <span class="alert alert-info" ng-show="saveOk">Los datos se guardaron correctamente</span>
+			    <button type="submit" class="btn btn-primary" aria-hidden="true"  ng-click="saveUser(currentUser)" class="btn">Guardar</button>
+			  </div>
+			  
+			  </form>
+			
+			  </div>
+			  
+			  
+			  
+			</div>
+  			
+  			
   		</div>
   		
 	</body>
