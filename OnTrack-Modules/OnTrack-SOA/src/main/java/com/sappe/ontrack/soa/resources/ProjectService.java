@@ -82,6 +82,9 @@ public class ProjectService {
 		boolean projectModify = false;
 		if(project.getId() == null){
 			savedProject = projectManager.create(project);
+			project.getAdmin().getProjects().add(savedProject);
+			userManager.update(project.getAdmin());
+//			projectManager.update(savedProject);
 		}else{
 			projectModify = true;
 			savedProject = projectManager.update(project);
@@ -103,6 +106,7 @@ public class ProjectService {
 
 		
 		dto.setBody("Se guardó correctamente el proyecto: "+project.getName());
+		
 		if(savedProject != null){
 			if(project.getUsers() != null && !project.getUsers().isEmpty()) {
 				for (User user : project.getUsers()) {
@@ -126,6 +130,7 @@ public class ProjectService {
 						}
 						if(user.getMail() != null){
 							mailsToNotify.add(user.getMail());
+							
 						}
 						if(!savedProject.getAdmin().equals(user)){
 							user.getProjects().add(savedProject);
@@ -135,6 +140,7 @@ public class ProjectService {
 				}
 				
 				try {
+					dto.setTo(mailsToNotify);
 					notificationManager.sendEmails(dto);
 				} catch (NotificatorException e) {
 					e.printStackTrace();

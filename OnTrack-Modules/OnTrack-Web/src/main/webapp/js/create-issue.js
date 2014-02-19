@@ -27,6 +27,9 @@ function CreateIssueCtrl($scope,$http,$location){
     $scope.issueProperties = [];
     $scope.editOwner = false;
     
+    $scope.titleError = false;
+    
+    
     $scope.setEditOwner = function(){
     	$scope.editOwner = true;
     }
@@ -283,6 +286,19 @@ function CreateIssueCtrl($scope,$http,$location){
     }
     
     $scope.saveIssue = function(issue){
+    	
+    	if(typeof issue === "undefined"){
+    		$scope.titleErrorMessage = "Falta el título";
+    		$scope.titleError = true;
+    		return;
+    	}
+    	
+    	if(typeof issue.title === "undefined" || issue.title == null){
+    		$scope.titleError = true;
+    		$scope.titleErrorMessage = "Falta el título";
+    		return ;
+    	}
+    	
     	$scope.isSaved = true;
    
     	issue.description = CKEDITOR.instances.editor.getData();
@@ -295,6 +311,8 @@ function CreateIssueCtrl($scope,$http,$location){
     		issue.reporter = $scope.currentUser.userName;
 	    	issueToSend = filterIssue(issue);
     	}
+    	
+    	
     	
     	$http({method: 'POST', url: $scope.server+'issuesrv/saveissue',data:issueToSend,headers: {'Content-Type': 'application/json'}}).
 		  success(function(data, status, headers, config) {
