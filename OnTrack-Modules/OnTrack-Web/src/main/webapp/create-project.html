@@ -380,10 +380,10 @@
 	  			<span class="alert alert-error" ng-show="projectNameNotFound" >Debe agregar el nombre del proyecto </span>
   			</form>
   			<ul class="nav nav-tabs" id="projectTab" ng-hide="projectOK">
-			  <li><a href="#persons" data-toggle="tab">Integrantes</a></li>
-			  <li><a href="#config" data-toggle="tab" >Tipos de Issues</a></li>
-			  <li><a href="#status" data-toggle="tab" >Estados</a></li>
-			  <li><a href="#workflow" data-toggle="tab" >Workflow</a></li>
+			  <li><a href="#persons" data-toggle="tab" >Integrantes</a></li>
+			  <li><a href="#config" data-toggle="tab" ng-hide="modifyStatus">Tipos de Issues</a></li>
+			  <li><a href="#status" data-toggle="tab" ng-hide="modifyStatus">Estados</a></li>
+			  <li><a href="#workflow" data-toggle="tab" ng-hide="modifyStatus">Workflow</a></li>
 			</ul>
 			<div class="tab-content" ng-hide="projectOK">
 			  <div class="tab-pane active" id="persons">
