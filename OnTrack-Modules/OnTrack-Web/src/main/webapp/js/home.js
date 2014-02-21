@@ -10,15 +10,8 @@ function HomeController($scope,$http,$location){
 	   	if($scope.currentUser.userName == null){
 	   		$location.path("profile.html");
 	   	} 
-	  }).
-	  error(function(data, status, headers, config) {
-	  	$scope.noUser = true;
-	  });
-	  
-   			
-   // $scope.currentUser = UserService.getCurrentUser();
-    
-    $http({method: 'POST', url: $scope.server+"issuesrv/listIssuesByUser",data:$scope.currentUser,headers: {'Content-Type': 'application/json'}}).
+	   	
+    	$http({method: 'POST', url: $scope.server+"issuesrv/listIssuesByUser",data:$scope.currentUser,headers: {'Content-Type': 'application/json'}}).
 		  success(function(data, status, headers, config) {
 		   	$scope.issues = data;
 		   	var rows = parseChartDataCurrentStatus($scope.issues);
@@ -29,6 +22,17 @@ function HomeController($scope,$http,$location){
 		.error(function(data, status, headers, config) {
 		  	$scope.noIssues = true;
 		  });;
+		  
+		  
+		  
+	  }).
+	  error(function(data, status, headers, config) {
+	  	$scope.noUser = true;
+	  });
+	  
+   			
+   // $scope.currentUser = UserService.getCurrentUser();
+    
 	
     function retrieveProjectsByUser(user){
     	$http({method: 'POST', url: $scope.server+'projectsrv/projectsbyuser',data:$scope.currentUser,headers: {'Content-Type': 'application/json'}}).
