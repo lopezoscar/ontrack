@@ -74,23 +74,9 @@ public class ProjectService {
 		
 	}
 	
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/saveproject")
-	public Response saveProject(Project project){
-		Project savedProject = null;
-		boolean projectModify = false;
-		if(project.getId() == null){
-			savedProject = projectManager.create(project);
-			projectManager.projectsByAdmin(project.getAdmin());
-			project.getAdmin().getProjects().add(savedProject);
-			userManager.update(project.getAdmin());
-//			projectManager.update(savedProject);
-		}else{
-			projectModify = true;
-			savedProject = projectManager.update(project);
-		}
-		List<String> mailsToNotify = new ArrayList<String>();
+	
+	
+	private NotificationDTO buildProjectNotificationDTO(Project project){
 		NotificationDTO dto = new NotificationDTO();
 		dto.setFrom("noreply@ontrack.com.ar");
 		dto.setSubject("OnTrack - Proyecto Actualizado Exitosamente");
@@ -108,39 +94,110 @@ public class ProjectService {
 		
 		dto.setBody("Se guardó correctamente el proyecto: "+project.getName());
 		
+		return dto;
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/saveproject")
+	public Response saveProject(Project project){
+		
+		Project savedProject = null;
+		boolean projectModify = false;
+		
+		if(project.getId() == null){
+			savedProject = projectManager.create(project);
+			
+			
+//			projectManager.projectsByAdmin(project.getAdmin());
+//			project.getAdmin().getProjects().add(savedProject);
+//			userManager.update(project.getAdmin());
+//			
+			
+		}else{
+			projectModify = true;
+			savedProject = projectManager.update(project);
+		}
+		
+		
+		List<String> mailsToNotify = new ArrayList<String>();
+
+		
 		if(savedProject != null){
+			
 			if(project.getUsers() != null && !project.getUsers().isEmpty()) {
+				
+				/**
+				 * Por cada usuario dentro del proyecto
+				 */
 				for (User user : project.getUsers()) {
+					
+					/**
+					 * Se limpia el mail
+					 */
 					user.setMail(user.getMail().trim());
+					
 					if(user.getUserName()  == null){
 						user.setUserName(user.getMail());
 					}
+					
+					/**
+					 * Si el usuario está persistido en la base y el proyecto no tiene a ese usuario
+					 * 
+					 */
 					if(user.getId() != null && !savedProject.getUsers().contains(user)){
+						
+						/**
+						 * Se lo agrega al proyecto y luego se actualiza el usuario
+						 */
 						user.getProjects().add(savedProject);
 						userManager.update(user);
+						
 					}else{
+						/**
+						 * Si no existe en la base, se lo busca por mail, si no existe se lo crea.
+						 */
+						
 						if(user.getMail() != null){
+							
 							User existedUser = userManager.userByEmail(user.getMail());
 							if(existedUser != null){
 								user = existedUser;
 							}else{
 								user = userManager.create(user);
 							}
+							
+							
 						}else{
 							user = userManager.create(user);
 						}
+						
 						if(user.getMail() != null){
 							mailsToNotify.add(user.getMail());
-							
 						}
+						
+						/**
+						 * Si el usuario no es el admin se le agrega al usuario el proyecto 
+						 */
 						if(!savedProject.getAdmin().equals(user)){
 							user.getProjects().add(savedProject);
 							userManager.update(user);
+						}else{
+//							List<Project> projects = projectManager.projectsByAdmin(user);
+							User admin = userManager.read(user.getId());
+							admin.getProjects().add(savedProject);
+							userManager.update(admin);
+//							if(projects != null){
+//								projects.add(savedProject);
+//								user.setProjects(projects);
+//								userManager.update(user);
+//							}
 						}
 					}
 				}
 				
 				try {
+					NotificationDTO dto = buildProjectNotificationDTO(savedProject);
 					dto.setTo(mailsToNotify);
 					notificationManager.sendEmails(dto);
 				} catch (NotificatorException e) {
