@@ -23,6 +23,9 @@ function HomeController($scope,$http,$location){
 		  	$scope.noIssues = true;
 		  });;
 		  
+		retrieveProjectsByUser($scope.currentUser);  
+		  
+		  
 		  
 		  
 	  }).
@@ -44,7 +47,7 @@ function HomeController($scope,$http,$location){
 		  });
     };
     
-    retrieveProjectsByUser($scope.currentUser);
+    
     
     function retrieveProjectsByAdmin(user){
     	$http({method: 'POST', url: $scope.server+'projectsrv/projectsbyadmin',data:$scope.currentUser,headers: {'Content-Type': 'application/json'}}).
