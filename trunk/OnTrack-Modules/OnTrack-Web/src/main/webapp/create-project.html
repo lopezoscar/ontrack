@@ -506,9 +506,9 @@
 			  		<h4>Elige un Tipo de Issue y crear los Estados</h4>
 			  		
 			  		<form novalidate class="simple-form">
-				  		<select ng-change="updateCurrentType(type)" ng-model="status.type" ng-options="type.description for type in issueTypes"></select>
+				  		<select ng-change="updateCurrentType(status.type)" ng-model="status.type" ng-options="type.description for type in issueTypes"></select>
 				  		<input type="text" class="input-medium" ng-model="status.description"/>
-				  		<input type="button" class="btn btn-primary" value="Guardar" ng-click="saveStatus(status)" ng-disabled="disableActions"/>
+				  		<input type="button" class="btn btn-primary" value="Guardar"  ng-click="saveStatus(status)" ng-disabled="disableActions"/>
 			  		</form>	  		
 			  		
 			  		<div class="span6">
