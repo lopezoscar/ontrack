@@ -17,6 +17,11 @@ function CreateProjectCtrl($scope,$http,$location){
 	
 	};
 	
+	$scope.updateCurrentType = function(type){
+    	$scope.currentTypeForIssueStatus = type;
+    	//$scope.$apply();
+    };
+	
 	$scope.addMember = function (selectedMember){
 		$scope.userAlreadyExist = false;
 	
@@ -81,6 +86,9 @@ function CreateProjectCtrl($scope,$http,$location){
 	    	});
     	}
     };
+    
+    
+    
     
     function fillSelectedMembers(project){
     	var users = project.users;
@@ -261,6 +269,12 @@ function CreateProjectCtrl($scope,$http,$location){
 	//}
 	};
 	
+	$scope.saveStatusForKeyPress = function(event,status) {
+			//13 == Enter Key
+		  if (event.which==13)
+		    $scope.saveStatus(status);
+	}
+	
 	$scope.saveStatus = function(status){
 		var itIdx = $scope.issueTypes.indexOf(status.type);
 		var issueType = $scope.issueTypes[itIdx];
@@ -270,6 +284,8 @@ function CreateProjectCtrl($scope,$http,$location){
 		$scope.currentTypeForIssueStatus = status.type;
 		
 		$scope.status = angular.copy({});
+		
+		
 		
 		
 	};
@@ -291,7 +307,9 @@ function CreateProjectCtrl($scope,$http,$location){
 	
 	function parseMemberToUser(){
 		var users = [];
-		users.push($scope.currentUser);
+		if(! $scope.modifyStatus){
+			users.push($scope.currentUser);
+		}
 		angular.forEach($scope.selectedMembers,function(member,itemNo){
 			var user = {
 				userName: member.title,
@@ -327,17 +345,19 @@ function CreateProjectCtrl($scope,$http,$location){
 		});
 		 
 		 
-		 
+		var parsedUsers = parseMemberToUser();
 		var project = {
 			name: $scope.project.name,
-			users: parseMemberToUser(),
+			users: parsedUsers,
 			admin: $scope.currentUser
 		};
 		
+		
 		if($scope.project != null && $scope.modifyStatus){
 			project = $scope.project;
+			project.users = parsedUsers;
 		}
-	
+		
 		//{"id":null,"issueType":{"id":1,"description":"Cualquiera"},"issueStatus":[{"id":1,"description":"TODO"}],"project":{"id":1,"name":"Proyecto","roles":[{"id":3,"roleName":"Desarrollador","acronym":"DEV"}],"users":[]}}
 		
 		$http({method: 'POST', url: $scope.server+'projectsrv/saveproject',data:project,headers: {'Content-Type': 'application/json'}}).
