@@ -130,6 +130,33 @@ public class ProjectService {
 	}
 	
 	private Project modifyProject(Project project){
+		
+		if(project != null && project.getId()!= null){
+			
+//			for (User user : project.getUsers()) {
+			for(int i = 0;i< project.getUsers().size();i++){
+				User user = project.getUsers().get(i);
+				
+				if(user.getMail() != null){
+					User existedUser = userManager.userByEmail(user.getMail());
+					if(existedUser != null){
+						user = existedUser;
+					}else{
+						user = userManager.create(user);
+					}
+					
+					List<Project> projectByUser = projectManager.projectsByUser(user);
+					if(! projectByUser.contains(project)){
+						user.getProjects().add(project);
+						userManager.update(user);
+					}
+					
+					project.getUsers().set(i, user);
+				}
+			}
+			
+			projectManager.update(project);
+		}
 		return project;
 	}
 	
