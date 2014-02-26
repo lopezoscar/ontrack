@@ -129,6 +129,9 @@ function parserResultToDataTableForIssues(data){
 		sDom: 'T<"clear">lfrtip',
 		bJQueryUI : true,
 		sPaginationType: "full_numbers",
+		oLanguage: {
+            "sUrl": "datatables.spanish.txt"
+        },
 		oTableTools: {
 			"sSwfPath": "datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf",
 			"aButtons": [
