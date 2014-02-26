@@ -162,7 +162,11 @@ public class ProjectService {
 	
 	private Project createProject(Project project){
 		
+		
 		if(project != null){
+			projectManager.create(project);
+			
+			
 			if(project.getUsers() != null && !project.getUsers().isEmpty()) {
 				
 				for (User user : project.getUsers()) {
