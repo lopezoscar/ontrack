@@ -83,6 +83,9 @@ function parserResultToDataTable(data){
 	var source = {
 		sDom: 'T<"clear">lfrtip',
 		bJQueryUI : true,
+		oLanguage: {
+            "sUrl": "datatables.spanish.txt"
+        },
 		aaSorting: [ [0,'desc']],
 		aaData: [],
 		aoColumns: [
