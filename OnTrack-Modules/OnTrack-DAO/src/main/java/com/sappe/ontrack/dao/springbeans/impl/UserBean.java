@@ -221,6 +221,14 @@ public class UserBean implements UserManager{
 		return user;
 	}
 
+	public boolean existUserName(String userName) {
+		Long result = (Long)em.createNamedQuery("selectUsernameByUsername").setParameter("userName", userName).getSingleResult();
+		if(result != null && result > 0){
+			return true;
+		}
+		return false;
+	}
+
 
 
 
