@@ -13,9 +13,13 @@ function GetURLParameter(sParam)
 }
 
 function CreateIssueCtrl($scope,$http,$location){
+
+	
+	CKEDITOR.on('instanceReady', function(){ CKEDITOR.instances.editor.setData("Coloque una descripción aquí"); }); 
 	
 	$scope.currentIssueID = GetURLParameter("issue");
 	
+	$scope.projectsFromWorkflow = [];
 	$scope.isSaved = false;
 	$scope.modifyStatus = false;
     $scope.workflows = [];
@@ -26,6 +30,8 @@ function CreateIssueCtrl($scope,$http,$location){
     $scope.renderedIssueBtn = false;
     $scope.issueProperties = [];
     $scope.editOwner = false;
+    
+    
     
     $scope.titleError = false;
     
@@ -73,11 +79,37 @@ function CreateIssueCtrl($scope,$http,$location){
     	$http({method: 'POST', url: $scope.server+'workflowsrv/listworkflowsbyuser',data:user,headers: {'Content-Type': 'application/json'}}).
 		  success(function(data, status, headers, config) {
 		   	$scope.workflows = data;
+		   	filterProjectsFromWorkflow($scope.workflows);
 		  }).
 		  error(function(data, status, headers, config) {
 		  	$scope.noWorkflows = true;
 		  });
     };
+    
+    function filterProjectsFromWorkflow(workflows){
+    	var projectsIds = [];
+    	angular.forEach(workflows,function(wf,itemNo){
+    		if(projectsIds.indexOf(wf.project.id) < 0) {
+				projectsIds.push(wf.project.id);
+    		}
+    	});
+    	
+    	var projects = [];
+    	
+		angular.forEach(projectsIds,function(pid,itemNo){
+			//var project = getProjectById(pid);
+	    	if(pid != 0 && pid!= "undefinded" && pid!= null){
+		    	$http.get($scope.server+"projectsrv/projectbyid/"+pid).success(function(callback){
+					$scope.projectsFromWorkflow.push(callback);
+		    	});
+	    	}
+		});
+		    	
+    	return projects;
+    };
+    
+    function getProjectById(id){
+    }
     
     
     
@@ -89,7 +121,7 @@ function CreateIssueCtrl($scope,$http,$location){
     
     $scope.updateIssueTypes = function(issue){
     	//TODO Bug - el primer .project en realidad es el obj Workflow
-    	$scope.currentProject = issue.project.project;
+    	$scope.currentProject = issue.project;
     	$scope.workflowsByProject = getIssueTypesBySelectedProject($scope.currentProject,$scope.workflows);
     	
     	$scope.projectUsers = $scope.filterProjectUsers($scope.currentProject.users);
@@ -330,7 +362,7 @@ function CreateIssueCtrl($scope,$http,$location){
     		description: issueToFilter.description,
     		issueType: issueToFilter.issueType.issueType,
     		currentStatus: issueToFilter.issueStatus.issueStatus,
-    		project: issueToFilter.project.project,
+    		project: issueToFilter.project,
     		owner: issueToFilter.owner,
     		entries: issueToFilter.entries,
     		reporter: issueToFilter.reporter
