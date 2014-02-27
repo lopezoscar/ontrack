@@ -118,5 +118,12 @@ public class UserService {
 	}
 	
 	
+	@Path("/existusername/{username}")
+	@GET
+	public Response existUserName(@PathParam("username")String userName){
+		boolean result = userManager.existUserName(userName);
+		return Response.ok(String.valueOf(result)).build(); 
+	}
+	
 
 }

@@ -17,5 +17,7 @@ public interface UserManager extends CRUD<User>{
 	public List<Member> contactsByUserName(String token) throws ServiceException, IOException;
 	
 	User userByEmail(String email);
+	
+	boolean existUserName(String userName);
 
 }
