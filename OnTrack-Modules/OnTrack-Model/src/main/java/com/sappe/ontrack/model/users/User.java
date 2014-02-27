@@ -46,24 +46,6 @@ public class User extends Person implements Serializable{
 	@Column(name="password")
 	private String password;
 
-	@ManyToMany(fetch=FetchType.LAZY)
-	@JoinTable(name="user_role", 
-			joinColumns={@JoinColumn(name="id_person")}, 
-			inverseJoinColumns={@JoinColumn(name="id_role")})		
-			/**
-			 * relacion entre user y roles 
-			 * un user es una person y posee igual id, se expresa con la tabla relacional user_role
-			 * que contiene id_person de la tabla person e id_role de la tabla role
-			 */
-			private List<Role> roles;
-
-	//	@ManyToMany(fetch=FetchType.LAZY)
-	//	@JoinTable(name="role_permission", 
-	//		joinColumns={@JoinColumn(name="id_role")}, 
-	//		inverseJoinColumns={@JoinColumn(name="id_permission")})
-	//	private List<Permission> permissions;
-
-
 	@ManyToMany
 	@JoinTable(
 			name = "users_by_project", 
@@ -86,14 +68,6 @@ public class User extends Person implements Serializable{
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public List<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
 	}
 
 

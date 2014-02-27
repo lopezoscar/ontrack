@@ -56,9 +56,6 @@ public class Project implements Serializable{
 	@JoinColumn(name="id_project")
 	private List<IssueType> issueTypes;
 	
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="id_project")
-	private List<Role> roles;
 	
 	@ManyToMany(mappedBy="projects")
 	private List<User> users;
@@ -141,14 +138,6 @@ public class Project implements Serializable{
 
 	public void setIssueTypes(List<IssueType> issueTypes) {
 		this.issueTypes = issueTypes;
-	}
-
-	public List<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
 	}
 
 	public List<User> getUsers() {
