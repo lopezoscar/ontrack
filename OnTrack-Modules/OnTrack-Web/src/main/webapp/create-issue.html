@@ -105,9 +105,6 @@
 				  
 			    </ul>
 			    
-			    <form class="navbar-search pull-right">
-					  <input type="text" class="search-query" placeholder="Search">
-				</form>
 			  </div>
 			</div>			
 			<!-- End Nav Bar -->
@@ -145,7 +142,7 @@
 			<div class="span3 well" ng-hide="modifyStatus">
 			 <input ng-model="issue.title" class="input-large" type="text" placeholder="Título" required>
 			 
-			 <select ng-model="issue.project" ng-options="w.project.name for w in workflows" ng-change="updateIssueTypes(issue)">
+			 <select ng-model="issue.project" ng-options="p.name for p in projectsFromWorkflow" ng-change="updateIssueTypes(issue)">
 			 	<option value='' disabled selected style='display:none;'>Elegi un proyecto</option>
 			 </select>
 			 <select ng-model="issue.issueType" ng-options="w.issueType.description for w in workflowsByProject" ng-change="updateStatusByTypeAndUsers(issue)">
@@ -183,7 +180,7 @@
   			 <!-- End Span02 -->
   			 
   			 <div class="span8" >
-  			 	<textarea ng-model="issue.description" class="ckeditor" name="editor"></textarea>
+  			 	<textarea ng-model="issue.description" class="ckeditor" name="editor">Ingrese una descripción</textarea>
   			 	<div class="well">
 				  
 				  
