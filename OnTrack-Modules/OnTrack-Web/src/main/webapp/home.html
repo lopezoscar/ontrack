@@ -187,8 +187,10 @@
 			  <div class="control-group">
 			    <label class="control-label" for="nick">Nombre de usuario</label>
 			    <div class="controls">
-			      <input type="text" id="nick" placeholder="Username" ng-model="currentUser.userName" required>
+			      <input type="text" id="nick" placeholder="Username" ng-model="currentUser.userName"  required>
 			   	  <div class="alert alert-info" ng-show="userNameRequired">Nombre de usuario requerido</div>
+			   	  <div class="alert alert-info" ng-show="userNameExist">Nombre de usuario ya existente</div>
+			   	  
 			    </div>
 			  </div>
 			  <div class="control-group">
