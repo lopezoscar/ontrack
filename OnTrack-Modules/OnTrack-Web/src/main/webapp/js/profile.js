@@ -31,6 +31,7 @@ function ProfileController($scope,$http,$location){
 					  success(function(data, status, headers, config) {
 					   	$scope.currentUser = data;
 					   	$scope.saveOk = true;
+					   	$scope.userNameExist = false;
 					   	$('#myModal').modal('hide');
 					   	
 					  }).
