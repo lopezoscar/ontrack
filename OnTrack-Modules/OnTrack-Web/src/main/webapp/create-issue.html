@@ -131,7 +131,8 @@
   			
   			 -->
 			<fieldset>
-				<legend>Crear Issue</legend>
+				<legend ng-hide="modifyStatus">Crear Issue</legend>
+				<legend ng-show="modifyStatus">Actualizar Issue</legend>
 			</fieldset> 
 			<form novalidate class="simple-form">
 			
