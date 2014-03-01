@@ -124,6 +124,10 @@ function CreateIssueCtrl($scope,$http,$location){
     	$scope.currentProject = issue.project;
     	$scope.workflowsByProject = getIssueTypesBySelectedProject($scope.currentProject,$scope.workflows);
     	
+    	//Correccion reset status
+    	issue.issueStatus = {};
+    	
+    	
     	$scope.projectUsers = $scope.filterProjectUsers($scope.currentProject.users);
     };
     
