@@ -13,8 +13,8 @@ public class SpringSecurityUtil {
 	
 	public static final Collection<GrantedAuthority> getAuthorities(User user){
 		
-		if(user != null && user.getRoles()!= null){
-			final String[] authorities = new String[user.getRoles().size()];
+//		if(user != null && user.getRoles()!= null){
+			final String[] authorities = new String[0];
 //			if(user.getPermissions() != null){
 //				for (int permission = 0; permission < user.getPermissions().size() ; permission++) {
 //					authorities[permission] = user.getPermissions().get(permission).getAcronym();
@@ -27,7 +27,7 @@ public class SpringSecurityUtil {
 //					}
 //				}
 //			}
-		}
+//		}
 		
 //		List<GrantedAuthority> permissions = AuthorityUtils.createAuthorityList(authorities);
 		List<GrantedAuthority> permissions = new ArrayList<GrantedAuthority>();
