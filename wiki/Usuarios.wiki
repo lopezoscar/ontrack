@@ -25,9 +25,8 @@ Contiene las siguientes User Stories
 
 'Como usuario administrador de un proyecto deseo poder eliminar un miembro.¿
 
-=== _Eliminar un miembro_ ===
+=== _Actualizar Perfil_ ===
 
 *Descripción*
 
 'Como usuario deseo poder actualizar mis datos en la aplicación'
-
