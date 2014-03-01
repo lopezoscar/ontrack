@@ -15,7 +15,7 @@ function GetURLParameter(sParam)
 function CreateIssueCtrl($scope,$http,$location){
 
 	
-	CKEDITOR.on('instanceReady', function(){ CKEDITOR.instances.editor.setData("Coloque una descripción aquí"); }); 
+	//CKEDITOR.on('instanceReady', function(){ CKEDITOR.instances.editor.setData("Coloque una descripción aquí"); }); 
 	
 	$scope.currentIssueID = GetURLParameter("issue");
 	
