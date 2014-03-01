@@ -349,6 +349,10 @@ function CreateIssueCtrl($scope,$http,$location){
     	$http({method: 'POST', url: $scope.server+'issuesrv/saveissue',data:issueToSend,headers: {'Content-Type': 'application/json'}}).
 		  success(function(data, status, headers, config) {
 		   	$scope.currentIssue = issue;
+		   	
+		   	if(! $scope.modifyStatus){
+		   		window.location = $scope.webserver;
+		   	}
 		  }).
 		  error(function(data, status, headers, config) {
 		  	$scope.saveIssueFail = true;
