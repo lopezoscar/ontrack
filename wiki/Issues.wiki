@@ -29,7 +29,7 @@ Contiene las siguientes User Stories
   # Si el nombre que deseo para mi tipo de Issue existe previamente, podré utilizarlo en mi proyecto
   # El nombre del tipo de Issue creado estará disponible para ser incorporado a los demás proyectos
   # Si el nombre se encuentra repetido el sistema me lo indicará, no es necesario generarlo ya que existe dicho nombre
-  # El issue contará con una serie de campos por defecto propios de todos los issues, 'Título' - 'Descripción' - 'Adjuntos' - 'Historial' - 'Reportó' - 'Dueño'
+  # El issue contará con una serie de campos por defecto propios de todos los issues, 'Título' - 'Descripción' - 'Historial' - 'Reportó' - 'Dueño'- 'Estado' - 'Tipo de Issue'
   # Puedo generar nuevos campos dinamicamente de tipo texto para mis issues
   # Puedo generar el nombre del campo que deseo en mi Issue o en caso de existir elegirlo de una lista general de campos creados previamente.
   # Si el campo existe previamente en la lista general de campos no podré utilizar dicho nombre, solo podré incorporar el de la lista.
@@ -45,13 +45,11 @@ Contiene las siguientes User Stories
 'Como usuario administrador de un proyecto deseo poder asignar un tipo de issue a un proyecto'
 
 *Criterios de aceptación*
-   # Mediante una interface podre ver una lista de todos los tipos de issue disponibles y asignarlo a cualquiera de mis proyectos. 
    # Si el tipo de issue ya se encuentra asignado a ese proyecto entonces no se debe agregar un duplicado. 
    # Un mismo tipo de issue puede estar asignado a cualquier cantidad de proyectos. 
 
 *Especificación por Ejemplos.*
    # Voy a la configuración de mi proyecto y selecciono asignar un tipo de Issue, Verifico que el tipo de Issue de nombre 'Requerimiento' se encuentra en la lista.
-   # Voy a la configuracion de mi proyecto y veo la lista de tipos de issues. Los tipos que ya se encuentran asignados a ese proyecto no deberian aparecer en la lista. 
 
 === _Reportar un Issue_ ===
 
@@ -61,13 +59,13 @@ Contiene las siguientes User Stories
 
 *Criterios de aceptación*
   # Mediante una interface podre levantar un issue y asignarlo a un proyecto al que yo como usuario tenga acceso. 
-  # Cada issue puede tener una cantidad diferente de datos dependiendo de las propiedades del mismo pero todos tienen que tener un ID unico que lo identifique en el sistema. 
+  # Cada issue puede tener una cantidad diferente de datos dependiendo de las propiedades del mismo pero todos tienen que tener un ID único que lo identifique en el sistema. 
   # Cada proyecto puede tener N issues. 
   # Issues diferentes pueden tener campos repetidos (incluyendo 'Titulo' - 'Descripcion', etc) ya que todos van a tener un ID diferente. 
   # Cada issue consta de un usuario dueño que es la persona que lo reporta. 
 
 *Especificación por Ejemplos.*
-  # Dentro de la vista de un proyecto uso la opcion para levantar un issue e ingreso todos los campos necesarios. Verifico que en la lista de issues se encuentre el que acabo de crear. 
+  # Dentro de la vista de un proyecto uso la opción para levantar un issue e ingreso todos los campos necesarios. Verifico que en la lista de issues se encuentre el que acabo de crear. 
 
 === _Modificar Estado de un Issue_ === 
 
@@ -77,24 +75,23 @@ Contiene las siguientes User Stories
 
 *Criterios de aceptación*
   # Mediante una interface puedo cambiar el estado actual de un issue. 
-  # Los estados posibles son unicamente los estados validos asignados a ese issue dependiendo del workflow. 
+  # Los estados posibles son únicamente los estados validos asignados a ese issue dependiendo del workflow. 
   # Cuando cualquier usuario haga un cambio en el estado de un issue el dueño de ese issue debe ser notificado. 
 
 *Especificación por Ejemplos.*
   # Desde la vista detallada del issue cambio el estado actual por otro valido. Verifico que en la lista de issues figure con el nuevo estado. 
-  # Desde la vista detallada de un issue hago el cambio por un estado diferente al actual. Verifico que la persona que reporto ese issue fue notificada del cambio. 
+  # Desde la vista detallada de un issue hago el cambio por un estado diferente al actual.
 
 === _Buscar Issue_ === 
 
 *Descripción*
 
-'Como usuario deseo poder buscar issues en base a los campos 'Titulo' y 'Descripcion''
+'Como usuario deseo poder buscar issues en base a los campos 'Titulo'
 
 *Criterios de aceptación*
   # Mediante una interface podre ingresar un string de busqueda y obtener una lista de resultados. 
   # Se debera mostrar una lista informacion sobre cada issue que devuelva la busqueda y ademas un link a la vista detallada de cada uno. 
-  # La lista de resultados debera contener unicamente issues cuyos campos 'Titulo' y/o 'Descripcion' contengan la cadena usada para la busqueda. 
-  # Unicamente debera buscar issues del proyecto sobre el cual estoy realizando la busqueda.  
+  # La lista de resultados debera contener únicamente issues cuyos campos 'Titulo' contengan la cadena usada para la busqueda. 
 
 === _Buscar Issues por Filtro_ === 
 
@@ -105,7 +102,6 @@ Contiene las siguientes User Stories
 *Criterios de aceptación*
   # Desde una interface podre seleccionar de una lista el filtro que quiero usar y completar el criterio de busqueda correspondiente. 
   # Las filtros disponibles seran: 'ID Issue', 'Titulo', 'Reportó', 'Dueño','estado actual','tipo de issue','proyecto'. Se podrá combinar mas de un filtro para realizar una búsqueda mas precisa.
-  # Unicamente debera buscar issues del proyecto sobre el cual estoy realizando la busqueda.
   # Se debera mostrar una lista informacion sobre cada issue que devuelva la busqueda y ademas un link a la vista detallada de cada uno. 
   # La lista de resultados debera contener unicamente issues cuyo campo requerido coincida con los criterios de la busqueda. 
 
