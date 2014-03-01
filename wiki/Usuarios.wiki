@@ -1,2 +1,35 @@
 #summary Información del componente Usuario
-==== SITE UNDER CONSTRUCTION =====
+=Issues=
+
+==Contenido==
+----
+
+Contiene las siguientes User Stories
+    * Agregar un miembro a un proyecto
+    * Eliminar un miembro
+    * Actualizar Perfil
+----
+
+== User Stories ==
+
+
+=== _Agregar un miembro a un proyecto_ ===
+
+*Descripción*
+
+'Como usuario administrador de un proyecto deseo poder agregar un miembro.'
+
+=== _Eliminar un miembro_ ===
+
+*Descripción*
+
+'Como usuario administrador de un proyecto deseo poder eliminar un miembro.¿
+
+=== _Eliminar un miembro_ ===
+
+*Descripción*
+
+'Como usuario deseo poder actualizar mis datos en la aplicación'
+
+
+
