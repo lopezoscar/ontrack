@@ -12,6 +12,7 @@ function CreateProjectCtrl($scope,$http,$location){
 	$scope.savedProject = {};
 	$scope.selectedMembers = [];
 	$scope.projectNameNotFound = false;
+	$scope.hideLoadContacts = false;
 	$scope.redirect = function(){
 		$scope.$apply(function() { $location.path("home.html"); });
 	
