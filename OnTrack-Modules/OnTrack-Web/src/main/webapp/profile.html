@@ -78,6 +78,8 @@
 			    <label class="control-label" for="nick">Apodo</label>
 			    <div class="controls">
 			      <input type="text" id="nick" placeholder="Apodo" ng-model="currentUser.userName">
+			      <div class="alert alert-info" ng-show="userNameExist">Nombre de usuario ya existente</div>
+
 			    </div>
 			  </div>
 			  <div class="control-group">

@@ -81,7 +81,8 @@
         gapi.auth.setToken(authResult); // Almacena el token recuperado.
         toggleElement('signin-button'); // Oculta el inicio de sesión si se ha accedido correctamente.
         getEmail(); 
-        members = getContacts(token);                    // Activa la solicitud para obtener la dirección de correo electrónico.
+        members = getContacts(token);  
+                          // Activa la solicitud para obtener la dirección de correo electrónico.
 	
       } else {
         console.log('An error occurred');
@@ -120,6 +121,7 @@
 		  data: { access_token: token, 'max-results': '5000', alt: 'json' },
 		  success:function(data){ 
 				var scope = angular.element('[ng-controller=CreateProjectCtrl]').scope(); 
+				scope.hideLoadContacts = true;
 
 				var xmlMembers = [];
 				var membersForAutocomplete = [];
@@ -390,7 +392,7 @@
 				<div class="row-fluid">
 				
 					
-					<h3 class="show">Click en el logo inferior para cargar tus contactos de tu cuenta de Google</h3>
+					<h3 ng-hide="hideLoadContacts">Click en el logo inferior para cargar tus contactos de tu cuenta de Google</h3>
 					<div id="signin-button" class="show">
 					     <div class="g-signin" data-callback="loginFinishedCallback"
 					      data-approvalprompt="force"
