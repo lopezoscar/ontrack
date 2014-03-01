@@ -80,12 +80,12 @@ public class UserBean implements UserManager{
 		List<User> users = q.getResultList();
 		List<Role> roles = new ArrayList<Role>();
 		for (User user : users) {
-			for(Role role: user.getRoles()){
-				Role r =  initializeAndUnproxy(role);
-				roles.add(r);
-
-			}
-			user.setRoles(roles);
+//			for(Role role: user.getRoles()){
+//				Role r =  initializeAndUnproxy(role);
+//				roles.add(r);
+//
+//			}
+//			user.setRoles(roles);
 			roles = new ArrayList<Role>();
 		}
 
