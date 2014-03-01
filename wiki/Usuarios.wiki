@@ -1,5 +1,5 @@
 #summary Información del componente Usuario
-=Issues=
+=Usuarios=
 
 ==Contenido==
 ----
@@ -30,6 +30,4 @@ Contiene las siguientes User Stories
 *Descripción*
 
 'Como usuario deseo poder actualizar mis datos en la aplicación'
-
-
 
