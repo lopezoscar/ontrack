@@ -18,6 +18,9 @@ function CreateProjectCtrl($scope,$http,$location){
 	
 	};
 	
+	$scope.emptyContactList = false;
+	$scope.wrongMail = false;
+	
 	$scope.updateCurrentType = function(type){
     	$scope.currentTypeForIssueStatus = type;
     	//$scope.$apply();
@@ -25,6 +28,8 @@ function CreateProjectCtrl($scope,$http,$location){
 	
 	$scope.addMember = function (selectedMember){
 		$scope.userAlreadyExist = false;
+		$scope.wrongMail = false;
+		
 	
 		var input = document.getElementById("contactsBox");
 		var selectedMember = input.value;
@@ -35,19 +40,38 @@ function CreateProjectCtrl($scope,$http,$location){
 				title: titleAndMail[0],
 				email: titleAndMail[1].trim()
 		        	};
+		        	 
+		if(! typeof $scope.membersForAutocomplete === "undenfined"){
+			$scope.membersForAutocomplete.forEach(function(contactMember,itemNo){
+				if(contactMember.email != meber.email){
+					$scope.wrongMail = true;
+				}else{
+					$scope.wrongMail = false;
+				}	
+			});
+		}else{
+			$scope.emptyContactList = true;
+		}         	
 
+		if($scope.wrongMail){
+			return;
+		}
 		var existUser = false;
 		var keepGoing = true;
+		
+		//Valida los existentes
         $scope.selectedMembers.forEach(function(existingMember,itemNo){
         	if(!keepGoing) return;
-        	
+      		
         	if(existingMember.email == member.email){
+        		
         		existUser = true;
         		keepGoing = true;
         		$scope.existingMember = existingMember;
         	}
-        	
         });	
+        
+        
         
         if(!existUser){
         	$scope.addUser(member);
@@ -61,7 +85,25 @@ function CreateProjectCtrl($scope,$http,$location){
 	};
 	
 	$scope.removeMember = function($index){
-		$scope.selectedMembers.splice($index,1);
+		if($scope.modifyStatus){
+			var user = $scope.selectedMembers[$index];
+			
+			
+		$http({method: 'GET', url: $scope.server+'usersrv/removeMember/'+user.email+'/'+$scope.project.id,headers: {'Content-Type': 'application/json'}}).
+		  success(function(data, status, headers, config) {
+		  		if(data == "isAdmin"){
+		  			$scope.isAdminError = true;
+		  		}
+		  }).
+		  error(function(data, status, headers, config) {
+					    console.log(status);
+			});
+			
+		}else{
+			$scope.selectedMembers.splice($index,1);
+		}
+	
+	
 	};
 	
 	$scope.server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack-SOA/";

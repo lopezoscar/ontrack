@@ -19,7 +19,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.google.gdata.util.ServiceException;
+import com.sappe.ontrack.dao.springbeans.interfaces.IssueManager;
 import com.sappe.ontrack.dao.springbeans.interfaces.UserManager;
+import com.sappe.ontrack.model.issues.Issue;
 import com.sappe.ontrack.model.issues.Project;
 import com.sappe.ontrack.model.users.Member;
 import com.sappe.ontrack.model.users.User;
@@ -37,6 +39,8 @@ public class UserService {
 	@Autowired
 	private ProjectService projectService;
 	
+	@Autowired
+	private IssueManager issueManager;
 	
 	//getuserbyid/100
 	@Path("getuserbyid/{id}")
@@ -123,6 +127,37 @@ public class UserService {
 	public Response existUserName(@PathParam("username")String userName){
 		boolean result = userManager.existUserName(userName);
 		return Response.ok(String.valueOf(result)).build(); 
+	}
+	
+	@Path("/removeMember/{email}/{projectId}")
+	@GET
+	public Response removeMember(@PathParam("email")String email,@PathParam("projectId")Long projectId){
+		if(email != null && email.trim().length() > 0  && projectId != null) {
+			Project project = projectService.projectById(projectId);
+			User user = userManager.userByEmail(email);
+			
+			//Si es admin no se permite borrar el usuario del proyecto
+			if(user.equals(project.getAdmin())){
+				return Response.ok().entity("isAdmin").build();
+			}
+			
+			if(user != null && user.getId()!= null){
+				user.getProjects().remove(project);
+				userManager.update(user);
+				
+				List<Issue> issues = issueManager.getIssuesByProjectIdAndOwnerId(projectId, user.getId());
+				for (Issue issue : issues) {
+					if(!issue.getOwner().equals(project.getAdmin())){
+						issue.setOwner(issue.getProject().getAdmin());
+						issueManager.update(issue);
+					}
+				}
+				
+				return Response.ok().entity(user).build();
+			}
+		}
+		
+		return Response.ok().status(Status.INTERNAL_SERVER_ERROR).build();
 	}
 	
 

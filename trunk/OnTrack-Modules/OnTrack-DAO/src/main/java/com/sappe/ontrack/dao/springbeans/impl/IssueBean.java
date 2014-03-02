@@ -118,6 +118,15 @@ public class IssueBean implements IssueManager{
 			em.merge(issue);
 		}
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Issue> getIssuesByProjectIdAndOwnerId(Long projectId,Long ownerId) {
+		List<Issue> issues = em.createNamedQuery("getIssuesByProjectIdAndOwnerId")
+					  .setParameter("projectId", projectId)
+					  .setParameter("ownerId", ownerId)
+					  .getResultList();
+		return issues;
+	}
 	
 	
 }
