@@ -36,7 +36,7 @@ import com.sappe.ontrack.model.users.User;
 			@NamedQuery(name="getIssuesByCode",query = "SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.reporter,i.owner,i.currentStatus,i.issueType) FROM Issue as i where i.code = :code"),
 			@NamedQuery(name="getIssuesByIssueType", query="SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.reporter,i.owner,i.currentStatus,i.issueType) FROM Issue as i where i.issueType = :type"),
 			@NamedQuery(name="getIssuesByUserFromProject", query="SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.reporter,i.owner,i.currentStatus,i.issueType,i.project) FROM Issue as i where :user in elements (i.project.users)"),
-			@NamedQuery(name="getIssuesByProjectIdAndOwnerId",query="SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.reporter,i.owner,i.currentStatus,i.issueType) FROM Issue as i where i.project.id = :projectid and i.owner.id = :ownerid" ),
+			@NamedQuery(name="getIssuesByProjectIdAndOwnerId",query="SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.reporter,i.owner,i.currentStatus,i.issueType) FROM Issue as i where i.project.id = :projectId and i.owner.id = :ownerId" ),
 			
 			
 		}

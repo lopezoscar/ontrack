@@ -13,6 +13,8 @@ function CreateProjectCtrl($scope,$http,$location){
 	$scope.selectedMembers = [];
 	$scope.projectNameNotFound = false;
 	$scope.hideLoadContacts = false;
+	$scope.isAdminError = false;
+	
 	$scope.redirect = function(){
 		$scope.$apply(function() { $location.path("home.html"); });
 	
@@ -29,6 +31,7 @@ function CreateProjectCtrl($scope,$http,$location){
 	$scope.addMember = function (selectedMember){
 		$scope.userAlreadyExist = false;
 		$scope.wrongMail = false;
+		$scope.isAdminError = false;
 		
 	
 		var input = document.getElementById("contactsBox");
