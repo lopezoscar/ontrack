@@ -91,10 +91,6 @@ public class IssueService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Issue getIssueById(@PathParam("pk") Long primaryKey){
 		Issue issue = issueManager.read(primaryKey);
-		Project project = projectManager.read(issue.getId());
-		if(project!= null){
-			issue.setProject(project);
-		}
 		return issue;
 	}
 
