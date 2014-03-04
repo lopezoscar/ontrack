@@ -403,6 +403,7 @@ function CreateIssueCtrl($scope,$http,$location){
     
     $scope.saveIssue = function(issue){
     	$scope.titleError = "false";
+    	$scope.workflowError = false;
     	
     	if(typeof issue === "undefined"){
     		$scope.titleErrorMessage = "Falta el título";
