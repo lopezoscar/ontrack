@@ -327,7 +327,7 @@
 	<body ng-controller="CreateProjectCtrl">
 	
 		<div class="container">
-			<div class="navbar">
+				<div class="navbar">
 			  <div class="navbar-inner">
 			    <a class="brand" href="home.html">OnTrack</a>
 			    <ul class="nav">
@@ -362,17 +362,45 @@
 				      <li><a target="_blank" href="https://code.google.com/p/ontrack/">Repositorio del Proyecto</a></li>
 				    </ul>
 				  </li>
-				
-			    
+				  <li><a href="stats.html">Estadísticas</a></li>
 				  
 			    </ul>
 			    
-			    <ul class="nav pull-right">
-			      <li class="divider-vertical"></li>
-				  <li><a href="profile.html">{{currentUser.userName}}</a></li>
-				  <li class="divider-vertical"></li>
-				  <li><a href="logout">Salir</a></li>
+			    
+			    
+			     <ul class="nav pull-right" >
+<!-- 			     	<li class="divider-vertical"></li> -->
+<!-- 			     	<li class="dropdown" ng-controller="SkinController"> -->
+<!-- 					    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> -->
+<!-- 					      Elige tu Skin -->
+<!-- 					      <b class="caret"></b> -->
+<!-- 					    </a> -->
+<!-- 					    <ul class="dropdown-menu"> -->
+<!-- 					      <li ng-click="updateSkin('default')"><a>OnTrack</a></li> -->
+<!-- 					      <li ng-click="updateSkin('cerulean')"><a>Cerulean</a></li> -->
+<!-- 					    </ul> -->
+<!-- 				  	</li> -->
+<!-- 				 <li class="divider-vertical"></li> -->
+			     <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      {{currentUser.userName}}
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				     <li><a href="profile.html">Perfil</a></li>
+				      <li class="divider-horizontal"></li>
+				      <li><a href="logout">Salir</a></li>
+				    </ul>
+				  </li>
+			     
+			     
+			     
+			      
+				  
+				  
+				  
 				</ul>
+			    
 			    
 			  </div>
 			</div>			

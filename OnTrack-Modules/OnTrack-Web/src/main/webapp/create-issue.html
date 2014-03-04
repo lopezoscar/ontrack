@@ -4,7 +4,7 @@
 		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		 <meta charset="UTF-8"/>
 		 <!-- Bootstrap -->
-    	 <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+    	 
     	 <link href="css/bootstrap-responsive.css" rel="stylesheet">
     	 
     	 <script src="js/jquery.js"></script>
@@ -17,6 +17,10 @@
     	  <!-- Create Issue JS -->
     	 <script src="js/create-issue.js"></script>
     	 <script src="js/app.js"></script>
+    	 
+    	 <script src="js/menu-controller.js"></script>
+    	 <link href="css/skins/default/bootstrap.css" rel="stylesheet" media="screen" id="bootstrapLink">
+    	 
     	 
     	  <!-- JQuery UI -->
     	 <script src="jquery-ui/js/jquery-ui.js"></script>
@@ -64,7 +68,7 @@
 	<body ng-controller="CreateIssueCtrl">
 	
 		<div class="container">
-			<div class="navbar">
+				<div class="navbar">
 			  <div class="navbar-inner">
 			    <a class="brand" href="home.html">OnTrack</a>
 			    <ul class="nav">
@@ -99,29 +103,49 @@
 				      <li><a target="_blank" href="https://code.google.com/p/ontrack/">Repositorio del Proyecto</a></li>
 				    </ul>
 				  </li>
-				
-				    	
-				
+				  <li><a href="stats.html">Estadísticas</a></li>
+				  
 			    </ul>
 			    
-			     <ul class="nav pull-right">
-			      <li class="divider-vertical"></li>
-				  <li><a href="profile.html">{{currentUser.userName}}</a></li>
-				  <li class="divider-vertical"></li>
-				  <li><a href="logout">Salir</a></li>
+			    
+			    
+			     <ul class="nav pull-right" >
+<!-- 			     	<li class="divider-vertical"></li> -->
+<!-- 			     	<li class="dropdown" ng-controller="SkinController"> -->
+<!-- 					    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> -->
+<!-- 					      Elige tu Skin -->
+<!-- 					      <b class="caret"></b> -->
+<!-- 					    </a> -->
+<!-- 					    <ul class="dropdown-menu"> -->
+<!-- 					      <li ng-click="updateSkin('default')"><a>OnTrack</a></li> -->
+<!-- 					      <li ng-click="updateSkin('cerulean')"><a>Cerulean</a></li> -->
+<!-- 					    </ul> -->
+<!-- 				  	</li> -->
+<!-- 				 <li class="divider-vertical"></li> -->
+			     <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      {{currentUser.userName}}
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				     <li><a href="profile.html">Perfil</a></li>
+				      <li class="divider-horizontal"></li>
+				      <li><a href="logout">Salir</a></li>
+				    </ul>
+				  </li>
+			     
+			     
+			     
+			      
+				  
+				  
+				  
 				</ul>
-			    
-				</div>
-			    
-			    
-			    
 			    
 			    
 			  </div>
 			</div>			
 			<!-- End Nav Bar -->
-			
-			
 			
   		</div>
   		<!-- End Container -->
