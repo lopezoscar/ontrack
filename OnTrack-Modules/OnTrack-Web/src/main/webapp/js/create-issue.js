@@ -19,6 +19,7 @@ function CreateIssueCtrl($scope,$http,$location){
 	
 	$scope.currentIssueID = GetURLParameter("issue");
 	
+	$scope.issueStatusForModify = [];
 	$scope.projectsFromWorkflow = [];
 	$scope.isSaved = false;
 	$scope.modifyStatus = false;
@@ -51,13 +52,14 @@ function CreateIssueCtrl($scope,$http,$location){
 				$scope.workflowError = true;
 				$scope.showErrorPanel = true;
 				$scope.issue.currentStatus = $scope.lastStatus;
+				window.scrollTo(0,document.body.scrollHeight);
 			}
 		}
     };
     
     $scope.searchPositionForIssueStatus = function(lastStatus){
     	angular.forEach($scope.issueStatusForModify,function(is,itemNo){
-    		if(is.id = lastStatus.id){
+    		if(is.id == lastStatus.id){
     			$scope.lastStatus.position = is.position;
     			return;
     		}	
@@ -214,6 +216,7 @@ function CreateIssueCtrl($scope,$http,$location){
 	    	$http.get($scope.server+"issuesrv/getissuebyid/"+id).success(function(callback){
 	    		$scope.issue = callback;
 	    		$scope.modifyStatus = true;
+	    		
 	    		$scope.lastStatus = $scope.issue.currentStatus;
 	    		
 	    		$scope.comments = $scope.issue.comments;
@@ -231,24 +234,28 @@ function CreateIssueCtrl($scope,$http,$location){
     
     
     function getStatusByHTTPForModify($scope){
-    
 	    if($scope.issue == null || $scope.issue.issueType == null){
 	    	return ;
 	    }
+    
+    	$scope.issueStatusForModify = [];
 	    
 	    var urlService = $scope.server+'issuestatussrv/getissuestatusbyissuetype/'+$scope.issue.issueType.id+"/"+$scope.issue.project.id;
     			$http({method: 'GET', url: urlService,headers: {'Content-Type': 'application/json'}}).
 				  success(function(data, status, headers, config) {
 		    	 	$scope.issueStatusByWorkflow = data;
-		    	 	$scope.issueStatusForModify = [];
-		    	 	$scope.issueStatusForModify = getIssueStatusByProjectAndTypeForModify($scope.issueStatusByWorkflow);
+		    	 	
+		    	 	getIssueStatusByProjectAndTypeForModify($scope.issueStatusByWorkflow);
+		    	 	
 		    	 	//Issue status for modify
-		    	 	angular.forEach($scope.issueStatusForModify,function(issueStatus,itemNo){
+		    	 	/*
+					angular.forEach($scope.issueStatusForModify,function(issueStatus,itemNo){
 		    	 		if(issueStatus.id == $scope.issue.currentStatus.id){
 		    	 			$scope.issue.currentStatus.position = issueStatus.position;
 		    	 		}
 		    	 		console.log(issueStatus);
 		    	 	});
+		    	 	*/		    	 	
 		    	 	
 				  }).
 				  error(function(data, status, headers, config) {
@@ -265,17 +272,23 @@ function CreateIssueCtrl($scope,$http,$location){
 					$http({method: 'GET', url: $scope.server+'issuestatussrv/getissuestatusbyid/'+isbwf.pk.status}).
 					  success(function(data, status, headers, config) {
 					  	var issueStatus = data;
+					  	issueStatus.position = isbwf.position;
 	    				var status = {
 	    					issueStatus: issueStatus,
 	    					position: isbwf.position
 	    				};
-    			 		result.push(status);    	
-					   
+	    				
+	    				if($scope.lastStatus.id == status.issueStatus.id){
+	    					$scope.lastStatus = status.issueStatus;
+	    				}
+    			 		$scope.issueStatusForModify.push(status);    	
 					  }).
 					  error(function(data, status, headers, config) {
 					    
 					  });    	
     	});
+    	
+    				
     	
     		
     	return result; 
