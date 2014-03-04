@@ -31,10 +31,62 @@ function CreateIssueCtrl($scope,$http,$location){
     $scope.issueProperties = [];
     $scope.editOwner = false;
     
+    $scope.validateIssueStatus = function(){
+    	$scope.workflowError = false;
+    	$scope.showErrorPanel = false;
+    	if(typeof $scope.lastStatus === "undefined"){
+    		return;
+    	}
+    	if(typeof $scope.lastStatus.position === "undefined"){
+    		return;
+    	}
+    	
+    	if($scope.lastStatus.position == 0){
+    		$scope.searchPositionForIssueStatus($scope.lastStatus);
+    	}
+    	
+		if($scope.issue.currentStatus.position > $scope.lastStatus.position){
+			var positionResult = $scope.issue.currentStatus.position - $scope.lastStatus.position;
+			if(positionResult != 1){
+				$scope.workflowError = true;
+				$scope.showErrorPanel = true;
+				$scope.issue.currentStatus = $scope.lastStatus;
+			}
+		}
+    };
+    
+    $scope.searchPositionForIssueStatus = function(lastStatus){
+    	angular.forEach($scope.issueStatusForModify,function(is,itemNo){
+    		if(is.id = lastStatus.id){
+    			$scope.lastStatus.position = is.position;
+    			return;
+    		}	
+    	});	
+    }
+    
+    $scope.validateIssueStatusForCreate = function(){
+    	$scope.workflowError = false;
+    	$scope.showErrorPanel = false;
+    	
+		if($scope.issue.issueStatus.position > 1){
+				$scope.workflowError = true;
+				$scope.showErrorPanel = true;
+				
+				angular.forEach($scope.statusByType,function(status,itemNo){
+					if(status.position == 0 || status.position == 1){
+						$scope.issue.issueStatus = status;
+						return;
+					}
+				});
+				
+				return;
+		}
+    };
     
     
     $scope.titleError = false;
-    
+    $scope.workflowError = false;
+    $scope.showErrorPanel = false;
     
     $scope.setEditOwner = function(){
     	$scope.editOwner = true;
@@ -45,12 +97,15 @@ function CreateIssueCtrl($scope,$http,$location){
     $scope.server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack-SOA/";
 	$scope.webserver = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack/";
 	
+	
 	getIssueById($scope.currentIssueID);
     
     $http({method: 'GET', url: $scope.webserver+'currentUser',headers: {'Content-Type': 'application/json'}}).
 	  success(function(data, status, headers, config) {
 	   	$scope.currentUser = data;
+	   
 	   	if(!$scope.modifyStatus){
+			
 	   		retrieveWorkflowsByUser($scope.currentUser);
 	   	}
 	   	/* 
@@ -67,8 +122,10 @@ function CreateIssueCtrl($scope,$http,$location){
 	  });
     
     $scope.setInitStatus = function(statusList){
+    	
     	angular.forEach(statusList,function(status,itemNo){
-    		if(status.position == 1){
+    		if(status.position == 1 || status.position == 0){
+    			$scope.lastStatus = $scope.issue.currentStatus;
     			$scope.issue.currentStatus = status;
     		}
     	});
@@ -157,6 +214,8 @@ function CreateIssueCtrl($scope,$http,$location){
 	    	$http.get($scope.server+"issuesrv/getissuebyid/"+id).success(function(callback){
 	    		$scope.issue = callback;
 	    		$scope.modifyStatus = true;
+	    		$scope.lastStatus = $scope.issue.currentStatus;
+	    		
 	    		$scope.comments = $scope.issue.comments;
 	    		$scope.entries = $scope.issue.entries;
 	    		getStatusByHTTPForModify($scope);
@@ -169,7 +228,7 @@ function CreateIssueCtrl($scope,$http,$location){
     	}
     }
     
-    getStatusByHTTPForModify($scope);
+    
     
     function getStatusByHTTPForModify($scope){
     
@@ -183,6 +242,13 @@ function CreateIssueCtrl($scope,$http,$location){
 		    	 	$scope.issueStatusByWorkflow = data;
 		    	 	$scope.issueStatusForModify = [];
 		    	 	$scope.issueStatusForModify = getIssueStatusByProjectAndTypeForModify($scope.issueStatusByWorkflow);
+		    	 	//Issue status for modify
+		    	 	angular.forEach($scope.issueStatusForModify,function(issueStatus,itemNo){
+		    	 		if(issueStatus.id == $scope.issue.currentStatus.id){
+		    	 			$scope.issue.currentStatus.position = issueStatus.position;
+		    	 		}
+		    	 		console.log(issueStatus);
+		    	 	});
 		    	 	
 				  }).
 				  error(function(data, status, headers, config) {
@@ -291,6 +357,7 @@ function CreateIssueCtrl($scope,$http,$location){
     				$http({method: 'GET', url: $scope.server+'issuestatussrv/getissuestatusbyid/'+isbwf.pk.status}).
 					  success(function(data, status, headers, config) {
 					  	var issueStatus = data;
+					  	issueStatus.position = isbwf.position;
 	    				var status = {
 	    					issueStatus: issueStatus,
 	    					position: isbwf.position
@@ -322,6 +389,7 @@ function CreateIssueCtrl($scope,$http,$location){
     }
     
     $scope.saveIssue = function(issue){
+    	$scope.titleError = "false";
     	
     	if(typeof issue === "undefined"){
     		$scope.titleErrorMessage = "Falta el título";

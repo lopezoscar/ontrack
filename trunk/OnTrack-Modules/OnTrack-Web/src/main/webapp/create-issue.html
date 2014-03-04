@@ -114,7 +114,11 @@
   		</div>
   		<!-- End Container -->
   		
+  		
+  		
+  		
   		<div class="container-fluid">
+  		
   		<!-- 
   			Tipo de Issue Combo
   			Estado Combo
@@ -130,14 +134,25 @@
   			Boton Crear Issue
   			
   			 -->
+  			 
 			<fieldset>
 				<legend ng-hide="modifyStatus">Crear Issue</legend>
 				<legend ng-show="modifyStatus">Actualizar Issue</legend>
-			</fieldset> 
+			</fieldset>
+			
+			
+			
+			 
 			<form novalidate class="simple-form">
 			
-  			
 			<div class="row-fluid">
+	  			<div class="span8 pull-right well" ng-show="showErrorPanel">
+					<span class="alert alert-error" ng-show="workflowError" >Solo puedes avanzas al siguiente estado o volver a cualquiera de los anteriores</span>
+				</div>
+			</div>
+			
+			<div class="row-fluid">
+			
 			
 			
 			<div class="span3 well" ng-hide="modifyStatus">
@@ -149,7 +164,7 @@
 			 <select ng-model="issue.issueType" ng-options="w.issueType.description for w in workflowsByProject" ng-change="updateStatusByTypeAndUsers(issue)">
 			 	<option value='' disabled selected style='display:none;'>Elegi un tipo de Issue</option>
 			 </select>
-			 <select ng-model="issue.issueStatus"  ng-options="s.issueStatus.description for s in statusByType | orderBy:'position'">
+			 <select ng-model="issue.issueStatus"  ng-options="s.issueStatus.description for s in statusByType | orderBy:'position'" ng-change="validateIssueStatusForCreate()">
 			 	<option value='' disabled selected style='display:none;'>Elegi un Estado</option>
 			 </select>
   			 <select ng-model="issue.owner" ng-options="u.userName for u in projectUsers">
@@ -163,10 +178,10 @@
   			 	 <input ng-model="issue.title" class="input-large" type="text" ng-readonly="true" required/>
   			 	 <input ng-model="issue.project.name" class="input-large" type="text" ng-readonly="true"/>
   			 	 <input ng-model="issue.issueType.description" class="input-large" type="text" ng-readonly="true"/>
-				 <select ng-model="issue.currentStatus" ng-options="s.issueStatus.description for s in issueStatusForModify | orderBy:'position'">
+				 <select ng-model="issue.currentStatus" ng-options="s.issueStatus.description for s in issueStatusForModify | orderBy:'position'" ng-change="validateIssueStatus()">
 				 	<option value='' disabled selected style='display:none;'>{{issue.currentStatus.description}}</option>
 				 </select>
-			
+			 								
 			 <input ng-hide="editOwner" ng-model="issue.owner.userName" type="text" ng-readonly="true"/>
 			 <button class="btn btn-info" style="margin-bottom:10px;"  ng-click="setEditOwner()" ng-hide="editOwner">Cambiar Owner</button>
 			 	 
@@ -180,8 +195,11 @@
   			 </div>
   			 <!-- End Span02 -->
   			 
+  			 
+  			 
   			 <div class="span8" >
   			 	<textarea ng-model="issue.description" class="ckeditor" name="editor">Ingrese una descripción</textarea>
+  			 	
   			 	<div class="well">
 				  
 				  
@@ -249,6 +267,7 @@
 				<a class="btn btn-primary" value="Guardar Modificaciones"  ng-click="saveIssue(issue)" ng-show="modifyStatus"  ng-disabled="renderedIssueBtn">Guardar Modificaciones</a>
 				<span class="alert alert-info" ng-show="isSaved">El issue fue actualizado correctamente</span>
 				<span class="alert alert-error" ng-show="titleError">{{titleErrorMessage}}</span>
+				
 			</div>
   			</form>
   			<!-- End Form that wrapper all inputs and selects --> 
