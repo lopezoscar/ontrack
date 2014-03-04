@@ -1,46 +1,30 @@
 <!DOCTYPE HTML>
-<html lang="AR_ES" ng-app>
+<html lang="es_AR" ng-app>
 	<head>
 		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		 <meta charset="UTF-8"/>
+    	 <!-- CSS  -->
 		 <!-- Bootstrap -->
+		 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		 
     	 <link href="css/bootstrap.css" rel="stylesheet" media="screen">
     	 <link href="css/bootstrap-responsive.css" rel="stylesheet">
-    	 
+    	 <!-- JQuery and JQuery UI -->
+    	 <link href="css/global.css" rel="stylesheet" />
+    	 <!-- JS -->
+    	 <!-- JQuery -->
     	 <script src="js/jquery.js"></script>
-    	 <script src="js/bootstrap.js"></script>
-    	 
-    	 <script src="js/search-projects-filter.js"></script>
-    	 
-    	 <!-- CSS  -->
-    	 <link rel="css/global.css" rel="stylesheet" />
-    	 
-			 <!-- JQuery UI -->
-    	 <script src="jquery-ui/js/jquery-ui.js"></script>
-    	 
-		<link href="jquery-ui/css/smoothness/jquery-ui.css" rel="stylesheet"/>	
-    	 
-    	  <script src="angularjs/angular.js"></script>
-	 	
-	 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    	
-    	 <script src="datatables/media/js/jquery.dataTables.js"></script>
-
-
-		 <script type="text/javascript" src="js/charts.js"></script>
-    	 
-    	 <link rel="stylesheet" type="text/css" href="datatables/media/css/jquery.dataTables.css">
+		 <script src="js/bootstrap.js"></script>
+    	 <!-- Angular JS -->
+    	 <script src="angularjs/angular.js"></script>
 
     	 
+    	 <script src="js/stats.js"></script>
+    	 <script src="js/charts.js"></script>
     	 
-    	 
-    	 
-
-	</head>
-	
-	<body ng-controller="SearchProjectsController">
-	
-		<div class="container">
+   </head>
+   <body ng-controller="StatsController">
+   		<div class="container">
 			<div class="navbar">
 			  <div class="navbar-inner">
 			    <a class="brand" href="home.html">OnTrack</a>
@@ -76,48 +60,43 @@
 				      <li><a target="_blank" href="https://code.google.com/p/ontrack/">Repositorio del Proyecto</a></li>
 				    </ul>
 				  </li>
-				  <li><a href="stats.html">Estadísticas</a></li>
-				    	
-				
+				  
 			    </ul>
 			    
-			     <ul class="nav pull-right">
-			      <li class="divider-vertical"></li>
+			    <ul class="nav pull-right">
 				  <li><a href="profile.html">{{currentUser.userName}}</a></li>
-				  <li class="divider-vertical"></li>
 				  <li><a href="logout">Salir</a></li>
 				</ul>
-			    
-				</div>
-			    
-			    
-			    
-			    
 			    
 			  </div>
 			</div>			
 			<!-- End Nav Bar -->
-  		</div>
-  		<!-- End Container -->
-  		
-  		<div class="container-fluid" >
-  			<div class="row-fluid">
-  			<div class="span6">
-				  	<table id="projects">
-		  				<thead></thead>
-		  				<tbody></tbody>
-		  				<tfoot>
-							<tr>
-								<th><input class="input-small" type="text" name="search_engine" placeholder="ID Proyecto" class="search_init" /></th>
-								<th><input class="input-small" type="text" name="search_browser" placeholder="Nombre" class="search_init" /></th>
-						</tfoot>
-		  			</table>  			
-  			</div>
-
-  			</div>
-  		</div>
-  		
-  		
-	</body>
-	
+			
+		</div>	
+		
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span12">
+				
+				<legend>Estadísticas</legend>
+				
+  				<div class="span4">
+  					<div id="status_div">
+  					</div>
+  				</div>
+  				<div class="span4">
+  					<div id="type_div">
+  					</div>
+  				</div>
+  				<div class="span4">
+  					<div id="issues_div">
+  					</div>
+  				</div>
+				
+				</div>
+			</div>
+		</div>
+		
+		
+</body>
 </html>
