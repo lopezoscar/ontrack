@@ -52,8 +52,9 @@ function CreateProjectCtrl($scope,$http,$location){
 					$scope.wrongMail = false;
 				}	
 			});
+			
 		}else{
-			$scope.emptyContactList = true;
+			//$scope.emptyContactList = true;
 		}         	
 
 		if($scope.wrongMail){
