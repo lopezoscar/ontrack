@@ -27,37 +27,57 @@ function CreateProjectCtrl($scope,$http,$location){
     	$scope.currentTypeForIssueStatus = type;
     	//$scope.$apply();
     };
+    
+    $scope.createMember = function(selectedMember){
+    	try{
+    		var titleAndMail = selectedMember.split("-");
+    		var member = {
+				title: titleAndMail[0],
+				email: titleAndMail[1].trim()
+		        	};
+			return member;
+    	}catch(err){
+    		console.log(err);
+    		return;
+    	}
+		
+    };
 	
 	$scope.addMember = function (selectedMember){
 		$scope.userAlreadyExist = false;
 		$scope.wrongMail = false;
 		$scope.isAdminError = false;
-		
+		$scope.emptyContactList = false;
 	
 		var input = document.getElementById("contactsBox");
 		var selectedMember = input.value;
 
-		var titleAndMail = selectedMember.split("-");
 		
-		var member = {
-				title: titleAndMail[0],
-				email: titleAndMail[1].trim()
-		        	};
-		        	 
-		if(! typeof $scope.membersForAutocomplete === "undenfined"){
-			$scope.membersForAutocomplete.forEach(function(contactMember,itemNo){
-				if(contactMember.email != meber.email){
-					$scope.wrongMail = true;
-				}else{
-					$scope.wrongMail = false;
+		var member = $scope.createMember(selectedMember);
+		if(typeof member === "undefined"){
+			$scope.wrongMail = true;
+			return;
+		}
+		
+		var keepGoing = true;		        	 
+		if(typeof $scope.membersForAutocomplete != "undefined"){
+			angular.forEach($scope.membersForAutocomplete,function(contactMemberRaw,itemNo){
+				if(keepGoing){
+					var contactMember = $scope.createMember(contactMemberRaw);
+					if(contactMember.email != member.email){
+						$scope.wrongMail = true;
+					}else{
+						keepGoing = false;
+						$scope.wrongMail = false;
+					}
 				}	
 			});
 			
 		}else{
-			//$scope.emptyContactList = true;
+			$scope.emptyContactList = true;
 		}         	
 
-		if($scope.wrongMail){
+		if($scope.wrongMail || $scope.emptyContactList){
 			return;
 		}
 		var existUser = false;
@@ -370,6 +390,12 @@ function CreateProjectCtrl($scope,$http,$location){
 	}
 	
 	$scope.saveProject = function(){
+		$scope.userAlreadyExist = false;
+		$scope.wrongMail = false;
+		$scope.isAdminError = false;
+		$scope.emptyContactList = false;
+	
+	
 		if(typeof $scope.project === "undefined"){
 			$scope.projectNameNotFound = true;
 			return;

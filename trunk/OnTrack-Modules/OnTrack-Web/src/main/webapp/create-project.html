@@ -120,8 +120,11 @@
 		  data: { access_token: token, 'max-results': '5000', alt: 'json' },
 		  success:function(data){ 
 				var scope = angular.element('[ng-controller=CreateProjectCtrl]').scope(); 
-				
-				scope.hideLoadContacts = true;
+
+				scope.$apply(function(){
+					scope.hideLoadContacts = true;
+				});
+
 
 				var xmlMembers = [];
 				var membersForAutocomplete = [];
@@ -150,7 +153,12 @@
 								}
 						}
 					  });
-				  	
+
+				  	scope.$apply(function(){
+				  		scope.membersForAutocomplete = membersForAutocomplete;
+					 });
+				    
+				    
 				    var options = {
 				    		source: membersForAutocomplete,
 						    };
