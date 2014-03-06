@@ -189,7 +189,7 @@ function parserResultToDataTableForIssues(data){
 		var issueId =  validateNullAndUndenfinded(issue.id) ? "INDEFINIDO":issue.id;
 		var title =   validateNullAndUndenfinded(issue.title) ? "INDEFINIDO":issue.title;
 		var reporter = validateNullAndUndenfinded(issue.reporter) ? "INDEFINIDO":issue.reporter;
-		var owner = validateNullAndUndenfinded(issue.owner.lastName+", "+issue.owner.firstName)? "INDEFINIDO": issue.owner.lastName+", "+issue.owner.firstName;
+		var owner = validateNullAndUndenfinded(issue.owner.lastName) ? "INDEFINIDO": issue.owner.lastName+", "+issue.owner.firstName;
 		var currentStatus = validateNullAndUndenfinded(issue.currentStatus.description) ? "INDEFINIDO":issue.currentStatus.description; 
 		var issueType = validateNullAndUndenfinded(issue.issueType.description)? "INDEFINIDO":issue.issueType.description;
 		var project = validateNullAndUndenfinded(issue.project)? "INDEFINIDO":issue.project.name;
