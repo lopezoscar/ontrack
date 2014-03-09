@@ -1,5 +1,7 @@
 package com.sappe.ontrack.model.issues;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +25,7 @@ public class ProcessHistory {
 	private String status;
 	
 	@Column(name="date")
-	private String date;
+	private Date date;
 	
 	@ManyToOne
 	@JoinColumn(name="id_issue")
@@ -45,11 +47,11 @@ public class ProcessHistory {
 		this.status = status;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 	
