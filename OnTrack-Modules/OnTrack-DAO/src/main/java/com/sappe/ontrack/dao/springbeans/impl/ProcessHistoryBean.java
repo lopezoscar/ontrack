@@ -1,6 +1,8 @@
 package com.sappe.ontrack.dao.springbeans.impl;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.EntityExistsException;
@@ -52,7 +54,7 @@ public class ProcessHistoryBean implements ProcessHistoryManager {
 
 	public void addEntryToHistory(Issue issue) {
 		ProcessHistory history = new ProcessHistory();
-		history.setDate(new Date().toString());
+		history.setDate(new Date());
 		history.setStatus(issue.getCurrentStatus().getDescription());
 		history.setIssue(issue);
 		create(history);
