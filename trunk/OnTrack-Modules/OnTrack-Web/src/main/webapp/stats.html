@@ -16,12 +16,47 @@
     	 <!-- JQuery -->
     	 <script src="js/jquery.js"></script>
 		 <script src="js/bootstrap.js"></script>
+		 <link href="jquery-ui/css/smoothness/jquery-ui.css" rel="stylesheet"/>
+		 
     	 <!-- Angular JS -->
     	 <script src="angularjs/angular.js"></script>
 
+	
     	 
     	 <script src="js/stats.js"></script>
     	 <script src="js/charts.js"></script>
+		
+	 	 <!-- JQuery UI -->
+    	 <script src="jquery-ui/js/jquery-ui.js"></script>
+
+
+    	 
+    	 <script>
+    	 $('#chartsTab a').click(function (e) {
+		  	  e.preventDefault();
+		  	  $(this).tab('show');
+		  	})
+		
+		$(function() {
+		    $( "#from" ).datepicker({
+		      defaultDate: "+1w",
+		      changeMonth: true,
+		      numberOfMonths: 3,
+		      onClose: function( selectedDate ) {
+		        $( "#to" ).datepicker( "option", "minDate", selectedDate );
+		      }
+		    });
+		    $( "#to" ).datepicker({
+		      defaultDate: "+1w",
+		      changeMonth: true,
+		      numberOfMonths: 3,
+		      onClose: function( selectedDate ) {
+		        $( "#from" ).datepicker( "option", "maxDate", selectedDate );
+		      }
+		    });
+		  });
+		  	
+		</script>
     	 
    </head>
    <body ng-controller="StatsController">
@@ -61,7 +96,7 @@
 				      <li><a target="_blank" href="https://code.google.com/p/ontrack/">Repositorio del Proyecto</a></li>
 				    </ul>
 				  </li>
-				  
+				  <li><a href="stats.html">Estadísticas</a></li>
 			    </ul>
 			    
 			       <ul class="nav pull-right" >
@@ -88,20 +123,102 @@
 			<div class="row-fluid">
 				<div class="span12">
 				
-				<legend>Estadísticas</legend>
+
 				
-  				<div class="span4">
-  					<div id="status_div">
-  					</div>
-  				</div>
-  				<div class="span4">
-  					<div id="type_div">
-  					</div>
-  				</div>
-  				<div class="span4">
-  					<div id="issues_div">
-  					</div>
-  				</div>
+				<div class="span12">
+				
+				<legend>Estadísticas</legend>
+				<ul class="nav nav-tabs" id="chartsTab">
+				  <li><a href="#projects" data-toggle="tab">Proyectos</a></li>
+				  <li><a href="#issues" data-toggle="tab">Issues</a></li>
+				  <li><a href="#burndown" data-toggle="tab">Burndown & Burnup </a></li>
+				</ul>
+				
+				<div class="tab-content">
+				  <div class="tab-pane active" id="projects">
+				  		<div class="span12">
+				  			<select ng-model="selectedProject" ng-options="p.name for p in projects" ng-change="updateCharts()">
+								<option value='' disabled selected style='display:none;'>Elegi un proyecto</option>
+		 					  </select>
+				  		</div>
+						<div class="span12"> 					  
+	 					  	<div class="span4">
+		  						<div id="status_div">
+			  					</div>
+			  				</div>
+			  				<div class="span4">
+			  					<div id="type_div">
+			  					</div>
+			  				</div>
+			  				<div class="span4">
+			  					<div id="issues_div">
+			  					</div>
+			  				</div>
+		  				
+		  				</div>
+				  </div>
+				  
+				  <div class="tab-pane" id="issues">
+				  	<div class="span4">
+	  					<div id="issues_status_div">
+	  					</div>
+	  				</div>
+	  				<div class="span4">
+	  					<div id="issues_type_div">
+	  					</div>
+	  				</div>
+	  				<div class="span4">
+	  					<div id="cant_issues_div">
+	  					</div>
+	  				</div>
+				  </div>
+				  
+				  <div class="tab-pane" id="burndown">
+				  	<div class="span12">
+				  		
+				  		<h3>Elige un proyecto</h3>
+				  		<select ng-model="selectedProyectForBB" ng-options="p.name for p in projects" ng-change="showDateRange()">
+						 	<option value='' disabled selected style='display:none;'>Elegi un proyecto</option>
+						 </select>
+						 
+				  		<h3 ng-show="showDateRange">Elige un rango de fechas y genera los gráficos</h3>
+				  		<form ng-show=showDateRange  class="form-horizontal" novalidate>
+						  <div class="control-group">
+						    <label class="control-label" for="fromDate">Desde</label>
+						    <div class="controls">
+						  		<input id="from" type="text" ng-model="fromDate" class="datepicker" placeholder="10/02/2014" required>
+						  		<span class="alert alert-error" ng-show="fromDateEmpty">Fecha Desde Vacía</span>
+						    </div>
+						  </div>
+						  <div class="control-group">
+						    <label class="control-label" for="toDate">Hasta</label>
+						    <div class="controls">
+					  			<input id="to" type="text" ng-model="toDate" class="datepicker" placeholder="10/03/2014" required>		    
+						  		<span class="alert alert-error" ng-show="toDateEmpty">Fecha Hasta Vacía</span>
+						    </div>
+						  </div>
+						  <div class="control-group">
+						    <div class="controls">
+						      <button type="submit" class="btn btn-primary" ng-click="createBBChart()">Graficar</button>
+						      <span class="alert alert-error" ng-show="fromDateAfterToDate">La fecha desde no puede ser posterior a la fecha hasta</span>
+						    </div>
+						  </div>
+						</form>
+				  	
+
+
+
+
+
+		 			</div>
+				  </div>
+				  
+				</div>
+				<!-- End Tab Content -->
+				</div>
+				
+				
+  				
 				
 				</div>
 			</div>
