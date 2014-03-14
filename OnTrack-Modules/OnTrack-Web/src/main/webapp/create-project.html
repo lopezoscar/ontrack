@@ -328,6 +328,33 @@
 	}
 
   </script>
+  
+  <script>
+	
+
+	function saveIssueTypeDesc(){
+		if (event.keyCode == 13){
+			var scope = angular.element('[ng-controller=CreateProjectCtrl]').scope(); 
+			var desc = document.getElementById("issueTypeDesc").value;
+			scope.$apply(function(){
+				scope.saveIssueType(desc);
+			});
+		}
+				
+			
+		return false;	
+	}
+		
+	function saveIssueStatusDesc(){
+		if (event.keyCode == 13){
+			var scope = angular.element('[ng-controller=CreateProjectCtrl]').scope(); 
+			scope.$apply(function(){
+				scope.saveStatus(scope.status);
+			});
+		}
+	}
+
+  </script>
     	 
 	</head>
 	
@@ -496,8 +523,8 @@
 			  		<fieldset>
 			  			<legend>Tipo de Issue</legend>
 			  		<form novalidate class="simple-form">
-						<input id="issueTypeDesc" type="text" placeholder="Tipo de Issue" ng-model="desc"/>
-						<input type="button" class="btn btn-primary" value="Guardar" ng-click="saveIssueType(desc)" ng-disabled="disableActions"/>
+						<input id="issueTypeDesc" type="text" placeholder="Tipo de Issue" ng-model="desc" onkeydown="saveIssueTypeDesc()"/>
+						<input type="button" class="btn btn-primary" value="Guardar" ng-click="saveIssueType(desc)"  ng-disabled="disableActions"/>
 
 						
 					</form>
@@ -537,7 +564,7 @@
 			  		
 			  		<form novalidate class="simple-form">
 				  		<select ng-change="updateCurrentType(status.type)" ng-model="status.type" ng-options="type.description for type in issueTypes"></select>
-				  		<input type="text" class="input-medium" ng-model="status.description"/>
+				  		<input id="issueStatusDesc" type="text" class="input-medium" ng-model="status.description" onkeydown="saveIssueStatusDesc()"/>
 				  		<input type="button" class="btn btn-primary" value="Guardar"  ng-click="saveStatus(status)" ng-disabled="disableActions"/>
 			  		</form>	  		
 			  		
