@@ -361,6 +361,7 @@ function CreateProjectCtrl($scope,$http,$location){
 		
 		$scope.status = angular.copy({});
 		
+		$scope.status.type = status.type;
 		
 		
 		
