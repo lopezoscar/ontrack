@@ -9,13 +9,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
-import org.springframework.stereotype.Component;
 import org.springframework.web.HttpRequestHandler;
-import org.springframework.web.context.support.HttpRequestHandlerServlet;
+
+import com.sappe.ontrack.model.users.User;
+import com.sappe.ontrack.sdk.interfaces.UserService;
 /**
  * Servlet para manejar la session del usuario. Extiende de HttpRequestHandlerServlet
  *  porque necesito que se inyecte el servlet en el applicactionContext
@@ -25,6 +27,9 @@ import org.springframework.web.context.support.HttpRequestHandlerServlet;
 public class SessionServlet implements HttpRequestHandler{
 
 
+	@Autowired
+	private UserService userService;
+	
 	@Override
 	public void handleRequest(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -32,7 +37,14 @@ public class SessionServlet implements HttpRequestHandler{
 		WebAuthenticationDetails details = (WebAuthenticationDetails)auth.getDetails();
 		details.getSessionId();
 		UserDetailsViewModel vm = (UserDetailsViewModel)user;
-		String userInJson = toJson(vm.getUser());
+		User u = null;
+		if(vm.getUser() != null && vm.getUser().getMail() != null){
+			u = userService.userByEmail(vm.getUser().getMail());
+		}else{
+			u = vm.getUser();
+		}
+		
+		String userInJson = toJson(u);
 		response.setContentType("application/json");
 		response.getWriter().write(userInJson);
 	}
