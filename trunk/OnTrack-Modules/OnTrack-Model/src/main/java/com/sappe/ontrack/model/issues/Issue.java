@@ -1,6 +1,7 @@
 package com.sappe.ontrack.model.issues;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -36,7 +37,7 @@ import com.sappe.ontrack.model.users.User;
 			@NamedQuery(name="getIssuesByCode",query = "SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.reporter,i.owner,i.currentStatus,i.issueType) FROM Issue as i where i.code = :code"),
 			@NamedQuery(name="getIssuesByIssueType", query="SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.reporter,i.owner,i.currentStatus,i.issueType) FROM Issue as i where i.issueType = :type"),
 			@NamedQuery(name="getIssuesByUserFromProject", query="SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.reporter,i.owner,i.currentStatus,i.issueType,i.project) FROM Issue as i where :user in elements (i.project.users)"),
-			@NamedQuery(name="getIssuesByProjectIdAndOwnerId",query="SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.reporter,i.owner,i.currentStatus,i.issueType) FROM Issue as i where i.project.id = :projectId and i.owner.id = :ownerId" ),
+			@NamedQuery(name="getIssuesByProjectIdAndOwnerId",query="SELECT NEW com.sappe.ontrack.model.issues.Issue(i.id,i.title,i.description,i.reporter,i.owner,i.currentStatus,i.issueType,i.project) FROM Issue as i where i.project.id = :projectId and i.owner.id = :ownerId" ),
 			
 			
 		}
@@ -76,6 +77,9 @@ public class Issue implements Serializable{
 	@OneToOne
 	@JoinColumn(name="issue_type")
 	private IssueType issueType;
+	
+	@Column(name="created_date")
+	private Date createdDate;
 	
 	@ManyToOne
 	@JoinColumn(name="parent_issue")
@@ -363,6 +367,20 @@ public class Issue implements Serializable{
 
 	public void setHistory(List<ProcessHistory> history) {
 		this.history = history;
+	}
+
+	
+
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+
+
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 
 
