@@ -126,6 +126,8 @@ function CreateProjectCtrl($scope,$http,$location){
 		  success(function(data, status, headers, config) {
 		  		if(data == "isAdmin"){
 		  			$scope.isAdminError = true;
+		  		}else{
+		  			$scope.selectedMembers.splice($index,1);
 		  		}
 		  }).
 		  error(function(data, status, headers, config) {
