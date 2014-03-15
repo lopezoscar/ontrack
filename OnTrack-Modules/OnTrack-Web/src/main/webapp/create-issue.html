@@ -245,7 +245,7 @@
 				<div>
 					<h4>Stack Logs</h4>
 				    <ol id="stacklogs">
-					  <li ng-repeat="log in issue.logs" class="ui-widget-content">{{log.description}} - {{log.date}}</li>
+					  <li ng-repeat="log in issue.logs" class="ui-widget-content">{{log.description}} - {{log.date | date:'dd-MM-yyyy HH:mm:ss'}}</li>
 					</ol>				
 				</div>
 			</div>
@@ -253,7 +253,7 @@
 				<div>
 					<h4>Stack History</h4>
 				    <ol id="stackhistory">
-					  <li ng-repeat="entry in issue.history" class="ui-widget-content">{{entry.status}} - {{entry.date}}</li>
+					  <li ng-repeat="entry in issue.history" class="ui-widget-content">{{entry.status}} - {{entry.date | date:'dd-MM-yyyy HH:mm:ss'}}</li>
 					</ol>
 				</div>
 			</div>

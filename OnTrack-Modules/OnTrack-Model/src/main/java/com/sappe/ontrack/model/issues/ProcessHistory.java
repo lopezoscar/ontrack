@@ -89,6 +89,11 @@ public class ProcessHistory {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return status;
+	}
 	
 	
 	
