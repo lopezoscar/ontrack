@@ -424,7 +424,7 @@ function CreateIssueCtrl($scope,$http,$location){
     	issue.comments = $scope.comments;
     	var issueToSend = {};
     	if($scope.modifyStatus){
-    		if(issue.currentStatus.issueStatus != "undefined"){
+    		if(typeof issue.currentStatus.issueStatus != "undefined"){
     			issue.currentStatus = issue.currentStatus.issueStatus;
     		}
     		
