@@ -140,10 +140,10 @@ function parserResultToDataTableForIssues(data){
 		    "sInfoThousands":  ",",
 		    "sLoadingRecords": "Cargando...",
 		    "oPaginate": {
-		        "sFirst":    "Primero",
-		        "sLast":     "Último",
-		        "sNext":     "Siguiente",
-		        "sPrevious": "Anterior"
+		        "sFirst":    "<<",
+		        "sLast":     ">>",
+		        "sNext":     ">",
+		        "sPrevious": "<"
 		    },
 		    "oAria": {
 		        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
@@ -152,7 +152,6 @@ function parserResultToDataTableForIssues(data){
 		},
 		sDom: 'T<"clear">lfrtip',
 		bJQueryUI : true,
-		sPaginationType: "full_numbers",
 		oTableTools: {
 			"sSwfPath": "datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf",
 			"aButtons": [

@@ -108,6 +108,7 @@ function parserResultToDataTable(data){
 	
 		sDom: 'T<"clear">lfrtip',
 		bJQueryUI : true,
+		
 		aaSorting: [ [0,'desc']],
 		aaData: [],
 		aoColumns: [
