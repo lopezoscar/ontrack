@@ -55,7 +55,7 @@ public class LogIssueBean implements LogIssueManager{
 	@Transactional
 	public void addLogToIssue(Issue issue,IssueAction action){
 		LogIssue log = new LogIssue();
-		log.setDate(new Date().toString());
+		log.setDate(new Date());
 		log.setAction(action);
 		String description = String.format(action.getAction(), issue.getOwner().completeName(),issue.getTitle(),issue.getId());
 		log.setDescription(description);

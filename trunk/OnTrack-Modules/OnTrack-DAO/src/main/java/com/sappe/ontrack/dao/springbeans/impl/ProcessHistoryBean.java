@@ -3,6 +3,7 @@ package com.sappe.ontrack.dao.springbeans.impl;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.EntityExistsException;
