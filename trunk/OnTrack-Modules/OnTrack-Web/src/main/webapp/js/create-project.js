@@ -307,6 +307,10 @@ function CreateProjectCtrl($scope,$http,$location){
 		//Work around para create-project.html. Se necesita setear por default un valor en el ng-model
 		property.issueType = $scope.currentIssueType;
 		
+		property.type = {id: 1, 
+						 name:"Texto"
+						};
+		
 		var idx = $scope.issueTypes.indexOf($scope.currentIssueType);
 		var it = $scope.issueTypes[idx] ;
 		

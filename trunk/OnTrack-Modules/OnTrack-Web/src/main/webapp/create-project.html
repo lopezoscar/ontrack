@@ -354,6 +354,16 @@
 		}
 	}
 
+	function saveIssuePropertyKeyPress(){
+		if (event.keyCode == 13){
+			var scope = angular.element('[ng-controller=CreateProjectCtrl]').scope(); 
+			scope.$apply(function(){
+				scope.savePropertyType(scope.property);
+				$('#issueTypeModal').modal('hide');
+			});
+		}
+	}
+
   </script>
     	 
 	</head>
@@ -522,7 +532,7 @@
 			  	
 			  		<fieldset>
 			  			<legend>Tipo de Issue</legend>
-			  		<form novalidate class="simple-form">
+			  		<form novalidate class="form-inline">
 						<input id="issueTypeDesc" type="text" placeholder="Tipo de Issue" ng-model="desc" onkeydown="saveIssueTypeDesc()"/>
 						<input type="button" class="btn btn-primary" value="Guardar" ng-click="saveIssueType(desc)"  ng-disabled="disableActions"/>
 
@@ -562,7 +572,7 @@
 			  
 			  		<h4>Elige un Tipo de Issue y crear los Estados</h4>
 			  		
-			  		<form novalidate class="simple-form">
+			  		<form novalidate class="form-inline">
 				  		<select ng-change="updateCurrentType(status.type)" ng-model="status.type" ng-options="type.description for type in issueTypes"></select>
 				  		<input id="issueStatusDesc" type="text" class="input-medium" ng-model="status.description" onkeydown="saveIssueStatusDesc()"/>
 				  		<input type="button" class="btn btn-primary" value="Guardar"  ng-click="saveStatus(status)" ng-disabled="disableActions"/>
@@ -623,16 +633,16 @@
 		<div id="issueTypeModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-header">
 		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		    <h3 id="myModalLabel">Tipos de Propiedad</h3>
+		    <h3 id="myModalLabel">Tipos de Propiedad para {{currentIssueType.description}}</h3>
 		  </div>
 		  <div class="modal-body">
 		    <div>
-		  			<form novalidate class="simple-form">
-						<input type="text" class="input-small uneditable-input" ng-readonly="true" placeholder="{{currentIssueType.desc}}" ng-model="property.issueType"/>
-						<select ng-model="property.type" ng-options="type.name for type in issuePropertyTypes" ng-required>
-						</select>
+		  			<form novalidate class="form-inline">
+<!-- 						<input type="text" class="input-small uneditable-input" ng-readonly="true" placeholder="{{currentIssueType.desc}}" ng-model="property.issueType"/> -->
+<!-- 						<select ng-model="property.type" ng-options="type.name for type in issuePropertyTypes" ng-required> -->
+<!-- 						</select> -->
 			  			
-		  				<input type="text" placeholder="Nombre" ng-model="property.description"/>
+		  				<input type="text" placeholder="Nombre" ng-model="property.description" onkeydown="saveIssuePropertyKeyPress()"/>
 		  				<input type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true" value="Guardar" ng-click="savePropertyType(property)"/>
 	  				
 		  			</form>
@@ -641,7 +651,7 @@
 					<table class="table">
 		  				<thead>
 		  					<tr>
-		  						<th>Tipo de Issue</th>
+<!-- 		  						<th>Tipo de Issue</th> -->
 			  					<th>Nombre</th>
 			  					<th>Tipo de Propiedad</th>
 			  					<th>Acciones</th>
@@ -649,7 +659,6 @@
 		  				</thead>
 		  				<tbody>
 		  					<tr ng-repeat="prop in currentIssueType.issueProperties">
-		  						<td>{{prop.issueType.desc}}</td>
 			  					<td>{{prop.description}}</td>
 								<td>{{prop.type.name}}</td>
 			  					<td><input type="button" class="btn btn-primary" value="Eliminar" ng-click="removePropertyType($index)"/></td>
