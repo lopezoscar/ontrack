@@ -94,8 +94,9 @@ CREATE TABLE `issue` (
   `reporter` varchar(255) DEFAULT NULL,
   `owner` bigint(20) DEFAULT NULL,
   `code` varchar(45) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id_issue`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8$$
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -357,11 +358,11 @@ DROP TABLE IF EXISTS `log_issues`;
 CREATE TABLE `log_issues` (
   `id_log` bigint(20) NOT NULL AUTO_INCREMENT,
   `description` text,
-  `date` varchar(100) DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
   `action` int(11) DEFAULT NULL,
   `id_issue` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id_log`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8$$
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -458,10 +459,10 @@ DROP TABLE IF EXISTS `process_history`;
 CREATE TABLE `process_history` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `status` varchar(255) DEFAULT NULL,
-  `date` varchar(100) DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
   `id_issue` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8$$
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
