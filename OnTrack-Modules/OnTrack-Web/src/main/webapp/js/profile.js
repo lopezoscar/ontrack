@@ -16,7 +16,7 @@ function ProfileController($scope,$http,$location){
 	  
 	  $scope.saveUser = function(user){
 	  
-	  		 var username = $scope.currentUser.userName;
+	  		 var username = $scope.newUserName;
 	  		 if(typeof username === "undefined" || username == null){
 			 		$scope.userNameRequired = true;
 			 		return;
