@@ -4,6 +4,7 @@ function ProfileController($scope,$http,$location){
 	$scope.webserver = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack/";
     $scope.userNameRequired = false;
     $scope.userNameExist = false;
+    $scope.avoidExistUsername = false;
     
     $http({method: 'GET', url: $scope.webserver+'currentUser',headers: {'Content-Type': 'application/json'}}).
 	  success(function(data, status, headers, config) {
@@ -15,16 +16,20 @@ function ProfileController($scope,$http,$location){
 	  
 	  $scope.saveUser = function(user){
 	  
-	  		var username = $scope.currentUser.userName;
+	  		 var username = $scope.currentUser.userName;
 	  		 if(typeof username === "undefined" || username == null){
 			 		$scope.userNameRequired = true;
 			 		return;
 			 };
 			 
+			 if($scope.newUserName == $scope.currentUser.userName){
+				$scope.avoidExistUsername = true;			 
+			 }
+			 
     		$http({method: 'GET', url: $scope.server+'usersrv/existusername/'+username,headers: {'Content-Type': 'application/json'}}).
 			  success(function(data, status, headers, config) {
 			  
-			   	if(data == 'true'){
+			   	if(data == 'true' && !$scope.avoidExistUsername){
 			   		$scope.userNameExist = true;
 			   	}else{
 			   		$http({method: 'POST', url: $scope.server+'usersrv/updateuser',data:user, headers: {'Content-Type': 'application/json'}}).

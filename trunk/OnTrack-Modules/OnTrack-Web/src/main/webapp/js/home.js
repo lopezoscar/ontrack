@@ -7,26 +7,30 @@ function HomeController($scope,$http,$location){
 	$http({method: 'GET', url: $scope.webserver+'currentUser',headers: {'Content-Type': 'application/json'}}).
 	  success(function(data, status, headers, config) {
 	   	$scope.currentUser = data;
-	   	if($scope.currentUser.userName == null || $scope.currentUser.lastName || $scope.currentUser.firstName){
+	   	if($scope.currentUser.userName == null || $scope.currentUser.lastName == null || $scope.currentUser.firstName == null){
+	   		
 	   		$location.path("profile.html");
-	   	} 
 	   	
-    	$http({method: 'POST', url: $scope.server+"issuesrv/listIssuesByUser",data:$scope.currentUser,headers: {'Content-Type': 'application/json'}}).
-		  success(function(data, status, headers, config) {
-		   	$scope.issues = data;
-		   	/*
-		   	var rows = parseChartDataCurrentStatus($scope.issues);
-		   	drawChart(rows,'status_div','Mis Issues Por Estado Status');
-		   	rows = parseChartDataIssueType($scope.issues);
-		   	drawChart(rows,'type_div','Mis Issues Por Tipo de Issue');
-		   	*/
-		})
-		.error(function(data, status, headers, config) {
-		  	$scope.noIssues = true;
-		  });;
-		  
-		retrieveProjectsByUser($scope.currentUser);  
-		  
+	   	}else{ 
+	   	
+	    	$http({method: 'POST', url: $scope.server+"issuesrv/listIssuesByUser",data:$scope.currentUser,headers: {'Content-Type': 'application/json'}}).
+			  success(function(data, status, headers, config) {
+			   	$scope.issues = data;
+			   	/*
+			   	var rows = parseChartDataCurrentStatus($scope.issues);
+			   	drawChart(rows,'status_div','Mis Issues Por Estado Status');
+			   	rows = parseChartDataIssueType($scope.issues);
+			   	drawChart(rows,'type_div','Mis Issues Por Tipo de Issue');
+			   	*/
+			})
+			.error(function(data, status, headers, config) {
+			  	$scope.noIssues = true;
+			  });;
+			  
+			retrieveProjectsByUser($scope.currentUser);  
+		 
+		 
+		 }
 		  
 		  
 		  
