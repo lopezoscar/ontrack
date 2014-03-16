@@ -9,6 +9,10 @@ function ProfileController($scope,$http,$location){
     $http({method: 'GET', url: $scope.webserver+'currentUser',headers: {'Content-Type': 'application/json'}}).
 	  success(function(data, status, headers, config) {
 	   	$scope.currentUser = data;
+	   	if($scope.currentUser.userName != null){
+	   		$scope.newUserName = $scope.currentUser.userName;
+	   	}
+	   	
 	  }).
 	  error(function(data, status, headers, config) {
 	  	$scope.noUser = true;
