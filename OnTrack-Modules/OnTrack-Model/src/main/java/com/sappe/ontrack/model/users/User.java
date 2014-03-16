@@ -100,7 +100,7 @@ public class User extends Person implements Serializable{
 
 	@Override
 	public String toString() {
-		return completeName();
+		return getUserName();
 	}
 
 	public String getToken() {
