@@ -25,8 +25,8 @@ function drawChart(rows,domLocation,title) {
  * */
 	// Set chart options
 	var options = {'title':title,
-			'width':400,
-			'height':275};
+			'width':500,
+			'height':375};
 
 	// Instantiate and draw our chart, passing in some options.
 	var chart = new google.visualization.PieChart(document.getElementById(domLocation));

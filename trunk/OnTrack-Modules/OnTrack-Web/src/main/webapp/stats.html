@@ -137,40 +137,79 @@
 				<div class="tab-content">
 				  <div class="tab-pane active" id="projects">
 				  		<div class="span12">
-				  			<select ng-model="selectedProject" ng-options="p.name for p in projects" ng-change="updateCharts()">
-								<option value='' disabled selected style='display:none;'>Elegi un proyecto</option>
+				  			  <select ng-model="selectedProject" ng-options="p.name for p in projects" ng-change="updateCharts()">
+								<option value='' disabled selected style='display:none;'>Elegí un proyecto</option>
 		 					  </select>
+		 					  <h1 align="center">Total de Issues: {{issuesBySelectedProject.length}} </h1>
 				  		</div>
 						<div class="span12"> 					  
-	 					  	<div class="span4">
+	 					  	<div class="span6">
 		  						<div id="status_div">
 			  					</div>
 			  				</div>
-			  				<div class="span4">
+			  				<div class="span6">
 			  					<div id="type_div">
 			  					</div>
 			  				</div>
-			  				<div class="span4">
-			  					<div id="issues_div">
-			  					</div>
-			  				</div>
-		  				
+			  				
 		  				</div>
+		  				
+		  				<div class="span12">
+				  			<select ng-show="isProjectLoaded" ng-model="selectedIssueType" ng-options="it.description for it in issueTypesList " ng-change="updateCharts()">
+								<option value='' disabled selected style='display:none;'>Filtra por Tipo de Issue</option>
+		 					</select>
+							<div class="span12">
+		 						<div id="issues_type_status_div"></div>
+		 					</div>	
+				  		</div>
+		  				
 				  </div>
 				  
 				  <div class="tab-pane" id="issues">
-				  	<div class="span4">
-	  					<div id="issues_status_div">
-	  					</div>
+				  
+				  	<div class="span12">
+					  	<div class="span4">
+		  					<div id="issues_status_div">
+		  					</div>
+		  				</div>
+		  				<div class="span4">
+		  					<div id="issues_type_div">
+		  					</div>
+		  				</div>
+		  				<div class="span4">
+		  					<div id="cant_issues_div">
+		  					</div>
+		  				</div>
 	  				</div>
-	  				<div class="span4">
-	  					<div id="issues_type_div">
-	  					</div>
+	  				
+	  				<div class="span12">
+  						  <select ng-model="selectedProject" ng-options="p.name for p in projects" ng-change="updateCharts()">
+							<option value='' disabled selected style='display:none;'>Elegí un proyecto</option>
+	 					  </select>
 	  				</div>
-	  				<div class="span4">
-	  					<div id="cant_issues_div">
-	  					</div>
+	  				
+	  				<div class="span12">
+	  					<div class="span4">
+		  					<div id="issues_status_div_for_issues_tab_on_selectedProject">
+		  					</div>
+		  				</div>
+		  				<div class="span4">
+		  					<div id="issues_type_div_for_issues_tab_on_selectedProject">
+		  					</div>
+		  				</div>
 	  				</div>
+	  				
+	  				
+	  				<div class="span12">
+				  			<select ng-model="selectedIssueType" ng-options="it.description for it in issueTypesList " ng-change="updateCharts()">
+								<option value='' disabled selected style='display:none;'>Filtra por Tipo de Issue</option>
+		 					</select>
+							
+				  	</div>
+				  	<div class="span12">
+		 					<div id="issues_type_status_div_for_issue"></div>
+		 			</div>	
+	  				
 				  </div>
 				  
 				  <div class="tab-pane" id="burndown">

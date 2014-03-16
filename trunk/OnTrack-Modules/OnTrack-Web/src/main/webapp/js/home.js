@@ -7,7 +7,7 @@ function HomeController($scope,$http,$location){
 	$http({method: 'GET', url: $scope.webserver+'currentUser',headers: {'Content-Type': 'application/json'}}).
 	  success(function(data, status, headers, config) {
 	   	$scope.currentUser = data;
-	   	if($scope.currentUser.userName == null){
+	   	if($scope.currentUser.userName == null || $scope.currentUser.lastName || $scope.currentUser.firstName){
 	   		$location.path("profile.html");
 	   	} 
 	   	

@@ -8,6 +8,51 @@ function StatsController($scope,$http,$location){
 	$scope.fromDateEmpty = false;
 	$scope.toDateEmpty = false;
 	$scope.fromDateAfterToDate = false;
+	$scope.issueTypesList = [];
+	$scope.issuesForIssueStatusByType = [];
+	$scope.issueByProjectAndIssueType = [];
+	$scope.issueByProjectFilter = [];
+	$scope.isProjectLoaded = false;
+	
+	
+	$scope.filterIssueTypes = function(issues){
+		$scope.issueTypesList = [];
+		var ids = [];	
+		angular.forEach(issues,function(issue,itemNo){
+			if(ids.indexOf(issue.issueType.id) < 0){
+				ids.push(issue.issueType.id);
+				$scope.issueTypesList.push(issue.issueType);
+			}
+		});
+	};
+	
+	$scope.filterIssuesByType = function(issues){
+		if(typeof $scope.selectedIssueType != "undefined"){
+			angular.forEach(issues,function(issue,itemNo){
+				if(issue.issueType.id == $scope.selectedIssueType.id){
+					$scope.issuesForIssueStatusByType.push(issue);
+				}
+			});
+		}
+	};
+	
+	$scope.filterIssuesByProjectFilter = function(issues){
+		angular.forEach(issues,function(issue,itemNo){
+			if(issue.project.id == $scope.selectedProject.id){
+				$scope.issueByProjectFilter.push(issue);
+			}
+		});
+	
+	};
+	
+	$scope.filterIssuesByIssueTypeAndProject = function(issues){
+		angular.forEach(issues,function(issue,itemNo){
+			if(issue.project.id == $scope.selectedProject.id && issue.issueType.id == $scope.selectedIssueType.id){
+				$scope.issueByProjectAndIssueType.push(issue);
+			}
+		});
+	
+	};
 	
 	$scope.searchIssuesFromProject = function(){
 	
@@ -16,6 +61,8 @@ function StatsController($scope,$http,$location){
 			$http({method: 'POST', url: $scope.server+$scope.lookupService,data:$scope.currentUser,headers: {'Content-Type': 'application/json'}}).
 			  success(function(data, status, headers, config) {
 			  		$scope.issuesForProject = data;
+			  		$scope.filterIssueTypes($scope.issuesForProject);
+			  		
 			  		$scope.fillProjectList();
 			  		var rows = parseChartDataForIssueByProject($scope.issuesForProject);
 			  		drawChart(rows,'cant_issues_div','Issues Por Proyecto');
@@ -34,6 +81,10 @@ function StatsController($scope,$http,$location){
     	$http({method: 'POST', url: $scope.server+"issuesrv/listIssuesByUser",data:$scope.currentUser,headers: {'Content-Type': 'application/json'}}).
 		  success(function(data, status, headers, config) {
 		   	$scope.issues = data;
+		   	$scope.filterIssueTypes($scope.issues);
+		   	
+		   	
+		   	
 		   	var rows = parseChartDataCurrentStatus($scope.issues);
 		   	drawChart(rows,'issues_status_div','Mis Issues Por Estado Status');
 		   	rows = parseChartDataIssueType($scope.issues);
@@ -52,17 +103,50 @@ function StatsController($scope,$http,$location){
 	});
 		
 	$scope.updateCharts = function(){
-			$scope.issuesBySelectedProject = [];
+			if(typeof $scope.selectedProject != "undefined"){
+				$scope.isProjectLoaded = true;
+			}
 	
-			$scope.filterIssuesByProject();
+			$scope.issuesBySelectedProject = [];
+			$scope.issueTypesList = [];
+			$scope.issuesForIssueStatusByType = [];
+			$scope.issueByProjectAndIssueType = []; 
+			$scope.issueByProjectFilter = [];
 			
+			
+			//Actualiza issuesBySelectedProject
+			$scope.filterIssuesByProject();
 			var rows = parseChartDataCurrentStatus($scope.issuesBySelectedProject);
 		   	drawChart(rows,'status_div','Issues Por Estado Status');
+		   	
 		   	rows = parseChartDataIssueType($scope.issuesBySelectedProject);
 		   	drawChart(rows,'type_div','Issues Por Tipo de Issue');
-		   	var rows = parseChartDataForIssueByProject($scope.issuesBySelectedProject);
+		   	
+		   	/*
+		   	rows = parseChartDataForIssueByProject($scope.issuesBySelectedProject);
 			drawChart(rows,'issues_div','Issues');
-		
+			*/
+		   	
+			//issueTypesList
+			$scope.filterIssueTypes($scope.issuesBySelectedProject);
+			
+			//issuesForIssueStatusByType
+			$scope.filterIssuesByType($scope.issuesBySelectedProject);
+			rows = parseChartDataCurrentStatus($scope.issuesForIssueStatusByType);
+		   	drawChart(rows,'issues_type_status_div','Issues Por Estado');
+		   	
+		   	//issueByProjectFilter
+		   	$scope.filterIssuesByProjectFilter($scope.issues);
+			rows = parseChartDataCurrentStatus($scope.issueByProjectFilter);
+		   	drawChart(rows,'issues_status_div_for_issues_tab_on_selectedProject','Issues Por Estado');
+		   	rows = parseChartDataIssueType($scope.issueByProjectFilter);
+		   	drawChart(rows,'issues_type_div_for_issues_tab_on_selectedProject','Issues Por Tipo de Issue');
+			
+			//issueByProjectAndIssueType
+			$scope.filterIssuesByIssueTypeAndProject($scope.issues);
+			rows = parseChartDataCurrentStatus($scope.issueByProjectAndIssueType);
+		   	drawChart(rows,'issues_type_status_div_for_issue','Issues Por Estado');
+			
 	};
 
 		$scope.fillProjectList = function(){
