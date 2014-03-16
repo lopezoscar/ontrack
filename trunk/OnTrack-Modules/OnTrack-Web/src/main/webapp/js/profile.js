@@ -21,6 +21,15 @@ function ProfileController($scope,$http,$location){
 			 		$scope.userNameRequired = true;
 			 		return;
 			 };
+			 if(typeof  $scope.currentUser.lastName === "undefined" || $scope.currentUser.lastName == null){
+			 		$scope.userNameRequired = true;
+			 		return;
+			 };
+			 if(typeof $scope.currentUser.firstName === "undefined" || $scope.currentUser.firstName == null){
+			 		$scope.userNameRequired = true;
+			 		return;
+			 };
+			 
 			 
 			 if($scope.newUserName == $scope.currentUser.userName){
 				$scope.avoidExistUsername = true;			 

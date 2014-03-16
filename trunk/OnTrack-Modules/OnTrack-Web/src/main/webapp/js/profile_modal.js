@@ -9,6 +9,8 @@ function ProfileModal($scope,$http,$location){
 	  success(function(data, status, headers, config) {
 	   	$scope.currentUser = data;
 	   	
+	   	$scope.newUserName = $scope.currentUser.userName;
+	   	
 	   	if(typeof $scope.currentUser.userName === "undefined" || $scope.currentUser.userName == null || $scope.currentUser.lastName == null || $scope.currentUser.firstName == null){
 			var options = {
 						show:true,
