@@ -41,6 +41,8 @@ function ProfileController($scope,$http,$location){
 			   	if(data == 'true' && !$scope.avoidExistUsername){
 			   		$scope.userNameExist = true;
 			   	}else{
+			   		$scope.userName = $scope.newUserName;
+			   	
 			   		$http({method: 'POST', url: $scope.server+'usersrv/updateuser',data:user, headers: {'Content-Type': 'application/json'}}).
 					  success(function(data, status, headers, config) {
 					   	$scope.currentUser = data;
