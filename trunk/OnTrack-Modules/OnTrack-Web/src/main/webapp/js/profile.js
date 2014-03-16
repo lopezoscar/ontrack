@@ -41,7 +41,8 @@ function ProfileController($scope,$http,$location){
 			   	if(data == 'true' && !$scope.avoidExistUsername){
 			   		$scope.userNameExist = true;
 			   	}else{
-			   		$scope.userName = $scope.newUserName;
+			   		$scope.currentUser.userName = $scope.newUserName;
+			   		user = $scope.currentUser;
 			   	
 			   		$http({method: 'POST', url: $scope.server+'usersrv/updateuser',data:user, headers: {'Content-Type': 'application/json'}}).
 					  success(function(data, status, headers, config) {
@@ -49,7 +50,8 @@ function ProfileController($scope,$http,$location){
 					   	$scope.saveOk = true;
 					   	$scope.userNameExist = false;
 					   	$('#myModal').modal('hide');
-					   	
+					   	var server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack/";
+					   	window.location = server+"home.html";
 					  }).
 					  error(function(data, status, headers, config) {
 					  	$scope.noUser = true;
