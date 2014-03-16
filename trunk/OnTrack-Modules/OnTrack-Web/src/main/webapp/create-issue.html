@@ -40,6 +40,13 @@
 			  #stackhistory .ui-selected { background: #F39814; color: white; }
 			  #stackhistory { list-style-type: none; margin: 0; padding: 0; width: 100%; }
 			  #stackhistory li { margin: 3px; padding: 0.4em; font-size: 18px; height: 18px; }
+			  
+			  #title{
+			  		font-size: 28px;
+					width: 98%;
+					height: 40px;
+				}
+			  
 		 </style>
     	 
     	<script>
@@ -168,7 +175,7 @@
 			
 			
 			<div class="span3 well" ng-hide="modifyStatus">
-			 <input ng-model="issue.title" class="input-large" type="text" placeholder="Título" required>
+			 
 			 
 			 <select ng-model="issue.project" ng-options="p.name for p in projectsFromWorkflow" ng-change="updateIssueTypes(issue)">
 			 	<option value='' disabled selected style='display:none;'>Elegi un proyecto</option>
@@ -187,7 +194,7 @@
   			 </div>
   			 
   			 <div class="span3 well" ng-show="modifyStatus">
-  			 	 <input ng-model="issue.title" class="input-large" type="text" ng-readonly="true" required/>
+  			 	 
   			 	 <input ng-model="issue.project.name" class="input-large" type="text" ng-readonly="true"/>
   			 	 <input ng-model="issue.issueType.description" class="input-large" type="text" ng-readonly="true"/>
 				 <select ng-model="issue.currentStatus" ng-options="s.issueStatus.description for s in issueStatusForModify | orderBy:'position'" ng-change="validateIssueStatus()">
@@ -210,6 +217,7 @@
   			 
   			 
   			 <div class="span8" >
+  			 	<input id="title" ng-model="issue.title" class="input-xxlarge" type="text" placeholder="Título" required>
   			 	<textarea ng-model="issue.description" class="ckeditor" name="editor">Ingrese una descripción</textarea>
   			 	
   			 	<div class="well">
