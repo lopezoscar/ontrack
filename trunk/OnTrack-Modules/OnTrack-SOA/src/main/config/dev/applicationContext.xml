@@ -52,9 +52,9 @@
 		</property>
 		<property name="jpaPropertyMap"> 
  	        <props> 
- 	            <prop key="hibernate.connection.url">${hibernate.connection.url}</prop> 
- 	            <prop key="hibernate.connection.username">${hibernate.connection.username}</prop> 
- 	            <prop key="hibernate.connection.password">${hibernate.connection.password}</prop> 
+<!--  	            <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/ontrack?autoReconnect=true</prop>  -->
+<!--  	            <prop key="hibernate.connection.username">root</prop>  -->
+<!--  	            <prop key="hibernate.connection.password">admin</prop>  -->
  	        </props>
  	    </property> 
 		<property name="jpaVendorAdapter">

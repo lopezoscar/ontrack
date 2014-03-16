@@ -184,21 +184,6 @@
   				</div>
   			
   			
-  				<legend>Estadísticas</legend>
-  				<div class="span3" ng-controller="StatsController">
-  					<div id="status_div">
-  					</div>
-  				</div>
-  				<div class="span3">
-  					<div id="type_div">
-  					</div>
-  				</div>
-  				<div class="span3">
-  					<div id="issues_div">
-  					</div>
-  				</div>
-  				
-  			
   			</div>
   			
 <!--   			<a href="#myModal" ng-hide="true" role="button" class="btn" data-toggle="modal">Launch demo modal</a> -->
@@ -215,8 +200,8 @@
 			  <div class="control-group">
 			    <label class="control-label" for="nick">Nombre de usuario</label>
 			    <div class="controls">
-			      <input type="text" id="nick" placeholder="Username" ng-model="currentUser.userName"  required>
-			   	  <div class="alert alert-info" ng-show="userNameRequired">Nombre de usuario requerido</div>
+			      <input type="text" id="nick" placeholder="Username" ng-model="newUserName"  required>
+			   	  <div class="alert alert-info" ng-show="userNameRequired">Todos los datos son obligatorios</div>
 			   	  <div class="alert alert-info" ng-show="userNameExist">Nombre de usuario ya existente</div>
 			   	  
 			    </div>
@@ -224,13 +209,13 @@
 			  <div class="control-group">
 			    <label class="control-label" for="personName">Nombre</label>
 			    <div class="controls">
-			      <input type="text" id="personName" placeholder="Nombre" ng-model="currentUser.firstName">
+			      <input type="text" id="personName" placeholder="Nombre" ng-model="currentUser.firstName" required>
 			    </div>
 			  </div>
 			  <div class="control-group">
 			    <label class="control-label" for="personLastName">Apellido</label>
 			    <div class="controls">
-			      <input type="text" id="personLastName" placeholder="Apellido" ng-model="currentUser.lastName">
+			      <input type="text" id="personLastName" placeholder="Apellido" ng-model="currentUser.lastName" required>
 			    </div>
 			  </div>
 			
