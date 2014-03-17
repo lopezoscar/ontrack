@@ -17,7 +17,13 @@
 
 	<context:component-scan base-package="com.sappe.ontrack.soa.resources" />
 	
-	<util:properties id="serverProperties" location="classpath:ontrack.properties"/>
+	<context:property-placeholder location="file:${catalina.home}/conf/ontrack.properties"/>
+	
+	<!-- Load in application properties reference -->
+<!-- 	<bean id="applicationProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
+<!-- 	    <property name="location" value="classpath:ontrack.properties"/> -->
+<!-- 	</bean> -->
+<!-- 	<util:properties id="serverProperties" location="classpath:ontrack.properties"/> -->
  
 <!-- 	<context:component-scan base-package="com.sappe.ontrack.dao.springbeans.impl" /> -->
 	<tx:annotation-driven/>
@@ -52,9 +58,9 @@
 		</property>
 		<property name="jpaPropertyMap"> 
  	        <props> 
-<!--  	            <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/ontrack?autoReconnect=true</prop>  -->
-<!--  	            <prop key="hibernate.connection.username">root</prop>  -->
-<!--  	            <prop key="hibernate.connection.password">admin</prop>  -->
+ 	            <prop key="hibernate.connection.url">${hibernate.connection.url}</prop> 
+ 	            <prop key="hibernate.connection.username">${hibernate.connection.username}</prop> 
+ 	            <prop key="hibernate.connection.password">${hibernate.connection.password}</prop> 
  	        </props>
  	    </property> 
 		<property name="jpaVendorAdapter">
