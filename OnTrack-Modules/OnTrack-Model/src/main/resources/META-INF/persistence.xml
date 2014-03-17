@@ -33,10 +33,10 @@
      <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
-            <property name="hibernate.connection.username" value="root"/>
+<!--             <property name="hibernate.connection.username" value="root"/> -->
 <!--             <property name="hibernate.connection.password" value="TPa1lrL5m1"/> -->
-            <property name="hibernate.connection.password" value="admin"/>
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/ontrack?autoReconnect=true"/>
+<!--             <property name="hibernate.connection.password" value="admin"/> -->
+<!--             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/ontrack?autoReconnect=true"/> -->
 <!--             <property name="hibernate.connection.url" value="jdbc:mysql://mysql-env-1985049.j.dnr.kz?autoReconnect=true"/> -->
             
             <property name="hibernate.max_fetch_depth" value="3"/>
