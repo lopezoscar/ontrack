@@ -156,7 +156,7 @@
 		  				<div class="span12">
 				  			<select ng-show="isProjectLoaded" ng-model="selectedIssueType" ng-options="it.description for it in issueTypesList " ng-change="updateCharts()">
 								<option value='' disabled selected style='display:none;'>Filtra por Tipo de Issue</option>
-		 					</select>
+		 					</select>		 					
 							<div class="span12">
 		 						<div id="issues_type_status_div"></div>
 		 					</div>	
@@ -165,7 +165,7 @@
 				  </div>
 				  
 				  <div class="tab-pane" id="issues">
-				  
+				  	<h1 align="center">Total de Issues: {{issues.length}} </h1>
 				  	<div class="span12">
 					  	<div class="span4">
 		  					<div id="issues_status_div">
