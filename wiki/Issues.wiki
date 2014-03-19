@@ -76,10 +76,13 @@ Contiene las siguientes User Stories
   # Mediante una interface puedo cambiar el estado actual de un issue. 
   # Los estados posibles son únicamente los estados validos asignados a ese issue dependiendo del workflow. 
   # Cuando cualquier usuario haga un cambio en el estado de un issue el dueño de ese issue debe ser notificado. 
+  # Podré registrar una trazabilidad entre el ciclo de vida del issue en donde indique qué usuario realizó un cambio de estado en su workflow.
+  # Será posible insertar comentarios en el issue, la herramienta registrará usuario y fecha en que realizó el comentario.
 
 *Especificación por Ejemplos.*
   # Desde la vista detallada del issue cambio el estado actual por otro valido. Verifico que en la lista de issues figure con el nuevo estado. 
   # Desde la vista detallada de un issue hago el cambio por un estado diferente al actual.
+  # Tras guardar un cambio de estado podré reflejar el cambio en la tabla process history
 
 === _Buscar Issue_ === 
 
