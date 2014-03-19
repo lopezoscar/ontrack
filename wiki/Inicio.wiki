@@ -14,7 +14,7 @@
   # A un nuevo proyecto podré configurarle los tipos de Issues que administrará con sus características y respectivo flujo de estados
   # Debo poder definir los usuarios que participarán del proyecto
   # Se debe proveer de una opción para reportar un Issue para un proyecto y asignarselo a un usuario del mismo
-  # Debo poder realizar comentarios adicionales al Issue, también darme la posibilidad de adjuntar archivos
+  # Debo poder realizar comentarios adicionales al Issue, también darme la posibilidad de brindarme un mecanismo para adjuntar algun tipo de información
   # Cualquier usuario del proyecto podrá realizar modificaciones del issue, tanto como cambiar su estado del flujo definido como editar alguno de sus campos con excepción del título
   # Debo poder realizar una traza de los cambios del Issue
   # Debo tener búsquedas rápidas de Issues
