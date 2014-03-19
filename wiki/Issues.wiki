@@ -29,14 +29,13 @@ Contiene las siguientes User Stories
   # Si el nombre que deseo para mi tipo de Issue existe previamente, podré utilizarlo en mi proyecto
   # El nombre del tipo de Issue creado estará disponible para ser incorporado a los demás proyectos
   # Si el nombre se encuentra repetido el sistema me lo indicará, no es necesario generarlo ya que existe dicho nombre
-  # El issue contará con una serie de campos por defecto propios de todos los issues, 'Título' - 'Descripción' - 'Historial' - 'Reportó' - 'Dueño'- 'Estado' - 'Tipo de Issue'
+  # El issue contará con una serie de campos por defecto propios de todos los issues, 'Título' - 'Descripción' - 'Process History' - 'Reporter' - 'Responsable'- 'Estado' - 'Tipo de Issue'
   # Puedo generar nuevos campos dinamicamente de tipo texto para mis issues
-  # Puedo generar el nombre del campo que deseo en mi Issue o en caso de existir elegirlo de una lista general de campos creados previamente.
-  # Si el campo existe previamente en la lista general de campos no podré utilizar dicho nombre, solo podré incorporar el de la lista.
+  # Puedo generar el nombre del campo que deseo en mi Issue o en caso de existir reutilizarlo
 
 *Especificación por Ejemplos.*
-   # Voy a la configuración de mi proyecto y selecciono asignar un tipo de Issue, escribo el issue Bug, el sistema verifica que no existe ese nombre en todos los tipos de Issue creados, lo incorpora a la lista de existentes mi proyecto y a la lista de los tipos de Issues general.
-  # Edito mi Tipo de Issue incorporado, incorporo de la lista los campos 'información adicional' y creo un nuevo campo que no se encuentra en la lista 'Pre-Condición'
+   # Voy a la configuración de mi proyecto y selecciono asignar un tipo de Issue, escribo el issue Bug, el sistema verifica que no existe ese nombre en todos los tipos de Issue creados, lo incorpora a la lista de existentes a mi proyecto y a la lista de los tipos de Issues general.
+  # Edito mi Tipo de Issue incorporado, incorporo la propiedad 'información adicional' y creo una nueva propiedad 'Pre-Condición'
 
 === _Asignación de un tipo de Issue al proyecto_ ===
 
@@ -49,7 +48,7 @@ Contiene las siguientes User Stories
    # Un mismo tipo de issue puede estar asignado a cualquier cantidad de proyectos. 
 
 *Especificación por Ejemplos.*
-   # Voy a la configuración de mi proyecto y selecciono asignar un tipo de Issue, Verifico que el tipo de Issue de nombre 'Requerimiento' se encuentra en la lista.
+   # Voy a la configuración de mi proyecto y selecciono asignar un tipo de Issue, Verifico que el tipo de Issue de nombre 'Requerimiento' existe en mi base de datos y lo vuelvo a ingresar, luego verifico que el issue 'Requerimiento' es único
 
 === _Reportar un Issue_ ===
 
@@ -62,7 +61,7 @@ Contiene las siguientes User Stories
   # Cada issue puede tener una cantidad diferente de datos dependiendo de las propiedades del mismo pero todos tienen que tener un ID único que lo identifique en el sistema. 
   # Cada proyecto puede tener N issues. 
   # Issues diferentes pueden tener campos repetidos (incluyendo 'Titulo' - 'Descripcion', etc) ya que todos van a tener un ID diferente. 
-  # Cada issue consta de un usuario dueño que es la persona que lo reporta. 
+  # Cada issue consta de un usuario que lo reporta. 
 
 *Especificación por Ejemplos.*
   # Dentro de la vista de un proyecto uso la opción para levantar un issue e ingreso todos los campos necesarios. Verifico que en la lista de issues se encuentre el que acabo de crear. 
