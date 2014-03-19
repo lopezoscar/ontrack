@@ -18,3 +18,6 @@ Contiene las siguientes User Stories
 *Criterios de aceptación*
    # El nombre usuario será provisto por google
    # Deberá cargar un username para habilitar el uso de la aplicación
+   # Si el usuario accedió por primera vez a la aplicación y jamás fue agregado a un proyecto el nombre de usuario estará vacío, pero no su nombre y apellido
+   # Si el usuario accedió por por primera vez a la aplicación siendo invitado a participar de un proyecto previamente entonces recibirá un nombre de usuario tentativo (Nombre + Apellido) Debiendo completar posteriormente Los campos Nombre, Apellido y Elegir si desea conservar el nombre de usuario tentativo o elegir uno nuevo
+   # El nombre de usuario es un identificador ùnico del usuario, si el nombre de usuario fue ingresado previamente deberá seleccionar uno nuevo
