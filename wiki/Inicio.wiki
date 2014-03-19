@@ -18,6 +18,8 @@
   # Cualquier usuario del proyecto podrá realizar modificaciones del issue, tanto como cambiar su estado del flujo definido como editar alguno de sus campos con excepción del título
   # Debo poder realizar una traza de los cambios del Issue
   # Debo tener búsquedas rápidas de Issues
+  # El sistema debe proporcionarme un módulo de estadísticas de los issues existentes en cada uno de los proyectos
+
 
 *la presente página contiene la documentación del proyecto onTrack agrupada por componentes
 
