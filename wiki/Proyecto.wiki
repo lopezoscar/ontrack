@@ -29,8 +29,8 @@ Contiene las siguientes User Stories
 'Como usuario administrador de un proyecto deseo poder asignar un tipo de Issue determinado a mi proyecto'
 
 *Criterios de aceptación
-  # podré asignar los tipos de issue que requiera [https://code.google.com/p/ontrack/wiki/Issues?ts=1354473488&updated=Issues#Creación_de_un_tipo_de_Issue ver aqui]
-  # No será posible asignar un tipo de Issue ya asignado previamente
+  # podré asignar los tipos de issue que requiera la configuración de mi proyecto. [https://code.google.com/p/ontrack/wiki/Issues?ts=1354473488&updated=Issues#Creación_de_un_tipo_de_Issue ver especificación de Issue]
+  # No será posible asignar un tipo de Issue ya asignado al proyecto previamente. Deberá indicar que ya existe y permitir ingresar uno nuevo
 
 
 === _Asignar usuarios a un proyecto_ ===
