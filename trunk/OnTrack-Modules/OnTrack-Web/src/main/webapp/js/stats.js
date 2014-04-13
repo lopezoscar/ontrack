@@ -81,6 +81,8 @@ function StatsController($scope,$http,$location){
 	$scope.searchIssueTypesByRangeOnCurrentDate = function(issues){
 		issues.forEach(function(issue){
 			console.log("Created Date "+issue.createdDate);
+			var nDate = new Date(issue.createdDate);
+			console.log("Fecha Timestamp "+issue.createdDate+" - Fecha Date "+nDate);
 			console.log("Created fromDate "+$scope.fromDate);
 			console.log("Created toDate "+$scope.toDate);
 			var createdDate = issue.createdDate.substring(0,issue.createdDate.length-3);
