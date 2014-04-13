@@ -80,7 +80,7 @@ function StatsController($scope,$http,$location){
 	
 	$scope.searchIssueTypesByRangeOnCurrentDate = function(issues){
 		issues.forEach(function(issue){
-			if(issue.project.id == $scope.selectedProject.id && issue.createdDate > $scope.fromDate && issue.createdDate < $scope.toDate){
+			if(issue.project.id == $scope.selectedProject.id && issue.createdDate >= $scope.fromDate && issue.createdDate <= $scope.toDate){
 				$scope.issuesByProjectAndFilterByCreatedDate.push(issue);
 			} 
 		});
