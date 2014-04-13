@@ -12,8 +12,13 @@ function StatsController($scope,$http,$location){
 	$scope.issuesForIssueStatusByType = [];
 	$scope.issueByProjectAndIssueType = [];
 	$scope.issueByProjectFilter = [];
+	$scope.issuesByProjectAndFilterByCreatedDate = [];
+	
+	$scope.showCreatedDateChart = false;
+	$scope.showCreatedDateChartLoaded = false;
 	$scope.isProjectLoaded = false;
 	
+	$scope.showNoDataForCreatedDateChart = false;
 	
 	$scope.filterIssueTypes = function(issues){
 		$scope.issueTypesList = [];
@@ -73,6 +78,14 @@ function StatsController($scope,$http,$location){
 			  });
 	};
 	
+	$scope.searchIssueTypesByRangeOnCurrentDate = function(issues){
+		issues.forEach(function(issue){
+			if(issue.project.id == $scope.selectedProject.id && issue.createdDate > $scope.fromDate && issue.createdDate < $scope.toDate){
+				$scope.issuesByProjectAndFilterByCreatedDate.push(issue);
+			} 
+		});
+	}
+	
 	$http({method: 'GET', url: $scope.webserver+'currentUser',headers: {'Content-Type': 'application/json'}}).
 	  success(function(data, status, headers, config) {
 	   	$scope.currentUser = data;
@@ -105,6 +118,7 @@ function StatsController($scope,$http,$location){
 	$scope.updateCharts = function(){
 			if(typeof $scope.selectedProject != "undefined"){
 				$scope.isProjectLoaded = true;
+				$scope.showCreatedDateChart = true;
 			}
 	
 			$scope.issuesBySelectedProject = [];
@@ -112,12 +126,16 @@ function StatsController($scope,$http,$location){
 			$scope.issuesForIssueStatusByType = [];
 			$scope.issueByProjectAndIssueType = []; 
 			$scope.issueByProjectFilter = [];
-			
+			$scope.issuesByProjectAndFilterByCreatedDate = [];
 			
 			//Actualiza issuesBySelectedProject
 			$scope.filterIssuesByProject();
 			var rows = parseChartDataCurrentStatus($scope.issuesBySelectedProject);
 		   	drawChart(rows,'status_div','Issues Por Estado Status');
+		   	
+		   	$scope.searchIssueTypesByRangeOnCurrentDate($scope.issues);
+		   	rows = parseChartDataIssueTypeWithColor($scope.issuesByProjectAndFilterByCreatedDate);
+		   	drawColumnChart(rows,'issues_type_by_create_date','Cantidad de Issues Por Tipo de Issue en un Rango');
 		   	
 		   	rows = parseChartDataIssueType($scope.issuesBySelectedProject);
 		   	drawChart(rows,'type_div','Issues Por Tipo de Issue');
@@ -146,6 +164,9 @@ function StatsController($scope,$http,$location){
 			$scope.filterIssuesByIssueTypeAndProject($scope.issues);
 			rows = parseChartDataCurrentStatus($scope.issueByProjectAndIssueType);
 		   	drawChart(rows,'issues_type_status_div_for_issue','Issues Por Estado');
+		   	
+		   	
+		  
 			
 	};
 
@@ -172,13 +193,14 @@ function StatsController($scope,$http,$location){
 	 	$scope.showDateRange = true;
 	 };
 	 	
-	$scope.createBBChart = function(){
+	$scope.createIssueCreatedDateChart = function(){
 		
 		$scope.fromDateEmpty = false;
 		$scope.toDateEmpty = false;
 		$scope.fromDateAfterToDate = false;
 	
 		var from = document.getElementById("from").value;
+		
 		var to = document.getElementById("to").value;
 		
 		if(typeof from === "undefined" || from == ""){
@@ -189,15 +211,27 @@ function StatsController($scope,$http,$location){
 			$scope.toDateEmpty = true;
 			return;
 		}
-		var fromDate = new Date(from);
-		var toDate = new Date(to);
-		
+		var fromDate = Date.parse(from);
+		$scope.fromDate = fromDate;
+		var toDate = Date.parse(to);
+		$scope.toDate = toDate;
 		if(fromDate > toDate){
 			$scope.fromDateAfterToDate = true;
 			return;
 		}
 		
-		
+		$scope.searchIssueTypesByRangeOnCurrentDate($scope.issues);
+	   	rows = parseChartDataIssueTypeWithColor($scope.issuesByProjectAndFilterByCreatedDate);
+	   	
+	   	if(rows.length > 1){
+		   	drawColumnChart(rows,'issues_type_by_create_date','Cantidad de Issues Por Tipo de Issue en un Rango');
+			$scope.showCreatedDateChartLoaded = true;
+	   	}else{
+	   		$scope.showNoDataForCreatedDateChart = true;
+	   	}
+	   	
+	   	$scope.fromDate = from;
+		$scope.toDate = to;
 		
 	};
 		 	  
@@ -279,3 +313,38 @@ function parseChartDataForIssueByProject(issues){
 
 }
 
+/**
+[Tipo Issue, Cantidad, Color ]
+[1,Bugs, #DDA0DD]  
+
+**/
+function parseChartDataIssueTypeWithColor(issues){
+	var allData = [];
+	var typeList = [];
+	var result = [];
+	angular.forEach(issues, function(issue, key){
+		var it = issue.issueType;
+		var idx = typeList.indexOf(it.description);
+		//IF DOESNT EXIST
+		if(idx < 0){
+			typeList.push(it.description);
+			allData.push({issueType: it.description, cant: 1});
+		}else{
+			var typeCount = allData[idx];
+			typeCount.cant++;
+		}
+	});
+	
+	var colors = ['red','green','blue'];
+	var colorsCount = 0;
+	result.push(['Tipo de Issue', 'Cantidad', { role: 'style' }]);
+	angular.forEach(allData, function(typeCount, key){
+		if(colorsCount == colors.length){
+			colorsCount = 0;
+		}
+		var color = colors[colorsCount];
+		result.push([typeCount.issueType,typeCount.cant,color]);
+		colorsCount++;
+	});
+	return result;
+}

@@ -155,6 +155,41 @@
 		  				</div>
 		  				
 		  				<div class="span12">
+		  				
+
+				  		<div class="span6"> 
+				  		   <h3 ng-show="showCreatedDateChart">Cantidad de Issues Creados en un Periodo</h3>
+				  		  <form ng-show="showCreatedDateChart"   class="form-horizontal" novalidate>
+						  <div class="control-group">
+						    <label class="control-label" for="fromDate">Desde</label>
+						    <div class="controls">
+						  		<input id="from" type="text" ng-model="fromDate" class="datepicker" placeholder="10/02/2014" required>
+						  		<span class="alert alert-error" ng-show="fromDateEmpty">Fecha Desde Vacía</span>
+						    </div>
+						  </div>
+						  <div class="control-group">
+						    <label class="control-label" for="toDate">Hasta</label>
+						    <div class="controls">
+					  			<input id="to" type="text" ng-model="toDate" class="datepicker" placeholder="10/03/2014" required>		    
+						  		<span class="alert alert-error" ng-show="toDateEmpty">Fecha Hasta Vacía</span>
+						    </div>
+						  </div>
+						  <div class="control-group">
+						    <div class="controls">
+						      <button type="submit" class="btn btn-primary" ng-click="createIssueCreatedDateChart()">Graficar</button>
+						      <span class="alert alert-error" ng-show="fromDateAfterToDate">La fecha desde no puede ser posterior a la fecha hasta</span>
+						      <span class="alert alert-error" ng-show="showNoDataForCreatedDateChart">No hay issues creados en este periodo</span>
+						      
+						    </div>
+						  </div>
+						</form>
+				  		</div>
+				  		<div ng-show="showCreatedDateChartLoaded" class="span6">
+							<div id="issues_type_by_create_date"></div>	
+						</div>
+	  				</div>
+		  				
+		  				<div class="span12">
 				  			<select ng-show="isProjectLoaded" ng-model="selectedIssueType" ng-options="it.description for it in issueTypesList " ng-change="updateCharts()">
 								<option value='' disabled selected style='display:none;'>Filtra por Tipo de Issue</option>
 		 					</select>		 					
@@ -162,6 +197,8 @@
 		 						<div id="issues_type_status_div"></div>
 		 					</div>	
 				  		</div>
+				  		
+				  	
 		  				
 				  </div>
 				  
@@ -209,6 +246,9 @@
 				  	<div class="span12">
 		 					<div id="issues_type_status_div_for_issue"></div>
 		 			</div>	
+	  				
+	  			
+	  				
 	  				
 				  </div>
 				  

@@ -32,3 +32,17 @@ function drawChart(rows,domLocation,title) {
 	var chart = new google.visualization.PieChart(document.getElementById(domLocation));
 	chart.draw(data, options);
 }
+
+function drawColumnChart(rows,domLocation,title){
+
+	var data = google.visualization.arrayToDataTable(rows);
+	//data.addRows(rows);
+	// Set chart options
+	var options = {'title':title,
+			'width':500,
+			'height':375};
+
+	// Instantiate and draw our chart, passing in some options.
+	var chart = new google.visualization.ColumnChart(document.getElementById(domLocation));
+	chart.draw(data, options);
+}

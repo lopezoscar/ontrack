@@ -2,6 +2,7 @@ package com.sappe.ontrack.soa.resources;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -37,7 +38,6 @@ import com.sappe.ontrack.model.issues.IssueEntry;
 import com.sappe.ontrack.model.issues.IssueStatus;
 import com.sappe.ontrack.model.issues.IssueType;
 import com.sappe.ontrack.model.issues.LogIssue;
-import com.sappe.ontrack.model.issues.Project;
 import com.sappe.ontrack.model.notifications.NotificationDTO;
 import com.sappe.ontrack.model.users.User;
 
@@ -126,7 +126,9 @@ public class IssueService {
 			}
 
 		}else{
+			issue.setCreatedDate(new Date());
 			Issue result = issueManager.create(issue);
+			
 			if(result.getOwner().getMail() != null){
 				mailsToNotify.add(result.getOwner().getMail());
 			}
