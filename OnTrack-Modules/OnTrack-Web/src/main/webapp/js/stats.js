@@ -85,8 +85,12 @@ function StatsController($scope,$http,$location){
 			console.log("Fecha Timestamp "+issue.createdDate+" - Fecha Date "+nDate);
 			console.log("Created fromDate "+$scope.fromDate);
 			console.log("Created toDate "+$scope.toDate);
-			var createdDate = issue.createdDate.substring(0,issue.createdDate.length-3);
-			if(issue.project.id == $scope.selectedProject.id && createdDate >= $scope.fromDate && createdDate <= $scope.toDate){
+			
+			var toDate = new Date($scope.toDate);
+			toDate.setDate(toDate.getDate()+1);
+			
+			var createdDate = issue.createdDate;
+			if(issue.project.id == $scope.selectedProject.id && createdDate >= $scope.fromDate && createdDate < toDate){
 				$scope.issuesByProjectAndFilterByCreatedDate.push(issue);
 			} 
 		});
@@ -138,10 +142,6 @@ function StatsController($scope,$http,$location){
 			$scope.filterIssuesByProject();
 			var rows = parseChartDataCurrentStatus($scope.issuesBySelectedProject);
 		   	drawChart(rows,'status_div','Issues Por Estado Status');
-		   	
-		   	$scope.searchIssueTypesByRangeOnCurrentDate($scope.issues);
-		   	rows = parseChartDataIssueTypeWithColor($scope.issuesByProjectAndFilterByCreatedDate);
-		   	drawColumnChart(rows,'issues_type_by_create_date','Cantidad de Issues Por Tipo de Issue en un Rango');
 		   	
 		   	rows = parseChartDataIssueType($scope.issuesBySelectedProject);
 		   	drawChart(rows,'type_div','Issues Por Tipo de Issue');
