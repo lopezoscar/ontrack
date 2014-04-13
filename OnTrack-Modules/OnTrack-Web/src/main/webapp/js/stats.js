@@ -195,6 +195,7 @@ function StatsController($scope,$http,$location){
 	 	
 	$scope.createIssueCreatedDateChart = function(){
 		
+		
 		$scope.fromDateEmpty = false;
 		$scope.toDateEmpty = false;
 		$scope.fromDateAfterToDate = false;
@@ -220,6 +221,7 @@ function StatsController($scope,$http,$location){
 			return;
 		}
 		
+		$scope.issuesByProjectAndFilterByCreatedDate = [];
 		$scope.searchIssueTypesByRangeOnCurrentDate($scope.issues);
 	   	rows = parseChartDataIssueTypeWithColor($scope.issuesByProjectAndFilterByCreatedDate);
 	   	
