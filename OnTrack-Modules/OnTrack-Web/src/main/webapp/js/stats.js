@@ -83,7 +83,8 @@ function StatsController($scope,$http,$location){
 			console.log("Created Date "+issue.createdDate);
 			console.log("Created fromDate "+$scope.fromDate);
 			console.log("Created toDate "+$scope.toDate);
-			if(issue.project.id == $scope.selectedProject.id && issue.createdDate >= $scope.fromDate && issue.createdDate <= $scope.toDate){
+			var createdDate = issue.createdDate.substring(0,issue.createdDate.length-3);
+			if(issue.project.id == $scope.selectedProject.id && createdDate >= $scope.fromDate && createdDate <= $scope.toDate){
 				$scope.issuesByProjectAndFilterByCreatedDate.push(issue);
 			} 
 		});
@@ -197,7 +198,7 @@ function StatsController($scope,$http,$location){
 	 };
 	 	
 	$scope.createIssueCreatedDateChart = function(){
-		
+		$scope.showNoDataForCreatedDateChart = false;
 		
 		$scope.fromDateEmpty = false;
 		$scope.toDateEmpty = false;
@@ -242,6 +243,7 @@ function StatsController($scope,$http,$location){
 			$scope.showCreatedDateChartLoaded = true;
 	   	}else{
 	   		$scope.showNoDataForCreatedDateChart = true;
+	   		$scope.showCreatedDateChartLoaded = false;
 	   	}
 	   	
 	   	$scope.fromDate = from;
