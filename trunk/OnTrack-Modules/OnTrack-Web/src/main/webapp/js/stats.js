@@ -80,6 +80,9 @@ function StatsController($scope,$http,$location){
 	
 	$scope.searchIssueTypesByRangeOnCurrentDate = function(issues){
 		issues.forEach(function(issue){
+			console.log("Created Date "+issue.createdDate);
+			console.log("Created fromDate "+$scope.fromDate);
+			console.log("Created toDate "+$scope.toDate);
 			if(issue.project.id == $scope.selectedProject.id && issue.createdDate >= $scope.fromDate && issue.createdDate <= $scope.toDate){
 				$scope.issuesByProjectAndFilterByCreatedDate.push(issue);
 			} 
@@ -212,10 +215,19 @@ function StatsController($scope,$http,$location){
 			$scope.toDateEmpty = true;
 			return;
 		}
+		console.log("From antes de parsear"+from);
+		
 		var fromDate = Date.parse(from);
+		console.log("fromDate parseado"+fromDate);
+		
 		$scope.fromDate = fromDate;
+		
+		console.log("To antes de parsear"+to);
 		var toDate = Date.parse(to);
+		console.log("toDate parseado"+toDate);
 		$scope.toDate = toDate;
+		
+		
 		if(fromDate > toDate){
 			$scope.fromDateAfterToDate = true;
 			return;
