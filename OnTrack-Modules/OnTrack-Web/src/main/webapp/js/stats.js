@@ -353,7 +353,7 @@ function parseChartDataIssueTypeWithColor(issues){
 		}
 	});
 	
-	var colors = ['red','green','blue'];
+	var colors = ['red','green','blue','orange','lightblue','lightgreen','gray','purple','pink','brown'];
 	var colorsCount = 0;
 	result.push(['Tipo de Issue', 'Cantidad', { role: 'style' }]);
 	angular.forEach(allData, function(typeCount, key){
