@@ -93,7 +93,6 @@ public class HTTPManager implements Serializable{
 
 		try {
 			String resourceURL = baseURL+ url;
-			logger.info("resourceURL: " + resourceURL);
 			endpoint = new URL(resourceURL);
 			connection = (HttpURLConnection) endpoint.openConnection();
 			connection.setRequestMethod("POST");
