@@ -84,15 +84,18 @@ public class ProjectService {
 		URI url = uri.getBaseUri();
 		
 		StringBuffer sb = new StringBuffer();
+		sb.append("Se guardó correctamente el proyecto: ");
+		sb.append(project.getName());
+		sb.append("\n");
 		sb.append("Para empezar a utilizar OnTrack en necesario que ingreses en la siguiente url: ");
 		sb.append("http://");
 		sb.append(url.getHost());
 		sb.append(":");
 		sb.append(url.getPort());
-		sb.append("/OnTrack/profile.html");
+		sb.append("/OnTrack/home.html");
 
 		
-		dto.setBody("Se guardó correctamente el proyecto: "+project.getName());
+		dto.setBody(sb.toString());
 		
 		return dto;
 	}
