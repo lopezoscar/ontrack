@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html lang="AR_ES" ng-app>
+	<head>
+		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		 <meta charset="UTF-8"/>
+    	 <!-- CSS  -->
+		 <!-- Bootstrap -->
+    	 <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+    	 <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    	 <!-- JQuery and JQuery UI -->
+    	 <link href="jquery-ui/css/smoothness/jquery-ui.css" rel="stylesheet"/>
+    	 <link href="css/global.css" rel="stylesheet" />
+    	 
+    	 <script src="google-code-prettify/js-modules/run_prettify.js"></script>
+    	 
+    	  
+    	 <!-- JS -->
+    	 <!-- JQuery -->
+    	 <script src="js/jquery.js"></script>
+    	 <!-- JQuery UI -->
+    	 <script src="jquery-ui/js/jquery-ui.js"></script>
+    	 <!-- Bootstrap -->
+    	 <script src="js/bootstrap.js"></script>
+    	 <!-- Angular JS -->
+    	 <script src="angularjs/angular.js"></script>
+    	 <!-- Create Project JS -->
+    	 <script src="js/services.js"></script>
+    	 
+    	 
+    	 
+    	 <script type="text/javascript">
+    	 	$('#responseTab a').click(function (e) {
+			  e.preventDefault();
+			  $(this).tab('show');
+			});
+		</script>
+	</head>
+	
+	<body ng-controller="ServicesController">
+		<div class="container">
+		<div class="span10">
+		
+		<div id="category-wrapper" ng-repeat="cat in categories">
+			<div>
+				<h5>Category: {{cat.name}}</h5>
+			</div>
+			<div id="services-wrapper">
+				<div class="accordion" id="{{cat+$index}}" >
+				  <div class="accordion-group" ng-repeat="srv in cat.methods">
+				    <div class="accordion-heading">
+				      <a class="accordion-toggle" data-toggle="collapse" data-parent="#{{$.parent.$index}}" href="#{{srv.name+$index}}">
+				        {{srv.name}}
+				      </a>
+				    </div>
+				    <div id="{{srv.name+$index}}" class="accordion-body collapse ">
+				      <div class="accordion-inner">
+				        <div class="container-fluid">
+				      		<div class="row-fluid">
+								<div ng-show="isPost(srv)">
+									<form novalidate class="form-horizontal simple-form">
+											<div class="span12">
+												<h5>URL</h5>
+												<input type="text" ng-readonly="true" class="input-xxlarge uneditable-input" ng-model="srv.path"/>
+												<h5>Body</h5>
+												<textarea rows="8" class="field span12"  >
+													{{ srv.parameters | json }}
+												</textarea>
+												<input type="button" class="btn btn-primary" value="invoke" ng-click="post(srv)"/>
+											</div>
+									</form>
+									<h5>Response</h5>
+										<ul class="nav nav-tabs" id="responseTab">
+										  <li><a href="#http-header-post" data-toggle="tab">HTTP Header</a></li>
+										  <li><a href="#http-body-post"   data-toggle="tab">HTTP Body</a></li>
+										</ul>
+										<div class="tab-content">
+										  <div class="tab-pane " id="http-header-post">
+											  <p>HTTP Status {{srv.status}}</p>
+											  <p>Content-Type {{srv.header.content-type}}</p>
+											  <p>Fecha de Ejecución {{srv.header.date}}</p>
+										  </div>
+										  <div class="tab-pane active" id="http-body-post">
+												<pre class="prettyprint pre-scrollable">
+													<code class="lang-javascript">
+														{{srv.response}}
+													</code>
+												</pre>
+										  </div>
+										</div>
+								</div>
+								<div ng-show="isGet(srv)">
+									<form novalidate class="form-horizontal simple-form">
+										<div class="span12 well">
+											<h5>URL</h5>
+<!-- 											<select ng-options="srv.path for srv in cat.methods" ng-model="srv.path"></select> -->
+											<input type="text" class="input-large" placeholder="{{srv.path}}" ng-model="srv.path"/>
+											<input type="button" class="btn btn-primary" value="invoke" ng-click="get(srv)"/>
+										</div>
+									</form>
+									<h5>Response</h5>
+												<ul class="nav nav-tabs" id="responseTab">
+												  <li><a href="#http-header" data-toggle="tab">HTTP Header</a></li>
+<!-- 												  <li><a href="#http-body"   data-toggle="tab">HTTP Body</a></li> -->
+												  <li><a href="#myModal"  ng-click="saveCurrentService(srv)" data-toggle="modal">HTTP Body</a></li>
+												</ul>
+												<div class="tab-content">
+												  <div class="tab-pane active" id="http-header">
+													  <p>HTTP Status {{srv.status}}</p>
+													  Content-Type <p ng-bind-html="srv.header.content-type"></p>
+													  <p>Fecha de Ejecución {{srv.header.date}}</p>
+												  </div>
+<!-- 												  <div class="tab-pane" id="http-body"> -->
+<!-- 														<pre class="prettyprint pre-scrollable"> -->
+<!-- 															<code class="lang-javascript"> -->
+<!-- 																{{srv.response}} -->
+<!-- 															</code> -->
+<!-- 														</pre> -->
+<!-- 												  </div> -->
+												</div>
+								</div>
+			      			</div>
+			      		</div>
+			      		
+			      		
+				      </div>
+				    </div>
+				  </div>
+				</div>
+				
+				
+				<!-- Modal -->
+				<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				  <div class="modal-header">
+				    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				    <h3 id="myModalLabel">Http Body</h3>
+				  </div>
+				  <div class="modal-body">
+				  <pre class="prettyprint pre-scrollable">
+					<code class="lang-javascript">
+						{{currentService.response}}
+					</code>
+				</pre>
+				    
+				  </div>
+				  <div class="modal-footer">
+				    <button class="btn" data-dismiss="modal" aria-hidden="true">Salir</button>
+				  </div>
+				</div>
+				
+				
+			</div>
+			
+		
+		
+		
+		
+		
+		
+		
+		
+	  				
+			</div>
+		
+	
+		</div>
+	
+		</div>
+	
+	</body>
+	</html>

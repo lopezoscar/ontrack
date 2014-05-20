@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html lang="AR_ES" ng-app>
+	<head>
+		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		 <meta charset="UTF-8"/>
+		 <!-- Bootstrap -->
+    	 <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+    	 <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    	 <title>OnTrack</title>
+    	 <script src="js/jquery.js"></script>
+    	 <script src="js/bootstrap.js"></script>
+    	 
+    	 <script src="js/search-projects-filter.js"></script>
+    	 
+    	 <!-- CSS  -->
+    	 <link rel="css/global.css" rel="stylesheet" />
+    	 
+			 <!-- JQuery UI -->
+    	 <script src="jquery-ui/js/jquery-ui.js"></script>
+    	 
+		<link href="jquery-ui/css/smoothness/jquery-ui.css" rel="stylesheet"/>	
+    	 
+    	  <script src="angularjs/angular.js"></script>
+	 	
+	 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    	
+    	 <script src="datatables/media/js/jquery.dataTables.js"></script>
+
+
+		 <script type="text/javascript" src="js/charts.js"></script>
+    	 
+    	 <link rel="stylesheet" type="text/css" href="datatables/media/css/jquery.dataTables.css">
+
+    	 
+    	 
+    	 
+    	 
+
+	</head>
+	
+	<body ng-controller="SearchProjectsController">
+	
+		<div class="container">
+			<div class="navbar">
+			  <div class="navbar-inner">
+			    <a class="brand" href="home.html">OnTrack</a>
+			    <ul class="nav">
+			      <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Proyectos
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a href="create-project.html">Crear Proyecto</a></li>
+				      <li><a href="my-projects.html">Mis Proyectos</a></li>
+				    </ul>
+				  </li>
+			      <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Issues
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a href="create-issue.html">Crear Issue</a></li>
+				      <li><a href="search-issues-filter.html">Buscar Issues</a></li>
+				    </ul>
+				  </li>
+				  <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Documentación
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a target="_blank" href="http://www.manula.com/manuals/lopezoscar-job/ontrack/1/es/topic/proyectos">Documentación Online</a></li>
+				      <li><a target="_blank" href="http://www.manula.com/media/07/811_830_858_es_1381265406.pdf">Descargar Manual de Usuario</a></li>
+				      <li><a target="_blank" href="https://code.google.com/p/ontrack/">Repositorio del Proyecto</a></li>
+				    </ul>
+				  </li>
+				  <li><a href="stats.html">Estadísticas</a></li>
+				    	
+				
+			    </ul>
+			    
+			      <ul class="nav pull-right" >
+				     <li class="dropdown">
+					    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					      {{currentUser.userName}}
+					      <b class="caret"></b>
+					    </a>
+					    <ul class="dropdown-menu">
+					     <li><a href="profile.html">Perfil</a></li>
+					     <li><a href="about.html">Acerca de OnTrack</a></li>
+					      <li class="divider-horizontal"></li>
+					      <li><a href="logout">Salir</a></li>
+					    </ul>
+					  </li>
+				</ul>
+			    
+				</div>
+			    
+			    
+			    
+			    
+			    
+			  </div>
+			</div>			
+			<!-- End Nav Bar -->
+  		</div>
+  		<!-- End Container -->
+  		
+  		<div class="container-fluid" >
+  			<div class="row-fluid">
+  			<div class="span6">
+				  	<table id="projects">
+		  				<thead></thead>
+		  				<tbody></tbody>
+		  				<tfoot>
+							<tr>
+								<th><input class="input-small" type="text" name="search_engine" placeholder="ID Proyecto" class="search_init" /></th>
+								<th><input class="input-small" type="text" name="search_browser" placeholder="Nombre" class="search_init" /></th>
+						</tfoot>
+		  			</table>  			
+  			</div>
+
+  			</div>
+  		</div>
+  		
+  		
+	</body>
+	
+</html>
