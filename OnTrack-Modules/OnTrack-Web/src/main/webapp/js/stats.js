@@ -69,8 +69,8 @@ function StatsController($scope,$http,$location){
 			  		$scope.filterIssueTypes($scope.issuesForProject);
 			  		
 			  		$scope.fillProjectList();
-			  		var rows = parseChartDataForIssueByProject($scope.issuesForProject);
-			  		drawChart(rows,'cant_issues_div','Issues Por Proyecto');
+			  		/*var rows = parseChartDataForIssueByProject($scope.issuesForProject);
+			  		drawChart(rows,'cant_issues_div','Issues Por Proyecto');*/
 			  		
 			  		
 			  }).error(function(data, status, headers, config) {
@@ -112,6 +112,9 @@ function StatsController($scope,$http,$location){
 		   	drawChart(rows,'issues_status_div','Mis Issues Por Estado Status');
 		   	rows = parseChartDataIssueType($scope.issues);
 		   	drawChart(rows,'issues_type_div','Mis Issues Por Tipo de Issue');
+		   	
+		   	var rows = parseChartDataForIssueByProject($scope.issues);
+			drawChart(rows,'cant_issues_div','Issues Por Proyecto');
 		})
 		.error(function(data, status, headers, config) {
 		  	$scope.noIssues = true;
@@ -237,7 +240,7 @@ function StatsController($scope,$http,$location){
 		}
 		
 		$scope.issuesByProjectAndFilterByCreatedDate = [];
-		$scope.searchIssueTypesByRangeOnCurrentDate($scope.issues);
+		$scope.searchIssueTypesByRangeOnCurrentDate($scope.issuesForProject);
 	   	rows = parseChartDataIssueTypeWithColor($scope.issuesByProjectAndFilterByCreatedDate);
 	   	
 	   	if(rows.length > 1){
