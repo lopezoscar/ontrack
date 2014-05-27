@@ -1,8 +1,8 @@
-function SearchProjectsController($scope,$http){
+function SearchProjectsController($scope,$http,$location){
 	$scope.projects = [];
-	
-	$scope.server = "http://localhost:8080/OnTrack-SOA/";
-	$scope.webserver = "http://localhost:8080/OnTrack/";
+
+	$scope.server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack-SOA/";
+	$scope.webserver = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack/";
     
 	$http({method: 'GET', url: $scope.webserver+'currentUser',headers: {'Content-Type': 'application/json'}}).
 	  success(function(data, status, headers, config) {
@@ -12,7 +12,7 @@ function SearchProjectsController($scope,$http){
 		  success(function(data, status, headers, config) {
 		   	$scope.projects = data;
 		   	var rows = parserResultToDataTable($scope.projects);
-		   	createDatatablesForProjects(rows);
+		   	createDatatablesForProjects(rows,$location);
 		  }).
 		  error(function(data, status, headers, config) {
 		  	$scope.noProjects = true;
@@ -73,9 +73,24 @@ function createDatatablesForProjects(projects,$location){
 	        var aData = oTable.fnGetData(this); // get datarow
 	        if (null != aData)  // null if we clicked on title row
 	        {
-	        	window.location = "http://localhost:8080/OnTrack/create-project.html?project="+aData[0];
+	        	var server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack/";
+			    window.location = server+"create-project.html?project="+aData[0]
 	        };
 	    });
+	    
+	     
+	    $("#projects").bind( 'draw', function(){
+	    	  $('#projects tbody tr').on('click', function (event) {        
+			        var aData = oTable.fnGetData(this); // get datarow
+			        if (null != aData)  // null if we clicked on title row
+			        {
+			        	var server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack/";
+			        	window.location = server+"create-project.html?project="+aData[0]
+			        	
+			        };
+			    });
+	        
+	    } );
 }
 
 
