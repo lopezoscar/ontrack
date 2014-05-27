@@ -62,20 +62,20 @@ function createDatatables(issues,$location,tableId){
 		var asInitVals = new Array();
 		var oTable = $('#'+tableId).dataTable(issues);
 		  
-	    $("tfoot input").keyup( function () {
+	    $("#"+tableId+' tfoot input').keyup( function () {
 	        /* Filter on the column (the index) of this element */
-	        oTable.fnFilter( this.value, $("tfoot input").index(this) );
+	        oTable.fnFilter( this.value, $("#"+tableId+' tfoot input').index(this) );
 	    } );
 	     
 	    /*
 	     * Support functions to provide a little bit of 'user friendlyness' to the textboxes in
 	     * the footer
 	     */
-	    $("tfoot input").each( function (i) {
+	    $("#"+tableId+' tfoot input').each( function (i) {
 	        asInitVals[i] = this.value;
 	    } );
 	     
-	    $("tfoot input").focus( function () {
+	    $("#"+tableId+' tfoot input').focus( function () {
 	        if ( this.className == "search_init" )
 	        {
 	            this.className = "";
@@ -83,7 +83,7 @@ function createDatatables(issues,$location,tableId){
 	        }
 	    } );
 	     
-	    $("tfoot input").blur( function (i) {
+	    $("#"+tableId+' tfoot input').blur( function (i) {
 	        if ( this.value == "" )
 	        {
 	            this.className = "search_init";
@@ -106,6 +106,18 @@ function createDatatables(issues,$location,tableId){
 	        	window.location = server+"create-issue.html?issue="+aData[0];
 	        };
 	    });
+	    
+	    $("#"+tableId).bind( 'draw', function(){
+	    	  $("#"+tableId+' tbody tr').on('click', function (event) {        
+			        var aData = oTable.fnGetData(this); // get datarow
+			        if (null != aData)  // null if we clicked on title row
+			        {
+			        	var server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack/";
+			        	window.location = server+"create-issue.html?issue="+aData[0];
+			        };
+			    });
+	        
+	    } );
 }
 
 function retrieveIssuesByGet($scope,$http,url){
