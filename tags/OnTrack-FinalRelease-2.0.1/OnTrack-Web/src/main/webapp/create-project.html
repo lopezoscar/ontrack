@@ -1,0 +1,720 @@
+<!DOCTYPE HTML>
+<html lang="AR_ES" ng-app="project_mod">
+	<head>
+		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		 <meta charset="UTF-8"/>
+		 <title>OnTrack</title>
+    	 <!-- JS -->
+    	 <!-- JQuery -->
+    	 <script src="js/jquery.js"></script>
+    	 <!-- CSS  -->
+		 <!-- Bootstrap -->
+    	 <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+    	 <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    	 <!-- JQuery and JQuery UI -->
+    	 <link href="jquery-ui/css/smoothness/jquery-ui.css" rel="stylesheet"/>
+    	 <link href="css/global.css" rel="stylesheet" />
+ 
+    
+    	 
+
+    
+    	 <script src="https://apis.google.com/js/plusone.js" type="text/javascript"></script>
+   		 <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+    	  
+    	 
+    	  <script src="datatables/media/js/jquery.dataTables.js"></script>
+    	 <script src="datatables/extras/TableTools/media/js/TableTools.js"></script>
+    	 <script src="datatables/extras/TableTools/media/js/ZeroClipboard.js"></script>
+    	 
+    	
+    	 <!-- JQuery UI -->
+    	 <script src="jquery-ui/js/jquery-ui.js"></script>
+    	 <!-- Bootstrap -->
+    	 <script src="js/bootstrap.js"></script>
+    	 <!-- Angular JS -->
+    	 <script src="angularjs/angular.js"></script>
+    	 <!-- Create Project JS -->
+    	 <script src="js/create-project.js"></script>
+	     <script src="js/app.js"></script>    	 
+    	 <script src="js/jquery.ddslick.min.js"></script>
+
+		<!-- Project Tab Panel -->    	 
+    	 <script>
+    	 	$('#projectTab a').click(function (e) {
+    		  e.preventDefault();
+    		  $(this).tab('show');
+    		})
+    		
+//     		$(function() {
+//     			$('#sortable').sortable({
+//     				update: function(event, ui) {
+//     					var statusOrder = $(this).sortable('toArray').toString();
+//     					console.log(statusOrder);
+//     				}
+//     			});
+// 			    $( "#sortable" ).disableSelection();
+// 			  });    		
+    	 </script>
+    	 
+    	 <style>
+    	 	#sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+			#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
+			#sortable li span { position: absolute; margin-left: -1.3em; }
+    	 </style>
+    	 
+<script>
+
+ 
+ var token = {};
+
+ var members = {};
+ /*
+   * Activado cuando el usuario acepta el inicio de sesión, cancela o cierra el
+   * cuadro de diálogo de autorización.
+   */  
+  function loginFinishedCallback(authResult) {
+    if (authResult) {
+      if (authResult['error'] == undefined){
+      	token = authResult.access_token;
+        gapi.auth.setToken(authResult); // Almacena el token recuperado.
+        toggleElement('signin-button'); // Oculta el inicio de sesión si se ha accedido correctamente.
+        getEmail(); 
+        members = getContacts(token);  
+                          // Activa la solicitud para obtener la dirección de correo electrónico.
+	
+      } else {
+        console.log('An error occurred');
+      }
+    } else {
+      console.log('Empty authResult');  // Se ha producido algún error
+    }
+  }
+
+  /*
+   * Inicia la solicitud del punto final userinfo para obtener la dirección de correo electrónico del
+   * usuario. Esta función se basa en gapi.auth.setToken que contiene un token
+   * de acceso de OAuth válido.
+   *
+   * Cuando se completa la solicitud, se activa getEmailCallback y recibe
+   * el resultado de la solicitud.
+   */
+  function getEmail(){
+    // Carga las bibliotecas oauth2 para habilitar los métodos userinfo.
+    gapi.client.load('oauth2', 'v2', function() {
+
+			
+          var request = gapi.client.oauth2.userinfo.get();
+
+		  
+			
+          request.execute(getEmailCallback);
+
+        });
+  }
+
+  function getContacts(token){
+	  $.ajax({
+		  url: 'https://www.google.com/m8/feeds/contacts/default/full',
+		  dataType: 'jsonp',
+		  data: { access_token: token, 'max-results': '5000', alt: 'json' },
+		  success:function(data){ 
+				var scope = angular.element('[ng-controller=CreateProjectCtrl]').scope(); 
+
+				scope.$apply(function(){
+					scope.hideLoadContacts = true;
+				});
+
+
+				var xmlMembers = [];
+				var membersForAutocomplete = [];
+				
+	
+				  angular.forEach(data.feed.entry,function(entry,itemNo){
+						if(typeof entry != "undefined"){
+							if(typeof entry.gd$email != "undefined"){
+									if(typeof entry.gd$email[0] != "undefined"){
+										
+									    var email = entry.gd$email[0].address;
+										var emailArray = email.split("@");
+										var emailServer = emailArray[1];
+
+				    					if(emailServer === "gmail.com"){
+										    var title = "Sin título";
+										    if(typeof entry.title.$t != "undefined"){
+											   title = entry.title.$t;
+											}
+
+											//console.log(email);
+										    xmlMembers.push({selected:false,email:email,title:title});
+										    membersForAutocomplete.push(title+" - "+email);
+					    				}
+									}
+								}
+						}
+					  });
+
+				  	scope.$apply(function(){
+				  		scope.membersForAutocomplete = membersForAutocomplete;
+					 });
+				    
+				    
+				    var options = {
+				    		source: membersForAutocomplete,
+						    };
+				    $('.typeahead').typeahead(options);
+				  
+
+				
+				  
+
+				  var asInitVals = new Array();
+				  var aaData = parserResultToDataTableForMembers(xmlMembers);
+				  
+				  var oTable = $('#members').dataTable(aaData);
+				  
+				  $("tfoot input").keyup( function () {
+				        /* Filter on the column (the index) of this element */
+				        oTable.fnFilter( this.value, $("tfoot input").index(this) );
+				    } );
+				     
+				    /*
+				     * Support functions to provide a little bit of 'user friendlyness' to the textboxes in
+				     * the footer
+				     */
+				    $("tfoot input").each( function (i) {
+				        asInitVals[i] = this.value;
+				    } );
+				     
+				    $("tfoot input").focus( function () {
+				        if ( this.className == "search_init" )
+				        {
+				            this.className = "";
+				            this.value = "";
+				        }
+				    } );
+				     
+				    $("tfoot input").blur( function (i) {
+				        if ( this.value == "" )
+				        {
+				            this.className = "search_init";
+				            this.value = asInitVals[$("tfoot input").index(this)];
+				        }
+				    } );
+				    
+				    
+				    $('#members tbody tr').on('mouseover', function (event) { 
+				    	 var aData = oTable.fnGetData(this); // get datarow
+					      
+				    });
+				    
+				    $('#members tbody tr').on('click', function (event) {        
+				        var aData = oTable.fnGetData(this); // get datarow
+				        if (null != aData)  // null if we clicked on title row
+				        {
+				        	//var server = $location.$$protocol+"://"+$location.$$host+":"+$location.$$port+"/OnTrack/";
+				        	//window.location = server+"create-issue.html?issue="+aData[0];
+				        	//scope.currentMember = aData[1];
+//				        	console.log(scope.currentMember);
+				        	var member = {
+								title: aData[0],
+								email: aData[1]
+						        	};
+
+				        	scope.addUser(member);
+				        	scope.$apply();
+				        };
+				    });
+
+
+
+			
+
+					
+ 
+
+
+				  
+	//			  scope.members = xmlMembers;
+//				  scope.$apply();
+				
+			}
+	   });
+  }
+
+  function getEmailCallback(obj){
+	  /*
+    var el = document.getElementById('email');
+    var email = '';
+
+    if (obj['email']) {
+      email = 'Email: ' + obj['email'];
+    }
+
+    //console.log(obj);   // Sin comentario para inspeccionar el objeto completo.
+
+    el.innerHTML = email;
+    toggleElement('email');
+*/    
+  }
+
+  function toggleElement(id) {
+    var el = document.getElementById(id);
+    if (el.getAttribute('class') == 'hide') {
+      el.setAttribute('class', 'show');
+    } else {
+      el.setAttribute('class', 'hide');
+    }
+  }
+
+  
+  </script>
+
+  
+
+  
+  
+  <script>
+  function parserResultToDataTableForMembers(data){
+		var source = {
+			bJQueryUI : true,
+			sPaginationType: "two_button",
+			aaSorting: [ [0,'asc']],
+			aaData: [],
+			aoColumns: [
+			            { "sTitle": "Nombre"},
+			            { "sTitle": "Email" }
+
+			            ]
+		};
+		
+		function validateNullAndUndenfinded(param){
+			return param == null || typeof param == "undefined";
+		}
+		
+		angular.forEach(data, function(member, key){
+			var title =  validateNullAndUndenfinded(member.title) ? "INDEFINIDO": member.title;
+			var email =  validateNullAndUndenfinded(member.email) ? "INDEFINIDO": member.email;
+			
+			
+			
+			var row = [title,
+						email
+					   ];
+			//console.log(row);
+			source.aaData.push(row);
+		});
+		
+		return source;
+		
+		
+	}
+
+
+	function addMember(){
+		var input = document.getElementById("contactsBox");
+		var selectedMember = input.value;
+
+		var titleAndMail = selectedMember.split("-");
+		
+		var member = {
+				title: titleAndMail[0],
+				email: titleAndMail[1]
+		        	};
+
+        	scope.addUser(member);
+        	scope.$apply();
+		
+	}
+
+  </script>
+  
+  <script>
+	
+
+	function saveIssueTypeDesc(){
+		if (event.keyCode == 13){
+			var scope = angular.element('[ng-controller=CreateProjectCtrl]').scope(); 
+			var desc = document.getElementById("issueTypeDesc").value;
+			scope.$apply(function(){
+				scope.saveIssueType(desc);
+			});
+		}
+				
+			
+		return false;	
+	}
+		
+	function saveIssueStatusDesc(){
+		if (event.keyCode == 13){
+			var scope = angular.element('[ng-controller=CreateProjectCtrl]').scope(); 
+			scope.$apply(function(){
+				scope.saveStatus(scope.status);
+			});
+		}
+	}
+
+	function saveIssuePropertyKeyPress(){
+		if (event.keyCode == 13){
+			var scope = angular.element('[ng-controller=CreateProjectCtrl]').scope(); 
+			scope.$apply(function(){
+				scope.savePropertyType(scope.property);
+				$('#issueTypeModal').modal('hide');
+			});
+		}
+	}
+
+  </script>
+    	 
+	</head>
+	
+	<body ng-controller="CreateProjectCtrl">
+	
+		<div class="container">
+				<div class="navbar">
+			  <div class="navbar-inner">
+			    <a class="brand" href="home.html">OnTrack</a>
+			    <ul class="nav">
+			      <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Proyectos
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a href="create-project.html">Crear Proyecto</a></li>
+				      <li><a href="my-projects.html">Mis Proyectos</a></li>
+				    </ul>
+				  </li>
+			      <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Issues
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a href="create-issue.html">Crear Issue</a></li>
+				      <li><a href="search-issues-filter.html">Buscar Issues</a></li>
+				    </ul>
+				  </li>
+				  <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Documentación
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a target="_blank" href="http://www.manula.com/manuals/lopezoscar-job/ontrack/1/es/topic/proyectos">Documentación Online</a></li>
+				      <li><a target="_blank" href="http://www.manula.com/media/07/811_830_858_es_1381265406.pdf">Descargar Manual de Usuario</a></li>
+				      <li><a target="_blank" href="https://code.google.com/p/ontrack/">Repositorio del Proyecto</a></li>
+				    </ul>
+				  </li>
+				  <li><a href="stats.html">Estadísticas</a></li>
+				  
+			    </ul>
+			    
+			    
+			    
+			     <ul class="nav pull-right" >
+				     <li class="dropdown">
+					    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					      {{currentUser.userName}}
+					      <b class="caret"></b>
+					    </a>
+					    <ul class="dropdown-menu">
+					     <li><a href="profile.html">Perfil</a></li>
+					     <li><a href="about.html">Acerca de OnTrack</a></li>
+					      <li class="divider-horizontal"></li>
+					      <li><a href="logout">Salir</a></li>
+					    </ul>
+					  </li>
+					  
+				</ul>
+			    
+			    
+			  </div>
+			</div>			
+			<!-- End Nav Bar -->
+  		</div>
+  		<!-- End Container -->
+  		
+  		
+  		
+  		<div class="container">
+  			<form  novalidate class="simple-form">
+	  			<input type="text" placeholder="Nombre del proyecto" ng-model="project.name" ng-hide="projectOK">
+	  			<span class="alert alert-error" ng-show="projectNameNotFound" >Debe agregar el nombre del proyecto </span>
+  			</form>
+  			<ul class="nav nav-tabs" id="projectTab" ng-hide="projectOK">
+			  <li><a href="#persons" data-toggle="tab" >Integrantes</a></li>
+			  <li><a href="#config" data-toggle="tab" ng-hide="modifyStatus">Tipos de Issues</a></li>
+			  <li><a href="#status" data-toggle="tab" ng-hide="modifyStatus">Estados</a></li>
+			  <li><a href="#workflow" data-toggle="tab" ng-hide="modifyStatus">Workflow</a></li>
+			</ul>
+			<div class="tab-content" ng-hide="projectOK">
+			  <div class="tab-pane active" id="persons">
+			  
+			<div id="contactlist">
+				<div class="container-fluid">
+				<div class="row-fluid">
+				
+					
+					<h3 ng-hide="hideLoadContacts">Click en el logo inferior para cargar tus contactos de tu cuenta de Google</h3>
+					<div id="signin-button" class="show">
+					     <div class="g-signin" data-callback="loginFinishedCallback"
+					      data-approvalprompt="force"
+					      data-clientid="1086494138477-kpre74iookjfs4h47eu26a9r9qg5n1ku.apps.googleusercontent.com"
+					      data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email https://www.google.com/m8/feeds/"
+					      data-height="short"
+					      data-cookiepolicy="single_host_origin">
+					</div>
+					
+					 						
+					</div>
+
+				</div>
+						<!-- <div id="contactsTable" class="span3">
+								<table id="members">
+									<thead></thead>
+					  				<tbody></tbody>
+									<tfoot></tfoot>
+								</table>
+						</div>
+						 -->
+						<form novalidate class="form-inline">
+							<h2>Buscalos</h2>
+							<input id="contactsBox" type="text" ng-model="selectedMember" class="typeahead input-xxlarge search-query" />
+							<button type="button" ng-click="addMember()" class="btn btn-danger"> Agregar Contacto</button>
+						</form>
+						<span class="alert alert-error" ng-show="userAlreadyExist" >El usuario {{existingMember.title}} ya existe</span>
+						<span class="alert alert-error" ng-show="wrongMail" >La dirección ingresada no corresponde a ninguno de tus contactos</span>
+						<span class="alert alert-error" ng-show="emptyContactList" >Debe cargar los contactos para agregar un miembro</span>
+						<span class="alert alert-error" ng-show="isAdminError" >No se puede borrar el administrador del proyecto</span>
+						
+
+						<div id="selectedMembers" >
+							
+							<h3>Miembros Seleccionados</h3>
+							<p>Los miembros seran agregados como usuarios de la aplicación y serán notificados por mail</p>
+						
+				<div class="span6">
+					<table class="table" >
+		  				<thead>
+		  					<tr>
+			  					<th>Nombre</th>
+			  					<th>Email</th>
+			  					<th>Acciones</th>
+		  					</tr>
+		  				</thead>
+		  				<tbody>
+		  					<tr ng-repeat="member in selectedMembers">
+			  					<td ng-model="title">{{member.title}}</td>
+			  					<td ng-model="email">{{member.email}}</td>
+			  					<td>
+			  						<input type="button" class="btn btn-danger" value="Eliminar" ng-click="removeMember($index)"/>
+			  					</td>
+		  					</tr>
+		  				</tbody>
+		  			</table>
+		  			
+		  			</div>
+							
+						
+						</div>
+				
+				
+				</div>
+				
+			</div>
+			<!-- End Contact List -->
+			
+		</div>
+		<!-- End Persons -->	  
+			  
+			  <div class="tab-pane" id="config">
+			  	<div>
+			  	
+			  		<fieldset>
+			  			<legend>Tipo de Issue</legend>
+			  		<form novalidate class="form-inline">
+						<input id="issueTypeDesc" type="text" placeholder="Tipo de Issue" ng-model="desc" onkeydown="saveIssueTypeDesc()"/>
+						<input type="button" class="btn btn-primary" value="Guardar" ng-click="saveIssueType(desc)"  ng-disabled="disableActions"/>
+
+						
+					</form>
+					
+					<div class="span6">
+					<table class="table" >
+		  				<thead>
+		  					<tr>
+			  					<th>Nombre</th>
+			  					<th>Acciones</th>
+		  					</tr>
+		  				</thead>
+		  				<tbody>
+		  					<tr ng-repeat="type in issueTypes">
+			  					<td ng-model="description">{{type.description}}</td>
+			  					<td>
+			  						<a href="#issueTypeModal" role="button" class="btn btn-primary" data-toggle="modal" ng-click="setCurrentIssueType(type)" ng-disabled="disableActions">Editar</a>
+			  						<input type="button" class="btn btn-danger" value="Eliminar" ng-click="removeIssueType($index)" ng-disabled="disableActions"/>
+			  					</td>
+		  					</tr>
+		  				</tbody>
+		  			</table>
+		  			
+		  			</div>
+		  			
+		  			</fieldset>
+		  		</div>
+		  		
+		  		
+		  		
+		  		
+			  
+			  </div>
+			  <div class="tab-pane" id="status">
+			  
+			  		<h4>Elige un Tipo de Issue y crear los Estados</h4>
+			  		
+			  		<form novalidate class="form-inline">
+				  		<select ng-change="updateCurrentType(status.type)" ng-model="status.type" ng-options="type.description for type in issueTypes"></select>
+				  		<input id="issueStatusDesc" type="text" class="input-medium" ng-model="status.description" onkeydown="saveIssueStatusDesc()"/>
+				  		<input type="button" class="btn btn-primary" value="Guardar"  ng-click="saveStatus(status)" ng-disabled="disableActions"/>
+			  		</form>	  		
+			  		
+			  		<div class="span6">
+						<table class="table" >
+			  				<thead>
+			  					<tr>
+				  					<th>Estado</th>
+				  					<th>Acciones</th>
+			  					</tr>
+			  				</thead>
+			  				<tbody>
+			  					<tr ng-repeat="status in currentTypeForIssueStatus.status">
+				  					<td ng-model="desc">{{status.description}}</td>
+				  					<td>
+				  						<input type="button" class="btn btn-danger" value="Eliminar" ng-click="removeStatusFromIssueType(status)" ng-disabled="disableActions"/>
+				  					</td>
+			  					</tr>
+			  				</tbody>
+			  			</table>
+		  			</div>
+			  </div>
+			  
+			  <div class="tab-pane" id="workflow">
+			  		<div class="span6">
+						<h4>Workflow</h4>
+						<form novalidate class="simple-form">
+					  		<select ng-model="workflow.type" ng-options="type.description for type in issueTypes"></select>
+					  		
+						    <ul id="sortable">
+							  <li id="{{status.description}}" class="ui-state-default" ng-bind="status.description" ng-repeat="status in workflow.type.status"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{status.description}}</li>
+							</ul>
+							
+							
+						</form>	  		
+					</div>
+			  </div>
+			</div>	
+			
+			<div class="form-actions" ng-hide="projectOK">
+				<input ng-show="modifyStatus" type="button" class="btn btn-primary" value="Guardar Modificaciones"  ng-click="saveProject()" ng-disabled="projectOK"/>
+				<a     ng-hide="modifyStatus" href="#saveProjectConfirm" role="button" class="btn btn-primary" ng-disabled="projectOK" data-toggle="modal">Guardar Proyecto</a>
+
+			</div>
+			
+					<div style="display:inline">
+						<span ng-show="projectOK" class="alert alert-info">
+							El proyecto ha sido guardado correctamente
+						</span>
+					</div>
+					
+  		</div>
+  		
+  		
+  		<!-- Modal -->
+		<div id="issueTypeModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h3 id="myModalLabel">Tipos de Propiedad para {{currentIssueType.description}}</h3>
+		  </div>
+		  <div class="modal-body">
+		    <div>
+		  			<form novalidate class="form-inline">
+<!-- 						<input type="text" class="input-small uneditable-input" ng-readonly="true" placeholder="{{currentIssueType.desc}}" ng-model="property.issueType"/> -->
+<!-- 						<select ng-model="property.type" ng-options="type.name for type in issuePropertyTypes" ng-required> -->
+<!-- 						</select> -->
+			  			
+		  				<input type="text" placeholder="Nombre" ng-model="property.description" onkeydown="saveIssuePropertyKeyPress()"/>
+		  				<input type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true" value="Guardar" ng-click="savePropertyType(property)"/>
+	  				
+		  			</form>
+		
+					
+					<table class="table">
+		  				<thead>
+		  					<tr>
+<!-- 		  						<th>Tipo de Issue</th> -->
+			  					<th>Nombre</th>
+			  					<th>Tipo de Propiedad</th>
+			  					<th>Acciones</th>
+		  					</tr>
+		  				</thead>
+		  				<tbody>
+		  					<tr ng-repeat="prop in currentIssueType.issueProperties">
+			  					<td>{{prop.description}}</td>
+								<td>{{prop.type.name}}</td>
+			  					<td><input type="button" class="btn btn-primary" value="Eliminar" ng-click="removePropertyType($index)"/></td>
+		  					</tr>
+		  				</tbody>
+		  			</table>
+		  			
+		  		</div>
+		  </div>
+		  <div class="modal-footer">
+		    <button class="btn" data-dismiss="modal" aria-hidden="true">Volver</button>
+		  </div>
+		</div>
+		
+		
+
+ 
+		<!-- Modal Guardar proyecto -->
+		<div id="saveProjectConfirm" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h3 id="myModalLabel">Guardar Proyecto</h3>
+		  </div>
+		  <div class="modal-body">
+		    <h3>Estás por guardar el proyecto {{project.name}}</h3>
+		    <p>Una vez guardado el proyecto no podrás agregar ni modificar tipos de issues asociados al proyecto</p> 
+		       
+		  </div>
+		  <div class="modal-footer">
+		    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+		    <button class="btn btn-primary" data-dismiss="modal" ng-click="saveProject()" ng-disabled="projectOK">Aceptar</button>
+		  </div>
+		</div>
+  		
+  		
+  		<!-- Contenido Configuración -->
+  		<!-- Tipo de Issue - Texto + Boton Save -->
+  		<!-- Lista de Tipos de Issues Agregados + Boton Editar / Eliminar -->
+  		
+  		
+  		<!-- Panel Tipo de Propiedad -->
+  		<!-- Combo Tipo de Issue -->
+  		<!-- Nombre de la Propiedad - Texto -->
+  		<!-- Tipo de Propiedad - Combo -->
+  		<!-- Boton guardar -->
+  		
+  		<!-- Tabla de propiedades -->
+  		<!-- Nombre de la propiedad - Text -->
+  		<!-- Tipo de la propiedad - Text -->
+  		<!-- Botones remover/editer -->
+  		
+  		<!-- Panel Workflow -->
+  		<!-- Combo tipo de issues -->
+  		<!-- Selectable de los estados de los tipos de issue -->
+  		
+	</body>
+	
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html lang="es_AR" ng-app="profile_mod">
+	<head>
+		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		 <meta charset="UTF-8"/>
+		 
+		 <title>OnTrack</title>
+    	 <!-- CSS  -->
+		 <!-- Bootstrap -->
+    	 <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+    	 <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    	 <!-- JQuery and JQuery UI -->
+    	 <link href="css/global.css" rel="stylesheet" />
+    	 <!-- JS -->
+    	 <!-- JQuery -->
+    	 <script src="js/jquery.js"></script>
+		 <script src="js/bootstrap.js"></script>
+    	 <!-- Angular JS -->
+    	 <script src="angularjs/angular.js"></script>
+    	 <script src="js/menu-controller.js"></script>
+    	 <script src="js/profile_app.js"></script>
+    	 <script src="js/profile.js"></script>
+    	 
+   </head>
+   <body ng-controller="ProfileController">
+   		<div class="container">
+			<div class="navbar">
+			  <div class="navbar-inner">
+			    <a class="brand" href="home.html">OnTrack</a>
+			    <ul class="nav">
+			      <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Proyectos
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a href="create-project.html">Crear Proyecto</a></li>
+				      <li><a href="my-projects.html">Mis Proyectos</a></li>
+				    </ul>
+				  </li>
+			      <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Issues
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a href="create-issue.html">Crear Issue</a></li>
+				      <li><a href="search-issues-filter.html">Buscar Issues</a></li>
+				    </ul>
+				  </li>
+				  <li class="dropdown">
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      Documentación
+				      <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <li><a target="_blank" href="http://www.manula.com/manuals/lopezoscar-job/ontrack/1/es/topic/proyectos">Documentación Online</a></li>
+				      <li><a target="_blank" href="http://www.manula.com/media/07/811_830_858_es_1381265406.pdf">Descargar Manual de Usuario</a></li>
+				      <li><a target="_blank" href="https://code.google.com/p/ontrack/">Repositorio del Proyecto</a></li>
+				    </ul>
+				  </li>
+				  <li><a href="stats.html">Estadísticas</a></li>
+				  
+			    </ul>
+			    
+			       <ul class="nav pull-right" >
+				     <li class="dropdown">
+					    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					      {{currentUser.userName}}
+					      <b class="caret"></b>
+					    </a>
+					    <ul class="dropdown-menu">
+					     <li><a href="profile.html">Perfil</a></li>
+					     <li><a href="about.html">Acerca de OnTrack</a></li>
+					      <li class="divider-horizontal"></li>
+					      <li><a href="logout">Salir</a></li>
+					    </ul>
+					  </li>
+				</ul>
+			    
+			  </div>
+			</div>			
+			<!-- End Nav Bar -->
+			
+		</div>	
+		
+		<div class="container-fluid">
+			<div class="row-fluid">
+			<div class="span6">
+			<legend>Actualiza tus datos</legend>
+			
+			<form novalidate  class="form-horizontal" >
+			  <div class="control-group">
+			    <label class="control-label" for="nick">Apodo</label>
+			    <div class="controls">
+			      <input type="text" id="nick" placeholder="Apodo" ng-model="newUserName">
+			      <div class="alert alert-info" ng-show="userNameExist">Nombre de usuario ya existente</div>
+
+			    </div>
+			  </div>
+			  <div class="control-group">
+			    <label class="control-label" for="personName">Nombre</label>
+			    <div class="controls">
+			      <input type="text" id="personName" placeholder="Nombre" ng-model="currentUser.firstName">
+			    </div>
+			  </div>
+			  <div class="control-group">
+			    <label class="control-label" for="personLastName">Apellido</label>
+			    <div class="controls">
+			      <input type="text" id="personLastName" placeholder="Apellido" ng-model="currentUser.lastName">
+			    </div>
+			  </div>
+			  <div class="control-group">
+			    <div class="controls">
+			      <button type="submit" ng-click="saveUser(currentUser)" class="btn">Guardar</button>
+			      <span class="alert alert-info" ng-show="saveOk">Los datos se guardaron correctamente</span>
+
+			    </div>
+			  </div>
+			</form>
+			</div>
+			
+			</div>
+		</div>
+			
+   </body>
+   
+</html> 	 

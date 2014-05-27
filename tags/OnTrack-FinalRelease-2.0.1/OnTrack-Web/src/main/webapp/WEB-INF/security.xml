@@ -1,0 +1,64 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
+
+	<http entry-point-ref="preAuthenticatedProcessingFilterEntryPoint" use-expressions="true" create-session="ifRequired">
+	 	<security:custom-filter position="PRE_AUTH_FILTER" ref="preAuthFilter" />
+		<security:intercept-url pattern="/index.jsp" access="permitAll"/>
+		<security:logout logout-success-url="/index.jsp" logout-url="/logout" invalidate-session="true" />
+		<intercept-url pattern="/**" access="isAuthenticated()" />
+		<session-management invalid-session-url="/index.html">
+        	<concurrency-control max-sessions="1" session-registry-ref="sessionRegistry" expired-url="/index.jsp"/>
+    	</session-management>
+<!-- 		<openid-login login-page="/login.html" authentication-failure-handler-ref="openIdAuthFailureHandler" default-target-url="/" > -->
+<!-- 			<attribute-exchange> -->
+<!-- 				<openid-attribute name="axContactEmail" -->
+<!-- 					type="http://axschema.org/contact/email" required="true" /> -->
+<!-- 				<openid-attribute name="oiContactEmail" -->
+<!-- 					type="http://schema.openid.net/contact/email" required="true" /> -->
+<!-- 				<openid-attribute name="axNamePersonFullname" -->
+<!-- 					type="http://axschema.org/namePerson" required="true" /> -->
+<!-- 				<openid-attribute name="axNamePersonFriendlyName" -->
+<!-- 					type="http://axschema.org/namePerson/friendly" required="true" /> -->
+<!-- 				<openid-attribute name="axNamePersonFirstName" -->
+<!-- 					type="http://axschema.org/namePerson/first" required="true" /> -->
+<!-- 				<openid-attribute name="axNamePersonLastName" -->
+<!-- 					type="http://axschema.org/namePerson/last" required="true" /> -->
+<!-- 			</attribute-exchange> -->
+<!-- 		</openid-login> -->
+	</http>
+	
+	<beans:bean id="preAuthFilter" class="com.sappe.ontrack.security.LoginGoogleFilter">
+		<beans:property name="authenticationManager" ref="authenticationManager"/>
+	</beans:bean>
+	<beans:bean id="preAuthUserDeatils" class="com.sappe.ontrack.security.PreAuthUserDetailsService"/>
+	
+	<beans:bean id="preAuthenticationProvider" class="org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider">
+    	<beans:property name="preAuthenticatedUserDetailsService" ref="preAuthUserDeatils" />
+	</beans:bean>
+	
+	<beans:bean id="preAuthenticatedProcessingFilterEntryPoint" class="com.sappe.ontrack.security.LinkForbiddenEntryPoint" />
+	
+	<beans:bean class="com.sappe.ontrack.sdk.impl.UserServiceImpl" id="userServiceImpl"/>
+	<beans:bean id="authenticationManagerOwn" class="com.sappe.ontrack.security.CustomAuthenticationManager"/>
+	<beans:bean id="logoutHandler" class="com.sappe.ontrack.security.LogoutHandler"/>
+	<beans:bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" />
+	<beans:bean id="openIdAuthFailureHandler" class="com.sappe.ontrack.security.LoginFailedHandler">
+		<beans:property name="defaultFailureUrl" value="/login.xhtml"></beans:property>
+	</beans:bean>
+	<!-- Use a Md5 encoder since the user's passwords are stored as Md5 in the database -->
+	<beans:bean class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" id="passwordEncoder"/>
+
+	<beans:bean class="com.sappe.ontrack.security.UserDetailService" id="userdetailServiceImpl"/>
+
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider ref="preAuthenticationProvider">
+		</authentication-provider>
+	</authentication-manager>
+
+</beans:beans>
